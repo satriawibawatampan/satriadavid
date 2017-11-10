@@ -22,6 +22,7 @@ class Welcome extends CI_Controller {
 	{
             
             //check
-		$this->load->view('welcome_message');
+		//gellooadsadsadasdsd
+	$this->load->view('welcome_message');
 	}
 }
