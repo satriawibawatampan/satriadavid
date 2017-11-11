@@ -215,11 +215,12 @@ class Material extends CI_Controller {
         }
     }
     
-    public function Reduce_material_quantity($idproduk,$qty)
+    public function Reduce_material_quantity()
     {
-         $detailmaterial = $this->M_material->Reduce_material_quantity($idproduk,$qty);
-           //print_r($detailmaterial); exit();
-          echo json_encode($detailmaterial);
+        $tampt   = json_decode($_POST['tampungan']); 
+         $datadihapus = $this->M_material->Reduce_material_quantity($tampt);
+          
+         
        
     }
 

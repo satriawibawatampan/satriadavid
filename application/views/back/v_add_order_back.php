@@ -245,7 +245,7 @@
                         var detailmaterial = [];
                         var produk_material = [];
 
-                        function reduce_stock($idproduk, $qty)
+                        function check_material_availability($idproduk, $qty)
                         {
                             detailmaterial = [];
                             produk_material = [];
@@ -256,14 +256,7 @@
                                 url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material_array/" + $idproduk,
                                 dataType: "json",
                                 success: function (result) {
-                                    alert("suksk");
                                     detailmaterial = result;
-                                    // alert(detailmaterial[0]['stok'] + "stok");
-//                                   for (t = 0; t < result.length; t++)
-//                                            {
-//
-//                                                detailmaterial.push(result[t]);
-//                                            }
 
                                     $.ajax({
                                         type: "POST",
@@ -273,66 +266,55 @@
 
                                             produk_material = result;
 
-                                            for ($y = 0; $y < produk_material.length; $y++)
-                                            {
-
-                                                alert("jumlahmaterial yang diperlukan " + produk_material[$y]['jumlahmaterial']);
-
-                                            }
-
-                                            alert("banyaknya baris produk_material adalah : " + produk_material.length);
                                             var tampung = [];
                                             for (a = 0; a < produk_material.length; a++)
                                             {
-                                                
+
                                                 var needed = 0;
-                                                var neededtipe2 = 0;
+                                                var neededtipe1 = 0;
 
                                                 needed = produk_material[a]['jumlahmaterial'] * $("#id_quantity").val();
-                                                neededtipe2 = $("#id_quantity").val();
-                                                alert("needed = " + needed);
+                                                neededtipe1 = $("#id_quantity").val();
+
                                                 for (b = 0; b < detailmaterial.length; b++)
                                                 {
-                                                    alert(produk_material[a]['idmaterial'] + " / " + detailmaterial[b]['id_material']);
                                                     if (produk_material[a]['idmaterial'] == detailmaterial[b]['id_material'])
                                                     {
-                                                        alert("tipe = " + detailmaterial[b]['tipe']);
                                                         if (detailmaterial[b]['tipe'] == 2)
                                                         {
+                                                            neededtipe1 = 0;
 
-                                                            alert("stok =" + detailmaterial[b]['stok'] + " / needed = " + needed);
-                                                            if (needed <= detailmaterial[b][stok])
+                                                            if (needed <= detailmaterial[b]['stok'])
                                                             {
-                                                                alert("masuk 1");
-                                                                
-                                                                tampung.push({"id":detailmaterial[b]['id'],"stok":needed});
+
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed});
                                                                 needed = 0;
                                                                 break;
 
-                                                            } else if (needed > detailmaterial[b][stok])
+                                                            } else if (needed > detailmaterial[b]['stok'])
                                                             {
-                                                                alert("masuk 2");
-                                                             
-                                                                tampung.push({"id":detailmaterial[b]['id'],"stok":detailmaterial[b][stok]});
-                                                                needed = needed - detailmaterial[b][stok]
+
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b][stok]});
+                                                                needed = needed - detailmaterial[b]['stok']
                                                             }
 
-                                                        } else if (detailmaterial[b]['tipe'] == 1 && neededtipe2 > 0)
+                                                        } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1 > 0)
                                                         {
+                                                            needed = 0;
 
 
                                                             if (detailmaterial[b]['stok'] < produk_material[a]['jumlahmaterial'])
                                                             {
 
-                                                                
+
                                                             } else if (detailmaterial[b]['stok'] >= produk_material[a]['jumlahmaterial'])
                                                             {
                                                                 //kurangi detailmaterial
-                                                                detailmaterial[b]['stok']= detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
-                                                                tampung.push({"id":detailmaterial[b]['id'],"stok":produk_material[a]['jumlahmaterial']});
-                                                                neededtipe2--;
+                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial']});
+                                                                neededtipe1--;
 
-                                                               
+
 
                                                             }
 
@@ -341,10 +323,26 @@
                                                     }
 
                                                 }
-                                                
-                                                if(needed > 0 && neededtipe2 >0){
-                                                    
+
+
+
+                                            }
+
+                                            if (needed > 0 && neededtipe1 > 0) {
+
+                                            } else if (needed == 0 && neededtipe1 == 0)
+                                            {
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "<?php echo base_url(); ?>" + "Back/Material/Reduce_material_quantity",
+                                                    dataType: "json",
+                                                    data: { tampungan : JSON.stringify(tampung)},
+                                                    success: function (result) {
+                                                        //ini kalau mau ambil 1 data saja sudah bisa.
+                                                        // alert ("hore sukses" + result);
+
                                                     }
+                                                });
                                             }
 
 
@@ -398,7 +396,7 @@
                                     //alert("urutan ke " + urutan.toString());
                                     $("#id_quantity").val(1);
 
-                                    reduce_stock($("#id_product option:selected").val(), $("#id_quantity").val());
+                                    check_material_availability($("#id_product option:selected").val(), $("#id_quantity").val());
                                 } else
                                 {
                                     alert("have been registerd");

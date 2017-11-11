@@ -78,6 +78,7 @@ class M_material extends CI_Model {
         $this->db->where('material.id_cabang', $idbranch);
         $this->db->group_by('material.id');
         $query = $this->db->get();
+        print_r($query->result()); exit();
         return $query->result();
     }
 
@@ -88,6 +89,7 @@ class M_material extends CI_Model {
         $this->db->where('id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->order_by('nama');
         $query = $this->db->get();
+        
         return $query->result();
     }
 
@@ -132,8 +134,9 @@ class M_material extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
     function Json_get_detail_material_array($id) {
-         $query = $this->db->query("select detailmaterial.*, material.tipe
+        $query = $this->db->query("select detailmaterial.*, material.tipe
                     from detailmaterial
                     join material on detailmaterial.id_material = material.id
                     join produk_material on produk_material.id_material = material.id
@@ -143,7 +146,7 @@ class M_material extends CI_Model {
         $detailmaterial = $query->result_array();
         // print_r("a");exit();
         return($detailmaterial);
-       // return $query->result_array();
+        // return $query->result_array();
     }
 
     function Edit_material($id, $nama, $tipe, $hargapokok) {
@@ -268,16 +271,21 @@ class M_material extends CI_Model {
         $this->db->update('material', $data);
     }
 
-    function Reduce_material_quantity($idproduk, $qty) {
-        $query = $this->db->query("select detailmaterial.*, material.tipe
-                    from detailmaterial
-                    join material on detailmaterial.id_material = material.id
-                    join produk_material on produk_material.id_material = material.id
-                    join produk on produk.id = produk_material.id_produk
-                    where produk.id = 8");
-        $detailmaterial = $query->result();
-       //  print_r("a");exit();
-        return($detailmaterial);
+    function Reduce_material_quantity($arraytamp) {
+          $this->db->trans_start();
+
+        for ($x = 0; $x < count($arraytamp); $x++) {
+            $data = array(
+                'stok' => $arraytamp[$x]->stok,
+                
+            );
+            $this->db->where('id', $arraytamp[$x]->id);
+            $this->db->update('material', $data);
+
+            //$this->db->insert('detailmaterial', $data);
+        }
+          $this->db->trans_complete();
+       
        
     }
 
