@@ -78,7 +78,7 @@ class M_material extends CI_Model {
         $this->db->where('material.id_cabang', $idbranch);
         $this->db->group_by('material.id');
         $query = $this->db->get();
-        print_r($query->result()); exit();
+        //   print_r($query->result()); exit();
         return $query->result();
     }
 
@@ -89,7 +89,7 @@ class M_material extends CI_Model {
         $this->db->where('id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->order_by('nama');
         $query = $this->db->get();
-        
+
         return $query->result();
     }
 
@@ -272,21 +272,29 @@ class M_material extends CI_Model {
     }
 
     function Reduce_material_quantity($arraytamp) {
-          $this->db->trans_start();
-
-        for ($x = 0; $x < count($arraytamp); $x++) {
+        //$this->db->trans_start();
+        //exit();
+        
+        for ($x = 0; $x < count($arraytamp); $x++) 
+       // foreach($arraytamp as $arraytampx)
+        {
             $data = array(
-                'stok' => $arraytamp[$x]->stok,
-                
+                'id_produkmaterial' => $arraytamp[$x]['id'],
+               // 'id_detailmaterial' => $arraytamp[$x]->id,
+                'id_detailmaterial' => 1,
+                'id_notajual' => 1,
+                'jumlah' =>12
+               // 'jumlah' => $arraytamp[$x]->stok
             );
-            $this->db->where('id', $arraytamp[$x]->id);
-            $this->db->update('material', $data);
-
-            //$this->db->insert('detailmaterial', $data);
+           
+            $this->db->insert('produk_material_array', $data);
         }
-          $this->db->trans_complete();
-       
-       
+     //  }
+        
+        
+      
+
+      //  $this->db->trans_complete();
     }
 
 }

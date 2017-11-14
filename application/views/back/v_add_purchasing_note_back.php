@@ -218,6 +218,7 @@
 </div>
 
 <script>
+    var urutan = 0;
     function add_table_purchasing()
             {
 

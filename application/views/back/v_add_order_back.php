@@ -287,15 +287,15 @@
                                                             if (needed <= detailmaterial[b]['stok'])
                                                             {
 
-                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed});
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed.toString()});
                                                                 needed = 0;
                                                                 break;
 
                                                             } else if (needed > detailmaterial[b]['stok'])
                                                             {
 
-                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b][stok]});
-                                                                needed = needed - detailmaterial[b]['stok']
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok']});
+                                                                needed = needed - detailmaterial[b]['stok'];
                                                             }
 
                                                         } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1 > 0)
@@ -332,15 +332,27 @@
 
                                             } else if (needed == 0 && neededtipe1 == 0)
                                             {
+                                                var y = JSON.stringify(tampung);
                                                 $.ajax({
+                                                   // cache: false,
                                                     type: "POST",
                                                     url: "<?php echo base_url(); ?>" + "Back/Material/Reduce_material_quantity",
+                                                    contentType: 'application/json; charset=utf-8',
                                                     dataType: "json",
-                                                    data: { tampungan : JSON.stringify(tampung)},
+//                                                 data: JSON.stringify(tampung),
+//                                                    data: {tampung:JSON.stringify(tampung)},
+                                                    data: {"tampungan":JSON.stringify(tampung)},
+//                                                    data: JSON.stringify({tampungan:tampung}),
+                                                   // data: y,
+//                                                    data: tampung,
                                                     success: function (result) {
                                                         //ini kalau mau ambil 1 data saja sudah bisa.
-                                                        // alert ("hore sukses" + result);
+                                                        alert("hore sukses" + result);
 
+                                                    },
+                                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                        alert("Status: " + textStatus);
+                                                        alert("Error: " + errorThrown);
                                                     }
                                                 });
                                             }
@@ -495,7 +507,7 @@
 
                                     <option value="<?php echo $listkategori[$x]['id']; ?>" ><?php echo $listkategori[$x]['nama']; ?></option>
 
-                                <?php } ?>
+<?php } ?>
                             </select> 
                         </div>
                         <div class="col-md-2">

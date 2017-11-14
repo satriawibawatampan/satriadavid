@@ -75,7 +75,7 @@ class Account extends CI_Controller {
 
 
 
-                        redirect('Back/Admin/index');
+                        redirect('Back/Order/Show_add_order_note');
                     }
                     //gagal ambil data login
                     else {
