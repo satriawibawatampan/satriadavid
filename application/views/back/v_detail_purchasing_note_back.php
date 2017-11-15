@@ -109,7 +109,6 @@
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Subtotal</th>
                                                
                                               
-                                                <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
                                         </thead>
                                         <tbody>	
                                             <?php
@@ -121,8 +120,6 @@
                                                 echo '<td>' . $hasil->harga . '</td>';
                                                 echo '<td>' . $hasil->subtotal . '</td>';
                                                 
-                                                echo '<td>   <a href="'. base_url(). 'Back/Material/Show_edit_material/'. $hasil->id.   '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->id . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>

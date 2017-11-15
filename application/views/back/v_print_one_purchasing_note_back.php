@@ -14,7 +14,7 @@
             <div class="row">
 
                 <!-- NEW WIDGET START -->
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <article class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 
                     <!-- Widget ID (each widget will need unique ID)-->
                     <div class="jarviswidget well jarviswidget-color-darken" id="wid-id-0" data-widget-sortable="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
@@ -98,13 +98,7 @@
                                                 </div>
 
                                             </div>
-                                            <div>
-                                                <div class="font-md">
-                                                    <strong>INVOICE DATE :</strong>
-                                                    <span class="pull-right"> <i class="fa fa-calendar"></i> 15/02/13 </span>
-                                                </div>
-
-                                            </div>
+                                            
                                             <br>
                                             <div class="well well-sm  bg-color-darken txt-color-white no-border">
                                                 <div class="fa-lg">
@@ -117,49 +111,7 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">QTY</th>
-                                                <th>ITEM</th>
-                                                <th>DESCRIPTION</th>
-                                                <th>PRICE</th>
-                                                <th>SUBTOTAL</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="text-center"><strong>1</strong></td>
-                                                <td><a href="javascript:void(0);">Print and Web Logo Design</a></td>
-                                                <td>Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam xplicabo.</td>
-                                                <td>$1,300.00</td>
-
-                                                <td>$1,300.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><strong>1</strong></td>
-                                                <td><a href="javascript:void(0);">SEO Management</a></td>
-                                                <td>Sit voluptatem accusantium doloremque laudantium inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</td>
-                                                <td>$1,400.00</td>
-                                                <td>$1,400.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center"><strong>1</strong></td>
-                                                <td><a href="javascript:void(0);">Backend Support and Upgrade</a></td>
-                                                <td>Inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</td>
-                                                <td>$1,700.00</td>
-                                                <td>$1,700.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">Total</td>
-                                                <td><strong>$4,400.00</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">HST/GST</td>
-                                                <td><strong>13%</strong></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    
 
                                     <div class="invoice-footer">
 

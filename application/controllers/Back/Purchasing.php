@@ -54,39 +54,38 @@ class Purchasing extends CI_Controller {
 
     public function Show_all_purchasing_note() {
         $data['tablepurchasingnote'] = $this->M_purchasing->Get_all_purchasing_note();
-       // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+        // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back');
         $this->load->view('back/v_all_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }
-    
+
     public function Show_detail_purchasing_note($id) {
         $data['tablepurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
-       // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+        // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back');
         $this->load->view('back/v_detail_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }
-    
+
     public function Show_print_one_purchasing_note($id) {
         $data['tablepurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
-       // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+        // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
         $this->load->view('back/v_head_admin_back');
-       // $this->load->view('back/v_header_back');
+        // $this->load->view('back/v_header_back');
         //$this->load->view('back/v_navigation_back');
         $this->load->view('back/v_print_one_purchasing_note_back', $data);
-       // $this->load->view('back/v_footer_back');
+        // $this->load->view('back/v_footer_back');
     }
-    
-    public function Show_edit_purchasing_note($id)
-    {
+
+    public function Show_edit_purchasing_note($id) {
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
-         $data['datapurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
+        $data['datapurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back');
@@ -98,23 +97,22 @@ class Purchasing extends CI_Controller {
         if ($this->input->post('button_addpurchasingnote')) {
 
 
-                $idsupplier = $this->input->post('name_supplier');
-                $idmaterial = $this->input->post('name_idmaterial');
-                $buyingprice = $this->input->post('name_buyingprice');
-                $qty = $this->input->post('name_quantity');
-                $amountperpack = $this->input->post('name_amountperpack');
-                $subtotal = $this->input->post('name_subtotal');
-                $idbranch = $this->session->userdata['xcellent_cabang'];
+            $idsupplier = $this->input->post('name_supplier');
+            $idmaterial = $this->input->post('name_idmaterial');
+            $buyingprice = $this->input->post('name_buyingprice');
+            $qty = $this->input->post('name_quantity');
+            $amountperpack = $this->input->post('name_amountperpack');
+            $subtotal = $this->input->post('name_subtotal');
+            $idbranch = $this->session->userdata['xcellent_cabang'];
 
-               
-                $this->M_purchasing->Add_purchasing_note($idsupplier, $idmaterial, $buyingprice, $qty , $subtotal, $idbranch, $amountperpack);
 
-             
-                $this->session->set_flashdata('pesanform', "New purchasing note has been added.");
-                $this->session->keep_flashdata('pesanform');
+            $this->M_purchasing->Add_purchasing_note($idsupplier, $idmaterial, $buyingprice, $qty, $subtotal, $idbranch, $amountperpack);
 
-                redirect('Back/Purchasing/Show_add_purchasing_note');
-            
+
+            $this->session->set_flashdata('pesanform', "New purchasing note has been added.");
+            $this->session->keep_flashdata('pesanform');
+
+            redirect('Back/Purchasing/Show_add_purchasing_note');
         }
     }
 
@@ -157,12 +155,26 @@ class Purchasing extends CI_Controller {
             // print_r($id.$nama.$tipe.$hpp);
             // exit();
 
-            $this->M_purchasing->Edit_purchasing_note($idnota, $supplier,$idmaterialold, $idmaterial, $hpp, $qty, $amountperpack);
+            $this->M_purchasing->Edit_purchasing_note($idnota, $supplier, $idmaterialold, $idmaterial, $hpp, $qty, $amountperpack);
             $this->session->set_flashdata('pesanform', "Your Purchase Note , Note " . $idnota . " , has been edited");
             $this->session->keep_flashdata('pesanform');
 
 
-            redirect('Back/Purchasing/Show_edit_purchasing_note/'.$idnota);
+            redirect('Back/Purchasing/Show_edit_purchasing_note/' . $idnota);
+        }
+    }
+
+    public function Pay_purchasing_note() {
+        if ($this->input->post('button_paypurchasingnote')) {
+
+            $idnota = $this->input->post('name_payid');
+            $this->M_purchasing->Pay_purchasing_note($idnota);
+            
+             $this->session->set_flashdata('pesanform', "Your Purchase Note , Note " . $idnota . " , has been paid");
+            $this->session->keep_flashdata('pesanform');
+
+
+            redirect('Back/Purchasing/Show_all_purchasing_note');
         }
     }
 

@@ -136,7 +136,7 @@
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_amountperpack'); ?>
                             </span>
-                            
+
                         </div>
 
                     </div>
@@ -144,7 +144,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1"></label>
                         <div class="col-md-4">
-                            <button onclick="add_table_purchasing()" type="button" name="button_addpurchasingnote" class="btn btn-success " >Add Item </button>
+                            <button onclick="add_table_purchasing()" type="button" name="button_addpurchasingnote" class="btn btn-success " >Add Material </button>
 
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input type="submit" name="button_addpurchasingnote" class="btn btn-primary " value="Add Material">
+                                <input onclick="check_all_not_null();" type="submit" name="button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
                             </div>
                         </div>
 
@@ -218,48 +218,104 @@
 </div>
 
 <script>
-    var urutan = 0;
+    var urutan = 1;
     function add_table_purchasing()
+    {
+
+
+        if (
+                document.getElementById('id_material').value.length > 0 &&
+                document.getElementById('id_buyingprice').value.length > 0 &&
+                document.getElementById('id_quantity').value.length > 0 &&
+                document.getElementById('id_amountperpack').value.length > 0
+                )
+        {
+            var checkingadamaterialsama = this.check_material();
+            //alert("checking " + checkingadamaterialsama);
+            if (checkingadamaterialsama == null || checkingadamaterialsama === 'undifined' || checkingadamaterialsama != 0)
             {
+                $("#id_table_purchasing_note").show();
 
+                $("#id_body_table").append(
+                        "<tr id='tr_" + urutan + "'>" +
+                        "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]' placeholder='Id Material' type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]' placeholder='Buying Price' type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]' placeholder='Quantity' type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]' placeholder='Amount per Pack' type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]' placeholder='Subtotal' type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
+                        "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]' placeholder='Id Material' type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
+                        "</tr>");
 
-                if (
-                        document.getElementById('id_material').value.length > 0 &&
-                        document.getElementById('id_buyingprice').value.length > 0 &&
-                        document.getElementById('id_quantity').value.length > 0 &&
-                        document.getElementById('id_amountperpack').value.length > 0
-                        )
-                {
-
-                    $("#id_table_purchasing_note").show();
-
-                    $("#id_body_table").append(
-                            "<tr id='tr_" + urutan + "'>" +
-                            "<td> <div ><input readonly id='id_material_" + urutan + "' class='form-control' name='name_name[]' placeholder='Id Material' type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
-                            "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]' placeholder='Buying Price' type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
-                            "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]' placeholder='Quantity' type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
-                            "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]' placeholder='Amount per Pack' type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
-                            "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]' placeholder='Subtotal' type='number' value='" + (parseInt($("#id_buyingprice").val())*parseInt($("#id_quantity").val())*parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
-                           "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan     + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
-                           "<td hidden> <div ><input  readonly id='id_material_" + urutan + "' class='form-control' name='name_idmaterial[]' placeholder='Id Material' type='number' value='" + $("#id_material").val() + "'></div></td>" +
-            "</tr>");
-
-                    urutan++;
-                    alert("urutan ke " + urutan.toString());
-                    $("#id_material").val(1);
-                    $("#id_buyingprice").val("");
-                    $("#id_quantity").val("");
-                    $("#id_amountperpack").val("");
-
-                } else
-                {
-                    alert("Nulls are not allowed");
-                }
-            }
-            
-              function remove_purchasing_note_tr(y)
+                urutan++;
+                alert("urutan ke " + urutan.toString());
+                $("#id_material").val(1);
+                $("#id_buyingprice").val("");
+                $("#id_quantity").val("");
+                $("#id_amountperpack").val("");
+                checkingadamaterialsama = 1; // bikin agar isa kebaca lagi
+            } else
             {
-             //   alert($("#tr_"+urutan).prop("id"));
-                $("#tr_"+y).remove();
+                alert("havebeen registerd");
             }
-    </script>
+        } else
+        {
+            alert("Nulls are not allowed");
+        }
+    }
+
+    function check_material()
+    {
+        var numItems = $('.hitung').length;
+
+        // var id = event.target.id;
+        var counterwhile = 1;
+        var atas = $("#id_material option:selected").val();
+        var bawah = $("#id_material_" + counterwhile).val();
+        while (numItems > 0)
+        {   // jika yang dipilih ada di id-text_id_material(table)
+
+            if ($("#id_material option:selected").val() == $("#id_material_" + counterwhile).val())
+            {
+                counterwhile = 1;
+                //kembalikan 0 untuk alert dari fungsi sebelumnya
+                return 0;
+                break;
+            }
+            if ($("#id_material_" + counterwhile).length > 0)
+            {
+                numItems--;
+            }
+            counterwhile++;
+
+        }
+        return 1;
+
+    }
+
+    function remove_purchasing_note_tr(y)
+    {
+        //   alert($("#tr_"+urutan).prop("id"));
+        $("#tr_" + y).remove();
+    }
+
+    function check_all_not_null()
+    {
+
+        if ($('.hitung').length == 0)
+        {
+            $("form").submit(function (e) {
+                e.preventDefault();
+            });
+            alert("Register at least 1 material to purchasing note");
+
+        } else
+        {
+            alert("yes");
+
+            document.getElementById("smart-form-register").submit();
+        }
+
+
+    }
+</script>

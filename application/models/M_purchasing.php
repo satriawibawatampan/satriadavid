@@ -9,6 +9,7 @@ class M_purchasing extends CI_Model {
         $this->load->model('M_product');
         $this->load->model('M_harga');
         $this->load->model('M_supplier');
+        $this->load->model('M_cashflow');
     }
 
     function Add_purchasing_note($idsupplier, $idmaterial, $buyingprice, $qty, $subtotal, $idbranch, $amountperpack) {
@@ -124,13 +125,11 @@ class M_purchasing extends CI_Model {
                 $this->db->where('id_notabeli', $idnota);
                 $this->db->where('id_material', $idmaterialold[$x]);
                 $this->db->update('notabeli_material', $data);
-            }
-            else
-            {
-                 //hapus dari notabeli_material
-        $this->db->where('id_notabeli', $idnota);
-        $this->db->where('id_material', $idmaterialold[$x]);
-        $this->db->delete('notabeli_material');
+            } else {
+                //hapus dari notabeli_material
+                $this->db->where('id_notabeli', $idnota);
+                $this->db->where('id_material', $idmaterialold[$x]);
+                $this->db->delete('notabeli_material');
             }
 
             $grandtotal = $grandtotal + ($hpp[$x] * $qty[$x] * $amountperpack[$x]);
@@ -143,6 +142,24 @@ class M_purchasing extends CI_Model {
 
         $this->db->where('id', $idnota);
         $this->db->update('notabeli', $dataeditnota);
+
+        $this->db->trans_complete();
+    }
+
+    function Pay_purchasing_note($id) {
+
+        $this->db->trans_complete();
+        $data = array(
+            'statusbayar' => 1
+        );
+        $this->db->where('id', $id);
+        $this->db->update('notabeli', $data);
+
+        $purcashingnote = $this->Get_detail_purchasing_note($id);
+        
+        $this->M_cashflow->Add_cashflow("Purchase Payment", 2, "Pay Purchasing Note ".$id, $purcashingnote[0]->grandtotal);
+        //print_r($purcashingnote[0]->id);        exit();
+
 
         $this->db->trans_complete();
     }
