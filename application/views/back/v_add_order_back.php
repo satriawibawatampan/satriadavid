@@ -334,17 +334,11 @@
                                             {
                                                 var y = JSON.stringify(tampung);
                                                 $.ajax({
-                                                   // cache: false,
                                                     type: "POST",
                                                     url: "<?php echo base_url(); ?>" + "Back/Material/Reduce_material_quantity",
-                                                    contentType: 'application/json; charset=utf-8',
-                                                    dataType: "json",
-//                                                 data: JSON.stringify(tampung),
-//                                                    data: {tampung:JSON.stringify(tampung)},
-                                                    data: {"tampungan":JSON.stringify(tampung)},
-//                                                    data: JSON.stringify({tampungan:tampung}),
-                                                   // data: y,
-//                                                    data: tampung,
+                                                    data: {
+                                                        data: tampung
+                                                    },
                                                     success: function (result) {
                                                         //ini kalau mau ambil 1 data saja sudah bisa.
                                                         alert("hore sukses" + result);

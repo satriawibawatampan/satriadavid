@@ -8,8 +8,8 @@ class Material extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        header('Access-Control-Allow-Origin: *');
         $this->load->library('session');
-        ;
         if (isset($this->session->userdata['xcellent_id'])) {
 
 
@@ -210,20 +210,8 @@ class Material extends CI_Controller {
     }
 
     public function Reduce_material_quantity() {
-        $data = array(
-            'id' => $this->input->post('id'),
-            'stok' => $this->input->post('stok')
-        );
-
-        echo json_encode($data);
-        //$tampt = $this->input->post('tampungan');
-        //echo $tampt;
-//           echo json_decode($tampt);
-        // print_r(); 
-        exit();
-        $this->M_material->Reduce_material_quantity($tampt);
-
-        // json_encode($tampt);
+        $data = $this->input->post("data");
+        $this->M_material->Reduce_material_quantity($data);
     }
 
 }

@@ -272,29 +272,25 @@ class M_material extends CI_Model {
     }
 
     function Reduce_material_quantity($arraytamp) {
-        //$this->db->trans_start();
-        //exit();
+        $this->db->trans_start();
         
-        for ($x = 0; $x < count($arraytamp); $x++) 
-       // foreach($arraytamp as $arraytampx)
+        for ($x = 0; $x < count($arraytamp); $x++)
         {
             $data = array(
                 'id_produkmaterial' => $arraytamp[$x]['id'],
                // 'id_detailmaterial' => $arraytamp[$x]->id,
                 'id_detailmaterial' => 1,
                 'id_notajual' => 1,
-                'jumlah' =>12
-               // 'jumlah' => $arraytamp[$x]->stok
+                'jumlah' => $arraytamp[$x]['stok']
             );
            
             $this->db->insert('produk_material_array', $data);
         }
-     //  }
         
         
       
 
-      //  $this->db->trans_complete();
+      $this->db->trans_complete();
     }
 
 }
