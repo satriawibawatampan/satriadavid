@@ -8,7 +8,7 @@ class Material extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        header('Access-Control-Allow-Origin: *');
+      //  header('Access-Control-Allow-Origin: *');
         $this->load->library('session');
         if (isset($this->session->userdata['xcellent_id'])) {
 
@@ -211,7 +211,13 @@ class Material extends CI_Controller {
 
     public function Reduce_material_quantity() {
         $data = $this->input->post("data");
+     
         $this->M_material->Reduce_material_quantity($data);
+    }
+    public function Readd_detailmaterial() {
+        $data = $this->input->post("data");
+     
+        $this->M_material->Readd_detailmaterial($data);
     }
 
 }

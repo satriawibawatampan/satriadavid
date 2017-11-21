@@ -20,6 +20,7 @@ class Order extends CI_Controller {
             $this->load->model('M_harga');
             $this->load->model('M_member');
             $this->load->model('M_promo');
+            $this->load->model('M_order');
 
 
 
@@ -45,8 +46,7 @@ class Order extends CI_Controller {
 
     public function Show_add_order_note() {
         $data['listkategori'] = $this->M_product->get_all_produk_kategori();
-//    print_r($data['listkategori'][1]['product'][0]['harga']); exit();
-//      
+     
         $data['listmember']= $this->M_member->Show_all_member();
         $data['listpromo']= $this->M_promo->Get_promo_product_now();
       //  print_r($data['listpromo']);   exit();
@@ -59,48 +59,41 @@ class Order extends CI_Controller {
     }
 
     public function Show_edit_order($id) {
-        $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
-        $data['listmaterial'] = $this->M_material->Get_all_material();
-        $data['dataproduct'] = $this->M_product->Get_one_product($id);
-        //    print_r( $data['dataproduct']); exit();
-        $data['dataproductmaterial'] = $this->M_product->Get_product_material($id);
-        $data['dataharga'] = $this->M_harga->Get_harga($id);
+        $data['listkategori'] = $this->M_product->get_all_produk_kategori();
+         $data['listmember']= $this->M_member->Show_all_member();
+         $data['listpromo']= $this->M_promo->Get_promo_product_now();
+        $data['dataorder'] = $this->M_order->Get_one_order($id);
+        $data['listorderproduk']=$this->M_order->Get_order_product($id);
+           // print_r( $data['listorderproduk']); exit();
+       
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back');
-        $this->load->view('back/v_edit_product_back', $data);
+        $this->load->view('back/v_edit_order_back', $data);
         $this->load->view('back/v_footer_back');
     }
 
-    public function Show_all_order() {
-        $data['tableproduct'] = $this->M_product->Get_all_product();
-        // $data['tableprice'] = $this->M_product->Get_price();
+    public function Show_all_order_note() {
+        $data['tableorder'] = $this->M_order->Get_all_order();
+        
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back');
-        $this->load->view('back/v_all_product_back', $data);
+        $this->load->view('back/v_all_order_back', $data);
         $this->load->view('back/v_footer_back');
     }
 
-    public function Add_Product() {
-        if ($this->input->post('button_addproduct')) {
-            print_r('a');
-            exit();
-            $category = $this->input->post('name_category');
-            $name = $this->input->post('name_name');
-            $materialid = $this->input->post('name_txt_idmaterial');
-            $materialquantity = $this->input->post('name_txt_jumlah');
-            $minqty = $this->input->post('name_qty_min');
-            $maxqty = $this->input->post('name_qty_max');
-            $price = $this->input->post('name_price');
-
-
-            $this->M_product->Add_product_real($category, $name, $materialid, $materialquantity, $minqty, $maxqty, $price);
-            $this->session->set_flashdata('pesanform', "New Product has been added");
-            $this->session->keep_flashdata('pesanform');
-        } else {
-            redirect('Back/Product/Show_add_product');
-        }
+    public function Add_order_note() {
+         $data = $this->input->post("data");
+         $products = $this->input->post("product");
+         $member = $this->input->post("member");
+         $grandtotal = $this->input->post("grandtotal");
+         $promo = $this->input->post("promo");
+         $totaldiskon = $this->input->post("totaldiskon");
+         
+        // echo $products[0]['harga']; exit();
+     
+        $this->M_order->Add_order_note($data,$products,$member,$grandtotal,$promo,$totaldiskon);
     }
 
     public function Json_get_product_by_category($id) {

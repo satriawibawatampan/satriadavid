@@ -142,7 +142,7 @@ class M_material extends CI_Model {
                     join produk_material on produk_material.id_material = material.id
                     join produk on produk.id = produk_material.id_produk
                     where produk.id = ?
-                    order by id_material asc, createdat asc, stok asc", array($id));
+                    order by id_material asc, createdat asc, stok asc, id asc", array($id));
         $detailmaterial = $query->result_array();
         // print_r("a");exit();
         return($detailmaterial);
@@ -272,25 +272,37 @@ class M_material extends CI_Model {
     }
 
     function Reduce_material_quantity($arraytamp) {
-        $this->db->trans_start();
-        
-        for ($x = 0; $x < count($arraytamp); $x++)
-        {
-            $data = array(
-                'id_produkmaterial' => $arraytamp[$x]['id'],
-               // 'id_detailmaterial' => $arraytamp[$x]->id,
-                'id_detailmaterial' => 1,
-                'id_notajual' => 1,
-                'jumlah' => $arraytamp[$x]['stok']
-            );
-           
-            $this->db->insert('produk_material_array', $data);
-        }
-        
-        
-      
 
-      $this->db->trans_complete();
+        // echo $arraytamp[0]['stok'];exit();
+        // echo count($arraytamp); exit();
+        $this->db->trans_start();
+
+        for ($x = 0; $x < count($arraytamp); $x++) {
+            $this->db->set('stok', 'stok-' . $arraytamp[$x]['stok'], FALSE);
+            $this->db->where('id', $arraytamp[$x]['id']);
+            $this->db->update('detailmaterial');
+            echo $arraytamp[$x]['id'];
+        }
+        // echo json_encode($arraytamp) ; exit();
+        $this->db->trans_complete();
+    }
+
+    function Readd_detailmaterial($arraytamp) {
+
+        // echo $arraytamp[0]['stok'];exit();
+        // echo count($arraytamp); exit();
+        $this->db->trans_start();
+
+        for ($x = 0; $x < count($arraytamp); $x++) {
+            $this->db->set('stok', 'stok+' . $arraytamp[$x]['stok'], FALSE);
+            $this->db->where('id', $arraytamp[$x]['id']);
+            $this->db->update('detailmaterial');
+            //echo $arraytamp[$x]['id'];
+        }
+
+        $this->db->trans_complete();
+//        echo json_encode($arraytamp);
+//        exit();
     }
 
 }
