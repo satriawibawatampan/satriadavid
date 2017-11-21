@@ -294,9 +294,12 @@ class M_material extends CI_Model {
         $this->db->trans_start();
 
         for ($x = 0; $x < count($arraytamp); $x++) {
+            if($arraytamp[$x]['id']!=-1)
+            {
             $this->db->set('stok', 'stok+' . $arraytamp[$x]['stok'], FALSE);
             $this->db->where('id', $arraytamp[$x]['id']);
             $this->db->update('detailmaterial');
+            }
             //echo $arraytamp[$x]['id'];
         }
 
