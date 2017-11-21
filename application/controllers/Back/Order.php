@@ -44,6 +44,12 @@ class Order extends CI_Controller {
 //       
     }
 
+    public function print() {
+
+
+        $this->load->view('back/v_print');
+    }
+
     public function Show_add_order_note() {
         $data['listkategori'] = $this->M_product->get_all_produk_kategori();
      
