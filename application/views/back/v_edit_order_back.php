@@ -250,6 +250,180 @@
                             $("#id_total_discount").val(totaldiskon);
                         }
 
+                        function edit_detailmaterial(idnotajualproduk, counter)
+                        {
+
+                            if (
+                                    document.getElementById('id_txt_jumlah_product_' + counter).value > 0 &&
+                                    document.getElementById('id_txt_jumlah_product_' + counter).length == 0
+                                    )
+                            {
+                                if ($("#id_txt_jumlah_product_" + counter).val() > $("#id_txt_jumlah_product2_" + counter).val())
+                                {
+                                    check_material_availability($("#id_txt_id_product_" + counter).val(), $("#id_txt_jumlah_product_" + counter).val() - $("#id_txt_jumlah_product2_" + counter).val());
+
+                                }
+                            } else
+                            {
+                                alert("0 quantity is not allowed. Just press the X button to delete.");
+                                $("#id_txt_jumlah_product_" + counter).val($("#id_txt_jumlah_product2_" + counter).val());
+                            }
+
+
+                        }
+
+                        function check_material_availability($idproduk, $qty)
+                        {
+
+                            detailmaterial = [];
+                            produk_material = [];
+
+                            alert("idproduk " + $idproduk + " / quantity " + $qty);
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material_array/" + $idproduk,
+                                dataType: "json",
+                                success: function (result) {
+                                    detailmaterial = result;
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material_array/" + $idproduk,
+                                        dataType: "json",
+                                        success: function (result) {
+
+                                            produk_material = result;
+
+                                            var tampung = [];
+                                            for (a = 0; a < produk_material.length; a++)
+                                            {
+
+                                                var needed = 0;
+                                                var neededtipe1 = 0;
+
+                                                needed = $qty;
+                                                neededtipe1 = $qty;
+
+                                                for (b = 0; b < detailmaterial.length; b++)
+                                                {
+                                                    if (produk_material[a]['idmaterial'] == detailmaterial[b]['id_material'])
+                                                    {
+                                                        if (detailmaterial[b]['tipe'] == 2)
+                                                        {
+                                                            neededtipe1 = 0;
+
+                                                            if (needed <= detailmaterial[b]['stok'])
+                                                            {
+
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed, "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": needed, "idproduk": $idproduk.toString()});
+                                                                // '<%Session["UserName"] = "' + tampungall + '"; %>';
+                                                                //  alert('<%=Session["UserName"] %>');
+                                                                needed = 0;
+                                                                break;
+
+                                                            } else if (needed > detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
+                                                            {
+
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                //'<%Session["UserName"] = "' + tampungall + '"; %>';
+                                                                // alert('<%=Session["UserName"] %>');
+                                                                needed = needed - detailmaterial[b]['stok'];
+                                                            }
+
+                                                        } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1 > 0)
+                                                        {
+                                                            needed = 0;
+
+
+                                                            if (detailmaterial[b]['stok'] < produk_material[a]['jumlahmaterial'])
+                                                            {
+
+
+                                                            } else if (detailmaterial[b]['stok'] >= produk_material[a]['jumlahmaterial'])
+                                                            {
+                                                                //kurangi detailmaterial
+                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                neededtipe1--;
+
+
+
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                    break;
+                                                    }
+
+                                                }
+
+
+
+                                            }
+
+                                            if (needed > 0 && neededtipe1 > 0) {
+                                               
+
+                                                for (var q = 0; q < tampungall.length; q++)
+                                                {
+                                                    if (tampungall[q]['idproduk'] == $idproduk)
+                                                    {
+                                                       //
+                                                        //ini hapus tampungall karena sudah di cancel. dijadikan -1 agar tidak kebaca di if.                    
+                                                        tampungall[q]['idproduk'] = -1;
+
+                                                    }
+                                                }
+                                                 alert("Not Enough Stock");
+
+                                            } else if (needed == 0 && neededtipe1 == 0)
+                                            {
+                                                var y = JSON.stringify(tampung);
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "<?php echo base_url(); ?>" + "Back/Material/Reduce_material_quantity",
+
+                                                    data: {
+                                                        data: tampung
+//                                                        data: JSON.stringify(tampungall)
+                                                    },
+                                                    success: function (result) {
+                                                        //ini kalau mau ambil 1 data saja sudah bisa.
+                                                        alert("hore sukses" + result);
+
+                                                    },
+                                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                        alert("Status: " + textStatus);
+                                                        alert("Error: " + errorThrown);
+                                                    }
+                                                });
+                                            }
+
+
+
+                                        }
+
+                                    });
+
+
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    // alert("Status: " + textStatus);
+                                    //  alert("Error: " + errorThrown);
+                                }
+                            });
+
+
+
+
+                        }
+
                         window.onload = function () {
                             get_price();
 
@@ -312,18 +486,19 @@
                     <div  id="id_table_grossir" class="form-group">
                         <label class="col-md-2 control-label"></label>
 
-                        <div class="col-md-6 table-responsive">
+                        <div class="col-md-10 table-responsive">
                             <table id="id_table" class="table table-bordered table-striped" >
                                 <thead>
                                     <tr >
-                                        <th   >Product ID</th>
+                                        <th  style="width: 100px;" >Product ID</th>
                                         <th    >Product Name</th>
-                                        <th   >Qty</th>
-                                        <th   >Price</th>
-                                        <th   >%</th>
-                                        <th   >Subtotal</th>
+                                        <th  style="width: 100px;" >Qty</th>
+                                        <th  style="width: 150px;" >Price</th>
+                                        <th  style="width: 75px;" >%</th>
+                                        <th  style="width: 150px;" >Subtotal</th>
                                         <th   >X</th>
-                                        <th   >--</th>
+                                        <th  hidden="" >--</th>
+                                        <th   hidden="">--</th>
 
 
                                 </thead>
@@ -332,19 +507,22 @@
                                     $counter = 1;
                                     foreach ($listorderproduk as $item) {
                                         ?>
-                                        <tr>
+                                        <tr id="tr_"<?php echo $counter; ?>>
                                             <td><div ><input readonly id='id_txt_id_product_<?php echo $counter; ?>' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='<?php echo $item->id_produk; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_nama_product_<?php echo $counter; ?>' class='form-control' name='name_txt_nama_product[]'  type='text' value='<?php echo $item->namaproduk; ?>'></div></td>
-                                            <td><div ><input  id='id_txt_jumlah_product_<?php echo $counter; ?>' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='<?php echo $item->jumlah; ?>'></div> <span class="fa fa-refresh"></span></td>
+                                            <td><div ><input  id='id_txt_jumlah_product_<?php echo $counter; ?>' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='<?php echo $item->jumlah; ?>'></div> <span class="fa fa-refresh" onclick="edit_detailmaterial(<?php echo $item->id; ?>,<?php echo $counter; ?>)"></span></td>
                                             <td><div ><input readonly id='id_txt_harga_product_<?php echo $counter; ?>' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='<?php echo $item->harga; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_diskon_product_<?php echo $counter; ?>' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='<?php echo $item->diskon; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_subtotal_product_<?php echo $counter; ?>' class='form-control diskon' name='name_txt_subtotal_product[]'  type='text' value='<?php echo $item->subtotal; ?>'></div></td>
-                                            <td><div ><i  onclick='remove_product_tr(<?php echo $counter; ?>); update_grandtotal(); update_total_discount(); readd_detailmaterial(" + $("#id_product option:selected").val() + ");' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></th>
-                                            <td><div ><input readonly id='id_txt_id_notajualproduk_<?php echo $counter; ?>' class='form-control diskon' name='name_txt_id_orderproduct[]'  type='text' value='<?php echo $item->id; ?>'></div></td>
+                                            <td><div ><i  onclick='remove_product_tr(<?php echo $counter; ?>);
+                                                        update_grandtotal();
+                                                        update_total_discount(); readd_detailmaterial(" + $("#id_product option:selected").val() + ");' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></th>
+                                            <td hidden=""><div ><input readonly id='id_txt_id_notajualproduk_<?php echo $counter; ?>' class='form-control diskon hitung' name='name_txt_id_orderproduct[]'  type='text' value='<?php echo $item->id; ?>'></div></td>
+                                            <td hidden=""><div ><input  id='id_txt_jumlah_product2_<?php echo $counter; ?>' class='form-control jumlah' name='name_txt_jumlah_product2[]'  type='text' value='<?php echo $item->jumlah; ?>'></div> </td>
 
                                         </tr>
 
-<?php } ?>
+                                    <?php } ?>
 
                                 </tbody>
                             </table>
@@ -401,220 +579,6 @@
 
 <script>
 
-    function check_all_not_null()
-    {
-        if (
-                $("#select-1 option:selected").val() == "" ||
-                $("#id_txt_name_product").val() == ""
-
-
-                )
-
-        {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
-            alert("Null is not Allowed");
-        } else if ($('.hitung').length == 0)
-        {
-
-
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
-            alert("Register this product's material first");
-        } else if ($('.hitungmaterial').length == 0)
-        {
-            alert("a");
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
-            alert("Register this product's price first");
-        } else
-        {
-
-            document.getElementById("smart-form-register").submit();
-        }
-
-    }
-    var urutan = <?php echo $urutan; ?>;
-    function show_div_grossir()
-    {
-        if (document.getElementById('id_txt_price_retail').value.length > 0 && urutan == 1)
-        {
-            //   alert(urutan);
-            $("#id_div_grossir").show();
-            $("#id_table_grossir").show();
-            $("#id_txt_price_retail").prop('readonly', true);
-
-            //$("#id_button_plus").onclick("reset_grossir_price()");
-            document.getElementById('id_button_plus').setAttribute("onClick", "reset_grossir_price()");
-            document.getElementById('id_button_plus').setAttribute("style", "color:red");
-            document.getElementById('id_button_plus').setAttribute("class", "glyphicon glyphicon-trash control-label");
-            document.getElementById('id_button_plus').innerHTML = " Reset grossir price";
-
-            $("#id_body_table").append(
-                    "<tr>" +
-                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='1'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='1'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]' placeholder='Price' type='number' value='" + parseInt($("#id_txt_price_retail").val()) + "'></div></td>" +
-                    "</tr>");
-
-//                    $("#id_txt_qty_min_1").val(1);
-//                    $("#id_txt_qty_max_1").val(1);
-//                    $("#id_txt_price_1").val($("#id_txt_price_retail").val());
-
-            urutan++;
-            alert(urutan);
-            //  $("#id_button_reset").show();
-
-        } else
-        {
-            alert("Retail Price can't be Null to add Grossir price");
-        }
-    }
-
-    function reset_grossir_price()
-    {
-        $("#id_body_table").empty();
-
-        $("#id_input_qty_max").val("");
-        $("#id_input_qty_min").val("");
-        $("#id_input_price_grossir").val("");
-        $("#id_div_grossir").hide();
-        $("#id_table_grossir").hide();
-        $("#id_txt_price_retail").prop('readonly', false);
-        $("#id_div_button_plus").show();
-        $("#id_button_reset").hide();
-
-        urutan = 1;
-
-        document.getElementById('id_button_plus').setAttribute("onClick", "show_div_grossir()");
-        document.getElementById('id_button_plus').setAttribute("style", "color:blue");
-        document.getElementById('id_button_plus').setAttribute("class", "glyphicon glyphicon-plus control-label");
-        document.getElementById('id_button_plus').innerHTML = "Add Grossir Price";
-    }
-    function add_grossir_price()
-    {
-
-        if (
-                document.getElementById('id_input_qty_min').value.length > 0 &&
-                document.getElementById('id_input_qty_max').value.length > 0 &&
-                document.getElementById('id_input_price_grossir').value.length > 0
-                )
-        {
-
-
-            if (parseInt($("#id_input_qty_max").val()) >= parseInt($("#id_input_qty_min").val()))
-            {
-                if ((urutan > 1 && parseInt(document.getElementById('id_input_qty_min').value) > parseInt(document.getElementById('id_txt_qty_max_' + (urutan - 1).toString()).value)))
-                {
-                    // alert("min "+$("#id_input_qty_min").val());
-                    // alert("max "+$("#id_input_qty_max").val());
-                    if (urutan > 1 && parseInt(document.getElementById('id_input_price_grossir').value) <= parseInt(document.getElementById('id_txt_price_' + (urutan - 1).toString()).value))
-                    {
-                        $("#id_body_table").append(
-                                "<tr>" +
-                                "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='" + $("#id_input_qty_min").val() + "'></div></td>" +
-                                "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='" + $("#id_input_qty_max").val() + "'></div></td>" +
-                                "<td> <div ><input  readonly id='id_txt_price_" + urutan + "' class='form-control hitungmaterial' name='name_price[]' placeholder='Price' type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
-                                "</tr>");
-                        urutan++;
-                        alert("urutan ke " + urutan.toString());
-                        $("#id_input_qty_max").val("");
-                        $("#id_input_qty_min").val("");
-                        $("#id_input_price_grossir").val("");
-                    } else
-                    {
-                        alert("Price Must be cheaper than before")
-                        alert(document.getElementById('id_input_price_grossir').value);
-                        alert(document.getElementById('id_txt_price_' + (urutan - 1)).value);
-                    }
-                } else
-                {
-                    alert("Minimum Quantity must be higher than previous maximun quantity")
-                }
-            } else
-            {
-                // alert($("#id_txt_qty_min").val());
-                alert("Maximum quantity must be higher than Minumum quantity!!!!");
-            }
-        } else
-        {
-            alert("Nulls in field grossir price are not allowed");
-        }
-    }
-
-    var urutanmaterial = <?php echo $urutanmaterial; ?>;
-
-
-    function add_material()
-    {
-        alert(urutanmaterial);
-        if (document.getElementById('id_quantity_material').value.length > 0 &&
-                $("#id_name_material option:selected").val() > 0
-                )
-        {
-            var checkingadamaterialsama = this.check_material();
-            //alert("checking " + checkingadamaterialsama);
-            if (checkingadamaterialsama == null || checkingadamaterialsama === 'undifined' || checkingadamaterialsama != 0)
-            {
-                urutanmaterial++;
-                // alert($("#id_name_material option:selected").text());
-                $("#id_table_material").show();
-                $("#id_body_table_material").append(
-                        "<tr id='tr_" + urutanmaterial + "'>" +
-                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='" + $("#id_name_material option:selected").text() + "'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]' placeholder='Qty Max' type='number' value='" + $("#id_quantity_material").val() + "'></div></td>" +
-                        "<td ><input readonly id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Max' type='text' value='" + $("#id_name_material option:selected").val() + "'></td>" +
-                        "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "</tr>");
-
-                checkingadamaterialsama = 1; // bikin agar isa kebaca lagi
-                //alert("urutan ke " + urutan.toString());
-                $("#id_quantity_material").val("");
-            } else
-            {
-                alert("havebeen registerd");
-            }
-        } else
-        {
-            alert("Nulls in field Materials are not allowed");
-        }
-    }
-
-    function check_material()
-    {
-        var numItems = $('.hitung').length;
-
-        var ids = $('.hitung').map(function () {
-            return $(this).attr('id');
-        });
-
-
-        while (numItems > 0)
-        {
-            if ($("#id_name_material option:selected").val() == $("#" + ids[numItems - 1]).val())
-            {
-                return 0;
-                break;
-            } else
-            {
-                numItems--;
-            }
-        }
-        return 1;
-    }
-    function remove_material_tr(y)
-    {
-        //alert($("#tr_" + y).prop("id"));
-        $("#tr_" + y).remove();
-
-        if ($('.hitung').length == 0)
-        {
-            $("#id_table_material").hide();
-        }
-    }
 
 
 

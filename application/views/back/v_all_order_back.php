@@ -4,7 +4,7 @@
     <div id="ribbon">
 
         <span class="ribbon-button-alignment"> 
-            <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"   rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
                 <i class="fa fa-refresh"></i>
             </span> 
         </span>
@@ -79,7 +79,7 @@
                             <span class="widget-icon"> <i class="fa fa-table"></i> </span>
 
 
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin" ></i></span></header>
 
                         <!-- widget div-->
                         <div role="content">
@@ -103,11 +103,12 @@
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Admin</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Cashier</th>
+                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Producer</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Member</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Promo</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Grandtotal</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
-                                              
+
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Action</th>
                                         </thead>
                                         <tbody>	
@@ -116,49 +117,45 @@
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
-                                                echo '<td>' . $hasil->id_admin . '</td>';
-                                                if($hasil->id_kasir==0){
-                                                echo '<td>-</td>';
+                                                echo '<td>' . $hasil->namaadmin . '</td>';
+                                                if ($hasil->id_kasir == 0) {
+                                                    echo '<td>-</td>';
+                                                } else {
+                                                    echo '<td>' . $hasil->id_kasir . '</td>';
                                                 }
-                                                else
-                                                {
-                                                    echo '<td>' . $hasil->id_kasir . '</td>'; 
+                                                if ($hasil->id_produser == 0) {
+                                                    echo '<td>-</td>';
+                                                } else {
+                                                    echo '<td>' . $hasil->id_produser . '</td>';
                                                 }
                                                 echo '<td>' . $hasil->namamember . '</td>';
                                                 echo '<td>' . $hasil->namapromo . '</td>';
                                                 echo '<td>' . $hasil->grandtotal . '</td>';
-                                                if($hasil->status==0){
-                                                echo '<td>Not Paid</td>';
+                                                if ($hasil->status == 0) {
+                                                    echo '<td>Not Paid</td>';
+                                                } else if ($hasil->status == 1) {
+                                                    echo '<td>Paid</td>';
+                                                } else if ($hasil->status == 2) {
+                                                    echo '<td>Producing</td>';
+                                                } else if ($hasil->status == 3) {
+                                                    echo '<td>Finish</td>';
                                                 }
-                                                else if($hasil->status==1){
-                                                echo '<td>Paid</td>';
+
+                                                echo '<td> ';
+                                                if ($hasil->status == 0) {
+                                                    echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 }
-                                                else if($hasil->status==2){
-                                                echo '<td>Producing</td>';
-                                                }
-                                                else if($hasil->status==3){
-                                                echo '<td>Finish</td>';
-                                                }
-                                                
-                                                echo '<td>   <a href="'. base_url(). 'Back/Order/Show_edit_order/'. $hasil->id.   '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>';
-                                                
                                                 echo'<span> <span>';
-                                                 echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
+//                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
-                                                 if($hasil->status==0)
-                                                 {
-                                                 echo '<a   onclick="showmodalpayment(' . $hasil->id . ')" class="fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
-                                                 
-                                                 }
-                                                 else if($hasil->status==1)
-                                                 {
-                                                 echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myProducingModal"></a>';
-                                                 }
-                                                 else if($hasil->status==2)
-                                                 {
-                                                 echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myFinishModal"></a>';
-                                                 }
-                                                 echo '</td></tr>';
+                                                if ($hasil->status == 0) {
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ','.$hasil->grandtotal.')" class="fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                } else if ($hasil->status == 1) {
+                                                    echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="fa fa-gears" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
+                                                } else if ($hasil->status == 2) {
+                                                    echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="fa fa-check" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
+                                                }
+                                                echo '</td></tr>';
                                             }
                                             ?>
                                         </tbody>
@@ -201,7 +198,7 @@
     </div>
     <!--END MAIN CONTENT -->
 
-    
+
 
     <!-- MODAL HAPUS -->
     <div class="modal fade" id="myDeleteModal" role="dialog">
@@ -228,7 +225,7 @@
 
         </div>
     </div>
-    
+
     <!--modal payment-->
     <div class="modal fade" id="myPaymentModal" role="dialog">
         <div class="modal-dialog">
@@ -244,6 +241,7 @@
 
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
                         <input hidden id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
                         <footer>
                             <input type="submit" name="button_payment" class="btn btn-primary" value="They Have Paid">
                         </footer>
@@ -354,8 +352,8 @@
                             </span>
                         </section>
                     </fieldset>
-                    
-                                         
+
+
                     <footer>
                         <input type="submit" name="button_editmaterial" class="btn btn-primary" value="Submit">
                     </footer>
@@ -366,22 +364,23 @@
 
 </div>    
 <script>
-     function showmodalpayment(idnya)
-     {
-          document.getElementById('id_paymentid').value = idnya;
-                document.getElementById('span_nama_payment').innerHTML = idnya.toString();
+    function showmodalpayment(idnya,grandtotal)
+    {
+        document.getElementById('id_paymentid').value = idnya;
+        document.getElementById('id_paymentgrandtotal').value = grandtotal;
+        document.getElementById('span_nama_payment').innerHTML = idnya.toString();
 
-     }
-     function showmodalproducing(idnya)
-     {
-          document.getElementById('id_producingid').value = idnya;
-                document.getElementById('span_nama_producing').innerHTML = idnya.toString();
+    }
+    function showmodalproducing(idnya)
+    {
+        document.getElementById('id_producingid').value = idnya;
+        document.getElementById('span_nama_producing').innerHTML = idnya.toString();
 
-     }
-     function showmodalfinish(idnya)
-     {
-          document.getElementById('id_finishid').value = idnya;
-                document.getElementById('span_nama_finish').innerHTML = idnya.toString();
+    }
+    function showmodalfinish(idnya)
+    {
+        document.getElementById('id_finishid').value = idnya;
+        document.getElementById('span_nama_finish').innerHTML = idnya.toString();
 
-     }
+    }
 </script>

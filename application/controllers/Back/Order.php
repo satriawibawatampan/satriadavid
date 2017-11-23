@@ -149,5 +149,34 @@ class Order extends CI_Controller {
             redirect('Back/Product/Show_edit_product/' . $id);
         }
     }
+    
+    public function Make_payment()
+    {
+         if ($this->input->post('button_payment')) {
+             $id = $this->input->post('name_paymentid');
+             $grandtotal = $this->input->post('name_grandtotal');
+             
+             $this->M_order->Make_payment($id,$grandtotal);
+             
+         }
+    }
+    public function Run_producing()
+    {
+         if ($this->input->post('button_producing')) {
+             $id = $this->input->post('name_producingid');
+             
+              $this->M_order->Run_producing($id);
+             
+         }
+    }
+    public function Set_finish()
+    {
+         if ($this->input->post('button_finish')) {
+             $id = $this->input->post('name_finishid');
+             
+              $this->M_order->Set_finish($id);
+             
+         }
+    }
 
 }
