@@ -50,22 +50,21 @@
 
     </head>
     <body>
-
         <div id="wrapper">
             <!-- /.navbar-static-top -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-lg-8">
-                            <span>LOGO</span><br>
-                            <span>Nama Toko</span><br>
-                            <span>Alamat</span><br>
-                            <span>No Telepon</span>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                            <span>XCELLENT</span><br>
+                            <span>ALAMAT XCELLENT</span><br>
+                            <span>(031)xxx-xxx-xx</span><br>
+                            <span>Admin <?php echo $nota['nama_admin'];?></span>
                         </div>
-                        <div class="col-lg-4" style="text-align: right">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right">
                             <span>No Nota</span><br>
-                            <span>Tanggal</span><br>
-                            <span>Nama Customer</span>
+                            <span><?php echo strftime("%d %B %Y", strtotime($nota['tanggal'])) ?></span><br>
+                            <span><?php echo $nota['nama_member'];?></span><br>
                         </div>
                     </div>
                 </div>
@@ -84,25 +83,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- <?php
-                                        if (count($nota) > 0) {
+                                        <?php
+                                        if (count($nota['produks']) > 0) {
                                             $no = 1;
-                                            foreach ($nota as $items):
+                                            foreach ($nota['produks'] as $items):
                                                 ?>
                                                 <tr class="odd gradeX">
                                                     <td><?php echo $no ?></td>
-                                                    <td><?php echo $items['kode'] ?></td>
-                                                    <td><?php echo $items['namakategori'] ?></td>
-                                                    <td><?php echo ($items['jenis'] == 1 ? "Emas Kuning" : "Emas Putih") ?></td>
-                                                    <td style='text-align: center;'><?php echo $items['berat'] ?></td>                                        
-                                                    <td style='text-align: center;'><?php echo $items['karat'] ?></td>                                        
-                                                    <td style='text-align: center;'><?php echo number_format($items['hargaJual'], 0, '', '.'); ?></td>   
+                                                    <td><?php echo $items['nama_produk'] ?></td>
+                                                    <td><?php echo $items['jumlah'] ?></td>                             
+                                                    <td style='text-align: center;'><?php echo number_format($items['harga'], 0, '', '.'); ?></td>   
                                                 </tr>
                                                 <?php
                                                 $no++;
                                             endforeach;
                                         } else {
-                                            ?> -->
+                                            ?>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
@@ -112,25 +108,46 @@
                                     ?>
                                     </tbody>
                                 </table>
-                                <div class="col-lg-4">
-                                    *Syarat dan ketentuan berlaku
-                                </div>
-                                <div class="col-lg-4">
-
-                                </div>
-                                <div class="col-lg-4">
-                                    <h4>Total Harga: Rp.10000,-</h4>
-                                </div>
                             </div> 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4" style="text-align: right; margin-right: 10px;">
-                            <span>Karyawan</span><br><br><br><br>
-                            <span>Nama Karyawan</span>
+                        <div class="col-lg-6 col-sm-6 col-xs-6">
+                            <h4> Pembayaran</h4>
+                             <table style="    
+                                    width: 100%;
+                                    max-width: 100%;
+                                    margin-bottom: 18px;
+                                    border-collapse: collapse;
+                                    border-spacing: 0;
+                                    display: table;">
+                                <?php
+                                    if (count($nota['pembayaran']) > 0) {
+                                        $no = 1;
+                                        foreach ($nota['pembayaran'] as $items):
+                                            ?>
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                    <?php 
+                                                        if($items['tipe'] == "1"){
+                                                             echo "LUNAS";
+                                                        }else if($items['tipe'] == "2"){
+                                                            echo "CICILAN";
+                                                        }
+                                                ?>
+                                                </td>       
+                                                <td style='text-align: left;'>Rp.<?php echo number_format($items['jumlah'], 0, '', '.'); ?>,-</td>   
+                                            </tr>
+                                            <?php
+                                            $no++;
+                                        endforeach;
+                                    } ?>
+                            </table>
                         </div>
-                        <div class="col-lg-4">
-
+                         <div class="col-lg-2  col-sm-2 col-xs-2">
+                        </div>
+                        <div class="col-lg-4  col-sm-4 col-xs-4" style="text-align: center;">
+                            <h4>Total Harga: Rp.<?php echo number_format($nota['grandtotal'],0,'','.'); ?>,-</h4>
                         </div>
                     </div>
                 </div>

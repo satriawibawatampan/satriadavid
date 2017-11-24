@@ -253,4 +253,37 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
     }
 
+    function get_printByIdNota($id_notajual){
+        $sql = "SELECT nj.*, a.nama as nama_admin, m.nama as nama_member
+                FROM notajual nj, admin a, member m
+                WHERE nj.id = ? AND nj.id_admin = a.id AND nj.id_member = m.id";
+        $result = $this->db->query($sql, array($id_notajual));
+
+        $nota = $result->row_array();
+        if(count($nota) > 0){
+            //Get Barang By Nota
+            $barangs = $this->M_product->get_productNotaJualByIdNota($id_notajual);
+            if(count($barangs) > 0){
+                $nota['produks'] = $barangs;
+            }else{
+                $nota['produks'] = [];
+            }
+            //Get Pembayaran By Nota
+            $pembayaran = $this->get_pembayaranByIdNota($id_notajual);
+            if(count($pembayaran) > 0){
+                $nota['pembayaran'] = $pembayaran;
+            }else{
+                $nota['pembayaran'] = [];
+            }
+        }
+        return $nota;
+    }
+
+    function get_pembayaranByIdNota($id_notajual){
+        $sql = "SELECT p.* FROM pembayaran p WHERE p.id_notajual = ?";
+        $result = $this->db->query($sql, array($id_notajual));
+        $hasil = $result->result_array();
+        return $hasil;
+    }
+
 }

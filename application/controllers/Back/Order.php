@@ -44,10 +44,20 @@ class Order extends CI_Controller {
 //       
     }
 
-    public function prints() {
-
-
-        $this->load->view('back/v_print');
+    public function prints($id_nota) {
+        $nota = $this->M_order->get_printByIdNota($id_nota);
+        $data = array(
+            "nota" => $nota
+        );
+        if(count($nota) > 0){
+            $this->load->view('back/v_print',$data);
+        }else {
+             $this->load->view('back/v_head_admin_back');
+            $this->load->view('back/v_header_back');
+            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_printNoData');
+            $this->load->view('back/v_footer_back');
+        }
     }
 
     public function Show_add_order_note() {

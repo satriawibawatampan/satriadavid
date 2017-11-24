@@ -190,6 +190,15 @@ class M_product extends CI_Model {
         return $products2;
     }
 
+    public function get_productNotaJualByIdNota($id_notajual){
+        $sql = "SELECT np.*, p.nama as nama_produk 
+                FROM notajual_produk np, produk p
+                WHERE np.id_produk = p.id AND np.id_notajual = ?";
+        $result = $this->db->query($sql, array($id_notajual));
+        $hasil = $result->result_array();
+        return $hasil;
+    }
+
     function Json_get_material($id) {
         $this->db->select("material.nama as namamaterial, produk_material.id_material as idmaterial, produk_material.jumlah as jumlahmaterial ");
         $this->db->from("material");
