@@ -161,6 +161,7 @@ class M_product extends CI_Model {
             }
             array_push($kategori2, $itemkategori);
         }
+        //print_r($kategori2);        exit();
 
         return $kategori2;
     }

@@ -44,7 +44,7 @@ class Order extends CI_Controller {
 //       
     }
 
-    public function print() {
+    public function prints() {
 
 
         $this->load->view('back/v_print');

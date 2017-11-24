@@ -338,7 +338,7 @@
 
                                                                     tampung.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
                                                                     tampungall.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
-                                                                  
+                                                                    detailmaterial[b]['stok'] = detailmaterial[b]['stok'] -  needed[a];
                                                                     needed[a] = 0;
                                                                     break;
 
@@ -348,9 +348,9 @@
                                                                     tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
                                                                     tampungall.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
                                                                     
-                                                                    var neededsementara = needed[a];
+                                                                   // var neededsementara = needed[a];
                                                                     needed[a] = needed[a] - detailmaterial[b]['stok'];
-                                                                    detailmaterial[b]['stok'] = detailmaterial[b]['stok']-neededsementara;
+                                                                    detailmaterial[b]['stok'] = 0;
                                                                 }
 
                                                             } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1[a] > 0)
@@ -493,7 +493,7 @@
                                     //alert("urutan ke " + urutan.toString());
                                    
 
-                                    check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
+                                  //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
                                      $("#id_quantity").val(1);
                                 } else
                                 {
