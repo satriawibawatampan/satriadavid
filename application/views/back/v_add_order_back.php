@@ -486,7 +486,7 @@
                                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
-                                            "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); readd_detailmaterial(" + $("#id_product option:selected").val() + ");' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                                            "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
                                             "</tr>");
                                     urutanproduct++;
                                     checkingadaproduksama = 1; // bikin agar isa kebaca lagi
@@ -562,16 +562,20 @@
                                 var counterwhile = 1;
                                 while (numItems > 0)
                                 {
+                                    
+                                   
 
                                     if ($("#id_txt_id_product_" + counterwhile).length > 0)
                                     {
                                         products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val()});
                                         numItems--;
+                                        
+                                        
                                     }
                                     counterwhile++;
 
                                 }
-
+                                
 //                               
 
                                 var grandtotals = $('#id_grandtotal').val();
@@ -598,7 +602,7 @@
                                     },
                                     success: function (result) {
                                         //ini kalau mau ambil 1 data saja sudah bisa.
-                                        alert("hore sukses" + result);
+                                        alert(result);
 
                                         $("#id_quantity").val(1);
                                         $("#id_body_table").empty();

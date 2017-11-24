@@ -202,7 +202,7 @@ class M_product extends CI_Model {
         return $query->result();
     }
     function Json_get_material_array($id) {
-        $this->db->select("material.nama as namamaterial, produk_material.id_material as idmaterial, produk_material.jumlah as jumlahmaterial ");
+        $this->db->select("material.nama as namamaterial, produk_material.id_material as idmaterial, produk_material.jumlah as jumlahmaterial , produk.nama as namaproduk ");
         $this->db->from("material");
         $this->db->join("produk_material", "produk_material.id_material = material.id");
         $this->db->join("produk", "produk_material.id_produk = produk.id");
