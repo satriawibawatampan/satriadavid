@@ -275,26 +275,55 @@
                 e.preventDefault();
             });
             alert("Null is not Allowed");
-        } 
-        else if (new Date($("#id_datetime_start").val()).getTime() > new Date($("#id_datetime_end").val()).getTime())
+
+        } else if (new Date($("#id_datetime_start").val()).getTime() > new Date($("#id_datetime_end").val()).getTime())
         {
             $("form").submit(function (e) {
                 e.preventDefault();
             });
             alert("Start must be lower than End");
-        }
-
-        else if ($('.hitung').length == 0)
+        } else if ($('.hitung').length == 0)
         {
             $("form").submit(function (e) {
                 e.preventDefault();
             });
             alert("Register the product first");
-        }
-        else
+        } else
         {
-        
-            document.getElementById("smart-form-register").submit();
+            var datestart = $("#id_datetime_start").val();
+            var dateend = $("#id_datetime_end").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Promo/Check_for_register_promo",
+                dataType: "json",
+                data: {
+
+                    start: datestart,
+                    end: dateend
+
+                },
+                success: function (result) {
+
+                    //alert(result[0]['kode'] == 1);
+                    if (result[0]['kode'] == 0)
+                    {
+                        alert("There is another promo on that days");
+                    } else if (result[0]['kode'] == 1)
+                    {
+                        document.getElementById("smart-form-register").submit();
+
+                    }
+
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
+
+
         }
 
     }

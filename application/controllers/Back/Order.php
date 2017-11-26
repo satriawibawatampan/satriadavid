@@ -108,8 +108,10 @@ class Order extends CI_Controller {
          $totaldiskon = $this->input->post("totaldiskon");
          
         // echo $products[0]['harga']; exit();
-     
-        $this->M_order->Add_order_note($data,$products,$member,$grandtotal,$promo,$totaldiskon);
+        
+        $bolehtambah = $this->M_order->Add_order_note($data,$products,$member,$grandtotal,$promo,$totaldiskon);
+
+        echo json_encode($bolehtambah);
     }
 
     public function Json_get_product_by_category($id) {

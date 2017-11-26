@@ -130,7 +130,9 @@ class M_material extends CI_Model {
         $this->db->join('material', 'detailmaterial.id_material = material.id');
         $this->db->where('id_material', $id);
         $this->db->where('material.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->order_by('material.id', 'asc');
         $this->db->order_by('detailmaterial.createdat', 'asc');
+        $this->db->order_by('detailmaterial.stok', 'asc');
         $query = $this->db->get();
         return $query->result();
     }

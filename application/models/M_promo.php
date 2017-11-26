@@ -39,6 +39,8 @@ class M_promo extends CI_Model {
         $this->db->trans_complete();
     }
 
+    
+
     function Get_all_promo() {
         $this->db->select('promo.*');
         $this->db->from('promo');
@@ -65,8 +67,9 @@ class M_promo extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-     function Get_promo_product_now() {
-         
+
+    function Get_promo_product_now() {
+
         date_default_timezone_set('Asia/Jakarta');
 //          print_r( date('Y-m-d'));   exit();
         $this->db->select('promo_produk.*');
@@ -79,9 +82,7 @@ class M_promo extends CI_Model {
         return $query->result_array();
     }
 
-    
-
-    function Edit_promo($id,$name, $start, $end,  $product, $discount) {
+    function Edit_promo($id, $name, $start, $end, $product, $discount) {
         $this->db->trans_start();
         date_default_timezone_set('Asia/Jakarta');
 
@@ -98,7 +99,6 @@ class M_promo extends CI_Model {
             'statusaktif' => 1,
             'awal' => $start,
             'akhir' => $end,
-           
         );
         $this->db->where('id', $id);
         $this->db->update('promo', $data);
@@ -117,7 +117,7 @@ class M_promo extends CI_Model {
             $this->db->insert('promo_produk', $data2);
         }
 
-       
+
         $this->db->trans_complete();
     }
 

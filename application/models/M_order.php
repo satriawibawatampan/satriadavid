@@ -74,7 +74,7 @@ class M_order extends CI_Model {
                 if ($needed[$m] > 0) {
                     $bolehtambah = false;
                     $namaproduktidakcukup = $produk_material[$m]['namaproduk'];
-                     print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
+                     
                     //  exit();
                     break;
                 }
@@ -84,7 +84,7 @@ class M_order extends CI_Model {
 
                     $bolehtambah = false;
                     $namaproduktidakcukup = $produk_material[$m]['namaproduk'];
-                     print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
+                    // print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
                     //print_r("needed1 ada yang isi");
                     // exit();
                     break;
@@ -94,8 +94,10 @@ class M_order extends CI_Model {
             if ($bolehtambah == false) {
 
                 $this->db->trans_rollback();
-                $a = 'salah';
-                return $a;
+                return 0;
+                //print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
+                
+               // return $a;
                 // print_r("needed ada yang isi lalal");
             } else if ($bolehtambah == true) {
 
@@ -116,7 +118,7 @@ class M_order extends CI_Model {
                 $this->db->insert('notajual', $data);
                 $order_id = $this->db->insert_id();
 
-
+                print_r($order_id);                exit();
 
                 //get hpp to input to notajual_produk
                 $sql = " SELECT  sum(material.hargapokok*" . $products[$x]['jumlah'] . ") as total
@@ -161,6 +163,8 @@ class M_order extends CI_Model {
                     $this->db->where('id', $tampung[$t]['id']);
                     $this->db->update('detailmaterial');
                 }
+                
+               
                 // print_r($tampung);
                 // exit();
             }
@@ -177,6 +181,7 @@ class M_order extends CI_Model {
 
 
         $this->db->trans_complete();
+         return 1;
     }
 
     function Get_all_order() {

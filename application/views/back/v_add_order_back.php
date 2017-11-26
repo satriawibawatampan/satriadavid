@@ -287,9 +287,9 @@
 
                         function check_material_availability($idproduk, $qty)
                         {
-                            
-                        
-                        $qtys= parseFloat( $("#id_quantity").val());
+
+
+                            $qtys = parseFloat($("#id_quantity").val());
                             detailmaterial = [];
                             produk_material = [];
 
@@ -311,68 +311,66 @@
 
                                             var tampung = [];
                                             var stoktersedia = true;
-                                            
-                                              var needed = [];
-                                                    var neededtipe1 = [];
 
-                                            
+                                            var needed = [];
+                                            var neededtipe1 = [];
+
+
                                             for (a = 0; a < produk_material.length; a++)
                                             {
-                                                
-                                                  //var tes = $("#id_quantity").val();
-                                                  
-                                                  
-                                                    needed[a] = produk_material[a]['jumlahmaterial'] * $qtys ;
-                                                    neededtipe1[a] = $qtys;
 
-                                                    for (b = 0; b < detailmaterial.length; b++)
+                                                //var tes = $("#id_quantity").val();
+
+
+                                                needed[a] = produk_material[a]['jumlahmaterial'] * $qtys;
+                                                neededtipe1[a] = $qtys;
+
+                                                for (b = 0; b < detailmaterial.length; b++)
+                                                {
+                                                    if (produk_material[a]['idmaterial'] == detailmaterial[b]['id_material'])
                                                     {
-                                                        if (produk_material[a]['idmaterial'] == detailmaterial[b]['id_material'])
+                                                        if (detailmaterial[b]['tipe'] == 2)
                                                         {
-                                                            if (detailmaterial[b]['tipe'] == 2)
+                                                            neededtipe1[a] = 0;
+
+                                                            if (needed[a] <= detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
                                                             {
-                                                                neededtipe1[a] = 0;
 
-                                                                if (needed[a] <= detailmaterial[b]['stok']  && detailmaterial[b]['stok'] > 0)
-                                                                {
-
-                                                                    tampung.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
-                                                                    tampungall.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
-                                                                    detailmaterial[b]['stok'] = detailmaterial[b]['stok'] -  needed[a];
-                                                                    needed[a] = 0;
-                                                                    break;
-
-                                                                } else if (needed[a] > detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
-                                                                {
-
-                                                                    tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
-                                                                    tampungall.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
-                                                                    
-                                                                   // var neededsementara = needed[a];
-                                                                    needed[a] = needed[a] - detailmaterial[b]['stok'];
-                                                                    detailmaterial[b]['stok'] = 0;
-                                                                }
-
-                                                            } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1[a] > 0)
-                                                            {
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
+                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - needed[a];
                                                                 needed[a] = 0;
+                                                                break;
+
+                                                            } else if (needed[a] > detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
+                                                            {
+
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
+
+                                                                // var neededsementara = needed[a];
+                                                                needed[a] = needed[a] - detailmaterial[b]['stok'];
+                                                                detailmaterial[b]['stok'] = 0;
+                                                            }
+
+                                                        } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1[a] > 0)
+                                                        {
+                                                            needed[a] = 0;
 
 
-                                                                if (detailmaterial[b]['stok'] < produk_material[a]['jumlahmaterial'])
-                                                                {
+                                                            if (detailmaterial[b]['stok'] < produk_material[a]['jumlahmaterial'])
+                                                            {
 
 
-                                                                } else if (detailmaterial[b]['stok'] >= produk_material[a]['jumlahmaterial'])
-                                                                {
-                                                                    //kurangi detailmaterial
-                                                                    detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
-                                                                    tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
-                                                                    tampungall.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
-                                                                    neededtipe1[a]--;
+                                                            } else if (detailmaterial[b]['stok'] >= produk_material[a]['jumlahmaterial'])
+                                                            {
+                                                                //kurangi detailmaterial
+                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
+                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
+                                                                neededtipe1[a]--;
 
 
-
-                                                                }
 
                                                             }
 
@@ -380,28 +378,30 @@
 
                                                     }
 
-                                                
+                                                }
+
+
 
                                             }
-                                            
+
                                             var bolehtambah = true;
-                                            for($y = 0; $y<needed.length; $y++)
+                                            for ($y = 0; $y < needed.length; $y++)
                                             {
-                                                if(needed[$y]>0)
+                                                if (needed[$y] > 0)
                                                 {
-                                                remove_product_tr(urutanproduct-1);
-                                                     alert("Not Enough Stock");
-                                                     bolehtambah=false;
-                                                     break;
+                                                    remove_product_tr(urutanproduct - 1);
+                                                    alert("Not Enough Stock");
+                                                    bolehtambah = false;
+                                                    break;
                                                 }
                                             }
-                                            for($w = 0; $w<neededtipe1.length; $w++)
+                                            for ($w = 0; $w < neededtipe1.length; $w++)
                                             {
-                                                if(neededtipe1[$w]>0)
+                                                if (neededtipe1[$w] > 0)
                                                 {
-                                                     alert("Not Enough Stock");
-                                                     bolehtambah=false;
-                                                     break;
+                                                    alert("Not Enough Stock");
+                                                    bolehtambah = false;
+                                                    break;
                                                 }
                                             }
 
@@ -420,7 +420,7 @@
                                                 alert("Not Enough Stock");
 
 
-                                            } else if (bolehtambah==true)
+                                            } else if (bolehtambah == true)
                                             {
                                                 var y = JSON.stringify(tampung);
                                                 $.ajax({
@@ -491,10 +491,10 @@
                                     urutanproduct++;
                                     checkingadaproduksama = 1; // bikin agar isa kebaca lagi
                                     //alert("urutan ke " + urutan.toString());
-                                   
 
-                                  //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
-                                     $("#id_quantity").val(1);
+
+                                    //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
+                                    $("#id_quantity").val(1);
                                 } else
                                 {
                                     alert("have been registerd");
@@ -562,20 +562,20 @@
                                 var counterwhile = 1;
                                 while (numItems > 0)
                                 {
-                                    
-                                   
+
+
 
                                     if ($("#id_txt_id_product_" + counterwhile).length > 0)
                                     {
                                         products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val()});
                                         numItems--;
-                                        
-                                        
+
+
                                     }
                                     counterwhile++;
 
                                 }
-                                
+
 //                               
 
                                 var grandtotals = $('#id_grandtotal').val();
@@ -602,7 +602,10 @@
                                     },
                                     success: function (result) {
                                         //ini kalau mau ambil 1 data saja sudah bisa.
-                                        alert(result);
+                                        //if (result == "asd")
+                                        
+                                            alert(result);
+                                        
 
                                         $("#id_quantity").val(1);
                                         $("#id_body_table").empty();
