@@ -113,6 +113,21 @@ class Order extends CI_Controller {
 
         echo json_encode($bolehtambah);
     }
+    public function Edit_order_note() {
+         //$data = $this->input->post("data");
+         $id = $this->input->post("idorderan");
+         $products = $this->input->post("product");
+         $member = $this->input->post("member");
+         $grandtotal = $this->input->post("grandtotal");
+         $promo = $this->input->post("promo");
+         $totaldiskon = $this->input->post("totaldiskon");
+         
+        // echo $products[0]['harga']; exit();
+        
+        $bolehtambah = $this->M_order->Edit_order_note($id,$products,$member,$grandtotal,$promo,$totaldiskon);
+
+        echo json_encode($bolehtambah);
+    }
 
     public function Json_get_product_by_category($id) {
         $data = $this->M_product->Get_all_product_where_category($id);

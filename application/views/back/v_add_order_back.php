@@ -587,7 +587,7 @@
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Order/Add_order_note",
-
+                                    datatype : "json",
                                     data: {
                                         data: tampungall,
                                         product: products,
@@ -603,20 +603,30 @@
                                     success: function (result) {
                                         //ini kalau mau ambil 1 data saja sudah bisa.
                                         //if (result == "asd")
-                                        
+
+
+
+                                        if (result == 1)
+                                        {
+                                            alert("Transaction Success");
+                                            $("#id_quantity").val(1);
+                                            $("#id_body_table").empty();
+                                            $("#id_total_discount").val(0);
+                                            $("#id_grandtotal").val(0);
+
+                                            urutanproduct = 1;
+                                            detailmaterial = [];
+                                            produk_material = [];
+
+                                            tampungall = [];
+                                        }
+                                        if (result == 0)
+                                        {
                                             alert(result);
-                                        
+                                        }
 
-                                        $("#id_quantity").val(1);
-                                        $("#id_body_table").empty();
-                                        $("#id_total_discount").val(0);
-                                        $("#id_grandtotal").val(0);
 
-                                        urutanproduct = 1;
-                                        detailmaterial = [];
-                                        produk_material = [];
 
-                                        tampungall = [];
 
 
 
