@@ -30,10 +30,14 @@ class Product extends CI_Controller {
 
     public function index() {
 
+        $navigation=array(
+            "menu" => "produk",
+            "submenu" => "add"
+        );
 
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_product_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -44,9 +48,13 @@ class Product extends CI_Controller {
     public function Show_add_product() {
         $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
         $data['listmaterial'] = $this->M_material->Get_all_material();
+        $navigation=array(
+            "menu" => "produk",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_product_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -58,9 +66,14 @@ class Product extends CI_Controller {
         //    print_r( $data['dataproduct']); exit();
         $data['dataproductmaterial'] = $this->M_product->Get_product_material($id);
         $data['dataharga'] = $this->M_harga->Get_harga($id);
+
+        $navigation=array(
+            "menu" => "produk",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_edit_product_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -69,9 +82,13 @@ class Product extends CI_Controller {
         $data['tableproduct'] = $this->M_product->Get_all_product();
          //print_r($data['tableproduct']);exit();
         // $data['tableprice'] = $this->M_product->Get_price();
+        $navigation=array(
+            "menu" => "produk",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_product_back', $data);
         $this->load->view('back/v_footer_back');
     }

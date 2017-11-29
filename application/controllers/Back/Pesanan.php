@@ -30,9 +30,13 @@ class Pesanan extends CI_Controller {
 
         $data['tablepesanan'] = $this->M_pesanan->Show_all_pesanan();
 
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_pesanan_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -40,9 +44,13 @@ class Pesanan extends CI_Controller {
     public function Show_all_pesanan() {
         $data['tablepesanan'] = $this->M_pesanan->Show_all_pesanan();
 
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_pesanan_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -50,9 +58,13 @@ class Pesanan extends CI_Controller {
     public function Show_one_pesanan_barang($idpesanan) {
         $data['tablepesananbarang'] = $this->M_pesanan->Show_one_pesanan_barang($idpesanan);
 
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_pesananbarang_back', $data);
         $this->load->view('back/v_footer_back');
     }

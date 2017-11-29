@@ -25,9 +25,14 @@ class Supplier extends CI_Controller {
     public function index() {
 
         $data['listsupplier'] = $this->M_supplier->get_all_supplier();
+
+        $navigation=array(
+            "menu" => "supplier",
+            "submenu" => "supplier"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_supplier_back', $data);
         
         $this->load->view('back/v_footer_back');
@@ -46,9 +51,13 @@ class Supplier extends CI_Controller {
 
                 $data['listsupplier'] = $this->M_supplier->get_all_supplier();
 
+                $navigation=array(
+                    "menu" => "supplier",
+                    "submenu" => "supplier"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_supplier_back', $data);
                 $this->load->view('back/v_footer_back');
                 //  $this->load->view('back/script/s_branch');

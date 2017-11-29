@@ -810,3 +810,10 @@
 
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('#datatable_col_reorder').DataTable({
+            "order": [[7, "desc"]]
+        });
+    });
+</script>

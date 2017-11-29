@@ -26,10 +26,14 @@ class Member extends CI_Controller {
 
     public function index() {
 
-
+        //GA ADA PAGE
+        $navigation=array(
+            "menu" => "member",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_main_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -38,18 +42,26 @@ class Member extends CI_Controller {
     }
 
     public function Show_add_member() {
+        $navigation=array(
+            "menu" => "member",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_member_back');
         $this->load->view('back/v_footer_back');
     }
 
     public function Show_all_member() {
         $data['tablemember'] = $this->M_member->Show_all_member();
+        $navigation=array(
+            "menu" => "member",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_member_back',$data);
         $this->load->view('back/v_footer_back');
     }
@@ -67,10 +79,13 @@ class Member extends CI_Controller {
 
 
             if ($this->form_validation->run() == FALSE) {
-
+                $navigation=array(
+                    "menu" => "member",
+                    "submenu" => "add"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_add_member_back');
                 $this->load->view('back/v_footer_back');
             } else {

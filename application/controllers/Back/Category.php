@@ -29,10 +29,13 @@ class Category extends CI_Controller {
 
     public function index() {
         $data['tablekategori'] = $this->M_kategori->Show_all_category();
-
+        $navigation=array(
+            "menu" => "category",
+            "submenu" => "category"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_category_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -45,10 +48,13 @@ class Category extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
 
                 $data['tablekategori'] = $this->M_kategori->Show_all_category();
-
+                $navigation=array(
+                    "menu" => "category",
+                    "submenu" => "category"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_category_back', $data);
                 $this->load->view('back/v_footer_back');
             } else {

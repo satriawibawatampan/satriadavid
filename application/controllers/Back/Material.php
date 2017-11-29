@@ -28,10 +28,13 @@ class Material extends CI_Controller {
 
     public function index() {
 
-
+        $navigation=array(
+            "menu" => "material",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_material_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -40,9 +43,13 @@ class Material extends CI_Controller {
     }
 
     public function Show_add_material() {
+        $navigation=array(
+            "menu" => "material",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_material_back');
         $this->load->view('back/v_footer_back');
     }
@@ -50,9 +57,13 @@ class Material extends CI_Controller {
     public function Show_all_material() {
         $data['tablematerial'] = $this->M_material->Show_all_material($this->session->userdata['xcellent_cabang']);
 
+        $navigation=array(
+            "menu" => "material",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_material_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -61,9 +72,13 @@ class Material extends CI_Controller {
         $data['datamaterial'] = $this->M_material->Json_get_one_material($id);
         $data['datadetailmaterial'] = $this->M_material->Json_get_detail_material($id);
 
+        $navigation=array(
+            "menu" => "material",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_edit_material_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -80,10 +95,13 @@ class Material extends CI_Controller {
 
 
             if ($this->form_validation->run() == FALSE) {
-
+                $navigation=array(
+                    "menu" => "material",
+                    "submenu" => "add"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_add_material_back');
                 $this->load->view('back/v_footer_back');
             } else {

@@ -24,10 +24,15 @@ class Branch extends CI_Controller {
 
     public function index() {
 
-          $data['listbranch'] = $this->M_branch->get_all_branch();
+        $data['listbranch'] = $this->M_branch->get_all_branch();
+
+        $navigation=array(
+            "menu" => "profile",
+            "submenu" => "branch"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_change_branch_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -35,9 +40,13 @@ class Branch extends CI_Controller {
     public function Show_change_branch() {
 
         $data['listbranch'] = $this->M_branch->get_all_branch();
+        $navigation=array(
+            "menu" => "profile",
+            "submenu" => "branch"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_change_branch_back', $data);
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/script/s_branch');
@@ -51,10 +60,13 @@ class Branch extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
 
                 $data['listbranch'] = $this->M_branch->get_all_branch();
-
+                $navigation=array(
+                    "menu" => "profile",
+                    "submenu" => "branch"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_change_branch_back', $data);
                 $this->load->view('back/v_footer_back');
                 //  $this->load->view('back/script/s_branch');

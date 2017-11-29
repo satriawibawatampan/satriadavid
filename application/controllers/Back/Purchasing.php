@@ -31,9 +31,13 @@ class Purchasing extends CI_Controller {
     public function index() {
 
 
+        $navigation=array(
+            "menu" => "purchasing",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_purchasing_note_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -45,9 +49,14 @@ class Purchasing extends CI_Controller {
 
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+
+        $navigation=array(
+            "menu" => "purchasing",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -55,9 +64,14 @@ class Purchasing extends CI_Controller {
     public function Show_all_purchasing_note() {
         $data['tablepurchasingnote'] = $this->M_purchasing->Get_all_purchasing_note();
         // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+
+        $navigation=array(
+            "menu" => "purchasing",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -65,9 +79,14 @@ class Purchasing extends CI_Controller {
     public function Show_detail_purchasing_note($id) {
         $data['tablepurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
         // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
+
+        $navigation=array(
+            "menu" => "purchasing",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_detail_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -77,7 +96,7 @@ class Purchasing extends CI_Controller {
         // $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
         $this->load->view('back/v_head_admin_back');
         // $this->load->view('back/v_header_back');
-        //$this->load->view('back/v_navigation_back');
+        //$this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_print_one_purchasing_note_back', $data);
         // $this->load->view('back/v_footer_back');
     }
@@ -86,9 +105,14 @@ class Purchasing extends CI_Controller {
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $data['listsupplier'] = $this->M_supplier->Get_all_supplier();
         $data['datapurchasingnote'] = $this->M_purchasing->Get_detail_purchasing_note($id);
+
+        $navigation=array(
+            "menu" => "purchasing",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_edit_purchasing_note_back', $data);
         $this->load->view('back/v_footer_back');
     }

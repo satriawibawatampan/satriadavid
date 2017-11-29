@@ -25,10 +25,14 @@ class Admin extends CI_Controller {
 
     public function index() {
 
-
+        //INI GA ADA PAGE
+        $navigation=array(
+                    "menu" => "admin",
+                    "submenu" => "main"
+                );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_main_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -41,9 +45,14 @@ class Admin extends CI_Controller {
 
             $data['listbranch'] = $this->M_branch->Get_all_branch();
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
+
+            $navigation=array(
+                    "menu" => "admin",
+                    "submenu" => "add"
+                );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_add_admin_back', $data);
             $this->load->view('back/v_footer_back');
         } else {
@@ -58,9 +67,14 @@ class Admin extends CI_Controller {
             $data['listbranch'] = $this->M_branch->Get_all_branch();
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
             $data['tableadmin'] = $this->M_admin->Show_all_admin();
+
+            $navigation=array(
+                    "menu" => "admin",
+                    "submenu" => "all"
+                );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_all_admin_back', $data);
             $this->load->view('back/v_footer_back');
         } else {
@@ -84,9 +98,13 @@ class Admin extends CI_Controller {
                 if ($this->form_validation->run() == FALSE) {
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
                     $data['listbranch'] = $this->M_branch->Get_all_branch();
+                    $navigation=array(
+                        "menu" => "admin",
+                        "submenu" => "add"
+                    );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');
-                    $this->load->view('back/v_navigation_back');
+                    $this->load->view('back/v_navigation_back', $navigation);
                     $this->load->view('back/v_add_admin_back', $data);
                     $this->load->view('back/v_footer_back');
                 } else {
@@ -120,9 +138,13 @@ class Admin extends CI_Controller {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
 
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
+            $navigation=array(
+                    "menu" => "admin",
+                    "submenu" => "type"
+                );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_admintype_back', $data);
             $this->load->view('back/v_footer_back');
         } else {
@@ -138,9 +160,13 @@ class Admin extends CI_Controller {
 
 
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
+                    $navigation=array(
+                        "menu" => "admin",
+                        "submenu" => "type"
+                    );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');
-                    $this->load->view('back/v_navigation_back');
+                    $this->load->view('back/v_navigation_back', $navigation);
                     $this->load->view('back/v_admintype_back', $data);
                     $this->load->view('back/v_footer_back');
                 } else {

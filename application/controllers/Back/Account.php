@@ -15,10 +15,6 @@ class Account extends CI_Controller {
         $this->load->helper(array('form', 'url', 'string'));
         $this->load->library('form_validation');
 
-
-
-
-
 //        
     }
 
@@ -112,10 +108,13 @@ class Account extends CI_Controller {
 
             //jika gagal form validation
             if ($this->form_validation->run() == FALSE) {
-
+                $navigation=array(
+                    "menu" => "profile",
+                    "submenu" => "changepassword"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_change_password_back');
                 $this->load->view('back/v_footer_back');
             } else {
@@ -154,9 +153,13 @@ class Account extends CI_Controller {
     public function Show_change_password() {
 
         if (isset($this->session->userdata['xcellent_id'])) {
+            $navigation=array(
+                    "menu" => "profile",
+                    "submenu" => "changepassword"
+            );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_change_password_back');
             $this->load->view('back/v_footer_back');
         } else {

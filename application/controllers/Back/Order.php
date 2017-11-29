@@ -33,10 +33,13 @@ class Order extends CI_Controller {
 
     public function index() {
 
-
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_order_back');
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -52,9 +55,13 @@ class Order extends CI_Controller {
         if(count($nota) > 0){
             $this->load->view('back/v_print',$data);
         }else {
-             $this->load->view('back/v_head_admin_back');
+            $navigation=array(
+                "menu" => "order",
+                "submenu" => "all"
+            );
+            $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back');
+            $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_printNoData');
             $this->load->view('back/v_footer_back');
         }
@@ -67,9 +74,13 @@ class Order extends CI_Controller {
         $data['listpromo']= $this->M_promo->Get_promo_product_now();
       //  print_r($data['listpromo']);   exit();
 //   
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_order_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -82,19 +93,26 @@ class Order extends CI_Controller {
         $data['listorderproduk']=$this->M_order->Get_order_product($id);
            // print_r( $data['listorderproduk']); exit();
        
+       $navigation=array(
+            "menu" => "order",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_edit_order_back', $data);
         $this->load->view('back/v_footer_back');
     }
 
     public function Show_all_order_note() {
         $data['tableorder'] = $this->M_order->Get_all_order();
-        
+        $navigation=array(
+            "menu" => "order",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_order_back', $data);
         $this->load->view('back/v_footer_back');
     }

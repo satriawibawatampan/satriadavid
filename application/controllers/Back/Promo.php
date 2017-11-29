@@ -28,9 +28,14 @@ class Promo extends CI_Controller {
 
     public function index() {
         $data['listproduct'] = $this->M_product->Get_all_product();
+
+        $navigation=array(
+            "menu" => "promo",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_promo_back', $data);
         $this->load->view('back/v_footer_back');
         //  $this->load->view('back/v_blank');
@@ -41,9 +46,13 @@ class Promo extends CI_Controller {
     public function Show_add_promo() {
         $data['listproduct'] = $this->M_product->Get_all_product();
 
+        $navigation=array(
+            "menu" => "promo",
+            "submenu" => "add"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_promo_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -52,9 +61,13 @@ class Promo extends CI_Controller {
         $data['listproduct'] = $this->M_product->Get_all_product();
         $data['datapromo'] = $this->M_promo->Get_one_promo($id);
         $data['datapromoproduct'] = $this->M_promo->Get_promo_product($id);
+        $navigation=array(
+            "menu" => "promo",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_edit_promo_back', $data);
         $this->load->view('back/v_footer_back');
     }
@@ -62,9 +75,13 @@ class Promo extends CI_Controller {
     public function Show_all_promo() {
         $data['tablepromo'] = $this->M_promo->Get_all_promo();
         // $data['tableprice'] = $this->M_product->Get_price();
+        $navigation=array(
+            "menu" => "promo",
+            "submenu" => "all"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_promo_back', $data);
         $this->load->view('back/v_footer_back');
     }

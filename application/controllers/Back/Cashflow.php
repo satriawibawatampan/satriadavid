@@ -25,9 +25,13 @@ class Cashflow extends CI_Controller {
     public function index() {
 
         $data['listsupplier'] = $this->M_supplier->Get_all_cashflow();
+        $navigation=array(
+            "menu" => "supplier",
+            "submenu" => "supplier"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_supplier_back', $data);
 
         $this->load->view('back/v_footer_back');
@@ -45,9 +49,13 @@ class Cashflow extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
 
                 $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
+                $navigation=array(
+                    "menu" => "other",
+                    "submenu" => "cashflow"
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_all_cashflow_back', $data);
 
                 $this->load->view('back/v_footer_back');
@@ -71,9 +79,13 @@ class Cashflow extends CI_Controller {
 
     public function Show_all_cashflow() {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
+        $navigation=array(
+            "menu" => "other",
+            "submenu" => "cashflow"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_cashflow_back', $data);
 
         $this->load->view('back/v_footer_back');
