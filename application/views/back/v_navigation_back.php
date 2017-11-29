@@ -20,8 +20,6 @@
                         <?php echo $_SESSION['xcellent_name']; ?>
                         , ID : 
                         <?php echo $_SESSION['xcellent_id']; ?>
-
-                        <?php echo $menu ."--". $submenu; ?>
                     </span> 
                 </a>
                 <ul>
