@@ -1195,3 +1195,8 @@
 	</body>
 
 </html>
+
+<?php 
+$var = "adasdasdadada";
+
+?>
