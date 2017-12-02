@@ -32,6 +32,10 @@
                         <li class="<?php if ($menu == "profile" && $submenu == "branch") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Branch/Show_change_branch" ><span class="menu-item-parent">Change Branch</span></a>
                         </li>
+                         <li>
+                            <a href="<?php echo base_url(); ?>Back/Payment/index"><i class=""></i> <span class="menu-item-parent">Payment</span></a>
+
+                        </li>
                     <?php } ?>
                     <li class="<?php if ($menu == "profile" && $submenu == "password") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Account/Show_change_password" ><span class="menu-item-parent">Change Password</span></a>
@@ -174,7 +178,7 @@
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
                         <li>
-                            <a href="<?php echo base_url(); ?>Back/Category/index"><i class="fa fa-lg fa-fw fa-puzzle-piece"></i> <span class="menu-item-parent">Category</span></a>
+                            <a href="<?php echo base_url(); ?>Back/Category/index"><i class=""></i> <span class="menu-item-parent">Category</span></a>
 
                         </li>
                         <li>
@@ -195,10 +199,7 @@
                     <a ><i class="fa fa-lg fa-fw fa-gear"></i> <span class="menu-item-parent">Setting</span></a>
                     <ul>
 
-                        <li>
-                            <a href="<?php echo base_url(); ?>Back/Category/index"><i class="fa fa-lg fa-fw fa-puzzle-piece"></i> <span class="menu-item-parent">Category</span></a>
-
-                        </li>
+                       
                         <li>
                             <a href="<?php echo base_url(); ?>Back/Product/Show_add_product">Add Product</a>
                         </li>

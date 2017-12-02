@@ -155,6 +155,11 @@
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="btn glyphicon glyphicon-ok" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
                                                 }
+                                                
+                                                  if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
+                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="fa fa-print" style="color:green"   ></a>';
+                                                }
+                                                
                                                 echo '</td></tr>';
                                             }
                                             ?>

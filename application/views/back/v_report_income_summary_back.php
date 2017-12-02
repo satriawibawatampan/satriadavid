@@ -32,7 +32,7 @@
 
                     <!-- PAGE HEADER -->
                     <i class="fa-fw fa fa-home"></i> 
-                    Cash Flow
+                    Income Summary
 
                 </h1>
             </div>

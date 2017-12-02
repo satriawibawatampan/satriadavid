@@ -25,7 +25,7 @@ class Branch extends CI_Controller {
 
     public function index() {
 
-        $data['listbranch'] = $this->M_branch->get_all_branch();
+        $data['listbranch'] = $this->M_branch->Get_all_branch();
 
         $navigation=array(
             "menu" => "profile",
@@ -41,7 +41,7 @@ class Branch extends CI_Controller {
 
     public function Show_change_branch() {
 
-        $data['listbranch'] = $this->M_branch->get_all_branch();
+        $data['listbranch'] = $this->M_branch->Get_all_branch();
         $navigation=array(
             "menu" => "profile",
             "submenu" => "branch",
@@ -62,7 +62,7 @@ class Branch extends CI_Controller {
         if ($this->input->post('button_addbranch')) {
             if ($this->form_validation->run() == FALSE) {
 
-                $data['listbranch'] = $this->M_branch->get_all_branch();
+                $data['listbranch'] = $this->M_branch->Get_all_branch();
                 $navigation=array(
                     "menu" => "profile",
                     "submenu" => "branch",

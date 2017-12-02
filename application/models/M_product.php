@@ -190,7 +190,7 @@ class M_product extends CI_Model {
         return $products2;
     }
 
-    public function get_productNotaJualByIdNota($id_notajual){
+    public function Get_productNotaJualByIdNota($id_notajual){
         $sql = "SELECT np.*, p.nama as nama_produk 
                 FROM notajual_produk np, produk p
                 WHERE np.id_produk = p.id AND np.id_notajual = ?";

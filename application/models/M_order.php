@@ -11,7 +11,7 @@ class M_order extends CI_Model {
         $this->load->model('M_product');
     }
 
-    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon,$deskripsi) {
+    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi) {
 
         $this->db->trans_start();
 
@@ -393,8 +393,7 @@ class M_order extends CI_Model {
         $this->db->join('admin c', 'c.id=notajual.id_produser');
         $this->db->join('promo', 'promo.id=notajual.id_promo');
         $this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
-        if($this->session->userdata['xcellent_tipe']==4)
-        {
+        if ($this->session->userdata['xcellent_tipe'] == 4) {
             $this->db->where('notajual.status', 1);
         }
         $this->db->order_by('notajual.grandtotal', 'DESC');
@@ -463,7 +462,8 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function get_printByIdNota($id_notajual) {
+    function Get_printByIdNota($id_notajual) {
+        $this->db->trans_start();
         $sql = "SELECT nj.*, a.nama as nama_admin, m.nama as nama_member
                 FROM notajual nj, admin a, member m
                 WHERE nj.id = ? AND nj.id_admin = a.id AND nj.id_member = m.id";
@@ -472,14 +472,14 @@ class M_order extends CI_Model {
         $nota = $result->row_array();
         if (count($nota) > 0) {
             //Get Barang By Nota
-            $barangs = $this->M_product->get_productNotaJualByIdNota($id_notajual);
+            $barangs = $this->M_product->Get_productNotaJualByIdNota($id_notajual);
             if (count($barangs) > 0) {
                 $nota['produks'] = $barangs;
             } else {
                 $nota['produks'] = [];
             }
             //Get Pembayaran By Nota
-            $pembayaran = $this->get_pembayaranByIdNota($id_notajual);
+            $pembayaran = $this->Get_pembayaranByIdNota($id_notajual);
             if (count($pembayaran) > 0) {
                 $nota['pembayaran'] = $pembayaran;
             } else {
@@ -487,10 +487,12 @@ class M_order extends CI_Model {
             }
         }
         return $nota;
+
+        $this->db->trans_complete();
     }
 
-    function get_pembayaranByIdNota($id_notajual) {
-        $sql = "SELECT p.* FROM pembayaran p WHERE p.id_notajual = ?";
+    function Get_pembayaranByIdNota($id_notajual) {
+        $sql = "SELECT np.* FROM notajual_pembayaran np join pembayaran p on p.id = np.id_pembayaran WHERE np.id_notajual = ?";
         $result = $this->db->query($sql, array($id_notajual));
         $hasil = $result->result_array();
         return $hasil;
