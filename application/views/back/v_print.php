@@ -55,16 +55,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
                             <span>XCELLENT</span><br>
                             <span>ALAMAT XCELLENT</span><br>
-                            <span>(031)xxx-xxx-xx</span><br>
-                            <span>Admin <?php echo $nota['nama_admin'];?></span>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align: left;">
                             <span>No Nota</span><br>
-                            <span><?php echo strftime("%d %B %Y", strtotime($nota['tanggal'])) ?></span><br>
-                            <span><?php echo $nota['nama_member'];?></span><br>
+                            <span><?php echo strftime("%d/%m/%y", strtotime($nota['tanggal'])) ?></span><br>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">
+                            <span>Jam</span><br>
+                            <span><?php echo strftime("%H:%M:%S", strtotime($nota['tanggal'])) ?></span><br>
                         </div>
                     </div>
                 </div>
@@ -76,26 +77,34 @@
                                 <table class="table table-hover table-bordered">
                                     <thead>
                                         <tr>
-                                            <th width="50px" style='text-align: center;'>No</th>
                                             <th style='text-align: center;'>Nama Produk</th>
                                             <th style='text-align: center;'>Jumlah</th>
                                             <th style='text-align: center;'>Harga (Rp)</th>
+                                            <th style='text-align: center;'>Bonus (%)</th>
+                                            <th style='text-align: center;'>Subtotal (Rp)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+                                         $total = 0;
+                                         $totalNoDiskon= 0;
+                                         $totalDiskon = 0;
                                         if (count($nota['produks']) > 0) {
-                                            $no = 1;
                                             foreach ($nota['produks'] as $items):
+                                                $total = $items['jumlah'] * $items['harga'];
+                                                $totalNoDiskon += $total;
+                                                $totalDiskon += $total * $items['diskon'] / 100;
+                                                $total = $total - ($total * $items['diskon'] / 100);
+
                                                 ?>
                                                 <tr class="odd gradeX">
-                                                    <td><?php echo $no ?></td>
                                                     <td><?php echo $items['nama_produk'] ?></td>
                                                     <td><?php echo $items['jumlah'] ?></td>                             
                                                     <td style='text-align: center;'><?php echo number_format($items['harga'], 0, '', '.'); ?></td>   
+                                                    <td style='text-align: center;'><?php echo number_format($items['diskon'], 2, ',', '.'); ?></td>   
+                                                    <td style='text-align: center;'><?php echo number_format($total, 0, '', '.'); ?></td>   
                                                 </tr>
                                                 <?php
-                                                $no++;
                                             endforeach;
                                         } else {
                                             ?>
@@ -112,42 +121,34 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 col-sm-6 col-xs-6">
-                            <h4> Pembayaran</h4>
-                             <table style="    
-                                    width: 100%;
-                                    max-width: 100%;
-                                    margin-bottom: 18px;
-                                    border-collapse: collapse;
-                                    border-spacing: 0;
-                                    display: table;">
-                                <?php
-                                    if (count($nota['pembayaran']) > 0) {
-                                        $no = 1;
-                                        foreach ($nota['pembayaran'] as $items):
-                                            ?>
-                                            <tr class="odd gradeX">
-                                                <td>
-                                                    <?php 
-                                                        if($items['tipe'] == "1"){
-                                                             echo "LUNAS";
-                                                        }else if($items['tipe'] == "2"){
-                                                            echo "CICILAN";
-                                                        }
-                                                ?>
-                                                </td>       
-                                                <td style='text-align: left;'>Rp.<?php echo number_format($items['jumlah'], 0, '', '.'); ?>,-</td>   
-                                            </tr>
-                                            <?php
-                                            $no++;
-                                        endforeach;
-                                    } ?>
+                        <div class="col-lg-12  col-sm-12 col-xs-12">
+                            <table style = "width: 100%; margin-left: auto; margin-right: auto;">
+                                <tr>
+                                    <td style="text-align: right;">Total</td>
+                                    <td style="text-align: left;">:</td>
+                                    <td style="text-align: left;">Rp.</td>
+                                    <td style="text-align: right;"><?php echo number_format($totalNoDiskon,0,'','.'); ?>,-</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">Diskon</td>
+                                    <td style="text-align: left;">:</td>
+                                    <td style="text-align: left;">Rp.</td>
+                                    <td style="text-align: right;"><?php echo number_format($totalDiskon,0,'','.'); ?>,-</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">Grand Total</td>
+                                    <td style="text-align: left;">:</td>
+                                    <td style="text-align: left;">Rp.</td>
+                                    <td style="text-align: right;"><?php echo number_format($nota['grandtotal'],0,'','.'); ?>,-</td>
+                                </tr>
                             </table>
                         </div>
-                         <div class="col-lg-2  col-sm-2 col-xs-2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">&nbsp;
                         </div>
-                        <div class="col-lg-4  col-sm-4 col-xs-4" style="text-align: center;">
-                            <h4>Total Harga: Rp.<?php echo number_format($nota['grandtotal'],0,'','.'); ?>,-</h4>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">
+                            <span>Terima kasih atas kunjungannya</span><br>
+                            <span>Barang yang sudah dibeli</span><br>
+                            <span>Tidak bisa dikembalikan</span>
                         </div>
                     </div>
                 </div>
