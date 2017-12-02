@@ -115,7 +115,8 @@ class Account extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $navigation=array(
                     "menu" => "profile",
-                    "submenu" => "changepassword"
+                    "submenu" => "changepassword",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -160,7 +161,8 @@ class Account extends CI_Controller {
         if (isset($this->session->userdata['xcellent_id'])) {
             $navigation=array(
                     "menu" => "profile",
-                    "submenu" => "changepassword"
+                    "submenu" => "changepassword",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
             );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');

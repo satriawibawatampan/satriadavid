@@ -25,7 +25,7 @@
                     </span> 
                 </a>
                 <ul>
-                    <li>
+                    <li class="<?php if ($menu == "profile" && $submenu == "edit") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Account/Show_edit_profile" ><span class="menu-item-parent">Edit Profile</span></a>
                     </li>
                     <?php if ($_SESSION['xcellent_tipe'] == 1) { ?>
@@ -64,8 +64,12 @@
                 <li  class="<?php if ($menu == "purchasing") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Purchasing</span></a>
                     <ul>
-                        <li><a href="<?php echo base_url(); ?>Back/Purchasing/Show_add_purchasing_note">Make Purchasing</a></li>
-                        <li><a href="<?php echo base_url(); ?>Back/Purchasing/Show_all_purchasing_note">Purchase Note Lists</a></li>
+                        <li  class="<?php if ($menu == "purchasing" && $submenu == "add") echo "active"; ?>">
+                            <a href="<?php echo base_url(); ?>Back/Purchasing/Show_add_purchasing_note">Make Purchasing</a>
+                        </li>
+                        <li  class="<?php if ($menu == "purchasing" && $submenu == "all") echo "active"; ?>">
+                            <a href="<?php echo base_url(); ?>Back/Purchasing/Show_all_purchasing_note">Purchase Note Lists</a>
+                        </li>
 
                     </ul>
                 </li>
@@ -74,9 +78,13 @@
                 <a ><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order</span></a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2) { ?>
-                        <li><a href="<?php echo base_url(); ?>Back/Order/Show_add_order_note">Make Order</a></li>
+                     <li  class="<?php if ($menu == "order" && $submenu == "add") echo "active"; ?>">
+                        <a href="<?php echo base_url(); ?>Back/Order/Show_add_order_note">Make Order</a>
+                    </li>
                     <?php } ?>
-                    <li><a href="<?php echo base_url(); ?>Back/Order/Show_all_order_note">Order Note Lists</a></li>
+                     <li  class="<?php if ($menu == "order" && $submenu == "all") echo "active"; ?>">
+                        <a href="<?php echo base_url(); ?>Back/Order/Show_all_order_note">Order Note Lists</a
+                        </li>
 
                 </ul>
             </li>
@@ -89,10 +97,10 @@
                 <li class="<?php if ($menu == "admin") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Admin</span></a>
                     <ul>
-                        <li  class="<?php if ($menu == "admin" && $submenu == "add") echo "active"; ?>">
+                        <li  class="<?php if ($menu == "admin" && $submenu == "type") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_admin_type">Admin Type   </a>
                         </li>
-                        <li>
+                        <li  class="<?php if ($menu == "admin" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_add_admin">Add Admin</a>
                         </li>
 
@@ -110,17 +118,17 @@
                 </li>
             <?php } ?>
             <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2 || $this->session->userdata['xcellent_tipe'] == 3) { ?>
-                <li>
+                <li class="<?php if ($menu == "member") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-group"></i> <span class="menu-item-parent">Member</span></a>
                     <ul>
-                        <li>
+                        <li  class="<?php if ($menu == "member" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_add_member">Add Member</a>
                         </li>
 
-                        <li>
+                        <li  class="<?php if ($menu == "member" && $submenu == "all") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_all_member">Member List   </a>
                         </li>
-                        <li>
+                        <li  class="<?php if ($menu == "member" && $submenu == "deposit") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_add_deposit">Member deposit   </a>
                         </li>
 
@@ -131,16 +139,16 @@
             <?php } ?>
 
             <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2 || $this->session->userdata['xcellent_tipe'] == 3) { ?>
-                <li>
+                   <li class="<?php if ($menu == "promo") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-money"></i> <span class="menu-item-parent">Promo</span></a>
                     <ul>
                         <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
-                            <li>
+                            <li  class="<?php if ($menu == "promo" && $submenu == "add") echo "active"; ?>">
                                 <a href="<?php echo base_url(); ?>Back/Promo/index">Add Promo</a>
                             </li>
-                        <?php } ?>
-                        <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2 || $this->session->userdata['xcellent_tipe'] == 3) { ?>
-                            <li>
+                        <?php }
+                        if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2 || $this->session->userdata['xcellent_tipe'] == 3) { ?>
+                            <li  class="<?php if ($menu == "promo" && $submenu == "all") echo "active"; ?>">
                                 <a href="<?php echo base_url(); ?>Back/Promo/Show_all_promo">Promo List</a>
                             </li>
                         <?php } ?>
@@ -154,11 +162,11 @@
                    </a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
-                        <li>
+                        <li  class="<?php if ($menu == "material" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Material/Show_add_material">Add Material</a>
                         </li>
                         <?php if (count($stokhabis) != 0 ) { ?>
-                            <li class="">
+                            <li  class="<?php if ($menu == "material" && $submenu == "stok") echo "active"; ?>">
                                 <a href="<?php echo base_url(); ?>Back/Material/Show_all_material">Out Of Stock</a>
                             </li>
                         <?php } ?>
@@ -177,45 +185,22 @@
                 <a ><i class="fa fa-lg fa-fw fa-ticket"></i> <span class="menu-item-parent">Product</span></a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
-                        <li>
+                        <li  class="<?php if ($menu == "produk" && $submenu == "category") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Category/index"><i class=""></i> <span class="menu-item-parent">Category</span></a>
 
                         </li>
-                        <li>
+                        <li  class="<?php if ($menu == "produk" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Product/Show_add_product">Add Product</a>
                         </li>
                     <?php } ?>
 
-                    <li>
+                   <li  class="<?php if ($menu == "produk" && $submenu == "all") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Product/Show_all_product">Product List   </a>
                     </li>
 
 
                 </ul>
             </li>
-            <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
-                <li>
-
-                    <a ><i class="fa fa-lg fa-fw fa-gear"></i> <span class="menu-item-parent">Setting</span></a>
-                    <ul>
-
-                       
-                        <li>
-                            <a href="<?php echo base_url(); ?>Back/Product/Show_add_product">Add Product</a>
-                        </li>
-
-
-                        <li>
-                            <a href="<?php echo base_url(); ?>Back/Product/Show_all_product">Product List   </a>
-                        </li>
-
-
-                    </ul>
-                </li>
-            <?php } ?>
-
-
-
         </ul>
     </nav>
 

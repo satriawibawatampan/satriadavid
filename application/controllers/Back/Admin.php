@@ -29,7 +29,8 @@ class Admin extends CI_Controller {
         //INI GA ADA PAGE
         $navigation=array(
                     "menu" => "admin",
-                    "submenu" => "main"
+                    "submenu" => "main",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -49,7 +50,8 @@ class Admin extends CI_Controller {
 
             $navigation=array(
                     "menu" => "admin",
-                    "submenu" => "add"
+                    "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
@@ -71,7 +73,8 @@ class Admin extends CI_Controller {
 
             $navigation=array(
                     "menu" => "admin",
-                    "submenu" => "all"
+                    "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
@@ -101,7 +104,8 @@ class Admin extends CI_Controller {
                     $data['listbranch'] = $this->M_branch->Get_all_branch();
                     $navigation=array(
                         "menu" => "admin",
-                        "submenu" => "add"
+                        "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                     );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');
@@ -141,7 +145,8 @@ class Admin extends CI_Controller {
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
             $navigation=array(
                     "menu" => "admin",
-                    "submenu" => "type"
+                    "submenu" => "type",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
@@ -163,7 +168,8 @@ class Admin extends CI_Controller {
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
                     $navigation=array(
                         "menu" => "admin",
-                        "submenu" => "type"
+                        "submenu" => "type",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                     );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');

@@ -30,7 +30,8 @@ class Member extends CI_Controller {
         //GA ADA PAGE
         $navigation=array(
             "menu" => "member",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -45,7 +46,8 @@ class Member extends CI_Controller {
     public function Show_add_member() {
         $navigation=array(
             "menu" => "member",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -58,7 +60,8 @@ class Member extends CI_Controller {
         $data['tablemember'] = $this->M_member->Show_all_member();
         $navigation=array(
             "menu" => "member",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -69,9 +72,14 @@ class Member extends CI_Controller {
 
     public function Show_add_deposit() {
          $data['listmember'] = $this->M_member->Show_all_member();
+          $navigation=array(
+            "menu" => "member",
+            "submenu" => "deposit",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_add_deposit_back',$data);
         $this->load->view('back/v_footer_back');
     }
@@ -92,7 +100,8 @@ class Member extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $navigation=array(
                     "menu" => "member",
-                    "submenu" => "add"
+                    "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -130,10 +139,14 @@ class Member extends CI_Controller {
 
             $this->form_validation->set_rules('name_deposit', 'Deposit', 'required');
             if ($this->form_validation->run() == FALSE) {
-                
+                 $navigation=array(
+                    "menu" => "member",
+                    "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back');
+                $this->load->view('back/v_navigation_back', $navigation);
                 $this->load->view('back/v_add_deposit_back');
                 $this->load->view('back/v_footer_back');
             } else {
