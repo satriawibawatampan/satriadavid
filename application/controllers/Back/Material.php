@@ -30,7 +30,8 @@ class Material extends CI_Controller {
 
         $navigation=array(
             "menu" => "material",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -45,7 +46,8 @@ class Material extends CI_Controller {
     public function Show_add_material() {
         $navigation=array(
             "menu" => "material",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -59,7 +61,8 @@ class Material extends CI_Controller {
 
         $navigation=array(
             "menu" => "material",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -74,7 +77,8 @@ class Material extends CI_Controller {
 
         $navigation=array(
             "menu" => "material",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -98,7 +102,8 @@ class Material extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $navigation=array(
                     "menu" => "material",
-                    "submenu" => "add"
+                    "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');

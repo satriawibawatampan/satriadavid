@@ -12,6 +12,7 @@ class Cashflow extends CI_Controller {
         if (isset($this->session->userdata['xcellent_id'])) {
 
             $this->load->model('M_cashflow');
+             $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
@@ -27,7 +28,8 @@ class Cashflow extends CI_Controller {
         $data['listsupplier'] = $this->M_supplier->Get_all_cashflow();
         $navigation=array(
             "menu" => "report",
-            "submenu" => "reportcashflow"
+            "submenu" => "reportcashflow",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -86,7 +88,8 @@ class Cashflow extends CI_Controller {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
         $navigation=array(
             "menu" => "other",
-            "submenu" => "cashflow"
+            "submenu" => "cashflow",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -101,7 +104,8 @@ class Cashflow extends CI_Controller {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
         $navigation=array(
             "menu" => "report",
-            "submenu" => "reportcashflow"
+            "submenu" => "reportcashflow",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -116,7 +120,8 @@ class Cashflow extends CI_Controller {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_income_summary();
         $navigation=array(
             "menu" => "report",
-            "submenu" => "reportincome_summary"
+            "submenu" => "reportincome_summary",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');

@@ -15,6 +15,7 @@ class Admin extends CI_Controller {
 
             $this->load->model('M_admin');
             $this->load->model('M_branch');
+             $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');

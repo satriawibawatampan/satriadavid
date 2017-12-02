@@ -14,6 +14,7 @@ class Category extends CI_Controller {
 
 
             $this->load->model('M_kategori');
+             $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
@@ -31,7 +32,8 @@ class Category extends CI_Controller {
         $data['tablekategori'] = $this->M_kategori->Show_all_category();
         $navigation=array(
             "menu" => "category",
-            "submenu" => "category"
+            "submenu" => "category",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -50,7 +52,8 @@ class Category extends CI_Controller {
                 $data['tablekategori'] = $this->M_kategori->Show_all_category();
                 $navigation=array(
                     "menu" => "category",
-                    "submenu" => "category"
+                    "submenu" => "category",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');

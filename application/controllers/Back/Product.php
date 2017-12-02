@@ -32,7 +32,8 @@ class Product extends CI_Controller {
 
         $navigation=array(
             "menu" => "produk",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
 
         $this->load->view('back/v_head_admin_back');
@@ -50,7 +51,8 @@ class Product extends CI_Controller {
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $navigation=array(
             "menu" => "produk",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -69,7 +71,8 @@ class Product extends CI_Controller {
 
         $navigation=array(
             "menu" => "produk",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -84,7 +87,8 @@ class Product extends CI_Controller {
         // $data['tableprice'] = $this->M_product->Get_price();
         $navigation=array(
             "menu" => "produk",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');

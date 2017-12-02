@@ -12,6 +12,7 @@ class Branch extends CI_Controller {
         if (isset($this->session->userdata['xcellent_id'])) {
             $this->load->model('M_admin');
             $this->load->model('M_branch');
+             $this->load->model('M_material');
          
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
@@ -28,7 +29,8 @@ class Branch extends CI_Controller {
 
         $navigation=array(
             "menu" => "profile",
-            "submenu" => "branch"
+            "submenu" => "branch",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -42,7 +44,8 @@ class Branch extends CI_Controller {
         $data['listbranch'] = $this->M_branch->get_all_branch();
         $navigation=array(
             "menu" => "profile",
-            "submenu" => "branch"
+            "submenu" => "branch",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -62,7 +65,8 @@ class Branch extends CI_Controller {
                 $data['listbranch'] = $this->M_branch->get_all_branch();
                 $navigation=array(
                     "menu" => "profile",
-                    "submenu" => "branch"
+                    "submenu" => "branch",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');

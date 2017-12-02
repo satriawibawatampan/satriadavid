@@ -11,6 +11,7 @@ class Account extends CI_Controller {
 
 
         $this->load->model('M_admin');
+         $this->load->model('M_material');
         $this->load->library('session');
         $this->load->helper(array('form', 'url', 'string'));
         $this->load->library('form_validation');

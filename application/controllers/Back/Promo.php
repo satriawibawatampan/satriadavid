@@ -15,6 +15,7 @@ class Promo extends CI_Controller {
 
             $this->load->model('M_promo');
             $this->load->model('M_product');
+            $this->load->model('M_material');
 
 
 
@@ -31,7 +32,8 @@ class Promo extends CI_Controller {
 
         $navigation=array(
             "menu" => "promo",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -48,7 +50,8 @@ class Promo extends CI_Controller {
 
         $navigation=array(
             "menu" => "promo",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -63,7 +66,8 @@ class Promo extends CI_Controller {
         $data['datapromoproduct'] = $this->M_promo->Get_promo_product($id);
         $navigation=array(
             "menu" => "promo",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -77,7 +81,8 @@ class Promo extends CI_Controller {
         // $data['tableprice'] = $this->M_product->Get_price();
         $navigation=array(
             "menu" => "promo",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');

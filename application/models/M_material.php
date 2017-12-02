@@ -117,14 +117,14 @@ class M_material extends CI_Model {
     
     function Get_material_out_of_stock()
     {
-        $this->db->select('material.id, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
+        $this->db->select('material.id as idmaterial,material.nama as namamaterial, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
         $this->db->from('material');
         $this->db->join('detailmaterial','detailmaterial.id_material = material.id');
-        $this->db->group_by('material.id');
+        $this->db->group_by('idmaterial');
         $this->db->having('total <= minstok');
         
          $query = $this->db->get();
-        return $query->result();
+        return $query->result_array();
         
 //        SELECT material.id, sum(detailmaterial.stok) as total, material.minimum_stok as minstok
 //from material

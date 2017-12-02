@@ -12,6 +12,7 @@ class Supplier extends CI_Controller {
         if (isset($this->session->userdata['xcellent_id'])) {
 
             $this->load->model('M_supplier');
+             $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
@@ -28,7 +29,8 @@ class Supplier extends CI_Controller {
 
         $navigation=array(
             "menu" => "supplier",
-            "submenu" => "supplier"
+            "submenu" => "supplier",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -53,7 +55,8 @@ class Supplier extends CI_Controller {
 
                 $navigation=array(
                     "menu" => "supplier",
-                    "submenu" => "supplier"
+                    "submenu" => "supplier",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');

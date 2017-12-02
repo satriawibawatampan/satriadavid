@@ -146,17 +146,24 @@
                 </li>
             <?php } ?>
             <li class="<?php if ($menu == "material") echo "open"; ?>">
-                <a ><i class="fa fa-lg fa-fw fa-flask"></i> <span class="menu-item-parent">Material</span></a>
+                <a ><i class="fa fa-lg fa-fw fa-flask"><em><?php echo count($stokhabis); ?></em></i> <span class="menu-item-parent">Material</span>
+                   </a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
                         <li>
                             <a href="<?php echo base_url(); ?>Back/Material/Show_add_material">Add Material</a>
                         </li>
+                        <?php if (count($stokhabis) != 0 ) { ?>
+                            <li class="">
+                                <a href="<?php echo base_url(); ?>Back/Material/Show_all_material">Out Of Stock</a>
+                            </li>
+                        <?php } ?>
                     <?php } ?>
 
                     <li class="<?php if ($menu == "material" && $submenu == "all") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Material/Show_all_material">Material List   </a>
                     </li>
+
 
 
                 </ul>

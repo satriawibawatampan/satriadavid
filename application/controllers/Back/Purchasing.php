@@ -33,7 +33,8 @@ class Purchasing extends CI_Controller {
 
         $navigation=array(
             "menu" => "purchasing",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -52,7 +53,8 @@ class Purchasing extends CI_Controller {
 
         $navigation=array(
             "menu" => "purchasing",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -67,7 +69,8 @@ class Purchasing extends CI_Controller {
 
         $navigation=array(
             "menu" => "purchasing",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -82,7 +85,8 @@ class Purchasing extends CI_Controller {
 
         $navigation=array(
             "menu" => "purchasing",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -108,7 +112,8 @@ class Purchasing extends CI_Controller {
 
         $navigation=array(
             "menu" => "purchasing",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');

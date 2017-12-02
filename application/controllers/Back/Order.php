@@ -35,7 +35,8 @@ class Order extends CI_Controller {
 
         $navigation=array(
             "menu" => "order",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -57,7 +58,8 @@ class Order extends CI_Controller {
         }else {
             $navigation=array(
                 "menu" => "order",
-                "submenu" => "all"
+                "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
             );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
@@ -76,7 +78,8 @@ class Order extends CI_Controller {
 //   
         $navigation=array(
             "menu" => "order",
-            "submenu" => "add"
+            "submenu" => "add",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         
 //          print_r($navigation);   exit();
@@ -111,7 +114,8 @@ class Order extends CI_Controller {
         $data['tableorder'] = $this->M_order->Get_all_order();
         $navigation=array(
             "menu" => "order",
-            "submenu" => "all"
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
