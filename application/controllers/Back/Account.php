@@ -70,7 +70,11 @@ class Account extends CI_Controller {
                         $this->session->set_userdata('xcellent_cabang',$tamp['id_cabang'] );
 
 
-
+                        if($this->session->userdata['xcellent_tipe'] == 3 ||$this->session->userdata['xcellent_tipe'] == 4)
+                        redirect('Back/Order/Show_all_order_note');
+                        else if($this->session->userdata['xcellent_tipe'] == 1)
+                        redirect('Back/Cashflow/Show_report_cashflow');
+                        else if($this->session->userdata['xcellent_tipe'] == 2)
                         redirect('Back/Order/Show_add_order_note');
                     }
                     //gagal ambil data login

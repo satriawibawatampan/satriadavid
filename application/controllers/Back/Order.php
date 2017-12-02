@@ -72,12 +72,15 @@ class Order extends CI_Controller {
      
         $data['listmember']= $this->M_member->Show_all_member();
         $data['listpromo']= $this->M_promo->Get_promo_product_now();
-      //  print_r($data['listpromo']);   exit();
+      
 //   
         $navigation=array(
             "menu" => "order",
             "submenu" => "add"
         );
+        
+//          print_r($navigation);   exit();
+//          print_r($data['listkategori']);   exit();
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);

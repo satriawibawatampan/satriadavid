@@ -305,7 +305,7 @@
                     <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Run_producing" class="smart-form" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to run a Producing for Order Note <span id="span_nama_producing" style="color:blue"></span>?</p>
-                        <input   id="id_producingid" type="text" name="name_producingid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input   id="id_producingid" type="hidden" name="name_producingid"  aria-required="true" class="error" aria-invalid="true" >
                         <footer>
                             <input type="submit" name="button_producing" class="btn btn-primary" value="Produce all items">
                         </footer>

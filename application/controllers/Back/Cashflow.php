@@ -26,8 +26,8 @@ class Cashflow extends CI_Controller {
 
         $data['listsupplier'] = $this->M_supplier->Get_all_cashflow();
         $navigation=array(
-            "menu" => "supplier",
-            "submenu" => "supplier"
+            "menu" => "report",
+            "submenu" => "reportcashflow"
         );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
@@ -99,9 +99,13 @@ class Cashflow extends CI_Controller {
     
      public function Show_report_cashflow() {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
+        $navigation=array(
+            "menu" => "report",
+            "submenu" => "reportcashflow"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back',$navigation);
         $this->load->view('back/v_report_cashflow_back', $data);
 
         $this->load->view('back/v_footer_back');
@@ -110,9 +114,13 @@ class Cashflow extends CI_Controller {
     public function Show_report_income_summary()
     {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_income_summary();
+        $navigation=array(
+            "menu" => "report",
+            "submenu" => "reportincome_summary"
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
-        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_report_income_summary_back', $data);
 
         $this->load->view('back/v_footer_back');

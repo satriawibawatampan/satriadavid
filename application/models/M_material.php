@@ -10,7 +10,7 @@ class M_material extends CI_Model {
         $this->load->model('M_harga');
     }
 
-    function Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock, $grossirprice, $minimumqty, $maximumqty) {
+    function Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock,$minimumstock, $grossirprice, $minimumqty, $maximumqty) {
         $this->db->trans_start();
         date_default_timezone_set('Asia/Jakarta');
 
@@ -20,6 +20,7 @@ class M_material extends CI_Model {
             'tipe' => $type,
             'hargapokok' => $hpp,
             'jumlahperpack' => $amountperpack,
+            'minimum_stok' => $minimumstock,
             'id_cabang' => $this->session->userdata['xcellent_cabang'],
             'createdAt' => $date,
             'updatedAt' => $date
@@ -104,7 +105,7 @@ class M_material extends CI_Model {
     }
 
     function Json_get_one_material($id) {
-        $this->db->select('material.id as id,material.nama as nama, material.tipe as tipe, material.hargapokok as hargapokok, material.jumlahperpack as jumlahperpack');
+        $this->db->select('material.id as id,material.nama as nama, material.minimum_stok as minimum_stok, material.tipe as tipe, material.hargapokok as hargapokok, material.jumlahperpack as jumlahperpack');
         $this->db->from('material');
 
         $this->db->where('material.statusaktif', 1);
@@ -112,6 +113,24 @@ class M_material extends CI_Model {
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->row();
+    }
+    
+    function Get_material_out_of_stock()
+    {
+        $this->db->select('material.id, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
+        $this->db->from('material');
+        $this->db->join('detailmaterial','detailmaterial.id_material = material.id');
+        $this->db->group_by('material.id');
+        $this->db->having('total <= minstok');
+        
+         $query = $this->db->get();
+        return $query->result();
+        
+//        SELECT material.id, sum(detailmaterial.stok) as total, material.minimum_stok as minstok
+//from material
+//join detailmaterial on detailmaterial.id_material=material.id
+//group by material.id
+//having total <= minstok
     }
 
 //    function Json_get_one_material($id) {
@@ -151,12 +170,13 @@ class M_material extends CI_Model {
         // return $query->result_array();
     }
 
-    function Edit_material($id, $nama, $tipe, $hargapokok) {
+    function Edit_material($id, $nama, $tipe, $hargapokok,$name_minimumstock) {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $nama,
             'tipe' => $tipe,
             'hargapokok' => $hargapokok,
+            'minimum_stok' => $name_minimumstock,
             'updatedat' => date('Y-m-d H:i:s'),
         );
 

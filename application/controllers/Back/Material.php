@@ -92,6 +92,7 @@ class Material extends CI_Controller {
             $this->form_validation->set_rules('name_retailprice', 'Retail Price', 'required');
             $this->form_validation->set_rules('name_bigstock', 'Stock', 'required');
             $this->form_validation->set_rules('name_amountperpack', 'Ammount Per Pack', 'required');
+            $this->form_validation->set_rules('name_minimumstock', 'Minimum Stock', 'required');
 
 
             if ($this->form_validation->run() == FALSE) {
@@ -110,6 +111,7 @@ class Material extends CI_Controller {
                 $type = $this->input->post('name_type');
                 $hpp = $this->input->post('name_hpp');
                 $retailprice = $this->input->post('name_retailprice');
+                $minimumstock = $this->input->post('name_minimumstock');
 
                 $bigstock = $this->input->post('name_bigstock');
                 $amountperpack = $this->input->post('name_amountperpack');
@@ -127,7 +129,7 @@ class Material extends CI_Controller {
 
                 //input material
                 //  $idmaterial = $this->M_material->Add_material($name, $type, $hpp, $amountperpack);
-                $this->M_material->Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock, $grossirprice, $minimumqty, $maximumqty);
+                $this->M_material->Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock, $minimumstock, $grossirprice, $minimumqty, $maximumqty);
 
                 //input detailmaterial
                 //  $this->M_material->Add_detailmaterial($idmaterial->id, $amountperpack, $bigstock, $idbranch);
@@ -180,11 +182,12 @@ class Material extends CI_Controller {
             $nama = $this->input->post('name_editname');
             $tipe = $this->input->post('name_edittype');
             $hpp = $this->input->post('name_edithpp');
+            $name_minimumstock = $this->input->post('name_minimumstock');
 
             // print_r($id.$nama.$tipe.$hpp);
             // exit();
 
-            $this->M_material->Edit_material($id, $nama, $tipe, $hpp);
+            $this->M_material->Edit_material($id, $nama, $tipe, $hpp,$name_minimumstock);
             $this->session->set_flashdata('pesanform', "Your Material , " . $nama . " , has been edited");
             $this->session->keep_flashdata('pesanform');
 
@@ -236,6 +239,11 @@ class Material extends CI_Controller {
         $data = $this->input->post("data");
      
         $this->M_material->Readd_detailmaterial($data);
+    }
+    
+    public function Get_material_out_of_stock()
+    {
+         $datanavigasi = $this->M_material->Get_material_out_of_stock();
     }
 
 }

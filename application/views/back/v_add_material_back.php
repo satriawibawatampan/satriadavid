@@ -133,6 +133,16 @@
                         </div>
 
                     </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Minimum Stock</label>
+                        <div class="col-md-2">
+                            <input class="form-control" name="name_minimumstock" placeholder="Minimum Stock" type="number" value="<?php echo set_value('name_minimumstock'); ?>">
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_minimumstock'); ?>
+                            </span>
+                        </div>
+
+                    </div>
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Retail Price</label>

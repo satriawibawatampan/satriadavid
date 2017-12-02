@@ -10,9 +10,9 @@
         Please note that these links work a bit different than
         traditional href="" links. See documentation for details.
         -->
-       
+
         <ul>
-            <li class="<?php if($menu=="profile") echo "open";?>">
+            <li class="<?php if ($menu == "profile") echo "open"; ?>">
                 <a  title="" >
                     <i class="fa fa-lg fa-fw fa-user"></i>
 
@@ -29,11 +29,11 @@
                         <a href="<?php echo base_url(); ?>Back/Account/Show_edit_profile" ><span class="menu-item-parent">Edit Profile</span></a>
                     </li>
                     <?php if ($_SESSION['xcellent_tipe'] == 1) { ?>
-                        <li class="<?php if($menu=="profile" && $submenu=="branch") echo "active";?>">
+                        <li class="<?php if ($menu == "profile" && $submenu == "branch") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Branch/Show_change_branch" ><span class="menu-item-parent">Change Branch</span></a>
                         </li>
                     <?php } ?>
-                    <li class="<?php if($menu=="profile" && $submenu=="password") echo "active";?>">
+                    <li class="<?php if ($menu == "profile" && $submenu == "password") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Account/Show_change_password" ><span class="menu-item-parent">Change Password</span></a>
                     </li>
                     <li >
@@ -44,20 +44,20 @@
 
             </li>
             <?php if ($_SESSION['xcellent_tipe'] == 1) { ?>
-                <li>
+                <li class="<?php if ($menu == "report") echo "open"; ?>">
                     <a  title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Report</span></a>
                     <ul>
-             ok           <li>
+                        <li class="<?php if ($menu == "report" && $submenu == "reportcashflow") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Cashflow/Show_report_cashflow" title="Dashboard"><span class="menu-item-parent">Cash Flow</span></a>
                         </li>
-                        <li class="">
+                        <li class="<?php if ($menu == "report" && $submenu == "reportincomesummary") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Cashflow/Show_report_income_summary" title="Dashboard"><span class="menu-item-parent">Income Summary</span></a>
                         </li>
                     </ul>	
                 </li>
             <?php } ?>
             <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
-                <li  class="<?php if($menu=="purchasing") echo "open";?>">
+                <li  class="<?php if ($menu == "purchasing") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Purchasing</span></a>
                     <ul>
                         <li><a href="<?php echo base_url(); ?>Back/Purchasing/Show_add_purchasing_note">Make Purchasing</a></li>
@@ -66,7 +66,7 @@
                     </ul>
                 </li>
             <?php } ?>
-            <li class="<?php if($menu=="order") echo "open";?>">
+            <li class="<?php if ($menu == "order") echo "open"; ?>">
                 <a ><i class="fa fa-lg fa-fw fa-shopping-cart"></i> <span class="menu-item-parent">Order</span></a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2) { ?>
@@ -82,17 +82,17 @@
 
 
 
-                <li class="<?php if($menu=="admin") echo "open";?>">
+                <li class="<?php if ($menu == "admin") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Admin</span></a>
                     <ul>
-                        <li  class="<?php if($menu=="admin" && $submenu=="add") echo "active";?>">
+                        <li  class="<?php if ($menu == "admin" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_admin_type">Admin Type   </a>
                         </li>
                         <li>
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_add_admin">Add Admin</a>
                         </li>
 
-                        <li class="<?php if($menu=="admin" && $submenu=="all") echo "active";?>">
+                        <li class="<?php if ($menu == "admin" && $submenu == "all") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_all_admin">Admin List   </a>
                         </li>
 
@@ -100,7 +100,7 @@
                     </ul>
                 </li>
 
-                <li class="<?php if($menu=="supplier") echo "active";?>">
+                <li class="<?php if ($menu == "supplier") echo "active"; ?>">
                     <a href="<?php echo base_url(); ?>Back/Supplier/index"><i class="fa fa-lg fa-fw fa-hospital-o"></i> <span class="menu-item-parent">Supplier</span></a>
 
                 </li>
@@ -145,7 +145,7 @@
                     </ul>
                 </li>
             <?php } ?>
-            <li class="<?php if($menu=="material") echo "open";?>">
+            <li class="<?php if ($menu == "material") echo "open"; ?>">
                 <a ><i class="fa fa-lg fa-fw fa-flask"></i> <span class="menu-item-parent">Material</span></a>
                 <ul>
                     <?php if ($this->session->userdata['xcellent_tipe'] == 1) { ?>
@@ -154,14 +154,14 @@
                         </li>
                     <?php } ?>
 
-                    <li class="<?php if($menu=="material" && $submenu=="all") echo "active";?>">
+                    <li class="<?php if ($menu == "material" && $submenu == "all") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Material/Show_all_material">Material List   </a>
                     </li>
 
 
                 </ul>
             </li>
-            <li class="<?php if($menu=="produk") echo "open";?>">
+            <li class="<?php if ($menu == "produk") echo "open"; ?>">
 
                 <a ><i class="fa fa-lg fa-fw fa-ticket"></i> <span class="menu-item-parent">Product</span></a>
                 <ul>
