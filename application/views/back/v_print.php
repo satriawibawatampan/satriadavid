@@ -73,19 +73,21 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <!--shopcart-->
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered">
+                            <hr>
+                            <div>
+                                <table style = "width: 100%; margin-left: auto; margin-right: auto;">
                                     <thead>
                                         <tr>
-                                            <th style='text-align: center;'>Nama Produk</th>
-                                            <th style='text-align: center;'>Jumlah</th>
-                                            <th style='text-align: center;'>Harga (Rp)</th>
-                                            <th style='text-align: center;'>Bonus (%)</th>
-                                            <th style='text-align: center;'>Subtotal (Rp)</th>
+                                            <th>Nama Produk</th>
+                                            <th>Qty</th>
+                                            <th>Harga</th>
+                                            <th>Diskon</th>
+                                            <th>Subtotal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+                                        date_default_timezone_set('Asia/Jakarta');
                                          $total = 0;
                                          $totalNoDiskon= 0;
                                          $totalDiskon = 0;
@@ -98,10 +100,13 @@
 
                                                 ?>
                                                 <tr class="odd gradeX">
-                                                    <td><?php echo $items['nama_produk'] ?></td>
-                                                    <td><?php echo $items['jumlah'] ?></td>                             
+                                                    <td colspan="5"><?php echo $items['nama_produk'] ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style='text-align: center;'><?php echo $items['jumlah'] ?></td>                             
+                                                    <td>x</td>                             
                                                     <td style='text-align: center;'><?php echo number_format($items['harga'], 0, '', '.'); ?></td>   
-                                                    <td style='text-align: center;'><?php echo number_format($items['diskon'], 2, ',', '.'); ?></td>   
+                                                    <td style='text-align: center;'><?php echo number_format($items['diskon'], 2, ',', '.'); ?> %</td>   
                                                     <td style='text-align: center;'><?php echo number_format($total, 0, '', '.'); ?></td>   
                                                 </tr>
                                                 <?php
@@ -118,6 +123,7 @@
                                     </tbody>
                                 </table>
                             </div> 
+                            <hr>
                         </div>
                     </div>
                     <div class="row">
@@ -127,13 +133,13 @@
                                     <td style="text-align: right;">Total</td>
                                     <td style="text-align: left;">:</td>
                                     <td style="text-align: left;">Rp.</td>
-                                    <td style="text-align: right;"><?php echo number_format($totalNoDiskon,0,'','.'); ?>,-</td>
+                                    <td style="text-align: right;"><?php echo number_format($nota['grandtotal'],0,'','.'); ?>,-</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;">Diskon</td>
                                     <td style="text-align: left;">:</td>
                                     <td style="text-align: left;">Rp.</td>
-                                    <td style="text-align: right;"><?php echo number_format($totalDiskon,0,'','.'); ?>,-</td>
+                                    <td style="text-align: right;"><?php echo number_format(0,0,'','.'); ?>,-</td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right;">Grand Total</td>
