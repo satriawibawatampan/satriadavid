@@ -36,7 +36,7 @@
                     <i class="fa-fw fa fa-home"></i> 
                     Member 
                     <span>>  
-                        Add Member
+                        Add Deposit
                     </span>
                 </h1>
             </div>
@@ -67,7 +67,7 @@
 
         <header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div><div class="widget-toolbar" role="menu"><a data-toggle="dropdown" class="dropdown-toggle color-box selector" href="javascript:void(0);"></a><ul class="dropdown-menu arrow-box-up-right color-select pull-right"><li><span class="bg-color-green" data-widget-setstyle="jarviswidget-color-green" rel="tooltip" data-placement="left" data-original-title="Green Grass"></span></li><li><span class="bg-color-greenDark" data-widget-setstyle="jarviswidget-color-greenDark" rel="tooltip" data-placement="top" data-original-title="Dark Green"></span></li><li><span class="bg-color-greenLight" data-widget-setstyle="jarviswidget-color-greenLight" rel="tooltip" data-placement="top" data-original-title="Light Green"></span></li><li><span class="bg-color-purple" data-widget-setstyle="jarviswidget-color-purple" rel="tooltip" data-placement="top" data-original-title="Purple"></span></li><li><span class="bg-color-magenta" data-widget-setstyle="jarviswidget-color-magenta" rel="tooltip" data-placement="top" data-original-title="Magenta"></span></li><li><span class="bg-color-pink" data-widget-setstyle="jarviswidget-color-pink" rel="tooltip" data-placement="right" data-original-title="Pink"></span></li><li><span class="bg-color-pinkDark" data-widget-setstyle="jarviswidget-color-pinkDark" rel="tooltip" data-placement="left" data-original-title="Fade Pink"></span></li><li><span class="bg-color-blueLight" data-widget-setstyle="jarviswidget-color-blueLight" rel="tooltip" data-placement="top" data-original-title="Light Blue"></span></li><li><span class="bg-color-teal" data-widget-setstyle="jarviswidget-color-teal" rel="tooltip" data-placement="top" data-original-title="Teal"></span></li><li><span class="bg-color-blue" data-widget-setstyle="jarviswidget-color-blue" rel="tooltip" data-placement="top" data-original-title="Ocean Blue"></span></li><li><span class="bg-color-blueDark" data-widget-setstyle="jarviswidget-color-blueDark" rel="tooltip" data-placement="top" data-original-title="Night Sky"></span></li><li><span class="bg-color-darken" data-widget-setstyle="jarviswidget-color-darken" rel="tooltip" data-placement="right" data-original-title="Night"></span></li><li><span class="bg-color-yellow" data-widget-setstyle="jarviswidget-color-yellow" rel="tooltip" data-placement="left" data-original-title="Day Light"></span></li><li><span class="bg-color-orange" data-widget-setstyle="jarviswidget-color-orange" rel="tooltip" data-placement="bottom" data-original-title="Orange"></span></li><li><span class="bg-color-orangeDark" data-widget-setstyle="jarviswidget-color-orangeDark" rel="tooltip" data-placement="bottom" data-original-title="Dark Orange"></span></li><li><span class="bg-color-red" data-widget-setstyle="jarviswidget-color-red" rel="tooltip" data-placement="bottom" data-original-title="Red Rose"></span></li><li><span class="bg-color-redLight" data-widget-setstyle="jarviswidget-color-redLight" rel="tooltip" data-placement="bottom" data-original-title="Light Red"></span></li><li><span class="bg-color-white" data-widget-setstyle="jarviswidget-color-white" rel="tooltip" data-placement="right" data-original-title="Purity"></span></li><li><a href="javascript:void(0);" class="jarviswidget-remove-colors" data-widget-setstyle="" rel="tooltip" data-placement="bottom" data-original-title="Reset widget color to default">Remove</a></li></ul></div>
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-            <h2>Add Member Form </h2>				
+            <h2>Add Deposit Form </h2>				
 
             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
@@ -81,72 +81,28 @@
             <!-- widget content -->
             <div class="widget-body ">
 
-                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Add_member" class="form-horizontal" novalidate="novalidate" method="post">
+                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Add_deposit" class="form-horizontal" novalidate="novalidate" method="post">
 
                     <?php //echo validation_errors(); ?>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Email</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_email" placeholder="Email" type="email" value="<?php echo set_value('name_email'); ?>">
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_email'); ?>
-                            </span>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Name</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_name'); ?>
-                            </span>
-                        </div>
-
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">BOD</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_ttl" placeholder="BOD" type="date" value="<?php echo set_value('name_ttl'); ?>">
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_ttl'); ?>
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Phone</label>
+                        <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_phone" placeholder="Phone" type="text" value="<?php echo set_value('name_phone'); ?>">
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_phone'); ?>
-                            </span>
-                        </div>
+                            <select class="form-control" name="name_member" id="id_member" selected ="select" >
+                                <option value="0" >- No Member -</option>
 
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Address</label>
-                        <div class="col-md-6">
-                            <textarea class="form-control" name="name_address" placeholder="Address" rows="4" ><?php echo set_value('name_address'); ?></textarea>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_address'); ?>
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Gender</label>
-                        <div class="col-md-2">
-                            <select class="form-control" name="name_gender" id="select-1" selected ="select" <?php echo set_select('name_gender', set_value('name_gender')); ?> >
-                                <option value="1" <?php echo set_select('name_gender', '1', TRUE); ?>>Male</option>
-                                <option value="2" <?php echo set_select('name_gender', '2'); ?>>Female</option>
+                                <?php foreach ($listmember as $itemmember) { ?>
+
+                                    <option value="<?php echo $itemmember->id; ?>" ><?php echo $itemmember->nama; ?></option>
+
+                                <?php } ?>
                             </select> 
                         </div>
+                        <div class="col-md-4">
+                            <span></span>
+                        </div>
                     </div>
-                     <div class="form-group">
-                        <label class="col-md-2 control-label">Deposit</label>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Deposit Amount</label>
                         <div class="col-md-3">
                             <input class="form-control" name="name_deposit" placeholder="Deposit" type="number" value="<?php echo set_value('name_deposit'); ?>">
                             <span class="col-md-9 text-danger">
@@ -155,6 +111,8 @@
                         </div>
 
                     </div>
+                    
+                    
 
 
 
@@ -164,7 +122,7 @@
 
                             <div class="col-md-4">
 
-                                <input type="submit" name="button_addmember" class="btn btn-primary" value="Add Member">
+                                <input type="submit" name="button_adddeposit" class="btn btn-primary" value="Add Deposit">
                             </div>
 
                         </div>

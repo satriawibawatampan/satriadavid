@@ -104,7 +104,6 @@
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Category</th>
                                                 
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Selling Price</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Type</th>
                                                
                                               
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
@@ -117,7 +116,6 @@
                                                 echo ' <td ><a   onclick="show_material(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:green"  data-toggle="modal" data-target="#myMaterial"> ' . $hasil->nama . '</a></td>';
                                                 echo ' <td >' . $hasil->namakategori . '</td>';
                                                 echo '<td>'.'<a   onclick="show_product_price(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myPriceModal">'.$hasil->hargajual . ' </a> </td>';
-                                                echo '<td>' .  '</td>';
                                               
                                                 echo '<td>   <a href="'. base_url(). 'Back/Product/Show_edit_product/'. $hasil->id.   '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>
                                                         <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
@@ -172,7 +170,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Prices for <span id="span_nama" style="color:blue"></span> </h4>
+                    <h4 class="modal-title">Prices for <span id="span_nama_price" style="color:blue"></span> </h4>
                 </div>
                 <div class="modal-body">
                     <div class="widget-body no-padding">
@@ -209,7 +207,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Prices for <span id="span_nama" style="color:blue"></span> </h4>
+                    <h4 class="modal-title">Materials for <span id="span_nama_material" style="color:blue"></span> </h4>
                 </div>
                 <div class="modal-body">
                     <div class="widget-body no-padding">
@@ -220,8 +218,8 @@
                                 <thead>
                                     <tr role="row">
                                         <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Name</th>
+                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Material</th>
+                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Material Name</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Qty</th>
                                      
                                         
@@ -254,7 +252,7 @@
                 <div class="modal-body">
                     <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
 
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
+                        <p>Are you sure want to delete Admin <span id="span_nama_delete" style="color:blue"></span>?</p>
                         <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
                         <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
                         <footer>
@@ -335,7 +333,7 @@
           function show_product_price(idnya, nama)
             {
                
-                $("#span_nama").text(nama);
+                $("#span_nama_price").text(nama + " (Product Id "+idnya+")");
                 $("#tablebody").empty();
                 $.ajax({
                     type: "POST",
@@ -363,7 +361,7 @@
             function show_material(idnya, nama)
             {
                
-                $("#span_nama").text(nama);
+                $("#span_nama_material").text(nama + " (Product Id "+idnya+")");
                 $("#tablebodymaterial").empty();
                 $.ajax({
                     type: "POST",

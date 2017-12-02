@@ -6,16 +6,17 @@ class M_member extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->helper('date');
+        $this->load->model('M_cashflow');
     }
 
-    function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin) {
+    function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin, $deposit) {
 
         date_default_timezone_set('Asia/Jakarta');
 
         $data = array(
             'nama' => $name,
             'email' => $email,
-            'deposit' => 300000,
+            'deposit' => $deposit,
             'ttl' => $ttl,
             'gender' => $gender,
             'telepon' => $phone,
@@ -72,6 +73,19 @@ class M_member extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('member', $data);
+    }
+
+    function Add_deposit($deposit, $idmember) {
+        
+        
+        $this->db->trans_start();
+        $this->db->set('deposit', 'deposit+' . $deposit, FALSE);
+        $this->db->where('id', $idmember);
+        $this->db->update('member');
+        
+        
+        $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member ".$idmember, $deposit);
+        $this->db->trans_complete();
     }
 
 }

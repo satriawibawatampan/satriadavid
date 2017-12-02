@@ -205,6 +205,7 @@
                                         <table id="id_table_purchasing_note" class="table table-bordered" >
                                             <thead>
                                                 <tr >
+                                                    <th   >id_detailmaterial</th>
                                                     <th   >Stock</th>
                                                     <th   >Id NotaBeli</th>
                                                     <th    >Updated at</th>
@@ -214,6 +215,7 @@
                                                 <?php foreach ($datadetailmaterial as $item) { ?>
                                                     <tr>
                                                 <input   class='form-control' name='name_detailmaterialid[]' placeholder='Stock' type='hidden' value='<?php echo $item->detailmaterialid; ?>'>
+                                                <td><?php echo $item->detailmaterialid; ?>
                                                 <td><div><input style="min-width: 50px;"  class='form-control' name='name_detailmaterialstock[]' placeholder='Stock' type='number' value='<?php echo $item->stok; ?>'></div></td>
                                                 <td><a href="<?php echo base_url(); ?>Back/Purchasing/Show_edit_purchasing_note/<?php echo $item->idnotabeli; ?>"><?php echo $item->idnotabeli; ?></a></td>
                                                 <td><?php echo $item->updatedat; ?></td>

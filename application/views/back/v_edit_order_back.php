@@ -280,7 +280,7 @@
 
                                     if ($("#id_txt_id_product_" + counterwhile).length > 0)
                                     {
-                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "jumlah2": $("#id_txt_jumlah_product2_" + counterwhile).val(), "idnotajualproduk": $("#id_txt_id_notajualproduk_" + counterwhile).val()});
+                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "jumlah2": $("#id_txt_jumlah_product2_" + counterwhile).val(), "idnotajualproduk": $("#id_txt_id_notajualproduk_" + counterwhile).val(),"deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val()});
                                         numItems--;
 
 
@@ -372,6 +372,7 @@
                                         <th  style="width: 150px;" >Price</th>
                                         <th  style="width: 75px;" >%</th>
                                         <th  style="width: 150px;" >Subtotal</th>
+                                        <th  style="width: 150px;" >Description</th>
                                         <th   >X</th>
                                         <th   >--</th>
                                         <th  >--</th>
@@ -393,6 +394,7 @@
                                             <td><div ><input readonly id='id_txt_harga_product_<?php echo $counter; ?>' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='<?php echo $item->harga; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_diskon_product_<?php echo $counter; ?>' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='<?php echo $item->diskon; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_subtotal_product_<?php echo $counter; ?>' class='form-control diskon' name='name_txt_subtotal_product[]'  type='text' value='<?php echo $item->subtotal; ?>'></div></td>
+                                            <td> <div ><input  id='id_txt_deskripsi_product_<?php echo $counter; ?>' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='<?php echo $item->deskripsi; ?>'></div></td>
                                             <td><div ><i  onclick='remove_product_tr(<?php echo $counter; ?>);
                                                     update_grandtotal();
                                                     update_total_discount(); readd_detailmaterial(" + $("#id_product option:selected").val() + ");' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></th>

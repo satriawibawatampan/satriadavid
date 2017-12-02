@@ -7,11 +7,14 @@
 				<span id="logo"> <img src="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/img/logo.png" alt="SmartAdmin"> </span>
 				<!-- END LOGO PLACEHOLDER -->
 
-				<!-- AJAX-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
-				<div class="ajax-dropdown">	
-				</div>
-				<!-- END AJAX-DROPDOWN -->
+                                
+				
 			</div>
+
+			<!-- #PROJECTS: projects dropdown -->
+			<span>Branch ID : <?php echo $this->session->userdata['xcellent_id']; ?> </span>
+			<!-- end projects dropdown -->
+
 			<!-- #TOGGLE LAYOUT BUTTONS -->
 			<!-- pulled right: nav area -->
 			<div class="pull-right">

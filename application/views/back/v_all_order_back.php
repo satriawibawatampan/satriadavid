@@ -115,18 +115,18 @@
                                             <?php
                                             foreach ($tableorder as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+                                                echo '<td><a   onclick="showmodalorderproduct(' . $hasil->id . ')" class="" style=""   data-toggle="modal" data-target="#myOrderDetail">' . $hasil->id . '</a></td>';
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
                                                 echo '<td>' . $hasil->namaadmin . '</td>';
                                                 if ($hasil->id_kasir == 0) {
                                                     echo '<td>-</td>';
                                                 } else {
-                                                    echo '<td>' . $hasil->id_kasir . '</td>';
+                                                    echo '<td>' . $hasil->namakasir . '</td>';
                                                 }
                                                 if ($hasil->id_produser == 0) {
                                                     echo '<td>-</td>';
                                                 } else {
-                                                    echo '<td>' . $hasil->id_produser . '</td>';
+                                                    echo '<td>' . $hasil->namaproduser . '</td>';
                                                 }
                                                 echo '<td>' . $hasil->namamember . '</td>';
                                                 echo '<td>' . $hasil->namapromo . '</td>';
@@ -142,17 +142,17 @@
                                                 }
 
                                                 echo '<td> ';
-                                                if ($hasil->status == 0) {
+                                                if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
                                                     echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 }
                                                 echo'<span> <span>';
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
-                                                if ($hasil->status == 0) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ','.$hasil->grandtotal.')" class="btn glyphicon glyphicon-usd" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
-                                                } else if ($hasil->status == 1) {
+                                                if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ')" class="fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                } else if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
-                                                } else if ($hasil->status == 2) {
+                                                } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="btn glyphicon glyphicon-ok" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
                                                 }
                                                 echo '</td></tr>';
@@ -198,7 +198,47 @@
     </div>
     <!--END MAIN CONTENT -->
 
+    <div class="modal fade" id="myOrderDetail" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Order  <span id="span_nama" style="color:blue"></span> Detail </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-body no-padding">
+
+                        <div id="datatable_col_reorder_wrapper" class="table-responsive">
+
+                            <table id="id_table" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th  style="width: 100px;" >Product ID</th>
+                                        <th    >Product Name</th>
+                                        <th  style="width: 100px;" >Qty</th>
+                                        <th  style="width: 150px;" >Price</th>
+                                        <th  style="width: 75px;" >%</th>
+                                        <th  style="width: 150px;" >Subtotal</th>
+                                       
+
+
+                                </thead>
+                                <tbody id="id_body_table_orderproduk" >	
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <!-- MODAL HAPUS -->
     <div class="modal fade" id="myDeleteModal" role="dialog">
@@ -364,7 +404,9 @@
 
 </div>    
 <script>
-    function showmodalpayment(idnya,grandtotal)
+
+
+    function showmodalpayment(idnya, grandtotal)
     {
         document.getElementById('id_paymentid').value = idnya;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
@@ -382,5 +424,33 @@
         document.getElementById('id_finishid').value = idnya;
         document.getElementById('span_nama_finish').innerHTML = idnya.toString();
 
+    }
+
+    function showmodalorderproduct(idnya)
+    {
+        $("#id_body_table_orderproduk").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#id_body_table_orderproduk").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['id'] + "</td>" +
+                            "<td>" + name['namaproduk'] + "</td>" +
+                            "<td>" + name['jumlah'] + "</td>" +
+                            "<td>" + name['harga'] + "</td>" +
+                            "<td>" + name['diskon'] + "</td>" +
+                            "<td>" + name['subtotal'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
     }
 </script>

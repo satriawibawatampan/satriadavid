@@ -11,7 +11,7 @@ class M_order extends CI_Model {
         $this->load->model('M_product');
     }
 
-    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon) {
+    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon,$deskripsi) {
 
         $this->db->trans_start();
 
@@ -23,6 +23,7 @@ class M_order extends CI_Model {
             'tanggal' => date('Y-m-d H:i:s'),
             'grandtotal' => $grandtotal,
             'totaldiskon' => $totaldiskon,
+            'deskripsi' => $deskripsi,
             'id_promo' => $promo[0]['id_promo'],
             'id_cabang  ' => $this->session->userdata['xcellent_cabang'],
             'createdat' => date('Y-m-d H:i:s'),
@@ -296,7 +297,8 @@ class M_order extends CI_Model {
                 $data = array(
                     'jumlah' => $products[$x]['jumlah'],
                     'harga' => $products[$x]['harga'],
-                    'subtotal  ' => $products[$x]['subtotal']
+                    'subtotal  ' => $products[$x]['subtotal'],
+                    'deskripsi  ' => $products[$x]['deskripsi']
                 );
                 $this->db->where('id_notajual', $idnota);
                 $this->db->where('id_produk', $products[$x]['id']);
@@ -381,7 +383,9 @@ class M_order extends CI_Model {
     }
 
     function Get_all_order() {
-        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, promo.nama as namapromo, admin.nama as namaadmin, b.nama as namakasir, c.nama as namaproduser');
+        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, promo.nama as namapromo, admin.nama as namaadmin,'
+                . ' b.nama as namakasir, c.nama as namaproduser'
+                . '');
         $this->db->from('notajual');
         $this->db->join('member', 'member.id=notajual.id_member');
         $this->db->join('admin', 'admin.id=notajual.id_admin');
@@ -389,6 +393,11 @@ class M_order extends CI_Model {
         $this->db->join('admin c', 'c.id=notajual.id_produser');
         $this->db->join('promo', 'promo.id=notajual.id_promo');
         $this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
+        if($this->session->userdata['xcellent_tipe']==4)
+        {
+            $this->db->where('notajual.status', 1);
+        }
+        $this->db->order_by('notajual.grandtotal', 'DESC');
         $query = $this->db->get();
         return $query->result();
     }

@@ -486,6 +486,7 @@
                                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
+                                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='"+document.getElementById("id_deskripsi").value+"'></div></td>" +
                                             "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                                             "</tr>");
                                     urutanproduct++;
@@ -495,6 +496,7 @@
 
                                     //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
                                     $("#id_quantity").val(1);
+                                    $("#id_deskripsi").val("");
                                 } else
                                 {
                                     alert("have been registerd");
@@ -567,7 +569,7 @@
 
                                     if ($("#id_txt_id_product_" + counterwhile).length > 0)
                                     {
-                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val()});
+                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val()});
                                         numItems--;
 
 
@@ -587,7 +589,7 @@
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Order/Add_order_note",
-                                    datatype : "json",
+                                    datatype: "json",
                                     data: {
                                         data: tampungall,
                                         product: products,
@@ -690,11 +692,23 @@
                             <input   id="id_discount"  class="form-control" name="name_discount" placeholder="Price" type="hidden" value="0">
                             <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
                         </div>
-                        <div class="col-md-4">
+                        
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1"></label>
+                        <div class="col-md-6">
+                            <textarea id="id_deskripsi" class="form-control" name="name_deskripsi" placeholder="Description" rows="4" ><?php echo set_value('name_deskripsi'); ?></textarea>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1"></label>
+                        <div class="col-md-6">
                             <input onclick="add_to_note();
                                     update_grandtotal();
                                     update_total_discount();
                                    "  name="" id="id_button_add_to_note" class="btn btn-primary " value="Add Product">
+
                         </div>
                     </div>
 
@@ -716,6 +730,7 @@
                                         <th   >Price</th>
                                         <th   >%</th>
                                         <th   >Subtotal</th>
+                                        <th   >Description</th>
                                         <th   >X</th>
 
 

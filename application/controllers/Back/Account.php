@@ -62,7 +62,7 @@ class Account extends CI_Controller {
 
                     //sukses ambil data login
                     if (isset($tamp)) {
-
+                    //    print_r($tamp); exit();
                         $this->session->set_userdata('xcellent_name', $tamp['nama']);
                         $this->session->set_userdata('xcellent_email', $tamp['email']);
                         $this->session->set_userdata('xcellent_tipe', $tamp['id_tipeadmin']);

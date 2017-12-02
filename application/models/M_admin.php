@@ -39,21 +39,21 @@ class M_admin extends CI_Model {
         }
     }
 
-    function Add_admin($name, $email, $salt, $password, $phone, $address, $type, $branch, $idadmin) {
+    function Add_admin($name, $email, $salt, $password, $phone, $address, $type, $branch) {
 
         date_default_timezone_set('Asia/Jakarta');
 
         $data = array(
             'nama' => $name,
             'email' => $email,
-            'tipe' => $type,
+            'id_tipeadmin' => $type,
             'password' => $password,
             'salt' => $salt,
             'id_cabang' => $branch,
             'statusaktif' => 1,
             'telepon' => $phone,
             'alamat' => $address,
-            'id_admin' => $idadmin,
+            'id_admin' => $this->session->userdata['xcellent_id'],
             'createdAt' => date('Y-m-d H:i:s'),
             'updatedAt' => date('Y-m-d H:i:s')
         );

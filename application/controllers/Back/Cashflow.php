@@ -76,6 +76,11 @@ class Cashflow extends CI_Controller {
             }
         }
     }
+    
+    public function Get_all_income_summary()
+    {
+        
+    }
 
     public function Show_all_cashflow() {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
@@ -87,6 +92,28 @@ class Cashflow extends CI_Controller {
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_all_cashflow_back', $data);
+
+        $this->load->view('back/v_footer_back');
+    }
+    
+    
+     public function Show_report_cashflow() {
+        $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_report_cashflow_back', $data);
+
+        $this->load->view('back/v_footer_back');
+    }
+    
+    public function Show_report_income_summary()
+    {
+        $data['tablecashflow'] = $this->M_cashflow->Get_all_income_summary();
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back');
+        $this->load->view('back/v_report_income_summary_back', $data);
 
         $this->load->view('back/v_footer_back');
     }
