@@ -114,13 +114,13 @@
                                             foreach ($tableproduct as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
-                                                echo ' <td ><a   onclick="show_material(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-eye-open" style="color:green"  data-toggle="modal" data-target="#myMaterial"> ' . $hasil->nama . '</a></td>';
+                                                echo ' <td ><a   onclick="show_material(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:green"  data-toggle="modal" data-target="#myMaterial"> ' . $hasil->nama . '</a></td>';
                                                 echo ' <td >' . $hasil->namakategori . '</td>';
-                                                echo '<td>'.'<a   onclick="show_product_price(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myPriceModal">'.$hasil->hargajual . ' </a> </td>';
+                                                echo '<td>'.'<a   onclick="show_product_price(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myPriceModal">'.$hasil->hargajual . ' </a> </td>';
                                                 echo '<td>' .  '</td>';
                                               
-                                                echo '<td>   <a href="'. base_url(). 'Back/Product/Show_edit_product/'. $hasil->id.   '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                echo '<td>   <a href="'. base_url(). 'Back/Product/Show_edit_product/'. $hasil->id.   '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>
+                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>

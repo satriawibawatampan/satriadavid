@@ -116,12 +116,14 @@
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo '<td>' . $hasil->tipe . '</td>';
                                                 echo '<td>' . $hasil->hpp . '</td>';
-                                                echo '<td>' . $hasil->stok . ' <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
+                                                echo '<td>' . $hasil->stok . ' <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
                                                 echo '<td>' . $hasil->jumlahperpack . '</td>';
-                                                
-                                                echo '<td>   <a href="'. base_url(). 'Back/Material/Show_edit_material/'. $hasil->id.   '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
-                                                echo '</tr>';
+                                                ?>
+                                                <td>   
+                                                    <a href="<?php echo base_url();?>Back/Material/Show_edit_material/<?php echo $hasil->id;?>"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>
+                                                    <a  onclick="showdeletedatamaterial(<?php echo $hasil->id;?>,'<?php echo $hasil->nama;?>')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                </tr>
+                                                <?php 
                                             }
                                             ?>
                                         </tbody>

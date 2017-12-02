@@ -120,8 +120,8 @@
                                                 echo '<td>' . $hasil->telepon . '</td>';
                                                 echo '<td>' . $hasil->tipe . '</td>';
                                                 echo '<td>' . $hasil->namacabang . '</td>';
-                                                echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                        <a   onclick="showdeletedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
+                                                        <a   onclick="showdeletedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>

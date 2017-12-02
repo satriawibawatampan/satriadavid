@@ -121,11 +121,11 @@
                         </div>
 
                         <div   class="col-md-2">
-                            <i id="id_button_plus_material" onclick="add_material()" style="color:blue;" class="glyphicon glyphicon-plus control-label" >Add Material</i>
+                            <i id="id_button_plus_material" onclick="add_material()" style="color:blue;" class="btn glyphicon glyphicon-plus control-label" >Add Material</i>
                         </div>
 
                         <div  hidden id="id_button_reset"   class="col-md-2">
-                            <i  onclick="reset_material()" style="colour:red" class="glyphicon glyphicon-trash control-label" >Reset Grossir Price</i>
+                            <i  onclick="reset_material()" style="colour:red" class="btn glyphicon glyphicon-trash control-label" >Reset Grossir Price</i>
                         </div>
 
 
@@ -155,8 +155,6 @@
 
                     </div>
 
-                    <!-------------------------------------------------------------------------------------->
-
                     <div class="form-group">
                         <label class="col-md-2 control-label">Retail Price</label>
                         <div   class="col-md-2">
@@ -168,14 +166,14 @@
                             </span>
                         </div>
                         <div   class="col-md-2">
-                            <i id="id_button_plus" onclick="show_div_grossir()" style="color:blue;" class="glyphicon glyphicon-plus control-label" >Add Grossir Price</i>
+                            <i id="id_button_plus" onclick="show_div_grossir()" style="color:blue;" class="btn glyphicon glyphicon-plus control-label" >Add Grossir Price</i>
                         </div>
                         <!--                        <div  hidden id="id_button_reset"   class="col-md-2">
                                                     <i  onclick="reset_grosir_price()" style="colour:red" class="glyphicon glyphicon-trash control-label" >Reset Grossir Price</i>
                                                 </div>-->
 
                         <div  hidden id="id_button_reset"   class="col-md-2">
-                            <i  onclick="reset_grosir_price()" style="colour:red" class="glyphicon glyphicon-trash control-label" >Reset Grossir Price</i>
+                            <i  onclick="reset_grosir_price()" style="colour:red" class="btn glyphicon glyphicon-trash control-label" >Reset Grossir Price</i>
                         </div>
 
 
@@ -201,7 +199,7 @@
                             </span>
                         </div>
                         <div id="id_button_plus"  class="col-md-2">
-                            <i  onclick="add_grossir_price()" style="color:blue;"  class="glyphicon glyphicon-plus control-label" >Add Grossir Price</i>
+                            <i  onclick="add_grossir_price()" style="color:blue;"  class="btn glyphicon glyphicon-plus control-label" >Add Grossir Price</i>
                         </div>
 
 
@@ -267,7 +265,7 @@
             //$("#id_button_plus").onclick("reset_grossir_price()");
             document.getElementById('id_button_plus').setAttribute("onClick", "reset_grossir_price()");
             document.getElementById('id_button_plus').setAttribute("style", "color:red");
-            document.getElementById('id_button_plus').setAttribute("class", "glyphicon glyphicon-trash control-label");
+            document.getElementById('id_button_plus').setAttribute("class", "btn glyphicon glyphicon-trash control-label");
             document.getElementById('id_button_plus').innerHTML = " Reset grossir price";
 
             $("#id_body_table").append(
@@ -305,7 +303,7 @@
 
         document.getElementById('id_button_plus').setAttribute("onClick", "show_div_grossir()");
         document.getElementById('id_button_plus').setAttribute("style", "color:blue");
-        document.getElementById('id_button_plus').setAttribute("class", "glyphicon glyphicon-plus control-label");
+        document.getElementById('id_button_plus').setAttribute("class", "btn glyphicon glyphicon-plus control-label");
         document.getElementById('id_button_plus').innerHTML = "Add Grossir Price";
     }
     function add_grossir_price()
@@ -379,7 +377,7 @@
                         "<tr id='tr_" + urutanmaterial + "'>" +
                         "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='" + $("#id_name_material option:selected").text() + "'></div></td>" +
                         "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]' placeholder='Qty Max' type='number' value='" + $("#id_quantity_material").val() + "'></div></td>" +
-                        "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                         "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Max' type='hidden' value='" + $("#id_name_material option:selected").val() + "'></td>" +
                         "</tr>");
                 urutanmaterial++;

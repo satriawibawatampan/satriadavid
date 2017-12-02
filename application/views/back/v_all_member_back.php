@@ -122,8 +122,8 @@
                                                 echo '<td>' . $hasil->ttl . '</td>';
                                                 echo '<td>' . $hasil->gender . '</td>';
                                                 echo '<td>' . $hasil->deposit . '</td>';
-                                                echo '<td>   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                        <a   onclick="showdeletedatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                echo '<td>   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
+                                                        <a   onclick="showdeletedatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>

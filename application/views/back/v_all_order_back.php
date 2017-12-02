@@ -143,17 +143,17 @@
 
                                                 echo '<td> ';
                                                 if ($hasil->status == 0) {
-                                                    echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                    echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 }
                                                 echo'<span> <span>';
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ','.$hasil->grandtotal.')" class="fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ','.$hasil->grandtotal.')" class="btn glyphicon glyphicon-usd" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
                                                 } else if ($hasil->status == 1) {
-                                                    echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="fa fa-gears" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
+                                                    echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
                                                 } else if ($hasil->status == 2) {
-                                                    echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="fa fa-check" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
+                                                    echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="btn glyphicon glyphicon-ok" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
                                                 }
                                                 echo '</td></tr>';
                                             }

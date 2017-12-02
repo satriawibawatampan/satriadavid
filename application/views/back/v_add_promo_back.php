@@ -126,7 +126,7 @@
                         </div>
 
                         <div   class="col-md-2">
-                            <i id="id_button_plus_item" onclick="add_promo()" style="color:blue;" class="glyphicon glyphicon-plus control-label" >Add Item</i>
+                            <i id="id_button_plus_item" onclick="add_promo()" style="color:blue;" class="btn glyphicon glyphicon-plus control-label" >Add Item</i>
                         </div>
 
 
@@ -155,9 +155,6 @@
 
 
                     </div>
-
-                    <!-------------------------------------------------------------------------------------->
-
 
                     <footer>
 
@@ -208,7 +205,7 @@
                         "<tr id='tr_" + urutanpromo + "'>" +
                         "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='" + $("#id_name_product option:selected").text() + "'></div></td>" +
                         "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='" + $("#id_discount").val() + "'></div></td>" +
-                        "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                         "<td hidden ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='" + $("#id_name_product option:selected").val() + "'></td>" +
                         "</tr>");
                 urutanpromo++;

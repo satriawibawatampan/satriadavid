@@ -125,11 +125,11 @@
                                                 }
                                                 echo '<td>';
                                                 if ($hasil->statusbayar == 0) {
-                                                echo '<a href="' . base_url() . 'Back/Purchasing/Show_edit_purchasing_note/' . $hasil->id . '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                echo '<a href="' . base_url() . 'Back/Purchasing/Show_edit_purchasing_note/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 
-                                                    echo '<a   onclick="showbayarnotabeli(\'' . $hasil->id . '\')" class="fa fa-money" style="color:green"  data-toggle="modal" data-target="#myBayarModal"></a>';
+                                                    echo '<a   onclick="showbayarnotabeli(\'' . $hasil->id . '\')" class="btn glyphicon glyphicon-usd" style="color:green"  data-toggle="modal" data-target="#myBayarModal"></a>';
                                                 }
-                                                echo '<a   href="' . base_url() . 'Back/Purchasing/Show_print_one_purchasing_note/' . $hasil->id . '" class="glyphicon glyphicon-trash" style="color:red"  "></a></td>';
+                                                echo '<a   href="' . base_url() . 'Back/Purchasing/Show_print_one_purchasing_note/' . $hasil->id . '" class="btn glyphicon glyphicon-trash" style="color:red"  "></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>
