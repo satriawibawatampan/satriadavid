@@ -285,8 +285,8 @@
                     <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
-                        <input  id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input  id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
                         <div class="form-group">
                             <table id="id_table_payment" class="table table-bordered table-striped" >
                                 <thead>
@@ -536,6 +536,13 @@
                             "</tr>");
 
                 });
+                
+                $("#id_body_table_payment").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td colspan='5'>Grandtotal</td>" +
+                            "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
+                            
+                            "</tr>");
             }
         });
 
@@ -601,12 +608,7 @@
 
                 });
                 
-                $("#id_body_table_orderproduk").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td colspan='4'>Grandtotal</td>" +
-                            "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
-                            
-                            "</tr>");
+                
                 
             }
         });

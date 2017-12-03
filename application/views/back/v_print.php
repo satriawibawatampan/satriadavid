@@ -61,11 +61,11 @@
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align: left;">
                             <span>No Nota</span><br>
-                            <span><?php echo strftime("%d/%m/%y", strtotime($nota['tanggal'])) ?></span><br>
+                            <span><?php // echo strftime("%d/%m/%y", strtotime($nota['tanggal'])) ?></span><br>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">
                             <span>Jam</span><br>
-                            <span><?php echo strftime("%H:%M:%S", strtotime($nota['tanggal'])) ?></span><br>
+                            <span><?php // echo strftime("%H:%M:%S", strtotime($nota['tanggal'])) ?></span><br>
                         </div>
                     </div>
                 </div>
