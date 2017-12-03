@@ -285,8 +285,8 @@
                     <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
-                        <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
                         <div class="form-group">
                             <table id="id_table_payment" class="table table-bordered table-striped" >
                                 <thead>
@@ -432,6 +432,19 @@
 
                         <p>Are you sure want to set to Finish for Order Note <span id="span_nama_finish" style="color:blue"></span>?</p>
                         <input   id="id_finishid" type="text" name="name_finishid"  aria-required="true" class="error" aria-invalid="true" >
+                        <table id="id_table_finish" class="table table-bordered table-striped" >
+                            <thead>
+                                <tr >
+                                    <th  style="width: 100px;" >Product ID</th>
+                                    <th    >Product Name</th>
+                                    <th  style="width: 100px;" >Qty</th>
+
+                            </thead>
+                            <tbody id="id_body_table_finish" >	
+
+
+                            </tbody>
+                        </table>
                         <footer>
                             <input type="submit" name="button_finish" class="btn btn-primary" value="Finish">
                         </footer>
@@ -443,64 +456,43 @@
     </div>
 
 
-    <!-- MODAL edit -->
-    <div class="modal fade" id="myEditModal" role="dialog">
+
+
+    <div class="modal fade" id="myMaterial" role="dialog">
         <div class="modal-dialog">
+
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Material Form</h4>
+                    <h4 class="modal-title">Materials for <span id="span_nama_material" style="color:blue"></span> </h4>
                 </div>
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="smart-form" novalidate="novalidate" method="post">
-                    <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
-                    <fieldset>
-                        <label class="input control-label">Stock Type</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <select id="id_edittype" class="form-control" name="name_edittype" id="select-1" selected ="select" >
-                                    <option value="1">Ordinary</option>
-                                    <option value="2">Role</option>
+                <div class="modal-body">
+                    <div class="widget-body no-padding">
+
+                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
+                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Material</th>
+                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Material Name</th>
+                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Qty</th>
 
 
-                                </select> 
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_edittype'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">Name</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editname'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">HPP</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_edithpp" type="number" name="name_edithpp" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the HPP</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_edithpp'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
+                                </thead>
+                                <tbody id="tablebodymaterial">	
 
+                                </tbody>
+                            </table>
 
-                    <footer>
-                        <input type="submit" name="button_editmaterial" class="btn btn-primary" value="Submit">
-                    </footer>
-                </form>	
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -536,13 +528,6 @@
                             "</tr>");
 
                 });
-                
-                $("#id_body_table_payment").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td colspan='5'>Grandtotal</td>" +
-                            "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
-                            
-                            "</tr>");
             }
         });
 
@@ -567,7 +552,7 @@
                     $("#id_body_table_producing").append(
                             "<tr role = 'row' class = 'odd'>" +
                             "<td>" + name['id'] + "</td>" +
-                            "<td>" + name['namaproduk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "</tr>");
 
@@ -580,6 +565,27 @@
     {
         document.getElementById('id_finishid').value = idnya;
         document.getElementById('span_nama_finish').innerHTML = idnya.toString();
+        $("#id_body_table_producing").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#id_body_table_finish").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['id'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                            "<td>" + name['jumlah'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
 
     }
 
@@ -599,7 +605,7 @@
                     $("#id_body_table_orderproduk").append(
                             "<tr role = 'row' class = 'odd'>" +
                             "<td>" + name['id'] + "</td>" +
-                            "<td>" + name['namaproduk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "<td>" + name['harga'] + "</td>" +
                             "<td>" + name['diskon'] + "</td>" +
@@ -607,9 +613,9 @@
                             "</tr>");
 
                 });
-                
-                
-                
+
+
+
             }
         });
     }
@@ -728,4 +734,32 @@
 
 
     }
+
+    function show_material(idnya, nama)
+    {
+
+        $("#span_nama_material").text(nama + " (Product Id " + idnya + ")");
+        $("#tablebodymaterial").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                // alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#tablebodymaterial").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['idmaterial'] + "</td>" +
+                            "<td>" + name['namamaterial'] + "</td>" +
+                            "<td>" + name['jumlahmaterial'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
+    }
+
 </script>
