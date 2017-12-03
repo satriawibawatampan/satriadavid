@@ -10,7 +10,7 @@ class M_material extends CI_Model {
         $this->load->model('M_harga');
     }
 
-    function Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock,$minimumstock, $grossirprice, $minimumqty, $maximumqty) {
+    function Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock, $minimumstock, $grossirprice, $minimumqty, $maximumqty) {
         $this->db->trans_start();
         date_default_timezone_set('Asia/Jakarta');
 
@@ -114,34 +114,29 @@ class M_material extends CI_Model {
         $query = $this->db->get();
         return $query->row();
     }
-    
-    function Get_material_out_of_stock()
-    {
+
+    function Get_material_out_of_stock() {
         $this->db->select('material.id as idmaterial,material.nama as namamaterial, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
         $this->db->from('material');
-        $this->db->join('detailmaterial','detailmaterial.id_material = material.id');
+        $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
         $this->db->group_by('idmaterial');
         $this->db->having('total <= minstok');
-        
-         $query = $this->db->get();
+
+        $query = $this->db->get();
         return $query->result_array();
-        
-//        SELECT material.id, sum(detailmaterial.stok) as total, material.minimum_stok as minstok
-//from material
-//join detailmaterial on detailmaterial.id_material=material.id
-//group by material.id
-//having total <= minstok
     }
 
-//    function Json_get_one_material($id) {
-//        $this->db->select('material.nama as nama, material.tipe as tipe, material.hargapokok as hargapokok, material.jumlahperpack as jumlahperpack, detailmaterial.stok as stok, detailmaterial.id_cabang as id_cabang');
-//        $this->db->from('material');
-//         $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
-//        $this->db->where('material.statusaktif', 1);
-//        $this->db->where('id', $id);
-//        $query = $this->db->get();
-//        return $query->row();
-//    }
+    function Get_residual_material($idnota) {
+        $query = $this->db->query("SELECT produk.nama as 'namaproduk',used_material_temp.id_detailmaterial, used_material_temp.jumlah FROM `used_material_temp`
+                    join detailmaterial on detailmaterial.id = used_material_temp.id_detailmaterial
+                    join notajual_produk on notajual_produk.id = used_material_temp.id_notajualproduk
+                    join produk on produk.id = notajual_produk.id_produk
+                    join notajual on notajual.id = notajual_produk.id_notajual
+                    where notajual.id = ?", array($idnota));
+        $usedmaterial = $query->result_array();
+        
+        return($usedmaterial);
+    }
 
     function Json_get_detail_material($id) {
         $this->db->select('material.id as id,material.nama as nama,material.hargapokok as hpp, material.tipe as tipe, detailmaterial.id as detailmaterialid, detailmaterial.stok as stok,detailmaterial.id_notabeli as idnotabeli, detailmaterial.createdat as createdat, detailmaterial.updatedat as updatedat');
@@ -170,7 +165,7 @@ class M_material extends CI_Model {
         // return $query->result_array();
     }
 
-    function Edit_material($id, $nama, $tipe, $hargapokok,$name_minimumstock) {
+    function Edit_material($id, $nama, $tipe, $hargapokok, $name_minimumstock) {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $nama,
@@ -316,11 +311,10 @@ class M_material extends CI_Model {
         $this->db->trans_start();
 
         for ($x = 0; $x < count($arraytamp); $x++) {
-            if($arraytamp[$x]['id']!=-1)
-            {
-            $this->db->set('stok', 'stok+' . $arraytamp[$x]['stok'], FALSE);
-            $this->db->where('id', $arraytamp[$x]['id']);
-            $this->db->update('detailmaterial');
+            if ($arraytamp[$x]['id'] != -1) {
+                $this->db->set('stok', 'stok+' . $arraytamp[$x]['stok'], FALSE);
+                $this->db->where('id', $arraytamp[$x]['id']);
+                $this->db->update('detailmaterial');
             }
             //echo $arraytamp[$x]['id'];
         }

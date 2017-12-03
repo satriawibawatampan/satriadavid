@@ -155,11 +155,11 @@
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalfinish(' . $hasil->id . ')" class="btn glyphicon glyphicon-ok" style="color:blue"  data-toggle="modal" data-target="#myFinishModal"></a>';
                                                 }
-                                                
-                                                  if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
+
+                                                if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
                                                     echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="fa fa-print" style="color:green"   ></a>';
                                                 }
-                                                
+
                                                 echo '</td></tr>';
                                             }
                                             ?>
@@ -226,7 +226,7 @@
                                         <th  style="width: 150px;" >Price</th>
                                         <th  style="width: 75px;" >%</th>
                                         <th  style="width: 150px;" >Subtotal</th>
-                                       
+
 
 
                                 </thead>
@@ -282,13 +282,97 @@
                     <h4 class="modal-title">Payment</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
-                        <input hidden id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        <div class="form-group">
+                            <table id="id_table_payment" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th  style="width: 100px;" >Product ID</th>
+                                        <th    >Product Name</th>
+                                        <th  style="width: 100px;" >Qty</th>
+                                        <th  style="width: 150px;" >Price</th>
+                                        <th  style="width: 75px;" >%</th>
+                                        <th  style="width: 150px;" >Subtotal</th>
+
+                                </thead>
+                                <tbody id="id_body_table_payment" >	
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Payment Method</label>
+                            <div class="col-md-4">
+
+                                <select class="form-control" name="name_paymentmethod" id="id_paymentmethod" selected ="select" >
+                                    <?php
+                                    foreach ($listpaymentmethod as $hasil) {
+                                        echo "<option value='" . $hasil->id . "'>" . $hasil->nama . "</option>";
+                                    }
+                                    ?>
+
+
+                                </select> 
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Payment Amount</label>
+                            <div class="col-md-4">
+
+                                <input  id="id_paymentamount" type="number" name="name_paymentamount"  aria-required="true" class="error" aria-invalid="true" value="" >
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1"></label>
+                            <div class="col-md-4">
+                                <input onclick="add_to_table_payment()"  name="" id="id_button_add_to_table_payment" class="btn btn-primary " value="Add Payment">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1"></label>
+                            <div class="col-md-6">
+                                <table id="id_table_payment_method" class="table table-bordered table-striped" >
+                                    <thead>
+                                        <tr >
+                                            <th  style="width: 100px;" >id</th>
+                                            <th  style="width: 100px;" >Payment Method</th>
+                                            <th    >Amount</th>
+                                            <th  style="width: 50px;" >x</th>
+
+                                    </thead>
+                                    <tbody id="id_body_table_payment_method" >	
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Total Payment</label>
+                            <div class="col-md-4">
+                                <input readonly type="number" name="name_totalpayment" id="id_payment_method_grandtotal" value="0">
+
+                            </div>
+                        </div>
+
                         <footer>
-                            <input type="submit" name="button_payment" class="btn btn-primary" value="They Have Paid">
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="select-1"></label>
+                                <div class="col-md-4">
+                                    <input onclick="check_all_not_null();"  name="button_payment" class="btn btn-primary " value="They Have Paid">
+                                </div>
+                            </div>
                         </footer>
                     </form>	
                 </div>
@@ -311,6 +395,19 @@
 
                         <p>Are you sure want to run a Producing for Order Note <span id="span_nama_producing" style="color:blue"></span>?</p>
                         <input   id="id_producingid" type="hidden" name="name_producingid"  aria-required="true" class="error" aria-invalid="true" >
+                        <table id="id_table_producing" class="table table-bordered table-striped" >
+                            <thead>
+                                <tr >
+                                    <th  style="width: 100px;" >Product ID</th>
+                                    <th    >Product Name</th>
+                                    <th  style="width: 100px;" >Qty</th>
+
+                            </thead>
+                            <tbody id="id_body_table_producing" >	
+
+
+                            </tbody>
+                        </table>
                         <footer>
                             <input type="submit" name="button_producing" class="btn btn-primary" value="Produce all items">
                         </footer>
@@ -416,12 +513,60 @@
         document.getElementById('id_paymentid').value = idnya;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
         document.getElementById('span_nama_payment').innerHTML = idnya.toString();
+        $("#id_body_table_payment").empty();
+        $("#id_body_table_payment_method").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#id_body_table_payment").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['id'] + "</td>" +
+                            "<td>" + name['namaproduk'] + "</td>" +
+                            "<td>" + name['jumlah'] + "</td>" +
+                            "<td>" + name['harga'] + "</td>" +
+                            "<td>" + name['diskon'] + "</td>" +
+                            "<td>" + name['subtotal'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
+
+
 
     }
     function showmodalproducing(idnya)
     {
         document.getElementById('id_producingid').value = idnya;
         document.getElementById('span_nama_producing').innerHTML = idnya.toString();
+        $("#id_body_table_producing").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#id_body_table_producing").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['id'] + "</td>" +
+                            "<td>" + name['namaproduk'] + "</td>" +
+                            "<td>" + name['jumlah'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
 
     }
     function showmodalfinish(idnya)
@@ -455,7 +600,130 @@
                             "</tr>");
 
                 });
+                
+                $("#id_body_table_orderproduk").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td colspan='4'>Grandtotal</td>" +
+                            "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
+                            
+                            "</tr>");
+                
             }
         });
+    }
+    var urutanpayment = 1
+    function add_to_table_payment()
+    {
+
+        if (
+                document.getElementById('id_paymentmethod').value > 0 &&
+                document.getElementById('id_paymentamount').value.length > 0
+                )
+        {
+            var checkingadaproduksama = this.check_paymentmethod();
+            //alert("checking " + checkingadamaterialsama);
+            if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
+            {
+                $("#id_body_table_payment_method").append(
+                        "<tr id='tr_" + urutanpayment + "' role = 'row' class = 'odd'>" +
+                        "<td><div ><input readonly id='id_txt_id_paymentmethod_" + urutanpayment + "' class='form-control hitung' name='name_txt_id_paymentmethod[]'  type='text' value='" + $("#id_paymentmethod option:selected").val() + "'></div></td>" +
+                        "<td><div ><input readonly id='id_txt_paymentmethod_" + urutanpayment + "' class='form-control ' name='name_txt_paymentmethod[]'  type='text' value='" + $("#id_paymentmethod option:selected").text() + "'></div></td>" +
+                        "<td><div ><input readonly id='id_txt_paymentamount_" + urutanpayment + "' class='form-control ' name='name_txt_id_paymentamount[]'  type='text' value='" + $("#id_paymentamount").val() + "'></div></td>" +
+                        "<td><div><a onclick='remove_payment_tr(" + urutanpayment + ")'>x</a></div></td>" +
+                        "</tr>");
+
+                urutanpayment++;
+                checkingadaproduksama = 1;
+                update_grandtotal_payment();
+
+                // $("#id_paymentmethod").val(1);
+                $("#id_paymentamount").val("");
+            } else
+            {
+                alert("Payment have been registerd");
+            }
+
+        } else
+        {
+            alert("Nulls in field Payment Method Amount are not allowed");
+        }
+    }
+
+    function check_paymentmethod()
+    {
+        var numItems = $('.hitung').length;
+
+        var id = event.target.id;
+        var counterwhile = 1;
+        while (numItems > 0)
+        {   // jika yang dipilih ada di id-text_id_material_product(table)
+            if ($("#id_paymentmethod option:selected").val() == $("#id_txt_id_paymentmethod_" + counterwhile).val())
+            {
+                counterwhile = 1;
+                //kembalikan 0 untuk alert dari fungsi sebelumnya
+                return 0;
+                break;
+            }
+            if ($("#id_txt_id_paymentmethod_" + counterwhile).length > 0)
+            {
+                numItems--;
+            }
+            counterwhile++;
+
+        }
+        return 1;
+
+    }
+    function remove_payment_tr(y)
+    {
+
+        $("#tr_" + y).remove();
+        update_grandtotal_payment();
+
+    }
+    function update_grandtotal_payment()
+    {
+        var numItem = $('.hitung').length;
+
+        var grandtotalpayment = 0;
+        var id = event.target.id;
+        var counterwhile = 1;
+        while (numItem > 0)
+        {   // jika yang dipilih ada di id-text_id_material_product(table)
+
+            if ($("#id_txt_id_paymentmethod_" + counterwhile).length > 0)
+            {
+                //  alert(numItem);
+                grandtotalpayment += parseFloat($("#id_txt_paymentamount_" + counterwhile).val());
+                numItem--;
+            }
+            counterwhile++;
+
+        }
+
+        $("#id_payment_method_grandtotal").val(grandtotalpayment);
+    }
+
+    function check_all_not_null()
+    {
+
+        if ($('.hitung').length == 0)
+        {
+            $("form").submit(function (e) {
+                e.preventDefault();
+            });
+            alert("Register at least one payment method");
+        } else
+        {
+            if ($("#id_payment_method_grandtotal").val() < $("#id_paymentgrandtotal").val()) {
+                alert("Your fund is insufficient");
+
+            } else {
+
+                document.getElementById("smart-form-register-payment").submit();
+            }
+        }
+
+
     }
 </script>

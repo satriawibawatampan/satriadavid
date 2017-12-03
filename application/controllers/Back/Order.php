@@ -21,6 +21,7 @@ class Order extends CI_Controller {
             $this->load->model('M_member');
             $this->load->model('M_promo');
             $this->load->model('M_order');
+            $this->load->model('M_payment');
 
 
 
@@ -112,6 +113,7 @@ class Order extends CI_Controller {
 
     public function Show_all_order_note() {
         $data['tableorder'] = $this->M_order->Get_all_order();
+        $data['listpaymentmethod']= $this->M_payment->Get_all_payment();
         $navigation = array(
             "menu" => "order",
             "submenu" => "all",
@@ -213,8 +215,13 @@ class Order extends CI_Controller {
         if ($this->input->post('button_payment')) {
             $id = $this->input->post('name_paymentid');
             $grandtotal = $this->input->post('name_grandtotal');
+            $idpayment = $this->input->post('name_txt_id_paymentmethod');
+            $amount=$this->input->post('name_txt_id_paymentamount');
 
-            $this->M_order->Make_payment($id, $grandtotal);
+            $this->M_order->Make_payment($id, $grandtotal,$idpayment,$amount);
+            $this->session->set_flashdata('pesanform', "Your Note, " . $id . " , has been paid");
+            $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
         }
     }
 

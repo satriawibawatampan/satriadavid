@@ -512,12 +512,9 @@
 
                         function remove_product_tr(y)
                         {
-                            //alert($("#tr_" + y).prop("id"));
+                           
                             $("#tr_" + y).remove();
-//                if ($('.hitung').length == 0)
-//                {
-//                    $("#id_table_product").hide();
-//                }
+
                         }
 
                         function check_product()

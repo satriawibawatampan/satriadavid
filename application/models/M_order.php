@@ -423,18 +423,32 @@ class M_order extends CI_Model {
         return $query->result();
     }
 
-    function Make_payment($id, $grandtotal) {
+    function Make_payment($id, $grandtotal,$idpayment,$amount) {
         $this->db->trans_start();
         //update status
-        $data = array('status' => 1);
+        $data = array('status' => 1, 'id_kasir'=>$this->session->userdata['xcellent_id']);
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
 
 
-        //hapus usertemp
-        $query = $this->db->query("delete from used_material_temp
-                where id_notajualproduk in 
-                    (select id from notajual_produk where id_notajual=?)", array($id));
+//        hapus usertemp
+//        $query = $this->db->query("delete from used_material_temp
+//                where id_notajualproduk in 
+//                    (select id from notajual_produk where id_notajual=?)", array($id));
+        
+        //masukan ke notajual_pembayaran
+        for($f = 0; $f<count($idpayment);$f++){
+             $data = array(
+                    'id_notajual' => $id,
+                    'id_pembayaran' => $idpayment[$f],
+                    'jumlah' => $amount[$f]
+                );
+                $this->db->insert('notajual_pembayaran', $data);
+        }
+        
+        //update kasir
+       
+                
 
         //masukan ke cashflow
         $this->M_cashflow->Add_cashflow("Order Payment", 1, "Order Note " . $id, $grandtotal);

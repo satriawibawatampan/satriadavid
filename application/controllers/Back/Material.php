@@ -250,5 +250,22 @@ class Material extends CI_Controller {
     {
          $datanavigasi = $this->M_material->Get_material_out_of_stock();
     }
+    
+    public function Show_residual_material_from($idnota)
+    {
+        $data['usedmaterial'] = $this->M_material->Get_residual_material($idnota);
+        
+        $navigation=array(
+            "menu" => "material",
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+        );
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back', $navigation);
+        $this->load->view('back/v_add_residual_material_back', $data);
+        $this->load->view('back/v_footer_back');
+        
+    }
 
 }
