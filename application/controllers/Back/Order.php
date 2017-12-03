@@ -219,7 +219,7 @@ class Order extends CI_Controller {
             $amount=$this->input->post('name_txt_id_paymentamount');
 
             $this->M_order->Make_payment($id, $grandtotal,$idpayment,$amount);
-            $this->session->set_flashdata('pesanform', "Your Note, " . $id . " , has been paid");
+            $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been paid");
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Order/Show_all_order_note/');
         }
@@ -230,17 +230,26 @@ class Order extends CI_Controller {
             $id = $this->input->post('name_producingid');
 
             $this->M_order->Run_producing($id);
+            $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , is being ran.");
+            $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
         }
     }
 
     public function Set_finish() {
         
         
-//        if ($this->input->post('button_finish')) {
-//            $id = $this->input->post('name_finishid');
-//
-//            $this->M_order->Set_finish($id);
-//        }
+        if ($this->input->post('button_finish')) {
+            $id = $this->input->post('name_finishid');
+            $deskripsi =  $this->input->post('name_txt_residu_deskripsi');
+            $iddetailmaterial =  $this->input->post('name_txt_residu_iddetailmaterial');
+            $idnotajualproduk =  $this->input->post('name_txt_residu_idnotajualproduk');
+
+            $this->M_order->Set_finish($id,$deskripsi,$iddetailmaterial,$idnotajualproduk);
+             $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been finished");
+            $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
+        }
     }
 
 }

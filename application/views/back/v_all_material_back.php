@@ -211,6 +211,54 @@
 
         </div>
     </div>
+    
+    <!-- MODAL used deskripsi residu -->
+    <div class="modal fade" id="myResidu" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Residual Material </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-body no-padding">
+
+                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                            <table id="datatable_col_reorder_residu" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Detail Material</th>
+                                       
+                                        <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Description</th>
+                                        
+                                     
+                                        
+                                </thead>
+                                <tbody id="tablebody_residu">	
+                                    <?php
+//                                    foreach ($tabledetailmaterial as $hasil) {
+//                                        echo '<tr role = "row" class = "odd">';
+//                                        echo '<td>' . $hasil->id . '</td>';
+//                                        echo ' <td >' . $hasil->nama . '</td>';
+//                                        echo '<td>' . $hasil->tipe . '</td>';
+//                                        echo '<td>' . $hasil->hpp . '</td>';
+//                                        echo '</tr>';
+//                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     <!-- MODAL HAPUS -->
@@ -308,6 +356,7 @@
                 // document.getElementById('id_hidden_edit').value = idnya;
                 //document.getElementById('editname').value = nama;
                 $("#tablebody").empty();
+                $("#tablebody_residu").empty();
                 $.ajax({
                     type: "POST",
                     url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material/" + idnya,
@@ -320,10 +369,36 @@
 
                             $("#tablebody").append(
                                     "<tr role = 'row' class = 'odd'>" +
-                                    "<td>" + name['id'] + "</td>" +
+                                    "<td>" + name['detailmaterialid'] + "</td>" +
                                     "<td>" + name['nama'] + "</td>" +
-                                    "<td>" + name['stok'] + "</td>" +
+                                    "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi("+name['detailmaterialid'] +")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
                                     "<td>" + name['createdat'] + "</td>" +
+                                    "</tr>");
+                          
+                        });
+                    }
+                });
+            }
+            
+             function showdeskripsi(idnya)
+            {
+                // document.getElementById('id_hidden_edit').value = idnya;
+                //document.getElementById('editname').value = nama;
+                $("#tablebody_residu").empty();
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "Back/Material/Get_residu_by_detailmaterial/" + idnya,
+                    dataType: "json",
+                    success: function (result) {
+                        //ini kalau mau ambil 1 data saja sudah bisa.
+                        //alert ("hore sukses" + result);
+                        $.each(result, function (id, name)
+                        {
+                          //  alert("a");
+                            $("#tablebody_residu").append(
+                                    "<tr role = 'row' class = 'odd'>" +
+                                    "<td>" + name['detailmaterialid'] + "</td>" +
+                                    "<td>" + name['deskripsi'] + "</td>" +
                                     "</tr>");
                           
                         });

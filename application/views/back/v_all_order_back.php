@@ -245,31 +245,7 @@
         </div>
     </div>
 
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
 
     <!--modal payment-->
     <div class="modal fade" id="myPaymentModal" role="dialog">
@@ -285,8 +261,8 @@
                     <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
-                        <input  id="id_paymentid" type="text" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input  id="id_paymentgrandtotal" type="text" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
                         <div class="form-group">
                             <table id="id_table_payment" class="table table-bordered table-striped" >
                                 <thead>
@@ -428,25 +404,55 @@
                     <h4 class="modal-title">Finish Order</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Set_finish" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register-finish" action="<?php echo base_url(); ?>Back/Order/Set_finish" class="form-horizontal" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to set to Finish for Order Note <span id="span_nama_finish" style="color:blue"></span>?</p>
-                        <input   id="id_finishid" type="text" name="name_finishid"  aria-required="true" class="error" aria-invalid="true" >
-                        <table id="id_table_finish" class="table table-bordered table-striped" >
-                            <thead>
-                                <tr >
-                                    <th  style="width: 100px;" >Product ID</th>
-                                    <th    >Product Name</th>
-                                    <th  style="width: 100px;" >Qty</th>
+                        <input   id="id_finishid" type="hidden" name="name_finishid"  aria-required="true" class="error" aria-invalid="true" >
+                        <div class="form-group">
+                            <table id="id_table_finish" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th  style="width: 100px;" >Product ID</th>
+                                        <th    >Product Name</th>
+                                        <th  style="width: 100px;" >Qty</th>
 
-                            </thead>
-                            <tbody id="id_body_table_finish" >	
+                                </thead>
+                                <tbody id="id_body_table_finish" >	
 
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <p>Your Material that you used for making those products :</p>
+
+                        </div>
+
+                        <div class="form-group">
+                            <table id="id_table_usedmaterial" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th hidden style="width: 100px;" >ID Nota Jual Produk</th>
+                                        <th  style="width: 100px;" >ID Detail Material</th>
+                                        <th  style="width: 100px;"  >Material Name</th>
+                                        <th  style="width: 100px;" >Qty</th>
+                                        <th  >Residual Description</th>
+
+                                </thead>
+                                <tbody id="id_body_table_usedmaterial" >	
+
+
+                                </tbody>
+                            </table>
+                        </div>
                         <footer>
-                            <input type="submit" name="button_finish" class="btn btn-primary" value="Finish">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="select-1"></label>
+                                <div class=" pull-right">
+                                    <input type="submit" name="button_finish" class="btn btn-primary" value="Finish">
+
+                                </div>
+                            </div>
                         </footer>
                     </form>	
                 </div>
@@ -502,6 +508,7 @@
 
     function showmodalpayment(idnya, grandtotal)
     {
+
         document.getElementById('id_paymentid').value = idnya;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
         document.getElementById('span_nama_payment').innerHTML = idnya.toString();
@@ -519,7 +526,7 @@
 
                     $("#id_body_table_payment").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id'] + "</td>" +
+                            "<td>" + name['id_produk'] + "</td>" +
                             "<td>" + name['namaproduk'] + "</td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "<td>" + name['harga'] + "</td>" +
@@ -528,6 +535,11 @@
                             "</tr>");
 
                 });
+                $("#id_body_table_payment").append(
+                        "<tr role = 'row' class = 'odd'>" +
+                        "<td colspan='5'>Grandtotal</td>" +
+                        "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
+                        "</tr>");
             }
         });
 
@@ -551,8 +563,8 @@
 
                     $("#id_body_table_producing").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                            "<td>" + name['id_produk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "</tr>");
 
@@ -565,7 +577,8 @@
     {
         document.getElementById('id_finishid').value = idnya;
         document.getElementById('span_nama_finish').innerHTML = idnya.toString();
-        $("#id_body_table_producing").empty();
+        $("#id_body_table_finish").empty();
+        $("#id_body_table_usedmaterial").empty();
         $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
@@ -578,11 +591,37 @@
 
                     $("#id_body_table_finish").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                            "<td>" + name['id_produk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "</tr>");
 
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "Back/Material/Get_used_material_temp/" + idnya,
+                    dataType: "json",
+                    success: function (result) {
+                        var urutanresidu = 1;
+
+                        $.each(result, function (id, nameb)
+                        {
+
+
+                            $("#id_body_table_usedmaterial").append(
+                                    "<tr role = 'row' class = 'odd'>" +
+                                    "<td hidden><input readonly id='id_txt_residu_idnotajualproduk_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_idnotajualproduk[]'  type='hidden' value='" + nameb['idnotajualproduk'] + "'></td>" +
+                                    "<td><input readonly id='id_txt_residu_iddetailmaterial_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_iddetailmaterial[]'  type='text' value='" + nameb['iddetailmaterial'] + "'></td>" +
+                                    "<td>" + nameb['namamaterial'] + "</a></td>" +
+                                    "<td><input readonly id='id_txt_residu_jumlah_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_jumlah[]'  type='text' value='" + nameb['jumlah'] + "'></td>" +
+                                    "<td><input  id='id_txt_residu_deskripsi_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_deskripsi[]'  type='text' value=''></td>" +
+                                    "</tr>");
+                            
+                            urutanresidu++;
+
+                        });
+                    }
                 });
             }
         });
@@ -604,8 +643,8 @@
 
                     $("#id_body_table_orderproduk").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                            "<td>" + name['id_produk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "<td>" + name['harga'] + "</td>" +
                             "<td>" + name['diskon'] + "</td>" +

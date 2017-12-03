@@ -466,12 +466,24 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function Set_finish($id) {
+    function Set_finish($id,$deskripsi,$iddetailmaterial,$idnotajualproduk) {
         $this->db->trans_start();
 
+        //ubah jadi finish
         $data = array('status' => 3);
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
+        
+        //update residu
+        for($f = 0; $f<count($iddetailmaterial);$f++){
+             $data = array(
+                    'deskripsi_residual' => $deskripsi[$f]
+                    
+                );
+              $this->db->where('id_detailmaterial', $iddetailmaterial[$f]);
+              $this->db->where('id_notajualproduk', $idnotajualproduk[$f]);
+                $this->db->update('used_material_temp', $data);
+        }
 
         $this->db->trans_complete();
     }

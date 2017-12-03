@@ -127,15 +127,24 @@ class M_material extends CI_Model {
     }
 
     function Get_residual_material($idnota) {
-        $query = $this->db->query("SELECT produk.nama as 'namaproduk',used_material_temp.id_detailmaterial, used_material_temp.jumlah FROM `used_material_temp`
+        $query = $this->db->query("select used_material_temp.deskripsi_residual as deskripsi, used_material_temp.id_notajualproduk as idnotajualproduk, used_material_temp.id_detailmaterial as iddetailmaterial, material.nama as namamaterial, used_material_temp.jumlah as jumlah FROM `used_material_temp`
                     join detailmaterial on detailmaterial.id = used_material_temp.id_detailmaterial
+                    join material on detailmaterial.id_material = material.id
                     join notajual_produk on notajual_produk.id = used_material_temp.id_notajualproduk
                     join produk on produk.id = notajual_produk.id_produk
                     join notajual on notajual.id = notajual_produk.id_notajual
                     where notajual.id = ?", array($idnota));
-        $usedmaterial = $query->result_array();
+        $usedmaterial = $query->result();
         
         return($usedmaterial);
+    }
+    function Get_all_residual_description($iddetailmaterial)
+    {
+        $this->db->select('used_material_temp.id_detailmaterial as detailmaterialid,used_material_temp.deskripsi_residual as deskripsi');
+        $this->db->from('used_material_temp');
+        $this->db->where('id_detailmaterial', $iddetailmaterial);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     function Json_get_detail_material($id) {
