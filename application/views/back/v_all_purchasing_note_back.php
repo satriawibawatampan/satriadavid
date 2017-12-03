@@ -36,7 +36,6 @@
                     <span>>  
                         Purchasing Note List
                     </span>
-                    <?php print_r($tablepurchasingnote[0]);?>
                 </h1>
             </div>
             <!-- end col -->
