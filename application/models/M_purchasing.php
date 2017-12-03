@@ -68,7 +68,7 @@ class M_purchasing extends CI_Model {
         $this->db->select('notabeli.*,supplier.nama as namasupplier');
         $this->db->from('notabeli');
         $this->db->join('supplier', 'supplier.id = notabeli.id_supplier');
-
+        $this->db->order_by("tanggal","desc");
         $query = $this->db->get();
         return $query->result();
     }
