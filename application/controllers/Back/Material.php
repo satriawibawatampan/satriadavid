@@ -8,7 +8,7 @@ class Material extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-      //  header('Access-Control-Allow-Origin: *');
+        //  header('Access-Control-Allow-Origin: *');
         $this->load->library('session');
         if (isset($this->session->userdata['xcellent_id'])) {
 
@@ -28,7 +28,7 @@ class Material extends CI_Controller {
 
     public function index() {
 
-        $navigation=array(
+        $navigation = array(
             "menu" => "material",
             "submenu" => "add",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -44,7 +44,7 @@ class Material extends CI_Controller {
     }
 
     public function Show_add_material() {
-        $navigation=array(
+        $navigation = array(
             "menu" => "material",
             "submenu" => "add",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -59,7 +59,7 @@ class Material extends CI_Controller {
     public function Show_all_material() {
         $data['tablematerial'] = $this->M_material->Show_all_material($this->session->userdata['xcellent_cabang']);
 
-        $navigation=array(
+        $navigation = array(
             "menu" => "material",
             "submenu" => "all",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -75,7 +75,7 @@ class Material extends CI_Controller {
         $data['datamaterial'] = $this->M_material->Json_get_one_material($id);
         $data['datadetailmaterial'] = $this->M_material->Json_get_detail_material($id);
 
-        $navigation=array(
+        $navigation = array(
             "menu" => "material",
             "submenu" => "all",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -100,10 +100,10 @@ class Material extends CI_Controller {
 
 
             if ($this->form_validation->run() == FALSE) {
-                $navigation=array(
+                $navigation = array(
                     "menu" => "material",
                     "submenu" => "add",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -192,7 +192,7 @@ class Material extends CI_Controller {
             // print_r($id.$nama.$tipe.$hpp);
             // exit();
 
-            $this->M_material->Edit_material($id, $nama, $tipe, $hpp,$name_minimumstock);
+            $this->M_material->Edit_material($id, $nama, $tipe, $hpp, $name_minimumstock);
             $this->session->set_flashdata('pesanform', "Your Material , " . $nama . " , has been edited");
             $this->session->keep_flashdata('pesanform');
 
@@ -237,33 +237,44 @@ class Material extends CI_Controller {
 
     public function Reduce_material_quantity() {
         $data = $this->input->post("data");
-     
+
         $this->M_material->Reduce_material_quantity($data);
     }
+
     public function Readd_detailmaterial() {
         $data = $this->input->post("data");
-     
+
         $this->M_material->Readd_detailmaterial($data);
     }
-    
-    public function Get_material_out_of_stock()
-    {
-         $datanavigasi = $this->M_material->Get_material_out_of_stock();
+
+    public function Get_material_out_of_stock() {
+        $datanavigasi = $this->M_material->Get_material_out_of_stock();
     }
-    
-   
-    
-    public function Get_used_material_temp($idnota)
-    {
-        
+
+    public function Show_material_out_of_stock() {
+        $data = $this->M_material->Get_material_out_of_stock();
+
+        $navigation = array(
+            "menu" => "material",
+            "submenu" => "outofstock",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+        );
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back', $navigation);
+        $this->load->view('back/v_all_material_out_of_stock_back', $data);
+        $this->load->view('back/v_footer_back');
+    }
+
+    public function Get_used_material_temp($idnota) {
+
 //        print_r($idnota); exit();
         $data = $this->M_material->Get_residual_material($idnota);
-        
+
         echo json_encode($data);
     }
-    
-    public function Get_residu_by_detailmaterial($iddetailmaterial)
-    {
+
+    public function Get_residu_by_detailmaterial($iddetailmaterial) {
         $data = $this->M_material->Get_all_residual_description($iddetailmaterial);
         echo json_encode($data);
     }

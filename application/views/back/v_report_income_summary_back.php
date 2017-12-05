@@ -66,7 +66,7 @@
 
             <header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div><div class="widget-toolbar" role="menu"><a data-toggle="dropdown" class="dropdown-toggle color-box selector" href="javascript:void(0);"></a><ul class="dropdown-menu arrow-box-up-right color-select pull-right"><li><span class="bg-color-green" data-widget-setstyle="jarviswidget-color-green" rel="tooltip" data-placement="left" data-original-title="Green Grass"></span></li><li><span class="bg-color-greenDark" data-widget-setstyle="jarviswidget-color-greenDark" rel="tooltip" data-placement="top" data-original-title="Dark Green"></span></li><li><span class="bg-color-greenLight" data-widget-setstyle="jarviswidget-color-greenLight" rel="tooltip" data-placement="top" data-original-title="Light Green"></span></li><li><span class="bg-color-purple" data-widget-setstyle="jarviswidget-color-purple" rel="tooltip" data-placement="top" data-original-title="Purple"></span></li><li><span class="bg-color-magenta" data-widget-setstyle="jarviswidget-color-magenta" rel="tooltip" data-placement="top" data-original-title="Magenta"></span></li><li><span class="bg-color-pink" data-widget-setstyle="jarviswidget-color-pink" rel="tooltip" data-placement="right" data-original-title="Pink"></span></li><li><span class="bg-color-pinkDark" data-widget-setstyle="jarviswidget-color-pinkDark" rel="tooltip" data-placement="left" data-original-title="Fade Pink"></span></li><li><span class="bg-color-blueLight" data-widget-setstyle="jarviswidget-color-blueLight" rel="tooltip" data-placement="top" data-original-title="Light Blue"></span></li><li><span class="bg-color-teal" data-widget-setstyle="jarviswidget-color-teal" rel="tooltip" data-placement="top" data-original-title="Teal"></span></li><li><span class="bg-color-blue" data-widget-setstyle="jarviswidget-color-blue" rel="tooltip" data-placement="top" data-original-title="Ocean Blue"></span></li><li><span class="bg-color-blueDark" data-widget-setstyle="jarviswidget-color-blueDark" rel="tooltip" data-placement="top" data-original-title="Night Sky"></span></li><li><span class="bg-color-darken" data-widget-setstyle="jarviswidget-color-darken" rel="tooltip" data-placement="right" data-original-title="Night"></span></li><li><span class="bg-color-yellow" data-widget-setstyle="jarviswidget-color-yellow" rel="tooltip" data-placement="left" data-original-title="Day Light"></span></li><li><span class="bg-color-orange" data-widget-setstyle="jarviswidget-color-orange" rel="tooltip" data-placement="bottom" data-original-title="Orange"></span></li><li><span class="bg-color-orangeDark" data-widget-setstyle="jarviswidget-color-orangeDark" rel="tooltip" data-placement="bottom" data-original-title="Dark Orange"></span></li><li><span class="bg-color-red" data-widget-setstyle="jarviswidget-color-red" rel="tooltip" data-placement="bottom" data-original-title="Red Rose"></span></li><li><span class="bg-color-redLight" data-widget-setstyle="jarviswidget-color-redLight" rel="tooltip" data-placement="bottom" data-original-title="Light Red"></span></li><li><span class="bg-color-white" data-widget-setstyle="jarviswidget-color-white" rel="tooltip" data-placement="right" data-original-title="Purity"></span></li><li><a href="javascript:void(0);" class="jarviswidget-remove-colors" data-widget-setstyle="" rel="tooltip" data-placement="bottom" data-original-title="Reset widget color to default">Remove</a></li></ul></div>
                 <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                <h2>Add Cash Flow Form </h2>				
+                <h2>Search Income Summary</h2>				
 
                 <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
@@ -80,51 +80,23 @@
                 <!-- widget content -->
                 <div class="widget-body ">
 
-                    <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Cashflow/Add_cashflow" class="form-horizontal" novalidate="novalidate" method="post">
+                    <form role='form' id="smart-form-register"  class="form-horizontal" novalidate="novalidate" method="post">
 
                         <?php //echo validation_errors(); ?>
 
+
                         <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1">Type</label>
+                            <label class="col-md-2 control-label" for="select-1">Date From - Date To</label>
                             <div class="col-md-2">
-                                <select class="form-control" name="name_type" id="select-1" selected ="select" >
-                                    <option value="1">Debit</option>
-                                    <option value="2">Credit</option>
-                                </select> 
+                                <input class="form-control" id="id_from" name="name_from" placeholder="Name" type="Date" value="<?php echo set_value('name_from'); ?>">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1">Name</label>
+
                             <div class="col-md-2">
-                                <input class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
-                                <span class="col-md-9 text-danger">
-                                    <?php echo form_error('name_name'); ?>
-                                </span>
-
-
+                                <input class="form-control"id="id_to" name="name_to" placeholder="Name" type="Date" value="<?php echo set_value('name_to'); ?>">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Description</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control" name="name_description" placeholder="Description" rows="4" ><?php echo set_value('name_description'); ?></textarea>
-                                <span class="col-md-9 text-danger">
-                                    <?php echo form_error('name_description'); ?>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1">Amount</label>
-                            <div class="col-md-2">
-                                <input class="form-control" name="name_amount" placeholder="Amount" type="text" value="<?php echo set_value('name_amount'); ?>">
-                                <span class="col-md-9 text-danger">
-                                    <?php echo form_error('name_amount'); ?>
-                                </span>
 
-
-                            </div>
-                        </div>
 
 
                         <footer>
@@ -133,13 +105,14 @@
 
                                 <div class="col-md-4">
 
-                                    <input type="submit" name="button_addcashflow" class="btn btn-primary" value="Add to Cash Flow">
-                                </div>
+                                    <button onclick="show_report()" type="button" id="id_button_search" class="btn btn-primary " >Show Report</button>  </div>
 
                             </div>
 
                         </footer>
-                    </form>						
+                    </form>
+
+                    
 
                 </div>
                 <!-- end widget content -->
@@ -149,6 +122,7 @@
 
         </div>
         <!-- widget grid -->
+        
         <section id="widget-grid" class="">
 
             <!-- row -->
@@ -162,9 +136,9 @@
 
                         <header role="heading"><div class="jarviswidget-ctrls" role="menu">   <a href="javascript:void(0);" class="button-icon jarviswidget-toggle-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Collapse"><i class="fa fa-minus "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-fullscreen-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Fullscreen"><i class="fa fa-expand "></i></a> <a href="javascript:void(0);" class="button-icon jarviswidget-delete-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-times"></i></a></div><div class="widget-toolbar" role="menu"><a data-toggle="dropdown" class="dropdown-toggle color-box selector" href="javascript:void(0);"></a><ul class="dropdown-menu arrow-box-up-right color-select pull-right"><li><span class="bg-color-green" data-widget-setstyle="jarviswidget-color-green" rel="tooltip" data-placement="left" data-original-title="Green Grass"></span></li><li><span class="bg-color-greenDark" data-widget-setstyle="jarviswidget-color-greenDark" rel="tooltip" data-placement="top" data-original-title="Dark Green"></span></li><li><span class="bg-color-greenLight" data-widget-setstyle="jarviswidget-color-greenLight" rel="tooltip" data-placement="top" data-original-title="Light Green"></span></li><li><span class="bg-color-purple" data-widget-setstyle="jarviswidget-color-purple" rel="tooltip" data-placement="top" data-original-title="Purple"></span></li><li><span class="bg-color-magenta" data-widget-setstyle="jarviswidget-color-magenta" rel="tooltip" data-placement="top" data-original-title="Magenta"></span></li><li><span class="bg-color-pink" data-widget-setstyle="jarviswidget-color-pink" rel="tooltip" data-placement="right" data-original-title="Pink"></span></li><li><span class="bg-color-pinkDark" data-widget-setstyle="jarviswidget-color-pinkDark" rel="tooltip" data-placement="left" data-original-title="Fade Pink"></span></li><li><span class="bg-color-blueLight" data-widget-setstyle="jarviswidget-color-blueLight" rel="tooltip" data-placement="top" data-original-title="Light Blue"></span></li><li><span class="bg-color-teal" data-widget-setstyle="jarviswidget-color-teal" rel="tooltip" data-placement="top" data-original-title="Teal"></span></li><li><span class="bg-color-blue" data-widget-setstyle="jarviswidget-color-blue" rel="tooltip" data-placement="top" data-original-title="Ocean Blue"></span></li><li><span class="bg-color-blueDark" data-widget-setstyle="jarviswidget-color-blueDark" rel="tooltip" data-placement="top" data-original-title="Night Sky"></span></li><li><span class="bg-color-darken" data-widget-setstyle="jarviswidget-color-darken" rel="tooltip" data-placement="right" data-original-title="Night"></span></li><li><span class="bg-color-yellow" data-widget-setstyle="jarviswidget-color-yellow" rel="tooltip" data-placement="left" data-original-title="Day Light"></span></li><li><span class="bg-color-orange" data-widget-setstyle="jarviswidget-color-orange" rel="tooltip" data-placement="bottom" data-original-title="Orange"></span></li><li><span class="bg-color-orangeDark" data-widget-setstyle="jarviswidget-color-orangeDark" rel="tooltip" data-placement="bottom" data-original-title="Dark Orange"></span></li><li><span class="bg-color-red" data-widget-setstyle="jarviswidget-color-red" rel="tooltip" data-placement="bottom" data-original-title="Red Rose"></span></li><li><span class="bg-color-redLight" data-widget-setstyle="jarviswidget-color-redLight" rel="tooltip" data-placement="bottom" data-original-title="Light Red"></span></li><li><span class="bg-color-white" data-widget-setstyle="jarviswidget-color-white" rel="tooltip" data-placement="right" data-original-title="Purity"></span></li><li><a href="javascript:void(0);" class="jarviswidget-remove-colors" data-widget-setstyle="" rel="tooltip" data-placement="bottom" data-original-title="Reset widget color to default">Remove</a></li></ul></div>
                             <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                            <h2>Cash Flow List </h2>
 
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+
+                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin" ></i></span></header>
 
                         <!-- widget div-->
                         <div role="content">
@@ -184,40 +158,41 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
                                                 <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
-                                                <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Name</th>
-                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Description</th>
-                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Debit</th>
-                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Credit</th>
-                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Action</th>
+                                                <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Description</th>
+                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Grandtotal</th>
+                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">HPP</th>
+                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Margin</th>
 
 
 
 
                                         </thead>
-                                        <tbody>	
+                                        <tbody id="table_income_summary">
                                             <?php
-                                            foreach ($tablecashflow as $hasil) {
+                                            foreach ($tableincomesummary as $hasil) {
+                                                $grandtotal = $hasil->grandtotal;
+                                                $hpp = $hasil->hpp ;
+                                                $margin =($hasil->grandtotal-$hasil->hpp);
+                                                $persen = ($margin*100/$grandtotal);
+                                                
+                                                //number_format ( $margin , 2 , "." , "," );
+                                               
+                                                
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
-                                                echo '<td>' . $hasil->createdat . '</td>';
-                                                echo '<td>' . $hasil->nama . '</td>';
-                                                echo '<td>' . $hasil->deskripsi . '</td>';
-                                                if ($hasil->tipe == 2) {
-                                                    echo ' <td ></td>';
-                                                    echo ' <td ><span style="color:red">' . $hasil->jumlah . '</span></td>';
-                                                } else if ($hasil->tipe == 1) {
-                                                    echo ' <td ><span style="color:green">' . $hasil->jumlah . '</span></td>';
-                                                    echo ' <td ></td>';
-                                                }
+                                                echo '<td>' . $hasil->tanggal . '</td>';
+                                                echo '<td><a target="_blank" href="'. base_url().'Back/Order/Prints/'. $hasil->idnotajual.'">Order Note '. $hasil->idnotajual . '</a>';
+                                                echo '<td>' . number_format ( $hasil->grandtotal , 0 , "." , "," ) . '</td>';
+                                                echo '<td>' .  number_format ( $hasil->hpp , 0 , "." , "," ) . '</td>';
+                                                
+                                                echo '<td>'.number_format ( $margin , 0 , "." , "," ) .' ( '. number_format ( $persen , 2 , "." , "," ).'% )</td>';
 
 
-                                                echo '<td>   <a href="' . base_url() . 'Back/Promo/Show_edit_promo/' . $hasil->id . '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+
                                                 echo '</tr>';
                                             }
-                                            ?>
+                                             ?>
+                                            
                                         </tbody>
                                     </table>
 
@@ -253,112 +228,62 @@
             <!--end row -->
 
         </section>
+        
         <!--end widget grid -->
 
     </div>
     <!--END MAIN CONTENT -->
 
-    <!-- MODAL myPromo -->
-
-    <div class="modal fade" id="myPromo" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Products and Discount for Promo <span id="span_nama" style="color:blue"></span> </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-body no-padding">
-
-                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                <thead>
-                                    <tr role="row">
-                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Discount</th>
-
-
-                                </thead>
-                                <tbody id="tablebodypromo">	
-
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL edit -->
+    
 
 </div>    
 
 <script>
+                        function show_report()
+                        {
+                            if ($("#id_to").val().length > 0 && $("#id_from").val().length > 0)
+                            {
+                                if ($("#id_to").val() < $("#id_from").val())
+                                {
+                                    alert("'Date To' must be same as / higher than 'Date From'");
+                                } else
+                                {
+                                    var from = $("#id_from").val();
+                                    var to =$("#id_to").val();
+                                     $("#table_income_summary").empty();
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_income_summary_bydate/",
+                                        dataType: "json",
+                                        data: { froma: from, toa: to },
+                                        success: function (result) {
+                                            var urutanresidu = 1;
+                                               // alert(result);
+                                            $.each(result, function (id, nameb)
+                                            {
+                                                var grandtotal = parseFloat(nameb['grandtotal']).toFixed(2);
+                                                var hpp = parseFloat(nameb['hpp']).toFixed(2);
+                                                var margin =(grandtotal-hpp).toFixed(2);
+                                                var persen = (margin*100/grandtotal).toFixed(2);
 
-    function show_promo(idnya, nama)
-    {
+                                                $("#table_income_summary").append(
+                                                        "<tr role = 'row' class = 'odd'>" +
+                                                        "<td>" + nameb['tanggal'] + "</td>" +
+                                                        "<td><a target='_blank' href='<?php echo base_url(); ?>Back/Order/Prints/"+nameb['idnotajual']+"'>Order Note " + nameb['idnotajual'] + "</a></td>" +
+                                                        "<td>" + grandtotal + "</td>" +
+                                                        "<td>" + hpp+ "</td>" +
+                                                        "<td ><span style='colour:green'>" + margin + " ( "+persen+"% )</span> </td>" +
+                                                        "</tr>");
 
-        $("#span_nama").text(nama);
-        $("#tablebodypromo").empty();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "Back/Promo/Json_get_promo_product/" + idnya,
-            dataType: "json",
-            success: function (result) {
-                //ini kalau mau ambil 1 data saja sudah bisa.
-                // alert("hore sukses" + result);
-                $.each(result, function (id, name)
-                {
+                                                urutanresidu++;
 
-                    $("#tablebodypromo").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['namaproduct'] + "</td>" +
-                            "<td>" + name['diskon'] + " %</td>" +
-                            "</tr>");
-
-                });
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert('request failed');
-            }
-        });
-    }
-
-
-</script>
+                                            });
+                                        }
+                                    });
+                                }
+                            } else
+                            {
+                                alert("Nulls in field Dates are not allowed");
+                            }
+                        }
+                    </script>

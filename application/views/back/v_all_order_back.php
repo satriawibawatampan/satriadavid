@@ -32,9 +32,9 @@
 
                     <!-- PAGE HEADER -->
                     <i class="fa-fw fa fa-home"></i> 
-                    Material
+                    Order
                     <span>>  
-                        Material List
+                        Order Note List
                     </span>
                 </h1>
             </div>

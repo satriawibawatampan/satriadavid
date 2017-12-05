@@ -201,7 +201,7 @@ class Admin extends CI_Controller {
                 $id = $this->input->post('name_deleteid');
                 $name = $this->input->post('name_deletename');
 
-                $this->m_admin->delete_admin($id);
+                $this->M_admin->delete_admin($id);
                 $this->session->set_flashdata('pesanform', "Your admin, " . $name . " , has been deleted");
                 $this->session->keep_flashdata('pesanform');
 

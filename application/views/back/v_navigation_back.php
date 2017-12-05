@@ -49,13 +49,16 @@
             </li>
             <?php if ($_SESSION['xcellent_tipe'] == 1) { ?>
                 <li class="<?php if ($menu == "report") echo "open"; ?>">
-                    <a  title="Dashboard"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Report</span></a>
+                    <a  title="Dashboard"><i class="fa fa-lg fa-fw fa-file-text-o"></i> <span class="menu-item-parent">Report</span></a>
                     <ul>
                         <li class="<?php if ($menu == "report" && $submenu == "reportcashflow") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Cashflow/Show_report_cashflow" title="Dashboard"><span class="menu-item-parent">Cash Flow</span></a>
                         </li>
                         <li class="<?php if ($menu == "report" && $submenu == "reportincomesummary") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Cashflow/Show_report_income_summary" title="Dashboard"><span class="menu-item-parent">Income Summary</span></a>
+                        </li>
+                        <li class="<?php if ($menu == "report" && $submenu == "reportpettycash") echo "active"; ?>">
+                            <a href="<?php echo base_url(); ?>Back/Cashflow/Show_report_petty_cash" title="Dashboard"><span class="menu-item-parent">Petty Cash</span></a>
                         </li>
                     </ul>	
                 </li>
@@ -166,8 +169,8 @@
                             <a href="<?php echo base_url(); ?>Back/Material/Show_add_material">Add Material</a>
                         </li>
                         <?php if (count($stokhabis) != 0 ) { ?>
-                            <li  class="<?php if ($menu == "material" && $submenu == "stok") echo "active"; ?>">
-                                <a href="<?php echo base_url(); ?>Back/Material/Show_all_material">Out Of Stock</a>
+                            <li  class="<?php if ($menu == "material" && $submenu == "outofstock") echo "active"; ?>">
+                                <a href="<?php echo base_url(); ?>Back/Material/Show_material_out_of_stock">Out Of Stock</a>
                             </li>
                         <?php } ?>
                     <?php } ?>

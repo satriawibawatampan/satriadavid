@@ -423,10 +423,10 @@ class M_order extends CI_Model {
         return $query->result();
     }
 
-    function Make_payment($id, $grandtotal,$idpayment,$amount) {
+    function Make_payment($id, $grandtotal, $idpayment, $amount) {
         $this->db->trans_start();
         //update status
-        $data = array('status' => 1, 'id_kasir'=>$this->session->userdata['xcellent_id']);
+        $data = array('status' => 1, 'id_kasir' => $this->session->userdata['xcellent_id']);
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
 
@@ -435,21 +435,22 @@ class M_order extends CI_Model {
 //        $query = $this->db->query("delete from used_material_temp
 //                where id_notajualproduk in 
 //                    (select id from notajual_produk where id_notajual=?)", array($id));
-        
         //masukan ke notajual_pembayaran
-        for($f = 0; $f<count($idpayment);$f++){
-             $data = array(
-                    'id_notajual' => $id,
-                    'id_pembayaran' => $idpayment[$f],
-                    'jumlah' => $amount[$f]
-                );
-                $this->db->insert('notajual_pembayaran', $data);
+        for ($f = 0; $f < count($idpayment); $f++) {
+            $data = array(
+                'id_notajual' => $id,
+                'id_pembayaran' => $idpayment[$f],
+                'jumlah' => $amount[$f]
+            );
+            $this->db->insert('notajual_pembayaran', $data);
+            
+            if($idpayment[$f]==1)
+            {
+                 $this->M_cashflow->Add_pettycash("Order Payment", 1, "Order Note " . $id, $amount[$f]);
+            }
         }
-        
-        //update kasir
-       
-                
 
+        //update kasir
         //masukan ke cashflow
         $this->M_cashflow->Add_cashflow("Order Payment", 1, "Order Note " . $id, $grandtotal);
 
@@ -459,30 +460,29 @@ class M_order extends CI_Model {
     function Run_producing($id) {
         $this->db->trans_start();
 
-        $data = array('status' => 2);
+        $data = array('status' => 2, 'id_produser' => $this->session->userdata['xcellent_id']);
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
 
         $this->db->trans_complete();
     }
 
-    function Set_finish($id,$deskripsi,$iddetailmaterial,$idnotajualproduk) {
+    function Set_finish($id, $deskripsi, $iddetailmaterial, $idnotajualproduk) {
         $this->db->trans_start();
 
         //ubah jadi finish
         $data = array('status' => 3);
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
-        
+
         //update residu
-        for($f = 0; $f<count($iddetailmaterial);$f++){
-             $data = array(
-                    'deskripsi_residual' => $deskripsi[$f]
-                    
-                );
-              $this->db->where('id_detailmaterial', $iddetailmaterial[$f]);
-              $this->db->where('id_notajualproduk', $idnotajualproduk[$f]);
-                $this->db->update('used_material_temp', $data);
+        for ($f = 0; $f < count($iddetailmaterial); $f++) {
+            $data = array(
+                'deskripsi_residual' => $deskripsi[$f]
+            );
+            $this->db->where('id_detailmaterial', $iddetailmaterial[$f]);
+            $this->db->where('id_notajualproduk', $idnotajualproduk[$f]);
+            $this->db->update('used_material_temp', $data);
         }
 
         $this->db->trans_complete();
@@ -490,12 +490,23 @@ class M_order extends CI_Model {
 
     function Get_printByIdNota($id_notajual) {
         $this->db->trans_start();
-        $sql = "SELECT nj.*, a.nama as nama_admin, m.nama as nama_member
-                FROM notajual nj, admin a, member m
-                WHERE nj.id = ? AND nj.id_admin = a.id AND nj.id_member = m.id";
-        $result = $this->db->query($sql, array($id_notajual));
-
-        $nota = $result->row_array();
+//        $sql = "SELECT nj.*, a.nama as nama_admin, m.nama as nama_member
+//                FROM notajual nj, admin a, member m
+//                WHERE nj.id = ? AND nj.id_admin = a.id AND nj.id_member = m.id";
+//        $result = $this->db->query($sql, array($id_notajual));
+        $this->db->select('notajual.*, member.id as idmember, member.nama as nama_member, promo.nama as namapromo, admin.nama as namaadmin,'
+                . ' b.nama as nama_admin, c.nama as namaproduser'
+                . '');
+        $this->db->from('notajual');
+        $this->db->join('member', 'member.id=notajual.id_member');
+        $this->db->join('admin', 'admin.id=notajual.id_admin');
+        $this->db->join('admin b', 'b.id=notajual.id_kasir');
+        $this->db->join('admin c', 'c.id=notajual.id_produser');
+        $this->db->join('promo', 'promo.id=notajual.id_promo');
+        $this->db->where('notajual.id', $id_notajual);
+        
+        $query = $this->db->get();
+        $nota = $query->row_array();
         if (count($nota) > 0) {
             //Get Barang By Nota
             $barangs = $this->M_product->Get_productNotaJualByIdNota($id_notajual);
