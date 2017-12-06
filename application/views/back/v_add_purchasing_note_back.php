@@ -302,12 +302,12 @@
     function check_all_not_null()
     {
 
-        if ($('.hitung').length == 0)
+        if ($('.hitung').length == 0 || $("#id_supplier"))
         {
             $("form").submit(function (e) {
                 e.preventDefault();
             });
-            alert("Register at least 1 material to purchasing note");
+            alert("Register at least 1 material to purchasing note & Supplier can't be Null");
 
         } else
         {

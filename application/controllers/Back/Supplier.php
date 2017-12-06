@@ -25,7 +25,7 @@ class Supplier extends CI_Controller {
 
     public function index() {
 
-        $data['listsupplier'] = $this->M_supplier->get_all_supplier();
+        $data['listsupplier'] = $this->M_supplier->get_all_supplier_all();
 
         $navigation=array(
             "menu" => "supplier",
@@ -99,15 +99,32 @@ class Supplier extends CI_Controller {
         }
     }
 
-    public function Delete_supplier() {
-        if ($this->input->post('button_deletesupplier')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
+    public function Deactivate_supplier() {
+        if ($this->input->post('button_deactivatesupplier')) {
+            $id = $this->input->post('name_deactivateid');
+            $name = $this->input->post('name_deactivatename');
 
-            $this->M_supplier->Delete_supplier($id);
-            $this->session->set_flashdata('pesanform', "Your supplier, ".$name." , has been deleted");
+            $this->M_supplier->Deactivate_supplier($id);
+            $this->session->set_flashdata('pesanform', "Your supplier, ".$name." , has been deactivated");
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Supplier/index');
+        }
+    }
+    public function Activate_supplier() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activatesupplier')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_supplier->Activate_supplier($id);
+                $this->session->set_flashdata('pesanform', "Your supplier, " . $name . " , has been activated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Supplier/index');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
         }
     }
 

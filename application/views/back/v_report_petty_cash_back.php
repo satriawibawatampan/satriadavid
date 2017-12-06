@@ -264,7 +264,7 @@
                                                     echo ' <td ><span style="color:green">' . number_format (  $hasil->jumlah , 0 , "." , "," ) . '</span></td>';
                                                     echo ' <td ></td>';
                                                 }
-                                                echo '<td>' . $hasil->jumlahuang . '</td>';
+                                                echo '<td>' . number_format (  $hasil->jumlahuang , 0 , "." , "," ) . '</td>';
 
 
 

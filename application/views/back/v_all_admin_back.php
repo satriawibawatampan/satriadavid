@@ -105,6 +105,7 @@
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Address</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Phone</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Type</th>
+                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Branch</th>
 
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
@@ -119,10 +120,25 @@
                                                 echo '<td>' . $hasil->alamat . '</td>';
                                                 echo '<td>' . $hasil->telepon . '</td>';
                                                 echo '<td>' . $hasil->tipe . '</td>';
+                                                if($hasil->statusaktif==0)
+                                                {
+                                                    echo '<td style="color:red">Deactivated</td>';
+                                                }
+                                                else if($hasil->statusaktif==1)
+                                                {
+                                                       echo '<td style="color:blue">Activated</td>';
+                                                }
                                                 echo '<td>' . $hasil->namacabang . '</td>';
-                                                echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                        <a   onclick="showdeletedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
-                                                echo '</tr>';
+                                                echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                                  if($hasil->statusaktif==0)
+                                                {
+                                                    echo '<a   onclick="showactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
+                                                }
+                                                else if($hasil->statusaktif==1)
+                                                {
+                                                       echo '<a   onclick="showdeactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
+                                                }
+                                                 echo '</tr>';
                                             }
                                             ?>
                                         </tbody>
@@ -165,24 +181,49 @@
     </div>
     <!--END MAIN CONTENT -->
 
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
+    <!-- MODAL deactivate -->
+    <div class="modal fade" id="myDeactivateModal" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
+                    <h4 class="modal-title">Deactivate Admin Form</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Deactivate_admin" class="smart-form" novalidate="novalidate" method="post">
 
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
+                        <p>Are you sure want to deactivate Admin <span id="span_nama" style="color:blue"></span>?</p>
+                        <input hidden  id="id_deactivateid" type="text" name="name_deactivateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_deactivatename" type="text" name="name_deactivatename"  aria-required="true" class="error" aria-invalid="true" >
                         <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
+                            <input type="submit" name="button_deactivateadmin" class="btn btn-primary" value="Deactivate">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--//activate modal-->
+    <div class="modal fade" id="myActivateModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Activate Admin Form</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Activate_admin" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to Activate Admin <span id="span_nama_activate" style="color:blue"></span>?</p>
+                        <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
+                        <footer>
+                            <input type="submit" name="button_activateadmin" class="btn btn-primary" value="Activate">
                         </footer>
                     </form>	
                 </div>
@@ -310,11 +351,18 @@
 <script>
 
           
-            function showdeletedataadmin(idnya, nama)
+            function showdeactivatedataadmin(idnya, nama)
             {
-                document.getElementById('id_deleteid').value = idnya;
-                document.getElementById('id_deletename').value = nama;
+                document.getElementById('id_deactivateid').value = idnya;
+                document.getElementById('id_deactivatename').value = nama;
                 document.getElementById('span_nama').innerHTML = nama;
+
+            }
+            function showactivatedataadmin(idnya, nama)
+            {
+                document.getElementById('id_activateid').value = idnya;
+                document.getElementById('id_activatename').value = nama;
+                document.getElementById('span_nama_activate').innerHTML = nama;
 
             }
 

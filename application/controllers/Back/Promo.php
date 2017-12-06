@@ -159,5 +159,40 @@ class Promo extends CI_Controller {
             redirect('Back/Promo/Show_edit_promo/' . $id);
         }
     }
+    
+    public function Deactivate_promo() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_deactivatepromo')) {
+                $id = $this->input->post('name_deactivateid');
+                $name = $this->input->post('name_deactivatename');
+
+                $this->M_promo->Deactivate_promo($id);
+                $this->session->set_flashdata('pesanform', "Your promo, " . $name . " , has been deactivated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Promo/Show_all_promo');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
+    public function Activate_promo() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activatepromo')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_promo->Activate_promo($id);
+                $this->session->set_flashdata('pesanform', "Your promo, " . $name . " , has been activated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Promo/Show_all_promo');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
 
 }

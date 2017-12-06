@@ -195,14 +195,31 @@ class Admin extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Delete_admin() {
+    public function Deactivate_admin() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
-            if ($this->input->post('button_deleteadmin')) {
-                $id = $this->input->post('name_deleteid');
-                $name = $this->input->post('name_deletename');
+            if ($this->input->post('button_deactivateadmin')) {
+                $id = $this->input->post('name_deactivateid');
+                $name = $this->input->post('name_deactivatename');
 
-                $this->M_admin->delete_admin($id);
-                $this->session->set_flashdata('pesanform', "Your admin, " . $name . " , has been deleted");
+                $this->M_admin->Deactivate_admin($id);
+                $this->session->set_flashdata('pesanform', "Your admin, " . $name . " , has been deactivated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Admin/Show_all_admin');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
+    public function Activate_admin() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activateadmin')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_admin->Activate_admin($id);
+                $this->session->set_flashdata('pesanform', "Your admin, " . $name . " , has been activated");
                 $this->session->keep_flashdata('pesanform');
 
 

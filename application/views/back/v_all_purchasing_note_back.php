@@ -117,7 +117,7 @@
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
                                                 echo '<td>' . $hasil->namasupplier . '</td>';
 
-                                                echo '<td>' . $hasil->grandtotal . '</td>';
+                                                echo '<td>' . number_format (  $hasil->grandtotal , 0 , "." , "," )  . '</td>';
                                                 if ($hasil->statusbayar == 0) {
                                                     echo '<td>Not Paid</td>';
                                                 } else {

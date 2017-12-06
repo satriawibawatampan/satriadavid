@@ -130,7 +130,7 @@
                                                 }
                                                 echo '<td>' . $hasil->namamember . '</td>';
                                                 echo '<td>' . $hasil->namapromo . '</td>';
-                                                echo '<td>' . $hasil->grandtotal . '</td>';
+                                                echo '<td>' . number_format (  $hasil->grandtotal , 0 , "." , "," ) . '</td>';
                                                 if ($hasil->status == 0) {
                                                     echo '<td>Not Paid</td>';
                                                 } else if ($hasil->status == 1) {

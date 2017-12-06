@@ -10,14 +10,17 @@ class M_admin extends CI_Model {
 
     function Cek_login($email, $pass) {
 
-        $this->db->select("salt");
+        $this->db->select("salt,statusaktif");
 
         $this->db->from('admin');
 
         $this->db->where('email', $email);
         $query = $this->db->get();
 
-        $ambilgaram = $query->row();
+        //cek status aktif baru ambil datanya.
+        if ($query->row()->statusaktif == 1) {
+            $ambilgaram = $query->row();
+        }
 
         if (isset($ambilgaram)) {
             $garam = $ambilgaram->salt;
@@ -34,8 +37,8 @@ class M_admin extends CI_Model {
             $tampung = $query->row_array();
             return $tampung;
         } else {
-
-            redirect('Back/Account/Show_login');
+            return null;
+            //redirect('Back/Account/Show_login');
         }
     }
 
@@ -72,8 +75,8 @@ class M_admin extends CI_Model {
 
         $this->db->insert('tipeadmin', $data);
     }
-    
-     function Get_all_admintype() {
+
+    function Get_all_admintype() {
         $this->db->select('*');
         $this->db->from('tipeadmin');
         $this->db->where('statusaktif', 1);
@@ -83,16 +86,15 @@ class M_admin extends CI_Model {
 
     function Show_all_admin() {
         $this->db->select("admin.*, tipeadmin.nama as tipe, cabang.nama as namacabang");
-        //$this->db->select("admin.id as id,admin.nama as nama,admin.email as email, admin.alamat as alamat, admin.telepon as telepon, tipeadmin.nama as tipe, cabang.nama as namacabang");
-
         $this->db->from('admin');
         $this->db->join('cabang', 'admin.id_cabang = cabang.id');
-        $this->db->join('tipeadmin','admin.id_tipeadmin=tipeadmin.id');
-        $this->db->where('admin.statusaktif', 1);
+        $this->db->join('tipeadmin', 'admin.id_tipeadmin=tipeadmin.id');
+        //where ini tak hapus agar muncul.
+        //   $this->db->where('admin.statusaktif', 1);
         $query = $this->db->get();
         return $query->result();
     }
-    
+
     function Json_get_one_admin($id) {
         $this->db->select('*');
         $this->db->from('admin');
@@ -101,8 +103,8 @@ class M_admin extends CI_Model {
         $query = $this->db->get();
         return $query->row();
     }
-    
-    function Edit_admin($id,$nama,$email,$address,$phone,$type,$branch) {
+
+    function Edit_admin($id, $nama, $email, $address, $phone, $type, $branch) {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $nama,
@@ -117,7 +119,7 @@ class M_admin extends CI_Model {
         $this->db->update('admin', $data);
     }
 
-    function Delete_admin($id) {
+    function Deactivate_admin($id) {
 
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
@@ -129,7 +131,18 @@ class M_admin extends CI_Model {
         $this->db->update('admin', $data);
     }
 
-   
+    function Activate_admin($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1,
+            'updatedat' => date('Y-m-d H:i:s'),
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('admin', $data);
+    }
+
     function Change_password($email, $pass) {
 
         $this->db->select("salt");
@@ -174,7 +187,5 @@ class M_admin extends CI_Model {
             redirect('Back/Account/Show_forgot_password');
         }
     }
-
-    
 
 }

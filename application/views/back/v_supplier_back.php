@@ -201,6 +201,7 @@
                                                 <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Contact Person</th>
                                                 <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Address</th>
                                                 <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Phone</th>
+                                                <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Status</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
                                         </thead>
                                         <tbody>	
@@ -212,10 +213,26 @@
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo '<td>' . $hasil->alamat . '</td>';
                                                 echo '<td>' . $hasil->telepon . '</td>';
+                                                if($hasil->statusaktif==0)
+                                                {
+                                                    echo '<td style="color:red">Deactivated</td>';
+                                                }
+                                                else if($hasil->statusaktif==1)
+                                                {
+                                                       echo '<td style="color:blue">Activated</td>';
+                                                }
                                                 echo '<td>   '
-                                                . '<a  onclick="showeditdatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>'
-                                                . '<a  onclick="showdeletedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red" data-toggle="modal" data-target="#myDeleteModal"></a>
-                                                       </td>';
+                                                . '<a  onclick="showeditdatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                               if($hasil->statusaktif==0)
+                                                {
+                                                     echo '<a  onclick="showactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue" data-toggle="modal" data-target="#myActivateModal"></a>';
+                                               }
+                                                else if($hasil->statusaktif==1)
+                                                {
+                                                    echo '<a  onclick="showdeactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red" data-toggle="modal" data-target="#myDeactivateModal"></a>';
+                                               }
+                                                
+                                                  echo '</td>';
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -264,24 +281,24 @@
 </div>
 <!-- END MAIN CONTENT -->
 
-<!-- MODAL HAPUS -->
-<div class="modal fade" id="myDeleteModal" role="dialog">
+<!-- MODAL deactivate -->
+<div class="modal fade" id="myDeactivateModal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Delete Supplier Form</h4>
+                <h4 class="modal-title">Deactivate Supplier Form</h4>
             </div>
             <div class="modal-body">
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Supplier/Delete_supplier" class="smart-form" novalidate="novalidate" method="post">
+                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Supplier/Deactivate_supplier" class="smart-form" novalidate="novalidate" method="post">
 
-                    <p>Are you sure want to delete Supplier <span id="span_nama" style="color:blue"></span>?</p>
-                    <input hidden="" id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                    <input hidden="" id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
+                    <p>Are you sure want to deactivate Supplier <span id="span_nama" style="color:blue"></span>?</p>
+                    <input hidden="" id="id_deactivateid" type="text" name="name_deactivateid"  aria-required="true" class="error" aria-invalid="true" >
+                    <input hidden="" id="id_deactivatename" type="text" name="name_deactivatename"  aria-required="true" class="error" aria-invalid="true" >
                     <footer>
-                        <input type="submit" name="button_deletesupplier" class="btn btn-primary" value="Delete">
+                        <input type="submit" name="button_deactivatesupplier" class="btn btn-primary" value="Deactivate">
                     </footer>
                 </form>	
             </div>
@@ -289,6 +306,31 @@
 
     </div>
 </div>
+<!--//activate modal-->
+    <div class="modal fade" id="myActivateModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Activate Supplier Form</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Supplier/Activate_supplier" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to Activate Supplier <span id="span_nama_activate" style="color:blue"></span>?</p>
+                        <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
+                        <footer>
+                            <input type="submit" name="button_activatesupplier" class="btn btn-primary" value="Activate">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 <!-- MODAL Edit -->
 <div class="modal fade" id="myEditModal" role="dialog">
@@ -359,13 +401,20 @@
 </div>
 
 <script>
-    function showdeletedatasupplier(idnya, nama)
+    function showdeactivatedatasupplier(idnya, nama)
     {
-        document.getElementById('id_deleteid').value = idnya;
-        document.getElementById('id_deletename').value = nama;
+        document.getElementById('id_deactivateid').value = idnya;
+        document.getElementById('id_deactivatename').value = nama;
         document.getElementById('span_nama').innerHTML = nama;
 
     }
+     function showactivatedatasupplier(idnya, nama)
+            {
+                document.getElementById('id_activateid').value = idnya;
+                document.getElementById('id_activatename').value = nama;
+                document.getElementById('span_nama_activate').innerHTML = nama;
+
+            }
 
     function showeditdatasupplier(idnya, nama)
     {

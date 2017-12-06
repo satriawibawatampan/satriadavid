@@ -44,8 +44,8 @@ class M_promo extends CI_Model {
     function Get_all_promo() {
         $this->db->select('promo.*');
         $this->db->from('promo');
-
-        $this->db->where('statusaktif', 1);
+//hapus statusaktif = 1
+        //$this->db->where('statusaktif', 1);
         $query = $this->db->get();
         return $query->result();
     }
@@ -119,6 +119,30 @@ class M_promo extends CI_Model {
 
 
         $this->db->trans_complete();
+    }
+    
+     function Deactivate_promo($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 0,
+            'updatedat' => date('Y-m-d H:i:s'),
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('promo', $data);
+    }
+
+    function Activate_promo($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1,
+            'updatedat' => date('Y-m-d H:i:s'),
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('promo', $data);
     }
 
 }

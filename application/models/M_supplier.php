@@ -31,6 +31,13 @@ class M_supplier extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    function Get_all_supplier_all() {
+        $this->db->select('*');
+        $this->db->from('supplier');
+      //  $this->db->where('statusaktif', 1);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     function Edit_supplier($id, $name, $address, $phone, $company) {
         $data = array(
@@ -43,12 +50,24 @@ class M_supplier extends CI_Model {
         $this->db->update(supplier, $data);
     }
 
-    function Delete_supplier($ida) {
+    function Deactivate_supplier($ida) {
         $data = array(
             'statusaktif' => 0
         );
+       // print_r($ida); exit();
         $this->db->where('id', $ida);
         $this->db->update(supplier, $data);
+    }
+    function Activate_supplier($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1,
+            'updatedat' => date('Y-m-d H:i:s'),
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('supplier', $data);
     }
 
     function Json_get_one_supplier($id) {

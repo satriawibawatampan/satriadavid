@@ -117,8 +117,8 @@
                                                 echo '<td>' . $hasil->namamaterial . '</td>';
                                                 echo ' <td >' . $hasil->jumlahmaterial . '</td>';
                                                 echo '<td>' . $hasil->jumlahperpak . '</td>';
-                                                echo '<td>' . $hasil->harga . '</td>';
-                                                echo '<td>' . $hasil->subtotal . '</td>';
+                                                echo '<td>' . number_format (  $hasil->harga  , 0 , "." , "," ) . '</td>';
+                                                echo '<td>' .number_format (   $hasil->subtotal   , 0 , "." , "," ) . '</td>';
                                                 
                                                 echo '</tr>';
                                             }
