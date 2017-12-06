@@ -69,9 +69,44 @@ class Member extends CI_Controller {
         $this->load->view('back/v_all_member_back', $data);
         $this->load->view('back/v_footer_back');
     }
+    
+     public function Deactivate_member() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_deactivatemember')) {
+                $id = $this->input->post('name_deactivateid');
+                $name = $this->input->post('name_deactivatename');
+
+                $this->M_member->Deactivate_member($id);
+                $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deactivated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Member/Show_all_member');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
+    public function Activate_member() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activatemember')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_member->Activate_member($id);
+                $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been activated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Member/Show_all_member');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
 
     public function Show_add_deposit() {
-         $data['listmember'] = $this->M_member->Show_all_member();
+         $data['listmember'] = $this->M_member->Show_all_member_active();
           $navigation=array(
             "menu" => "member",
             "submenu" => "deposit",
@@ -160,20 +195,7 @@ class Member extends CI_Controller {
         }
     }
 
-    public function Delete_member() {
-
-        if ($this->input->post('button_deletemember')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
-
-            $this->M_member->delete_member($id);
-            $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deleted");
-            $this->session->keep_flashdata('pesanform');
-
-
-            redirect('Back/Member/Show_all_member');
-        }
-    }
+   
 
     public function Edit_member() {
 

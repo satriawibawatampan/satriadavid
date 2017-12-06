@@ -28,7 +28,7 @@ class Promo extends CI_Controller {
     }
 
     public function index() {
-        $data['listproduct'] = $this->M_product->Get_all_product();
+        $data['listproduct'] = $this->M_product->Get_all_product_active();
 
         $navigation=array(
             "menu" => "promo",
@@ -46,7 +46,7 @@ class Promo extends CI_Controller {
     }
 
     public function Show_add_promo() {
-        $data['listproduct'] = $this->M_product->Get_all_product();
+        $data['listproduct'] = $this->M_product->Get_all_product_active();
 
         $navigation=array(
             "menu" => "promo",
@@ -61,7 +61,7 @@ class Promo extends CI_Controller {
     }
 
     public function Show_edit_promo($id) {
-        $data['listproduct'] = $this->M_product->Get_all_product();
+        $data['listproduct'] = $this->M_product->Get_all_product_active();
         $data['datapromo'] = $this->M_promo->Get_one_promo($id);
         $data['datapromoproduct'] = $this->M_promo->Get_promo_product($id);
         $navigation=array(

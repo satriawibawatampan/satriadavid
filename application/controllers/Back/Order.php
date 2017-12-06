@@ -73,7 +73,7 @@ class Order extends CI_Controller {
     public function Show_add_order_note() {
         $data['listkategori'] = $this->M_product->get_all_produk_kategori();
 
-        $data['listmember'] = $this->M_member->Show_all_member();
+        $data['listmember'] = $this->M_member->Show_all_member_active();
         $data['listpromo'] = $this->M_promo->Get_promo_product_now();
 
 //   
@@ -94,7 +94,7 @@ class Order extends CI_Controller {
 
     public function Show_edit_order($id) {
         $data['listkategori'] = $this->M_product->get_all_produk_kategori();
-        $data['listmember'] = $this->M_member->Show_all_member();
+        $data['listmember'] = $this->M_member->Show_all_member_active();
         $data['listpromo'] = $this->M_promo->Get_promo_product_now();
         $data['dataorder'] = $this->M_order->Get_one_order($id);
         $data['listorderproduk'] = $this->M_order->Get_order_product($id);
@@ -173,20 +173,7 @@ class Order extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Delete_material() {
-
-        if ($this->input->post('button_deletemember')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
-
-            $this->M_member->delete_member($id);
-            $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deleted");
-            $this->session->keep_flashdata('pesanform');
-
-
-            redirect('Back/Member/Show_all_member');
-        }
-    }
+   
 
     public function Edit_product() {
 

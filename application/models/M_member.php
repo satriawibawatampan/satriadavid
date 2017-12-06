@@ -10,7 +10,7 @@ class M_member extends CI_Model {
     }
 
     function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin, $deposit) {
-
+        $this->db->trans_start();
         date_default_timezone_set('Asia/Jakarta');
 
         $data = array(
@@ -27,9 +27,40 @@ class M_member extends CI_Model {
         );
 
         $this->db->insert('member', $data);
+        $this->db->trans_complete();
     }
 
     function Show_all_member() {
+        $this->db->select('*');
+        $this->db->from('member');
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function Deactivate_member($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 0
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('member', $data);
+    }
+
+    function Activate_member($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('member', $data);
+    }
+
+    function Show_all_member_active() {
         $this->db->select('*');
         $this->db->from('member');
         $this->db->where('member.statusaktif', 1);
@@ -76,15 +107,15 @@ class M_member extends CI_Model {
     }
 
     function Add_deposit($deposit, $idmember) {
-        
-        
+
+
         $this->db->trans_start();
         $this->db->set('deposit', 'deposit+' . $deposit, FALSE);
         $this->db->where('id', $idmember);
         $this->db->update('member');
-        
-        
-        $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member ".$idmember, $deposit);
+
+
+        $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
         $this->db->trans_complete();
     }
 

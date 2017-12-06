@@ -86,7 +86,7 @@
 
                                 <?php foreach ($listmember as $itemmember) { ?>
 
-                                    <option value="<?php echo $itemmember->id; ?>" ><?php echo $itemmember->nama; ?></option>
+                                    <option value="<?php echo $itemmember->id; ?>" ><?php echo $itemmember->nama; ?> / ID: <?php echo $itemmember->id; ?> / HP: <?php echo $itemmember->telepon; ?>  </option>
 
                                 <?php } ?>
                             </select> 

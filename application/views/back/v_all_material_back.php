@@ -105,7 +105,8 @@
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">HPP</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Stock</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Amount/Pack</th>
-                                              
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
+
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
                                         </thead>
                                         <tbody>	
@@ -116,11 +117,21 @@
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo '<td>' . $hasil->tipe . '</td>';
                                                 echo '<td>' . $hasil->hpp . '</td>';
-                                                echo '<td>' . $hasil->stok . ' Pack ('.$hasil->totalstok.') <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
+                                                echo '<td>' . $hasil->stok . ' Pack (' . $hasil->totalstok . ') <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
+
                                                 echo '<td>' . $hasil->jumlahperpack . '</td>';
-                                                
-                                                echo '<td>   <a href="'. base_url(). 'Back/Material/Show_edit_material/'. $hasil->id.   '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                if ($hasil->statusaktif == 0) {
+                                                    echo '<td style="color:red">Deactivated</td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<td style="color:blue">Activated</td>';
+                                                }
+                                                echo '<td>   <a href="' . base_url() . 'Back/Material/Show_edit_material/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                if ($hasil->statusaktif == 0) {
+                                                    echo '<a   onclick="showactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<a   onclick="showdeactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
+                                                }
+
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -164,6 +175,57 @@
     </div>
     <!--END MAIN CONTENT -->
 
+    <!--modal deactivate-->
+    <div class="modal fade" id="myDeactivateModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Deactivate Material Form</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Deactivate_material" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to deactivate Material <span id="span_nama_deactivate" style="color:blue"></span>?</p>
+                        <input hidden  id="id_deactivateid" type="text" name="name_deactivateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_deactivatename" type="text" name="name_deactivatename"  aria-required="true" class="error" aria-invalid="true" >
+                        <footer>
+                            <input type="submit" name="button_deactivatematerial" class="btn btn-primary" value="Deactivate">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--//activate modal-->
+    <div class="modal fade" id="myActivateModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Activate Material Form</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Activate_material" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to Activate Material <span id="span_nama_activate" style="color:blue"></span>?</p>
+                        <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
+                        <footer>
+                            <input type="submit" name="button_activatematerial" class="btn btn-primary" value="Activate">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- MODAL DetailStcok -->
     <div class="modal fade" id="myDetailStockModal" role="dialog">
         <div class="modal-dialog">
@@ -186,8 +248,8 @@
                                         <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Retail Stock</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Input Date</th>
-                                     
-                                        
+
+
                                 </thead>
                                 <tbody id="tablebody">	
                                     <?php
@@ -211,7 +273,7 @@
 
         </div>
     </div>
-    
+
     <!-- MODAL used deskripsi residu -->
     <div class="modal fade" id="myResidu" role="dialog">
         <div class="modal-dialog">
@@ -231,11 +293,11 @@
                                 <thead>
                                     <tr role="row">
                                         <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Detail Material</th>
-                                       
+
                                         <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Description</th>
-                                        
-                                     
-                                        
+
+
+
                                 </thead>
                                 <tbody id="tablebody_residu">	
                                     <?php
@@ -261,31 +323,7 @@
     </div>
 
 
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
+    
 
 
     <!-- MODAL edit -->
@@ -339,8 +377,8 @@
                             </span>
                         </section>
                     </fieldset>
-                    
-                                         
+
+
                     <footer>
                         <input type="submit" name="button_editmaterial" class="btn btn-primary" value="Submit">
                     </footer>
@@ -351,58 +389,73 @@
 
 </div>    
 <script>
-     function showdetailstockmaterial(idnya, nama)
-            {
-                // document.getElementById('id_hidden_edit').value = idnya;
-                //document.getElementById('editname').value = nama;
-                $("#tablebody").empty();
-                $("#tablebody_residu").empty();
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material/" + idnya,
-                    dataType: "json",
-                    success: function (result) {
-                        //ini kalau mau ambil 1 data saja sudah bisa.
-                        //alert ("hore sukses" + result);
-                        $.each(result, function (id, name)
-                        {
+    function showdeactivatematerial(idnya, nama)
+    {
+        document.getElementById('id_deactivateid').value = idnya;
+        document.getElementById('id_deactivatename').value = nama;
+        document.getElementById('span_nama_deactivate').innerHTML = nama;
 
-                            $("#tablebody").append(
-                                    "<tr role = 'row' class = 'odd'>" +
-                                    "<td>" + name['detailmaterialid'] + "</td>" +
-                                    "<td>" + name['nama'] + "</td>" +
-                                    "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi("+name['detailmaterialid'] +")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
-                                    "<td>" + name['createdat'] + "</td>" +
-                                    "</tr>");
-                          
-                        });
-                    }
+    }
+    function showactivatematerial(idnya, nama)
+    {
+        document.getElementById('id_activateid').value = idnya;
+        document.getElementById('id_activatename').value = nama;
+        document.getElementById('span_nama_activate').innerHTML = nama;
+
+    }
+
+    function showdetailstockmaterial(idnya, nama)
+    {
+        // document.getElementById('id_hidden_edit').value = idnya;
+        //document.getElementById('editname').value = nama;
+        $("#tablebody").empty();
+        $("#tablebody_residu").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#tablebody").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['detailmaterialid'] + "</td>" +
+                            "<td>" + name['nama'] + "</td>" +
+                            "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
+                            "<td>" + name['createdat'] + "</td>" +
+                            "</tr>");
+
                 });
             }
-            
-             function showdeskripsi(idnya)
-            {
-                // document.getElementById('id_hidden_edit').value = idnya;
-                //document.getElementById('editname').value = nama;
-                $("#tablebody_residu").empty();
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "Back/Material/Get_residu_by_detailmaterial/" + idnya,
-                    dataType: "json",
-                    success: function (result) {
-                        //ini kalau mau ambil 1 data saja sudah bisa.
-                        //alert ("hore sukses" + result);
-                        $.each(result, function (id, name)
-                        {
-                          //  alert("a");
-                            $("#tablebody_residu").append(
-                                    "<tr role = 'row' class = 'odd'>" +
-                                    "<td>" + name['detailmaterialid'] + "</td>" +
-                                    "<td>" + name['deskripsi'] + "</td>" +
-                                    "</tr>");
-                          
-                        });
-                    }
+        });
+    }
+
+    function showdeskripsi(idnya)
+    {
+        // document.getElementById('id_hidden_edit').value = idnya;
+        //document.getElementById('editname').value = nama;
+        $("#tablebody_residu").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Material/Get_residu_by_detailmaterial/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+                    //  alert("a");
+                    $("#tablebody_residu").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['detailmaterialid'] + "</td>" +
+                            "<td>" + name['deskripsi'] + "</td>" +
+                            "</tr>");
+
                 });
             }
+        });
+    }
 </script>

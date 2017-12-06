@@ -83,6 +83,44 @@ class M_product extends CI_Model {
 
         //   $query = "SELECT p.*, h.hargajual as hargajual , k.nama as namakategori FROM produk p join harga h on p.id = h.id_produk join kategori k on k.id = p.id_kategori WHERE h.batasbawah = 1 and p.id_cabang=". $this->session->userdata['xcellent_cabang'];
     }
+     function Deactivate_product($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 0,
+            
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('produk', $data);
+    }
+
+    function Activate_product($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1,
+            
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('produk', $data);
+    }
+    function Get_all_product_active() {
+
+
+        $this->db->select('produk.*,harga.hargajual as hargajual, kategori.nama as namakategori');
+        $this->db->from('produk');
+        $this->db->join('kategori', 'kategori.id = produk.id_kategori');
+        $this->db->join('harga', 'harga.id_produk = produk.id');
+        $this->db->where('produk.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->where('produk.statusaktif', 1);
+        $this->db->where('harga.batasbawah', 1);
+        $query = $this->db->get();
+        return $query->result();
+
+        //   $query = "SELECT p.*, h.hargajual as hargajual , k.nama as namakategori FROM produk p join harga h on p.id = h.id_produk join kategori k on k.id = p.id_kategori WHERE h.batasbawah = 1 and p.id_cabang=". $this->session->userdata['xcellent_cabang'];
+    }
 
     function Get_all_product_where_category($idkategori) {
         $this->db->select('produk.*');

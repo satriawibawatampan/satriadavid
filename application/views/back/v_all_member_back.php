@@ -107,6 +107,7 @@
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">BOD</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Gender</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Deposit</th>
+                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
 
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
                                         </thead>
@@ -122,8 +123,18 @@
                                                 echo '<td>' . $hasil->ttl . '</td>';
                                                 echo '<td>' . $hasil->gender . '</td>';
                                                 echo '<td>' . $hasil->deposit . '</td>';
-                                                echo '<td>   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                        <a   onclick="showdeletedatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                if ($hasil->statusaktif == 0) {
+                                                    echo '<td style="color:red">Deactivated</td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<td style="color:blue">Activated</td>';
+                                                }
+                                                echo '<td>   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                                if ($hasil->statusaktif == 0) {
+                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
+                                                }
+
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -167,24 +178,24 @@
     </div>
     <!--END MAIN CONTENT -->
 
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
+    <!-- MODAL deactivate -->
+    <div class="modal fade" id="myDeactivateModal" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Member Form</h4>
+                    <h4 class="modal-title">Deactivate Member Form</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Delete_member" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Deactivate_member" class="smart-form" novalidate="novalidate" method="post">
 
-                        <p>Are you sure want to delete Member <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
+                        <p>Are you sure want to deactivate Member <span id="span_nama" style="color:blue"></span>?</p>
+                        <input hidden  id="id_deactivateid" type="text" name="name_deactivateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_deactivatename" type="text" name="name_deactivatename"  aria-required="true" class="error" aria-invalid="true" >
                         <footer>
-                            <input type="submit" name="button_deletemember" class="btn btn-primary" value="Delete">
+                            <input type="submit" name="button_deactivatemember" class="btn btn-primary" value="Deactivate">
                         </footer>
                     </form>	
                 </div>
@@ -192,7 +203,31 @@
 
         </div>
     </div>
+    <!--//activate modal-->
+    <div class="modal fade" id="myActivateModal" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Activate Member Form</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Activate_member" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to Activate Member <span id="span_nama_activate" style="color:blue"></span>?</p>
+                        <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
+                        <footer>
+                            <input type="submit" name="button_activatemember" class="btn btn-primary" value="Activate">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <!-- MODAL edit -->
     <div class="modal fade" id="myEditModal" role="dialog">
@@ -213,7 +248,7 @@
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Email</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editemail'); ?>
+<?php echo form_error('name_editemail'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -225,7 +260,7 @@
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editname'); ?>
+<?php echo form_error('name_editname'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -237,7 +272,7 @@
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Address</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editaddress'); ?>
+<?php echo form_error('name_editaddress'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -249,7 +284,7 @@
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Phone Number</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editphone'); ?>
+<?php echo form_error('name_editphone'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -257,34 +292,34 @@
                         <label class="input control-label">BOD</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                               <input id="id_editttl" class="form-control" name="name_editttl" placeholder="BOD" type="date" value="<?php echo set_value('name_ttl'); ?>">
-                            
+                                <input id="id_editttl" class="form-control" name="name_editttl" placeholder="BOD" type="date" value="<?php echo set_value('name_ttl'); ?>">
+
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_ttl'); ?>
+<?php echo form_error('name_ttl'); ?>
                             </span>
                         </section>
                     </fieldset>
 
-<!--                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Branch</label>
-                        <div class="col-md-2">
-
-
-
-                        </div>
-                    </div>-->
+                    <!--                    <div class="form-group">
+                                            <label class="col-md-2 control-label" for="select-1">Branch</label>
+                                            <div class="col-md-2">
+                    
+                    
+                    
+                                            </div>
+                                        </div>-->
                     <fieldset>
                         <label class="input control-label">Gender</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                                 <select id="id_editgender" class="form-control" name="name_editgender" id="select-1" selected ="select" <?php echo set_select('name_editgender', set_value('name_editgender')); ?> >
-                                <option value="1" <?php echo set_select('name_editgender', '1', TRUE); ?>>Male</option>
-                                <option value="2" <?php echo set_select('name_editgender', '2'); ?>>Female</option>
-                            </select> 
+                                    <option value="1" <?php echo set_select('name_editgender', '1', TRUE); ?>>Male</option>
+                                    <option value="2" <?php echo set_select('name_editgender', '2'); ?>>Female</option>
+                                </select> 
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editgender'); ?>
+<?php echo form_error('name_editgender'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -299,55 +334,62 @@
 </div>  
 
 <script>
-function showdeletedatamember(idnya, nama)
-            {
-                document.getElementById('id_deleteid').value = idnya;
-                document.getElementById('id_deletename').value = nama;
-                document.getElementById('span_nama').innerHTML = nama;
+    function showdeactivatemember(idnya, nama)
+    {
+        document.getElementById('id_deactivateid').value = idnya;
+        document.getElementById('id_deactivatename').value = nama;
+        document.getElementById('span_nama').innerHTML = nama;
 
-            }
+    }
+    function showactivatemember(idnya, nama)
+    {
+        document.getElementById('id_activateid').value = idnya;
+        document.getElementById('id_activatename').value = nama;
+        document.getElementById('span_nama_activate').innerHTML = nama;
 
-            function showeditdatamember(idnya, nama)
-            {
-                // document.getElementById('id_hidden_edit').value = idnya;
-                //document.getElementById('editname').value = nama;
+    }
 
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "Back/Member/Json_get_one_member/" + idnya,
-                    dataType: "json",
-                    success: function (result) {
-                        //ini kalau mau ambil 1 data saja sudah bisa.
-                        //alert ("hore sukses" + result);
-                        $.each(result, function (id, name)
-                        {
-                            //alert(id+"/"+name+'/oh yes');
-                            if (id == 'nama') {
-                                document.getElementById('id_editname').value = name;
-                            }
-                            if (id == 'id') {
-                                document.getElementById('id_editid').value = name;
-                            }
-                            if (id == 'email') {
-                                document.getElementById('id_editemail').value = name;
-                            }
-                            if (id == 'alamat') {
-                                document.getElementById('id_editaddress').value = name;
-                            }
-                            if (id == 'telepon') {
-                                document.getElementById('id_editphonenumber').value = name;
-                            }
-                            if (id == 'ttl') {
-                                $("#id_editttl").val(name);
-                                // document.getElementById('id_edittype').value = name;
-                            }
-                            if (id == 'gender') {
-                                $("#id_editgender").val(name);
-                                //document.getElementById('id_editbranch').value = name;
-                            }
-                        });
+    function showeditdatamember(idnya, nama)
+    {
+        // document.getElementById('id_hidden_edit').value = idnya;
+        //document.getElementById('editname').value = nama;
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Member/Json_get_one_member/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+                    //alert(id+"/"+name+'/oh yes');
+                    if (id == 'nama') {
+                        document.getElementById('id_editname').value = name;
+                    }
+                    if (id == 'id') {
+                        document.getElementById('id_editid').value = name;
+                    }
+                    if (id == 'email') {
+                        document.getElementById('id_editemail').value = name;
+                    }
+                    if (id == 'alamat') {
+                        document.getElementById('id_editaddress').value = name;
+                    }
+                    if (id == 'telepon') {
+                        document.getElementById('id_editphonenumber').value = name;
+                    }
+                    if (id == 'ttl') {
+                        $("#id_editttl").val(name);
+                        // document.getElementById('id_edittype').value = name;
+                    }
+                    if (id == 'gender') {
+                        $("#id_editgender").val(name);
+                        //document.getElementById('id_editbranch').value = name;
                     }
                 });
             }
+        });
+    }
 
 </script>

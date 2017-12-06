@@ -96,6 +96,40 @@ class Product extends CI_Controller {
         $this->load->view('back/v_all_product_back', $data);
         $this->load->view('back/v_footer_back');
     }
+    public function Deactivate_product() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_deactivateproduct')) {
+                $id = $this->input->post('name_deactivateid');
+                $name = $this->input->post('name_deactivatename');
+
+                $this->M_product->Deactivate_product($id);
+                $this->session->set_flashdata('pesanform', "Your product, " . $name . " , has been deactivated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Product/Show_all_product');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
+    public function Activate_product() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activateproduct')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_product->Activate_product($id);
+                $this->session->set_flashdata('pesanform', "Your product, " . $name . " , has been activated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Product/Show_all_product');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
 
     public function Add_Product() {
         if ($this->input->post('button_addproduct')) {
@@ -134,20 +168,7 @@ class Product extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Delete_material() {
-
-        if ($this->input->post('button_deletemember')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
-
-            $this->M_member->delete_member($id);
-            $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deleted");
-            $this->session->keep_flashdata('pesanform');
-
-
-            redirect('Back/Member/Show_all_member');
-        }
-    }
+    
 
     public function Edit_product() {
 

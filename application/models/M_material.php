@@ -69,18 +69,40 @@ class M_material extends CI_Model {
     }
 
     function Show_all_material($idbranch) {
-        $this->db->select("material.id as id, material.nama as nama, material.tipe as tipe, material.hargapokok as hpp, material.jumlahperpack as jumlahperpack, count(detailmaterial.stok) as stok, sum(detailmaterial.stok) as totalstok");
+        $this->db->select("material.id as id, material.nama as nama, material.tipe as tipe, material.hargapokok as hpp, material.jumlahperpack as jumlahperpack, count(detailmaterial.stok) as stok, sum(detailmaterial.stok) as totalstok, material.statusaktif as statusaktif");
 
         $this->db->from('material');
         $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
-        // $this->db->join('cabang', 'cabang.id = material.id_cabang');
-
-        $this->db->where('material.statusaktif', 1);
+//saya matikan untuk keperluan deactivate
+       // $this->db->where('material.statusaktif', 1);
         $this->db->where('material.id_cabang', $idbranch);
         $this->db->group_by('material.id');
         $query = $this->db->get();
         //   print_r($query->result()); exit();
         return $query->result();
+    }
+     function Deactivate_material($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 0,
+            
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('material', $data);
+    }
+
+    function Activate_material($id) {
+
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'statusaktif' => 1,
+            
+        );
+
+        $this->db->where('id', $id);
+        $this->db->update('material', $data);
     }
 
     function Get_all_material() {

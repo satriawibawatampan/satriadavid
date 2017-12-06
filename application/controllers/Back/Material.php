@@ -165,18 +165,35 @@ class Material extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Delete_material() {
+    public function Deactivate_material() {
 
-        if ($this->input->post('button_deletemember')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
+        if ($this->input->post('button_deactivatematerial')) {
+            $id = $this->input->post('name_deactivateid');
+            $name = $this->input->post('name_deactivatename');
 
-            $this->M_member->delete_member($id);
-            $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deleted");
+            $this->M_material->deactivate_material($id);
+            $this->session->set_flashdata('pesanform', "Your material, " . $name . " , has been deactivated");
             $this->session->keep_flashdata('pesanform');
 
 
-            redirect('Back/Member/Show_all_member');
+            redirect('Back/Material/Show_all_material');
+        }
+    }
+     public function Activate_material() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('button_activatematerial')) {
+                $id = $this->input->post('name_activateid');
+                $name = $this->input->post('name_activatename');
+
+                $this->M_material->Activate_material($id);
+                $this->session->set_flashdata('pesanform', "Your material, " . $name . " , has been activated");
+                $this->session->keep_flashdata('pesanform');
+
+
+                redirect('Back/Material/Show_all_material');
+            }
+        } else {
+            redirect('Back/Account/Log_out');
         }
     }
 

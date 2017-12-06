@@ -78,7 +78,7 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Edit_Order_Note" class="form-horizontal" novalidate="novalidate" method="post">
-                    <input required id="id_editidorder"  class="form-control" name="name_editidorder" placeholder="HPP" type="text" value="<?php echo set_value('name_editidorder', $dataorder[0]->id); ?>" />
+                    <input required id="id_editidorder"  class="form-control" name="name_editidorder" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editidorder', $dataorder[0]->id); ?>" />
 
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Member</label>

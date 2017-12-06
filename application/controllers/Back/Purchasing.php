@@ -155,20 +155,7 @@ class Purchasing extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Delete_material() {
-
-        if ($this->input->post('button_deletemember')) {
-            $id = $this->input->post('name_deleteid');
-            $name = $this->input->post('name_deletename');
-
-            $this->M_member->delete_member($id);
-            $this->session->set_flashdata('pesanform', "Your member, " . $name . " , has been deleted");
-            $this->session->keep_flashdata('pesanform');
-
-
-            redirect('Back/Member/Show_all_member');
-        }
-    }
+    
 
     public function Edit_purchasing_note() {
 
