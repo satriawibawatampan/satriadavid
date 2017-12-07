@@ -130,7 +130,7 @@
                                                 }
                                                 echo '<td>' . $hasil->namamember . '</td>';
                                                 echo '<td>' . $hasil->namapromo . '</td>';
-                                                echo '<td>' . number_format (  $hasil->grandtotal , 0 , "." , "," ) . '</td>';
+                                                echo '<td id="notagrandTotal-'.  $hasil->id .'">' . number_format (  $hasil->grandtotal , 0 , "." , "," ) . '</td>';
                                                 if ($hasil->status == 0) {
                                                     echo '<td>Not Paid</td>';
                                                 } else if ($hasil->status == 1) {
@@ -142,6 +142,9 @@
                                                 }
 
                                                 echo '<td> ';
+                                                if ($hasil->namamember == "Non Member" && $hasil->status == 0) {
+                                                    echo '  <a onclick="openModal('. $hasil->id.')" data-toggle="modal" data-target="#addMember" class="btn glyphicon glyphicon-user" ></a>';
+                                                }
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
                                                     echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 }
@@ -199,6 +202,47 @@
 
         </section>
         <!--end widget grid -->
+        <div class="modal fade" id="addMember" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="widget-body no-padding">
+                            <form class="form-horizontal" novalidate="novalidate">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Nama</label>
+                                    <div class="col-md-4">
+                                        <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                                    <div class="col-md-4">
+                                        <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+
+                                <footer>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1"></label>
+                                        <div class="col-md-4">
+                                            <input onclick="add_member();" type='button' name="button_addmember" class="btn btn-primary " value="Add Member">
+                                        </div>
+                                    </div>
+                                </footer>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     </div>
     <!--END MAIN CONTENT -->
@@ -259,7 +303,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
-
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
                         <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
                         <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
@@ -503,8 +546,50 @@
     </div>
 
 </div>    
-<script>
+<script>    
+    var idNota = null;
+    function openModal(id){
+        idNota = id;
+    }
+    function add_member(){
+        var nama = $("#daftar_nama").val();
+        var deposit = $("#daftar_deposit").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
+            datatype: "json",
+            data: {
+                nama: nama,
+                deposit: deposit
+            },
+            success: function (result) {
+                //Update data notajual
+                //update data notajualproduk
+                idMember = result;
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "Back/Order/addMemberToNota",
+                    datatype: "json",
+                    data: {
+                        id: idNota,
+                        idMember: idMember
+                    },
+                    success: function (result) {
+                        location.reload();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Status: " + textStatus);
+                        alert("Error: " + errorThrown);
+                    }
+                })
 
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+    }
 
     function showmodalpayment(idnya, grandtotal)
     {
@@ -756,7 +841,7 @@
 
         if ($('.hitung').length == 0)
         {
-            $("form").submit(function (e) {
+            $("#smart-form-register-payment").submit(function (e) {
                 e.preventDefault();
             });
             alert("Register at least one payment method");

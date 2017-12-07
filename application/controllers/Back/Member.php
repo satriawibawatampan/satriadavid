@@ -164,6 +164,14 @@ class Member extends CI_Controller {
         }
     }
 
+    public function Add_member_ajax() {
+        $idadmin = $this->session->userdata['xcellent_id'];
+        $nama = $this->input->post("nama");
+        $deposit = $this->input->post("deposit");
+        
+        echo $this->M_member->add_member_ajax($nama, $idadmin, $deposit);
+    }
+
     public function Json_get_one_member($id) {
         $data = $this->M_member->Json_get_one_member($id);
         echo json_encode($data);

@@ -239,4 +239,11 @@ class Order extends CI_Controller {
         }
     }
 
+    public function addMemberToNota(){
+        $id =$this->input->post("id");
+        $idMember =$this->input->post("idMember");
+
+        $this->M_order->addMemberToNota($id, $idMember);
+    }
+
 }

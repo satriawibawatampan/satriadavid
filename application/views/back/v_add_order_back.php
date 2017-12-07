@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
-                            <select class="form-control" name="name_member" id="id_member" selected ="select" >
+                            <select class="form-control" name="name_member" id="id_member" selected ="select" onchange="checkNewMember()">
                                 <option value="0" >- No Member -</option>
 
                                 <?php foreach ($listmember as $itemmember) { ?>
@@ -91,11 +91,28 @@
                                 <?php } ?>
                             </select> 
                         </div>
-                        <div class="col-md-4">
-                            <span></span>
+                        <div class="col-md-4" id="noMember" style="display: show;">
+                            <button type='button' class="btn btn-primary" 
+                                    data-toggle="modal" data-target="#addMember"
+                                    onclick="OpenModal(1)"
+                                    data-title="Registrasi Member"
+                                    id="btnModal">Daftar Member</button>
                         </div>
                     </div>
                     <script>
+
+                        function OpenModal(){
+                            $(".modal-title").text("Registrasi Member");
+                        }
+                       function checkNewMember(){
+                            var member = $("#id_member").val();
+                            if(member === "0"){
+                                $("#noMember").show();
+                            }else{
+                                $("#noMember").hide(); 
+                            }
+                       }
+
                         function show_product_by_category(idnya)
                         {
                             $("#id_product").empty();
@@ -583,6 +600,9 @@
                                 var promos = <?php echo json_encode($listpromo); ?>;
                                 // var totaldiskons =$('#id_total_discount').val();
 
+                                if(id_member !== null){
+                                    members = id_member;
+                                }
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Order/Add_order_note",
@@ -593,7 +613,7 @@
                                         member: members,
                                         grandtotal: grandtotals,
                                         promo: promos,
-                                        totaldiskon: totaldiskons
+                                        totaldiskon: totaldiskons,
                                                 //  totaldiskon:totaldiskons
 
 //                                    
@@ -643,7 +663,42 @@
 
                         }
 
+                        var id_member = null;
+                        function add_member(){
+                            var nama = $("#daftar_nama").val();
+                            var deposit = $("#daftar_deposit").val();
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
+                                datatype: "json",
+                                data: {
+                                    nama: nama,
+                                    deposit: deposit
+                                },
+                                success: function (result) {
+                                    id_member = result;
+                                    $('#addMember').modal('toggle');
 
+                                    $("#id_body_table").append(
+                                        "<tr id='tr_" + urutanproduct + "'>" +
+                                        "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
+                                        "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
+                                        "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
+                                        "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' t ype='text' value='" + deposit + "'></div></td>" +
+                                        "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
+                                        "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='"+deposit+ "'></div></td>" +
+                                        "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
+                                        "<td> <div></div></td>" +
+                                        "</tr>");
+                                    urutanproduct++;
+                                    update_grandtotal();
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                    alert("Status: " + textStatus);
+                                    alert("Error: " + errorThrown);
+                                }
+                            });
+                        }
                     </script>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Product</label>
@@ -710,10 +765,6 @@
                     </div>
 
 
-
-
-                    <!-------------------------------------------------------------------------------------->
-
                     <div  id="id_table_grossir" class="form-group">
                         <label class="col-md-2 control-label"></label>
 
@@ -775,9 +826,49 @@
 
 
 
+         <div class="modal fade" id="addMember" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="widget-body no-padding">
+                            <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Nama</label>
+                            <div class="col-md-4">
+                                <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                            <div class="col-md-4">
+                                <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                            </div>
+                        </div>
+
+                        <footer>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="select-1"></label>
+                                <div class="col-md-4">
+                                    <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
+                                </div>
+                            </div>
+                        </footer>
+                    </form> 
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         </div>
         <!-- end widget div -->
-
     </div>
 </div>
 <!-- END MAIN CONTENT -->
@@ -821,11 +912,3 @@
 </div>
 
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#datatable_col_reorder').DataTable({
-            "order": [[7, "desc"]]
-        });
-    });
-</script>

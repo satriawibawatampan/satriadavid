@@ -30,6 +30,34 @@ class M_member extends CI_Model {
         $this->db->trans_complete();
     }
 
+    function add_member_ajax($nama, $idadmin, $deposit){
+        $this->db->trans_start();
+        date_default_timezone_set('Asia/Jakarta');
+
+        $data = array(
+            'nama' => $nama,
+            'email' => "",
+            'deposit' => $deposit,
+            'ttl' => "",
+            'gender' => "",
+            'telepon' => "",
+            'alamat' => "",
+            'id_admin' => $idadmin,
+            'statusaktif' => "0",
+            'createdAt' => date('Y-m-d H:i:s'),
+            'updatedAt' => date('Y-m-d H:i:s')
+        );
+
+        $this->db->insert('member', $data);
+        $this->db->trans_complete();
+
+        $sql2 = "SELECT LAST_INSERT_ID() as id";
+        $hasil = $this->db->query($sql2);
+        $id = $hasil->row()->id;
+
+        return $id;
+    }
+
     function Show_all_member() {
         $this->db->select('*');
         $this->db->from('member');
