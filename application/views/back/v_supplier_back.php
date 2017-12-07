@@ -213,26 +213,20 @@
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo '<td>' . $hasil->alamat . '</td>';
                                                 echo '<td>' . $hasil->telepon . '</td>';
-                                                if($hasil->statusaktif==0)
-                                                {
+                                                if ($hasil->statusaktif == 0) {
                                                     echo '<td style="color:red">Deactivated</td>';
-                                                }
-                                                else if($hasil->statusaktif==1)
-                                                {
-                                                       echo '<td style="color:blue">Activated</td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<td style="color:blue">Activated</td>';
                                                 }
                                                 echo '<td>   '
                                                 . '<a  onclick="showeditdatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                               if($hasil->statusaktif==0)
-                                                {
-                                                     echo '<a  onclick="showactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue" data-toggle="modal" data-target="#myActivateModal"></a>';
-                                               }
-                                                else if($hasil->statusaktif==1)
-                                                {
+                                                if ($hasil->statusaktif == 0) {
+                                                    echo '<a  onclick="showactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue" data-toggle="modal" data-target="#myActivateModal"></a>';
+                                                } else if ($hasil->statusaktif == 1) {
                                                     echo '<a  onclick="showdeactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red" data-toggle="modal" data-target="#myDeactivateModal"></a>';
-                                               }
-                                                
-                                                  echo '</td>';
+                                                }
+
+                                                echo '</td>';
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -274,9 +268,6 @@
 
         </section>
 
-
-
-
     </div>
 </div>
 <!-- END MAIN CONTENT -->
@@ -307,30 +298,30 @@
     </div>
 </div>
 <!--//activate modal-->
-    <div class="modal fade" id="myActivateModal" role="dialog">
-        <div class="modal-dialog">
+<div class="modal fade" id="myActivateModal" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Activate Supplier Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Supplier/Activate_supplier" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to Activate Supplier <span id="span_nama_activate" style="color:blue"></span>?</p>
-                        <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_activatesupplier" class="btn btn-primary" value="Activate">
-                        </footer>
-                    </form>	
-                </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Activate Supplier Form</h4>
             </div>
+            <div class="modal-body">
+                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Supplier/Activate_supplier" class="smart-form" novalidate="novalidate" method="post">
 
+                    <p>Are you sure want to Activate Supplier <span id="span_nama_activate" style="color:blue"></span>?</p>
+                    <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
+                    <input hidden id="id_activatename" type="text" name="name_activatename"  aria-required="true" class="error" aria-invalid="true" >
+                    <footer>
+                        <input type="submit" name="button_activatesupplier" class="btn btn-primary" value="Activate">
+                    </footer>
+                </form>	
+            </div>
         </div>
+
     </div>
+</div>
 
 <!-- MODAL Edit -->
 <div class="modal fade" id="myEditModal" role="dialog">
@@ -351,7 +342,7 @@
                             <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                         </label>
                         <span class="col-md-9 text-danger">
-                            <?php echo form_error('name_editcompany'); ?>
+<?php echo form_error('name_editcompany'); ?>
                         </span>
                     </section>
                 </fieldset>
@@ -363,7 +354,7 @@
                             <b class="tooltip tooltip-bottom-right">Needed to enter the Supplier</b>
                         </label>
                         <span class="col-md-9 text-danger">
-                            <?php echo form_error('name_editname'); ?>
+<?php echo form_error('name_editname'); ?>
                         </span>
                     </section>
                 </fieldset>
@@ -375,7 +366,7 @@
                             <b class="tooltip tooltip-bottom-right">Needed to enter the Address</b>
                         </label>
                         <span class="col-md-9 text-danger">
-                            <?php echo form_error('name_editaddress'); ?>
+<?php echo form_error('name_editaddress'); ?>
                         </span>
                     </section>
                 </fieldset>
@@ -387,7 +378,7 @@
                             <b class="tooltip tooltip-bottom-right">Needed to enter the Phone Number</b>
                         </label>
                         <span class="col-md-9 text-danger">
-                            <?php echo form_error('name_editphone'); ?>
+<?php echo form_error('name_editphone'); ?>
                         </span>
                     </section>
                 </fieldset>
@@ -408,13 +399,13 @@
         document.getElementById('span_nama').innerHTML = nama;
 
     }
-     function showactivatedatasupplier(idnya, nama)
-            {
-                document.getElementById('id_activateid').value = idnya;
-                document.getElementById('id_activatename').value = nama;
-                document.getElementById('span_nama_activate').innerHTML = nama;
+    function showactivatedatasupplier(idnya, nama)
+    {
+        document.getElementById('id_activateid').value = idnya;
+        document.getElementById('id_activatename').value = nama;
+        document.getElementById('span_nama_activate').innerHTML = nama;
 
-            }
+    }
 
     function showeditdatasupplier(idnya, nama)
     {

@@ -58,7 +58,7 @@ class Cashflow extends CI_Controller {
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
                 $this->load->view('back/v_navigation_back', $navigation);
-                $this->load->view('back/v_all_cashflow_back', $data);
+                $this->load->view('back/v_report_cashflow_back', $data);
 
                 $this->load->view('back/v_footer_back');
             } else {
@@ -153,7 +153,7 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
-        $this->load->view('back/v_all_cashflow_back', $data);
+        $this->load->view('back/v_report_cashflow_back', $data);
 
         $this->load->view('back/v_footer_back');
     }

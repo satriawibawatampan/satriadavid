@@ -403,7 +403,7 @@ you can add as many as you like
                 "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             }
         });
-    }else if (menu === "report" && submenu === "reportpettycash") {
+    } else if (menu === "report" && submenu === "reportpettycash") {
         $('#datatable_col_reorder').dataTable({
             "aaSorting": [[0, 'DESC']],
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>" +
@@ -414,7 +414,7 @@ you can add as many as you like
                 "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             }
         });
-    }else if (menu === "order" && submenu === "all") {
+    } else if (menu === "order" && submenu === "all") {
         $('#datatable_col_reorder').dataTable({
             "aaSorting": [[0, 'DESC']],
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>" +
@@ -425,6 +425,7 @@ you can add as many as you like
                 "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             }
         });
+    }
 </script>
 
 </body>

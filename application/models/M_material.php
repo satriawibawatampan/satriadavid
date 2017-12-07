@@ -74,19 +74,19 @@ class M_material extends CI_Model {
         $this->db->from('material');
         $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
 //saya matikan untuk keperluan deactivate
-       // $this->db->where('material.statusaktif', 1);
+        // $this->db->where('material.statusaktif', 1);
         $this->db->where('material.id_cabang', $idbranch);
         $this->db->group_by('material.id');
         $query = $this->db->get();
         //   print_r($query->result()); exit();
         return $query->result();
     }
-     function Deactivate_material($id) {
+
+    function Deactivate_material($id) {
 
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'statusaktif' => 0,
-            
         );
 
         $this->db->where('id', $id);
@@ -98,7 +98,6 @@ class M_material extends CI_Model {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'statusaktif' => 1,
-            
         );
 
         $this->db->where('id', $id);
@@ -138,9 +137,44 @@ class M_material extends CI_Model {
     }
 
     function Get_material_out_of_stock() {
+//        $this->db->select('material.id as idmaterial,material.nama as namamaterial, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
+//        $this->db->from('material');
+//        $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
+//        $this->db->group_by('idmaterial');
+//        $this->db->having('total <= minstok');
+//
+//        $query = $this->db->get();
+        $materialtipe1 = $this->Get_material_out_of_stock_tipe1();
+
+
+        $materialtipe2 = $this->Get_material_out_of_stock_tipe2();
+        return $materialtipe1 + $materialtipe2;
+    }
+
+    function Get_material_out_of_stock_tipe1() {
+        $sql = "select material.id as idmaterial,material.nama as namamaterial, detailmaterial.stok as stok,  material.minimum_stok as minstok
+                from material
+                join detailmaterial  on detailmaterial.id_material = material.id
+                where material.tipe = 2
+                having stok<minstok";
+
+        $result = $this->db->query($sql);
+        $data = $result->result_array();
+
+   
+
+        $list = [];
+        $idsama = 0;
+        for ($x = 0; $x < count($data); $x++) {
+            
+        }
+    }
+
+    function Get_material_out_of_stock_tipe2() {
         $this->db->select('material.id as idmaterial,material.nama as namamaterial, sum(detailmaterial.stok) as total, material.minimum_stok as minstok');
         $this->db->from('material');
         $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
+        $this->db->where('tipe', 2);
         $this->db->group_by('idmaterial');
         $this->db->having('total <= minstok');
 
@@ -157,11 +191,11 @@ class M_material extends CI_Model {
                     join notajual on notajual.id = notajual_produk.id_notajual
                     where notajual.id = ?", array($idnota));
         $usedmaterial = $query->result();
-        
+
         return($usedmaterial);
     }
-    function Get_all_residual_description($iddetailmaterial)
-    {
+
+    function Get_all_residual_description($iddetailmaterial) {
         $this->db->select('used_material_temp.id_detailmaterial as detailmaterialid,used_material_temp.deskripsi_residual as deskripsi');
         $this->db->from('used_material_temp');
         $this->db->where('id_detailmaterial', $iddetailmaterial);

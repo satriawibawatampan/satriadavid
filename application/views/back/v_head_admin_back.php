@@ -24,7 +24,7 @@
 
 
         <!-- SmartAdmin Invoice Print CSS -->
-        <link rel="stylesheet" type="text/css" media="screen" href="css/invoice.min.css">
+        <!--<link rel="stylesheet" type="text/css" media="screen" href="css/invoice.min.css">-->
 
         <!-- We recommend you use "your_style.css" to override SmartAdmin
              specific styles this will also ensure you retrain your customization with each SmartAdmin update.
