@@ -145,29 +145,28 @@ class M_material extends CI_Model {
 //
 //        $query = $this->db->get();
         $materialtipe1 = $this->Get_material_out_of_stock_tipe1();
-
-
         $materialtipe2 = $this->Get_material_out_of_stock_tipe2();
-        return $materialtipe1 + $materialtipe2;
+        print_r($materialtipe2);
+        exit();
+        $array = [];
+        for($i = 0 ; $i < count($materialtipe1) ; $i++){
+            array_push($array, $materialtipe1[$i]);
+        }
+        for($i = 0 ; $i < count($materialtipe2) ; $i++){
+            array_push($array, $materialtipe2[$i]);
+        }
+        return $array;
     }
 
     function Get_material_out_of_stock_tipe1() {
         $sql = "select material.id as idmaterial,material.nama as namamaterial, detailmaterial.stok as stok,  material.minimum_stok as minstok
                 from material
                 join detailmaterial  on detailmaterial.id_material = material.id
-                where material.tipe = 2
-                having stok<minstok";
+                where material.tipe = 1 AND detailmaterial.statuspakai = 1";
 
         $result = $this->db->query($sql);
         $data = $result->result_array();
-
-   
-
-        $list = [];
-        $idsama = 0;
-        for ($x = 0; $x < count($data); $x++) {
-            
-        }
+        return $data;
     }
 
     function Get_material_out_of_stock_tipe2() {
