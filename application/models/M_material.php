@@ -146,8 +146,6 @@ class M_material extends CI_Model {
 //        $query = $this->db->get();
         $materialtipe1 = $this->Get_material_out_of_stock_tipe1();
         $materialtipe2 = $this->Get_material_out_of_stock_tipe2();
-        print_r($materialtipe2);
-        exit();
         $array = [];
         for($i = 0 ; $i < count($materialtipe1) ; $i++){
             array_push($array, $materialtipe1[$i]);
