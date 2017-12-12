@@ -302,7 +302,7 @@
     function check_all_not_null()
     {
 
-        if ($('.hitung').length == 0 || $("#id_supplier"))
+        if ($('.hitung').length == 0 || $("#id_supplier")==null)
         {
             $("form").submit(function (e) {
                 e.preventDefault();

@@ -144,16 +144,9 @@ class M_material extends CI_Model {
 //        $this->db->having('total <= minstok');
 //
 //        $query = $this->db->get();
-        $materialtipe1 = $this->Get_material_out_of_stock_tipe1();
-        $materialtipe2 = $this->Get_material_out_of_stock_tipe2();
-        $array = [];
-        for($i = 0 ; $i < count($materialtipe1) ; $i++){
-            array_push($array, $materialtipe1[$i]);
-        }
-        for($i = 0 ; $i < count($materialtipe2) ; $i++){
-            array_push($array, $materialtipe2[$i]);
-        }
-        return $array;
+       // $materialtipe1 = $this->Get_material_out_of_stock_tipe1();
+     //  $materialtipe2 = $this->Get_material_out_of_stock_tipe2();
+     //   return $materialtipe1 + $materialtipe2;
     }
 
     function Get_material_out_of_stock_tipe1() {
