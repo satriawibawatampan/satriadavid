@@ -34,7 +34,7 @@
                     <i class="fa-fw fa fa-home"></i> 
                     Material
                     <span>>  
-                        Material List
+                        Material Out Of Stock
                     </span>
                 </h1>
             </div>
@@ -101,10 +101,8 @@
                                             <tr role="row">
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Type</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">HPP</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Stock</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Amount/Pack</th>
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Total</th>
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Minstok</th>
                                               
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
                                         </thead>
@@ -112,15 +110,13 @@
                                             <?php
                                             foreach ($tablematerial as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
-                                                echo ' <td >' . $hasil->nama . '</td>';
-                                                echo '<td>' . $hasil->tipe . '</td>';
-                                                echo '<td>' . $hasil->hpp . '</td>';
-                                                echo '<td>' . $hasil->stok . ' Pack ('.$hasil->totalstok.') <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
-                                                echo '<td>' . $hasil->jumlahperpack . '</td>';
+                                            echo '<td>' . $hasil['idmaterial'] . '</td>';
+                                                echo ' <td >' . $hasil['namamaterial'] . '</td>';
+                                                echo '<td>' . $hasil['total'] . '</td>';
+                                                echo '<td>' . $hasil['minstok'] . '</td>';
                                                 
-                                                echo '<td>   <a href="'. base_url(). 'Back/Material/Show_edit_material/'. $hasil->id.   '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>
-                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
+                                                
+                                                echo '<td>';   
                                                 echo '</tr>';
                                             }
                                             ?>

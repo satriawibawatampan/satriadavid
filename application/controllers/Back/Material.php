@@ -269,7 +269,7 @@ class Material extends CI_Controller {
     }
 
     public function Show_material_out_of_stock() {
-        $data = $this->M_material->Get_material_out_of_stock();
+        $data['tablematerial'] = $this->M_material->Get_material_out_of_stock();
 
         $navigation = array(
             "menu" => "material",

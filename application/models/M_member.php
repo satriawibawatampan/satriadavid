@@ -30,18 +30,29 @@ class M_member extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function add_member_ajax($nama, $idadmin, $deposit){
+    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat) {
         $this->db->trans_start();
+        
+        $allmember = $this->Show_all_member();
+       // print_r($allmember);$exit();
+        foreach ($allmember as $item)
+        {
+            //print_r($item->email);$exit();
+            if($item->email == $email)
+            {
+                return 0;
+            }
+        }
         date_default_timezone_set('Asia/Jakarta');
 
         $data = array(
             'nama' => $nama,
-            'email' => "",
+            'email' => $email,
             'deposit' => $deposit,
-            'ttl' => "",
-            'gender' => "",
-            'telepon' => "",
-            'alamat' => "",
+            'ttl' => $bod,
+            'gender' => $gender,
+            'telepon' => $phone,
+            'alamat' => $alamat,
             'id_admin' => $idadmin,
             'statusaktif' => "0",
             'createdAt' => date('Y-m-d H:i:s'),
@@ -58,9 +69,15 @@ class M_member extends CI_Model {
         return $id;
     }
 
+    function Cancel_add_member($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('member');
+    }
+
     function Show_all_member() {
         $this->db->select('*');
         $this->db->from('member');
+       // $this->db->where('statusaktif', 1);
 
         $query = $this->db->get();
         return $query->result();

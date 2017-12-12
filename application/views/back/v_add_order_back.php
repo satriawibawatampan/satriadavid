@@ -78,7 +78,7 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Show_add_order_note" class="form-horizontal" novalidate="novalidate" method="post">
-                    <div class="form-group">
+                    <div id="id_inputmember" class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
                             <select class="form-control" name="name_member" id="id_member" selected ="select" onchange="checkNewMember()">
@@ -95,23 +95,23 @@
                             <button type='button' class="btn btn-primary" 
                                     data-toggle="modal" data-target="#addMember"
                                     onclick="OpenModal(1)"
-                                    data-title="Registrasi Member"
-                                    id="btnModal">Daftar Member</button>
+                                    data-title="Member Registration"
+                                    id="btnModal">Add Member</button>
                         </div>
                     </div>
                     <script>
 
-                        function OpenModal(){
-                            $(".modal-title").text("Registrasi Member");
+                        function OpenModal() {
+                            $(".modal-title").text("Member Registration");
                         }
-                       function checkNewMember(){
+                        function checkNewMember() {
                             var member = $("#id_member").val();
-                            if(member === "0"){
+                            if (member === "0") {
                                 $("#noMember").show();
-                            }else{
-                                $("#noMember").hide(); 
+                            } else {
+                                $("#noMember").hide();
                             }
-                       }
+                        }
 
                         function show_product_by_category(idnya)
                         {
@@ -503,7 +503,7 @@
                                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
-                                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='"+document.getElementById("id_deskripsi").value+"'></div></td>" +
+                                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
                                             "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                                             "</tr>");
                                     urutanproduct++;
@@ -529,8 +529,35 @@
 
                         function remove_product_tr(y)
                         {
-                           
-                            $("#tr_" + y).remove();
+                            //alert($("#id_txt_id_product_" + y).val());
+                            if ($("#id_txt_id_product_" + y).val() == 0)
+                            {
+
+                                var idmemberbaru = $("#id_member_input").val();
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo base_url(); ?>" + "Back/Member/Cancel_add_member",
+
+                                    data: {
+                                        idmember: idmemberbaru
+//                                                        data: JSON.stringify(tampungall)
+                                    },
+                                    success: function (result) {
+                                        $("#tr_" + y).remove();
+                                        $("#id_member").prop("disabled", false);
+                                        $("#btnModal").prop("disabled", false);
+
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        alert("Status: " + textStatus);
+                                        alert("Error: " + errorThrown);
+                                    }
+                                });
+
+                            }
+
+
 
                         }
 
@@ -600,7 +627,7 @@
                                 var promos = <?php echo json_encode($listpromo); ?>;
                                 // var totaldiskons =$('#id_total_discount').val();
 
-                                if(id_member !== null){
+                                if (id_member !== null) {
                                     members = id_member;
                                 }
                                 $.ajax({
@@ -614,7 +641,7 @@
                                         grandtotal: grandtotals,
                                         promo: promos,
                                         totaldiskon: totaldiskons,
-                                                //  totaldiskon:totaldiskons
+                                        //  totaldiskon:totaldiskons
 
 //                                    
 
@@ -664,34 +691,59 @@
                         }
 
                         var id_member = null;
-                        function add_member(){
+                        function add_member() {
                             var nama = $("#daftar_nama").val();
                             var deposit = $("#daftar_deposit").val();
+                            var email = $("#daftar_email").val();
+                            var BOD = $("#daftar_ttl").val();
+                            var phone = $("#daftar_telepon").val();
+                            var gender = $("#daftar_gender").val();
+                            var alamat = $("#daftar_alamat").val();
                             $.ajax({
                                 type: "POST",
                                 url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
                                 datatype: "json",
                                 data: {
                                     nama: nama,
-                                    deposit: deposit
+                                    deposit: deposit,
+                                    email: email,
+                                    bod: BOD,
+                                    phone: phone,
+                                    alamat: alamat,
+                                    gender: gender
                                 },
                                 success: function (result) {
                                     id_member = result;
-                                    $('#addMember').modal('toggle');
+                                    alert(id_member);
+                                    var idnya = id_member;
 
-                                    $("#id_body_table").append(
-                                        "<tr id='tr_" + urutanproduct + "'>" +
-                                        "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
-                                        "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
-                                        "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
-                                        "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' t ype='text' value='" + deposit + "'></div></td>" +
-                                        "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
-                                        "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='"+deposit+ "'></div></td>" +
-                                        "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
-                                        "<td> <div></div></td>" +
-                                        "</tr>");
-                                    urutanproduct++;
-                                    update_grandtotal();
+                                    if (idnya == 0)
+                                    {
+                                        alert("Email has been registered before.");
+                                    } else {
+
+                                        alert(idnya);
+                                        $('#addMember').modal('toggle');
+//$("#id_member_input").val(id_member);
+                                        $("#id_body_table").append(
+                                                "<tr id='tr_" + urutanproduct + "'>" +
+                                                "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
+                                                "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
+                                                "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
+                                                "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
+                                                "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
+                                                "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
+                                                "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
+                                                "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                                                "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
+                                                "</tr>");
+                                        urutanproduct++;
+                                        update_grandtotal();
+
+                                        $("#id_member").attr("disabled", "disabled");
+                                        $("#btnModal").attr("disabled", "disabled");
+
+                                    }
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                                     alert("Status: " + textStatus);
@@ -744,7 +796,7 @@
                             <input   id="id_discount"  class="form-control" name="name_discount" placeholder="Price" type="hidden" value="0">
                             <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
                         </div>
-                        
+
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1"></label>
@@ -768,7 +820,7 @@
                     <div  id="id_table_grossir" class="form-group">
                         <label class="col-md-2 control-label"></label>
 
-                        <div class="col-md-6 table-responsive">
+                        <div class="col-md-10 table-responsive">
                             <table id="id_table" class="table table-bordered table-striped" >
                                 <thead>
                                     <tr >
@@ -826,47 +878,80 @@
 
 
 
-         <div class="modal fade" id="addMember" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal fade" id="addMember" role="dialog">
+                <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"></h4>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="widget-body no-padding">
+                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Email</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_email" type="text" name="daftar_email"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Name</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">BOD</label>
+                                        <div class="col-md-4">
+                                            <input id="daftar_ttl" class="form-control" name="daftar_ttl" placeholder="BOD" type="date" value="<?php echo set_value('daftar_ttl'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Phone</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_telepon" type="text" name="daftar_telepon"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Address</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_alamat" type="text" name="daftar_alamat"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Gender</label>
+                                        <div class="col-md-4">
+                                            <select  id="daftar_gender" class="form-control" name="daftar_gender" id="select-1" selected ="select" <?php echo set_select('name_gender', set_value('name_gender')); ?> >
+                                                <option value="1" <?php echo set_select('daftar_gender', '1', TRUE); ?>>Male</option>
+                                                <option value="2" <?php echo set_select('daftar_gender', '2'); ?>>Female</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+
+                                    <footer>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="select-1"></label>
+                                            <div class="col-md-4">
+                                                <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </form> 
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="widget-body no-padding">
-                            <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="select-1">Nama</label>
-                            <div class="col-md-4">
-                                <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="select-1">Deposit</label>
-                            <div class="col-md-4">
-                                <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
-                            </div>
-                        </div>
 
-                        <footer>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="select-1"></label>
-                                <div class="col-md-4">
-                                    <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
-                                </div>
-                            </div>
-                        </footer>
-                    </form> 
-                        </div>
-                    </div>
                 </div>
-
             </div>
-        </div>
         </div>
         <!-- end widget div -->
     </div>

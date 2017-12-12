@@ -37,7 +37,7 @@ class M_cashflow extends CI_Model {
     }
 
      function Get_income_summary() {
-        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok*notajual_produk.jumlah) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
+        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.updatedat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok*notajual_produk.jumlah) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
 where notajual.id_cabang = ? order by notajual.id        
 ";

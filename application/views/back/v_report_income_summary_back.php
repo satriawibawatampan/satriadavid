@@ -180,7 +180,7 @@
                                                
                                                 
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->tanggal . '</td>';
+                                                echo '<td>' . $hasil->tanggalupdate . '</td>';
                                                 echo '<td><a target="_blank" href="'. base_url().'Back/Order/Prints/'. $hasil->idnotajual.'">Order Note '. $hasil->idnotajual . '</a>';
                                                 echo '<td>' . number_format ( $hasil->grandtotal , 0 , "." , "," ) . '</td>';
                                                 echo '<td>' .  number_format ( $hasil->hpp , 0 , "." , "," ) . '</td>';

@@ -57,7 +57,7 @@ class Member extends CI_Controller {
     }
 
     public function Show_all_member() {
-        $data['tablemember'] = $this->M_member->Show_all_member();
+        $data['tablemember'] = $this->M_member->Show_all_member_active();
         $navigation=array(
             "menu" => "member",
             "submenu" => "all",
@@ -168,8 +168,19 @@ class Member extends CI_Controller {
         $idadmin = $this->session->userdata['xcellent_id'];
         $nama = $this->input->post("nama");
         $deposit = $this->input->post("deposit");
+        $email = $this->input->post("email");
+        $bod = $this->input->post("bod");
+        $phone = $this->input->post("phone");
+        $gender = $this->input->post("gender");
+        $alamat = $this->input->post("alamat");
         
-        echo $this->M_member->add_member_ajax($nama, $idadmin, $deposit);
+        echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender,$alamat);
+    }
+    
+    public function Cancel_add_member()
+    {
+        $id = $this->input->post("idmember");
+       $this->M_member->Cancel_add_member($id);
     }
 
     public function Json_get_one_member($id) {
