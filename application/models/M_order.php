@@ -38,35 +38,26 @@ class M_order extends CI_Model {
             $detailmaterial = $this->M_material->Json_get_detail_material_array($products[$x]['id']);
             //  print_r($detailmaterial);            exit();
             $produk_material = $this->M_product->Json_get_material_array($products[$x]['id']);
+              //print_r($produk_material);exit();  
 // print_r($produk_material);            exit();
             $tampung = [];
             $countertampung = 0;
             $needed = [];
             $neededtipe1 = [];
             for ($a = 0; $a < count($produk_material); $a++) {
-                if($products[$x]['id_kategori'] == "1"){
-                    //Jika tipe Material
-                   
-                    /*if(tipe 1){
-                         looping jumlah{
-                            potong per request panjang
-                         }
-                    }else{
-
-                    }*/
-                    
+                if ($produk_material[$x]['id_kategori'] == "1") {
+                
                     $needed[$a] = $products[$x]['jumlah'];
                     $neededtipe1[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
-                }else{
+                } else {
+                   // print_r($produk_material[$x]['id_kategori']);exit();  
                     //Jika tipe Produk
                     $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                     $neededtipe1[$a] = $products[$x]['jumlah'];
                 }
-                
+
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
-//                        print_r($detailmaterial[$b]['tipe'] . "/". $neededtipe1[$a]);
-//                            exit();
                         if ($detailmaterial[$b]['tipe'] == 2) {
 
                             if ($needed[$a] <= $detailmaterial[$b]['stok'] && $detailmaterial[$b]['stok'] > 0) {
@@ -91,9 +82,11 @@ class M_order extends CI_Model {
                             $needed[$a] = 0;
                             //Pesen 20 brang
                             //Produk material per barag, butuh mek 7
-                           
-                            for($xc = $neededtipe1[$a] ; $xc > 0; $xc--){
+                            
+                            for ($xc = $neededtipe1[$a]; $xc > 0; $xc--) {
                                 //pesenean sisa 17
+                            //    print_r($detailmaterial);                                exit();
+                              //  print_r($b."/".$detailmaterial[$b]['stok']."/".$produk_material[$a]['jumlahmaterial']);exit();
                                 if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
                                     //stok skg 48
                                     $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
@@ -108,6 +101,7 @@ class M_order extends CI_Model {
                                     break;
                                 }
                             }
+                           // print_r($neededtipe1);exit();
                         }
                     }
                 }
@@ -235,9 +229,14 @@ class M_order extends CI_Model {
             $needed = [];
             $neededtipe1 = [];
             for ($a = 0; $a < count($produk_material); $a++) {
-                $needed[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']) * $produk_material[$a]['jumlahmaterial'];
+                if ($produk_material[$a]['id_kategori'] == 1) {
+                    $needed[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']) * $produk_material[$a]['jumlahmaterial'];
+                    $neededtipe1[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']);
+                } else {
+                    $needed[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']);
+                    $neededtipe1[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']) * $produk_material[$a]['jumlahmaterial'];
+                }
 
-                $neededtipe1[$a] = ($products[$x]['jumlah'] - $products[$x]['jumlah2']);
                 if ($needed[$a] > 0) {
 
                     for ($b = 0; $b < count($detailmaterial); $b++) {
@@ -269,15 +268,20 @@ class M_order extends CI_Model {
                             } else if ($detailmaterial[$b]['tipe'] == 1 && $neededtipe1[$a] > 0) {
                                 $needed[$a] = 0;
 
-                                if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
-                                    $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
+                                for ($xc = $neededtipe1[$a]; $xc > 0; $xc--) {
+                                    if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
 
-                                    $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
-                                    $tampung[$countertampung]['stok'] = $produk_material[$a]['jumlahmaterial'];
-                                    $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
 
-                                    $neededtipe1[$a] --;
-                                    $countertampung++;
+
+                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
+
+                                        $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                        $tampung[$countertampung]['stok'] = $produk_material[$a]['jumlahmaterial'];
+                                        $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+
+                                        $neededtipe1[$a] --;
+                                        $countertampung++;
+                                    }
                                 }
                             }
                         }
