@@ -374,8 +374,8 @@
                                         <th  style="width: 150px;" >Subtotal</th>
                                         <th  style="width: 150px;" >Description</th>
                                         <th   >X</th>
-                                        <th   >--</th>
-                                        <th  >--</th>
+                                        <th hidden  >--</th>
+                                        <th  hidden >--</th>
 
 
                                 </thead>
@@ -398,8 +398,8 @@
                                             <td><div ><i  onclick='remove_product_tr(<?php echo $counter; ?>);
                                                     update_grandtotal();
                                                     update_total_discount(); readd_detailmaterial(" + $("#id_product option:selected").val() + ");' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></th>
-                                            <td ><div ><input readonly id='id_txt_id_notajualproduk_<?php echo $counter; ?>' class='form-control diskon ' name='name_txt_id_orderproduct[]'  type='text' value='<?php echo $item->id; ?>'></div></td>
-                                            <td ><div ><input  id='id_txt_jumlah_product2_<?php echo $counter; ?>' class='form-control jumlah' name='name_txt_jumlah_product2[]'  type='text' value='<?php echo $item->jumlah; ?>'></div> </td>
+                                            <td hidden ><div ><input readonly id='id_txt_id_notajualproduk_<?php echo $counter; ?>' class='form-control diskon ' name='name_txt_id_orderproduct[]'  type='text' value='<?php echo $item->id; ?>'></div></td>
+                                            <td hidden><div ><input  id='id_txt_jumlah_product2_<?php echo $counter; ?>' class='form-control jumlah' name='name_txt_jumlah_product2[]'  type='text' value='<?php echo $item->jumlah; ?>'></div> </td>
 
                                         </tr>
 

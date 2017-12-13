@@ -130,7 +130,7 @@
                                                 }
                                                 echo '<td>' . $hasil->namamember . '</td>';
                                                 echo '<td>' . $hasil->namapromo . '</td>';
-                                                echo '<td id="notagrandTotal-'.  $hasil->id .'">' . number_format (  $hasil->grandtotal , 0 , "." , "," ) . '</td>';
+                                                echo '<td id="notagrandTotal-' . $hasil->id . '">' . number_format($hasil->grandtotal, 0, ".", ",") . '</td>';
                                                 if ($hasil->status == 0) {
                                                     echo '<td>Not Paid</td>';
                                                 } else if ($hasil->status == 1) {
@@ -142,8 +142,8 @@
                                                 }
 
                                                 echo '<td> ';
-                                                if ($hasil->namamember == "Non Member" && $hasil->status == 0) {
-                                                    echo '  <a onclick="openModal('. $hasil->id.')" data-toggle="modal" data-target="#addMember" class="btn glyphicon glyphicon-user" ></a>';
+                                                if ($hasil->id_member == "0" && $hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
+                                                    echo '  <a onclick="openModal(' . $hasil->id . ')" data-toggle="modal" data-target="#addMember" class="btn glyphicon glyphicon-user" ></a>';
                                                 }
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
                                                     echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
@@ -209,15 +209,48 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"></h4>
+                        <h4 class="modal-title">Member Registration</h4>
                     </div>
                     <div class="modal-body">
                         <div class="widget-body no-padding">
-                            <form class="form-horizontal" novalidate="novalidate">
+                            <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="select-1">Nama</label>
+                                    <label class="col-md-4 control-label" for="select-1">Email</label>
+                                    <div class="col-md-4">
+                                        <input  id="daftar_email" type="text" name="daftar_email"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Name</label>
                                     <div class="col-md-4">
                                         <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">BOD</label>
+                                    <div class="col-md-4">
+                                        <input id="daftar_ttl" class="form-control" name="daftar_ttl" placeholder="BOD" type="date" value="<?php echo set_value('daftar_ttl'); ?>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Phone</label>
+                                    <div class="col-md-4">
+                                        <input  id="daftar_telepon" type="text" name="daftar_telepon"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Address</label>
+                                    <div class="col-md-4">
+                                        <input  id="daftar_alamat" type="text" name="daftar_alamat"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Gender</label>
+                                    <div class="col-md-4">
+                                        <select  id="daftar_gender" class="form-control" name="daftar_gender" id="select-1" selected ="select" <?php echo set_select('name_gender', set_value('name_gender')); ?> >
+                                            <option value="1" <?php echo set_select('daftar_gender', '1', TRUE); ?>>Male</option>
+                                            <option value="2" <?php echo set_select('daftar_gender', '2'); ?>>Female</option>
+                                        </select> 
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -232,7 +265,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1"></label>
                                         <div class="col-md-4">
-                                            <input onclick="add_member();" type='button' name="button_addmember" class="btn btn-primary " value="Add Member">
+                                            <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
                                         </div>
                                     </div>
                                 </footer>
@@ -546,42 +579,50 @@
     </div>
 
 </div>    
-<script>    
+<script>
     var idNota = null;
-    function openModal(id){
+    var idmember = null;
+    function openModal(id) {
         idNota = id;
     }
-    function add_member(){
+    function add_member() {
+       // alert("ok");
+
         var nama = $("#daftar_nama").val();
         var deposit = $("#daftar_deposit").val();
+        var email = $("#daftar_email").val();
+        var BOD = $("#daftar_ttl").val();
+        var phone = $("#daftar_telepon").val();
+        var gender = $("#daftar_gender").val();
+        var alamat = $("#daftar_alamat").val();
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
+            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_from_kasir_ajax",
             datatype: "json",
             data: {
                 nama: nama,
-                deposit: deposit
+                deposit: deposit,
+                email: email,
+                bod: BOD,
+                phone: phone,
+                alamat: alamat,
+                idnota: idNota,
+                gender: gender
             },
             success: function (result) {
-                //Update data notajual
-                //update data notajualproduk
-                idMember = result;
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + "Back/Order/addMemberToNota",
-                    datatype: "json",
-                    data: {
-                        id: idNota,
-                        idMember: idMember
-                    },
-                    success: function (result) {
-                        location.reload();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("Status: " + textStatus);
-                        alert("Error: " + errorThrown);
-                    }
-                })
+                idmember = result;
+              alert(result);
+                var hasil = idmember;
+                if (hasil == 0)
+                {
+                    alert("Email has been registered before.");
+                } else
+                {
+                    alert("Member Registration Success");
+                    $('#addMember').modal('toggle');
+                    location.reload();
+                }
+
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -702,7 +743,7 @@
                                     "<td><input readonly id='id_txt_residu_jumlah_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_jumlah[]'  type='text' value='" + nameb['jumlah'] + "'></td>" +
                                     "<td><input  id='id_txt_residu_deskripsi_" + urutanresidu + "' class='form-control hitung' name='name_txt_residu_deskripsi[]'  type='text' value=''></td>" +
                                     "</tr>");
-                            
+
                             urutanresidu++;
 
                         });

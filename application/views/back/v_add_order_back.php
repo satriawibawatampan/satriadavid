@@ -265,219 +265,7 @@
                         var produk_material = [];
 
                         var tampungall = [];
-                        function readd_detailmaterial(idproduk)
-                        {
-                            var tampungreadd = [];
-                            for (var q = 0; q < tampungall.length; q++)
-                            {
-                                if (tampungall[q]['idproduk'] == idproduk)
-                                {
-                                    tampungreadd.push({"id": tampungall[q]['id'], "stok": tampungall[q]['stok'], "idproduk": idproduk.toString()})
-
-                                    //ini hapus tampungall karena sudah di cancel. dijadikan -1 agar tidak kebaca di if.                    
-                                    tampungall[q]['idproduk'] = -1;
-
-                                }
-                            }
-
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo base_url(); ?>" + "Back/Material/Readd_detailmaterial",
-
-                                data: {
-                                    data: tampungreadd
-//                                                
-                                },
-                                success: function (result) {
-                                    //ini kalau mau ambil 1 data saja sudah bisa.
-                                    alert("hore sukses" + result);
-
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    alert("Status: " + textStatus);
-                                    alert("Error: " + errorThrown);
-                                }
-                            });
-
-                        }
-
-
-                        function check_material_availability($idproduk, $qty)
-                        {
-
-
-                            $qtys = parseFloat($("#id_quantity").val());
-                            detailmaterial = [];
-                            produk_material = [];
-
-                            alert("idproduk " + $idproduk + " / quantity " + $qty);
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_detail_material_array/" + $idproduk,
-                                dataType: "json",
-                                success: function (result) {
-                                    detailmaterial = result;
-
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material_array/" + $idproduk,
-                                        dataType: "json",
-                                        success: function (result) {
-
-                                            produk_material = result;
-
-                                            var tampung = [];
-                                            var stoktersedia = true;
-
-                                            var needed = [];
-                                            var neededtipe1 = [];
-
-
-                                            for (a = 0; a < produk_material.length; a++)
-                                            {
-
-                                                //var tes = $("#id_quantity").val();
-
-
-                                                needed[a] = produk_material[a]['jumlahmaterial'] * $qtys;
-                                                neededtipe1[a] = $qtys;
-
-                                                for (b = 0; b < detailmaterial.length; b++)
-                                                {
-                                                    if (produk_material[a]['idmaterial'] == detailmaterial[b]['id_material'])
-                                                    {
-                                                        if (detailmaterial[b]['tipe'] == 2)
-                                                        {
-                                                            neededtipe1[a] = 0;
-
-                                                            if (needed[a] <= detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
-                                                            {
-
-                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
-                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": needed[a], "idproduk": $idproduk.toString()});
-                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - needed[a];
-                                                                needed[a] = 0;
-                                                                break;
-
-                                                            } else if (needed[a] > detailmaterial[b]['stok'] && detailmaterial[b]['stok'] > 0)
-                                                            {
-
-                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
-                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": detailmaterial[b]['stok'], "idproduk": $idproduk.toString()});
-
-                                                                // var neededsementara = needed[a];
-                                                                needed[a] = needed[a] - detailmaterial[b]['stok'];
-                                                                detailmaterial[b]['stok'] = 0;
-                                                            }
-
-                                                        } else if (detailmaterial[b]['tipe'] == 1 && neededtipe1[a] > 0)
-                                                        {
-                                                            needed[a] = 0;
-
-
-                                                            if (detailmaterial[b]['stok'] < produk_material[a]['jumlahmaterial'])
-                                                            {
-
-
-                                                            } else if (detailmaterial[b]['stok'] >= produk_material[a]['jumlahmaterial'])
-                                                            {
-                                                                //kurangi detailmaterial
-                                                                detailmaterial[b]['stok'] = detailmaterial[b]['stok'] - produk_material[a]['jumlahmaterial'];
-                                                                tampung.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
-                                                                tampungall.push({"id": detailmaterial[b]['id'], "stok": produk_material[a]['jumlahmaterial'], "idproduk": $idproduk.toString()});
-                                                                neededtipe1[a]--;
-
-
-
-                                                            }
-
-                                                        }
-
-                                                    }
-
-                                                }
-
-
-
-                                            }
-
-                                            var bolehtambah = true;
-                                            for ($y = 0; $y < needed.length; $y++)
-                                            {
-                                                if (needed[$y] > 0)
-                                                {
-                                                    remove_product_tr(urutanproduct - 1);
-                                                    alert("Not Enough Stock");
-                                                    bolehtambah = false;
-                                                    break;
-                                                }
-                                            }
-                                            for ($w = 0; $w < neededtipe1.length; $w++)
-                                            {
-                                                if (neededtipe1[$w] > 0)
-                                                {
-                                                    alert("Not Enough Stock");
-                                                    bolehtambah = false;
-                                                    break;
-                                                }
-                                            }
-
-                                            if (bolehtambah == false) {
-
-                                                for (var q = 0; q < tampungall.length; q++)
-                                                {
-                                                    if (tampungall[q]['idproduk'] == $idproduk)
-                                                    {
-                                                        //
-                                                        //ini hapus tampungall karena sudah di cancel. dijadikan -1 agar tidak kebaca di if.                    
-                                                        tampungall[q]['idproduk'] = -1;
-
-                                                    }
-                                                }
-                                                alert("Not Enough Stock");
-
-
-                                            } else if (bolehtambah == true)
-                                            {
-                                                var y = JSON.stringify(tampung);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: "<?php echo base_url(); ?>" + "Back/Material/Reduce_material_quantity",
-
-                                                    data: {
-                                                        data: tampung
-//                                                        data: JSON.stringify(tampungall)
-                                                    },
-                                                    success: function (result) {
-                                                        alert("hore sukses" + result);
-
-                                                    },
-                                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                                        alert("Status: " + textStatus);
-                                                        alert("Error: " + errorThrown);
-                                                    }
-                                                });
-                                            }
-
-
-
-                                        }
-
-                                    });
-
-
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    // alert("Status: " + textStatus);
-                                    //  alert("Error: " + errorThrown);
-                                }
-                            });
-
-
-
-
-                        }
-
+                       
 
                         function add_to_note()
                         {
@@ -529,6 +317,7 @@
 
                         function remove_product_tr(y)
                         {
+                            alert("remove");
                             //alert($("#id_txt_id_product_" + y).val());
                             if ($("#id_txt_id_product_" + y).val() == 0)
                             {
@@ -555,6 +344,10 @@
                                     }
                                 });
 
+                            }
+                            else
+                            {
+                                $("#tr_" + y).remove();
                             }
 
 
@@ -589,6 +382,7 @@
 
                         function check_all_not_null()
                         {
+                            alert("yes");
 
                             if ($('.hitung').length == 0)
                             {
@@ -668,7 +462,7 @@
                                         }
                                         if (result == 0)
                                         {
-                                            alert(result);
+                                            alert("Your Product Out of Stock");
                                         }
 
 
@@ -714,14 +508,14 @@
                                 },
                                 success: function (result) {
                                     id_member = result;
-                                    alert(id_member);
+                                   
                                     var idnya = id_member;
 
                                     if (idnya == 0)
                                     {
                                         alert("Email has been registered before.");
                                     } else {
-
+                                        alert("Member Registration Success");
                                         alert(idnya);
                                         $('#addMember').modal('toggle');
 //$("#id_member_input").val(id_member);

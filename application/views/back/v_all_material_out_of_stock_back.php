@@ -104,7 +104,6 @@
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Total</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Minstok</th>
                                               
-                                                <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
                                         </thead>
                                         <tbody>	
                                             <?php
@@ -116,7 +115,7 @@
                                                 echo '<td>' . $hasil['minstok'] . '</td>';
                                                 
                                                 
-                                                echo '<td>';   
+                                                 
                                                 echo '</tr>';
                                             }
                                             ?>

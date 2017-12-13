@@ -176,6 +176,19 @@ class Member extends CI_Controller {
         
         echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender,$alamat);
     }
+    public function Add_member_from_kasir_ajax() {
+        $idadmin = $this->session->userdata['xcellent_id'];
+        $nama = $this->input->post("nama");
+        $deposit = $this->input->post("deposit");
+        $email = $this->input->post("email");
+        $bod = $this->input->post("bod");
+        $phone = $this->input->post("phone");
+        $gender = $this->input->post("gender");
+        $alamat = $this->input->post("alamat");
+        $idnota = $this->input->post("idnota");
+        
+        echo $this->M_member->Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender,$alamat,$idnota);
+    }
     
     public function Cancel_add_member()
     {

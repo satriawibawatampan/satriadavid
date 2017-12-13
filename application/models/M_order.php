@@ -46,10 +46,11 @@ class M_order extends CI_Model {
             for ($a = 0; $a < count($produk_material); $a++) {
                 $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                 $neededtipe1[$a] = $products[$x]['jumlah'];
+                print_r($neededtipe1);            exit();
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
                         if ($detailmaterial[$b]['tipe'] == 2) {
-                            $neededtipe1[$a] = 0;
+                           
                             if ($needed[$a] <= $detailmaterial[$b]['stok'] && $detailmaterial[$b]['stok'] > 0) {
                                 $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                 $tampung[$countertampung]['stok'] = $needed[$a];
@@ -72,6 +73,7 @@ class M_order extends CI_Model {
                             $needed[$a] = 0;
 
                             if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
+                                
                                 $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
 
                                 $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
@@ -80,6 +82,7 @@ class M_order extends CI_Model {
 
                                 $neededtipe1[$a] --;
                                 $countertampung++;
+                                 print_r($neededtipe1);            exit();  
                             }
                         }
                     }
@@ -87,6 +90,7 @@ class M_order extends CI_Model {
             }
             $bolehtambah = true;
             $namaproduktidakcukup = "";
+           
             for ($m = 0; $m < count($needed); $m++) {
                 if ($needed[$m] > 0) {
                     $bolehtambah = false;
@@ -166,6 +170,11 @@ class M_order extends CI_Model {
                     $this->db->set('stok', 'stok-' . $tampung[$t]['stok'], FALSE);
                     $this->db->where('id', $tampung[$t]['id']);
                     $this->db->update('detailmaterial');
+                    
+                    //Rubah status pakai
+                    $datanya = array('statuspakai'=>1);
+                    $this->db->where('id', $tampung[$t]['id']);
+                    $this->db->update('detailmaterial',$datanya);
                 }
 
 
@@ -546,7 +555,7 @@ class M_order extends CI_Model {
         return $hasil;
     }
 
-    function addMemberToNota($id, $idmember){
+    function AddMemberToNota($id, $idmember){
         $this->db->trans_start();
         $sql = "SELECT * FROM member WHERE id = ?";
         $result = $this->db->query($sql, array($idmember));

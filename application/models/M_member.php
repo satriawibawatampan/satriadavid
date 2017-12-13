@@ -7,6 +7,7 @@ class M_member extends CI_Model {
         $this->load->database();
         $this->load->helper('date');
         $this->load->model('M_cashflow');
+        $this->load->model('M_order');
     }
 
     function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin, $deposit) {
@@ -67,6 +68,48 @@ class M_member extends CI_Model {
         $id = $hasil->row()->id;
 
         return $id;
+    }
+    function Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$idnota) {
+        $this->db->trans_start();
+        
+        $allmember = $this->Show_all_member();
+       // print_r($allmember);$exit();
+        foreach ($allmember as $item)
+        {
+            //print_r($item->email);$exit();
+            if($item->email == $email)
+            {
+                return 0;
+            }
+        }
+        date_default_timezone_set('Asia/Jakarta');
+
+        $data = array(
+            'nama' => $nama,
+            'email' => $email,
+            'deposit' => $deposit,
+            'ttl' => $bod,
+            'gender' => $gender,
+            'telepon' => $phone,
+            'alamat' => $alamat,
+            'id_admin' => $idadmin,
+            'statusaktif' => "0",
+            'createdAt' => date('Y-m-d H:i:s'),
+            'updatedAt' => date('Y-m-d H:i:s')
+        );
+
+        $this->db->insert('member', $data);
+        $idmember = $this->db->insert_id();
+        
+        $this->M_order->AddMemberToNota($idnota, $idmember);
+        
+        
+        
+        
+        
+        
+        $this->db->trans_complete();
+        return $idmember;
     }
 
     function Cancel_add_member($id) {
