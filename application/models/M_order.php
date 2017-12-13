@@ -65,8 +65,10 @@ class M_order extends CI_Model {
                 
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
+//                        print_r($detailmaterial[$b]['tipe'] . "/". $neededtipe1[$a]);
+//                            exit();
                         if ($detailmaterial[$b]['tipe'] == 2) {
-                           
+
                             if ($needed[$a] <= $detailmaterial[$b]['stok'] && $detailmaterial[$b]['stok'] > 0) {
                                 $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                 $tampung[$countertampung]['stok'] = $needed[$a];
@@ -112,7 +114,7 @@ class M_order extends CI_Model {
             }
             $bolehtambah = true;
             $namaproduktidakcukup = "";
-           
+
             for ($m = 0; $m < count($needed); $m++) {
                 if ($needed[$m] > 0) {
                     $bolehtambah = false;
@@ -159,7 +161,7 @@ class M_order extends CI_Model {
 
 
                 //input to notajual_produk
-                if($hppnya->total == NULL){
+                if ($hppnya->total == NULL) {
                     $hppnya->total = 0;
                 }
                 $data = array(
@@ -192,11 +194,11 @@ class M_order extends CI_Model {
                     $this->db->set('stok', 'stok-' . $tampung[$t]['stok'], FALSE);
                     $this->db->where('id', $tampung[$t]['id']);
                     $this->db->update('detailmaterial');
-                    
+
                     //Rubah status pakai
-                    $datanya = array('statuspakai'=>1);
+                    $datanya = array('statuspakai' => 1);
                     $this->db->where('id', $tampung[$t]['id']);
-                    $this->db->update('detailmaterial',$datanya);
+                    $this->db->update('detailmaterial', $datanya);
                 }
 
 
@@ -302,7 +304,7 @@ class M_order extends CI_Model {
                 if ($neededtipe1[$n] > 0) {
 
                     $bolehtambah = 0;
-                    $namaproduktidakcukup = $produk_material[$m]['namaproduk'];
+                    $namaproduktidakcukup = $produk_material[$n]['namaproduk'];
                     // print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
                     //print_r("needed1 ada yang isi");
                     // exit();
@@ -463,7 +465,7 @@ class M_order extends CI_Model {
                 WHERE np.id_notajual = ? AND np.id_produk = ? AND nj.id = np.id_notajual";
         $result1 = $this->db->query($sql, array($id, 0));
         $hasil = $result1->row_array();
-        if(count($hasil) > 0){
+        if (count($hasil) > 0) {
             $this->M_member->Activate_member($hasil['id_member']);
         }
 
@@ -485,10 +487,9 @@ class M_order extends CI_Model {
                 'jumlah' => $amount[$f]
             );
             $this->db->insert('notajual_pembayaran', $data);
-            
-            if($idpayment[$f]==1)
-            {
-                 $this->M_cashflow->Add_pettycash("Order Payment", 1, "Order Note " . $id, $amount[$f]);
+
+            if ($idpayment[$f] == 1) {
+                $this->M_cashflow->Add_pettycash("Order Payment", 1, "Order Note " . $id, $amount[$f]);
             }
         }
 
@@ -546,7 +547,7 @@ class M_order extends CI_Model {
         $this->db->join('admin c', 'c.id=notajual.id_produser');
         $this->db->join('promo', 'promo.id=notajual.id_promo');
         $this->db->where('notajual.id', $id_notajual);
-        
+
         $query = $this->db->get();
         $nota = $query->row_array();
         if (count($nota) > 0) {
@@ -577,12 +578,12 @@ class M_order extends CI_Model {
         return $hasil;
     }
 
-    function AddMemberToNota($id, $idmember){
+    function AddMemberToNota($id, $idmember) {
         $this->db->trans_start();
         $sql = "SELECT * FROM member WHERE id = ?";
         $result = $this->db->query($sql, array($idmember));
         $hasil = $result->row_array();
-        if(count($hasil) > 0){
+        if (count($hasil) > 0) {
             $data = array(
                 'id_notajual' => $id,
                 'id_produk' => 0,
@@ -596,11 +597,12 @@ class M_order extends CI_Model {
             );
             $this->db->insert('notajual_produk', $data);
 
-        //udpate to notajual
+            //udpate to notajual
             $sql2 = "UPDATE notajual SET id_member = ?, grandtotal = grandtotal + ? WHERE id = ?";
             $this->db->query($sql2, array($idmember, $hasil['deposit'], $id));
         }
-        
-         $this->db->trans_complete();
+
+        $this->db->trans_complete();
     }
+
 }
