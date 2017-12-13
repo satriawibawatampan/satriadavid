@@ -46,7 +46,6 @@ class M_order extends CI_Model {
             for ($a = 0; $a < count($produk_material); $a++) {
                 $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                 $neededtipe1[$a] = $products[$x]['jumlah'];
-                print_r($neededtipe1);            exit();
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
                         if ($detailmaterial[$b]['tipe'] == 2) {
@@ -82,7 +81,6 @@ class M_order extends CI_Model {
 
                                 $neededtipe1[$a] --;
                                 $countertampung++;
-                                 print_r($neededtipe1);            exit();  
                             }
                         }
                     }
@@ -104,7 +102,7 @@ class M_order extends CI_Model {
                 if ($neededtipe1[$n] > 0) {
 
                     $bolehtambah = false;
-                    $namaproduktidakcukup = $produk_material[$m]['namaproduk'];
+                    $namaproduktidakcukup = $produk_material[$n]['namaproduk'];
                     // print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
                     //print_r("needed1 ada yang isi");
                     // exit();
