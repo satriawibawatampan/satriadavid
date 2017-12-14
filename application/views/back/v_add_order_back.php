@@ -132,6 +132,50 @@
 
                         }
 
+                        function checktipe()
+                        {
+                            var tipenya = null;
+                            if ($("#id_category").val() == 1)
+                            {
+                               // alert("a");
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+
+                                        $.each(result, function (id, name)
+                                        {
+
+                                            tipenya = name['tipematerial'];
+                                            
+                                            if (tipenya == 1) {
+                                                //alert("es");
+                                                $("#id_long").prop("disabled", false);
+                                                 $("#id_long").val("1");
+                                            } else {
+                                               // alert(tipenya);
+                                                $("#id_long").val("1");
+                                                $("#id_long").prop("disabled", true);
+                                                
+                                            }
+
+
+                                        });
+                                    }
+                                });
+
+                               
+
+
+
+                            } else
+                            {
+                                $("#id_long").prop("disabled", true);
+                            }
+                        }
+
                         function get_price()
                         { //alert("idproduk");
                             $("#tablebodyprice").empty();
@@ -256,6 +300,7 @@
 
                         window.onload = function () {
                             get_price();
+                            checktipe();
 
 
                         };
@@ -265,7 +310,7 @@
                         var produk_material = [];
 
                         var tampungall = [];
-                       
+
 
                         function add_to_note()
                         {
@@ -288,9 +333,10 @@
                                             "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
+                                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
                                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
+                                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * $("#id_long").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
                                             "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
                                             "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                                             "</tr>");
@@ -301,6 +347,7 @@
 
                                     //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
                                     $("#id_quantity").val(1);
+                                    $("#id_long").val(1);
                                     $("#id_deskripsi").val("");
                                 } else
                                 {
@@ -344,8 +391,7 @@
                                     }
                                 });
 
-                            }
-                            else
+                            } else
                             {
                                 $("#tr_" + y).remove();
                             }
@@ -382,7 +428,7 @@
 
                         function check_all_not_null()
                         {
-                            alert("yes");
+                           // alert("yes");
 
                             if ($('.hitung').length == 0)
                             {
@@ -404,7 +450,7 @@
 
                                     if ($("#id_txt_id_product_" + counterwhile).length > 0)
                                     {
-                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val()});
+                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val(), "long": $("#id_txt_long_product_" + counterwhile).val()});
                                         numItems--;
 
 
@@ -508,7 +554,7 @@
                                 },
                                 success: function (result) {
                                     id_member = result;
-                                   
+
                                     var idnya = id_member;
 
                                     if (idnya == 0)
@@ -558,10 +604,12 @@
                                     <option value="<?php echo $listkategori[$x]['id']; ?>" ><?php echo $listkategori[$x]['nama']; ?></option>
 
                                 <?php } ?>
-                            </select> 
+                            </select>
+                            <span>Category</span>
                         </div>
                         <div class="col-md-2">
                             <select onchange="get_price();
+                                    checktipe();
                                     cek_promo();" class="form-control" name="name_product" id="id_product" selected ="select" >
                                     <?php
                                     for ($x = 0; $x < count($listkategori); $x++) {
@@ -577,12 +625,19 @@
                                 }
                                 ?>
                             </select> 
+                            <span>Product Name</span>
                             <p style="color: green"><span id="id_span_discount"></span></p>
 
                         </div>
 
                         <div class="col-md-1">
                             <input id="id_quantity" oninput="get_price()" class="form-control" name="name_quantity" placeholder="Quantity" type="number" value="1">
+                            <span>Quantity</span>
+
+                        </div>
+                        <div class="col-md-1">
+                            <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" placeholder="Quantity" type="number" value="1">
+                            <span>Long in CM</span>
 
                         </div>
                         <div class="col-md-1">
@@ -621,6 +676,7 @@
                                         <th   >Product ID</th>
                                         <th    >Product Name</th>
                                         <th   >Qty</th>
+                                        <th   >Long</th>
                                         <th   >Price</th>
                                         <th   >%</th>
                                         <th   >Subtotal</th>
@@ -791,3 +847,6 @@
 </div>
 
 </div>
+<script>
+  //  checktipe();
+    </script>

@@ -435,7 +435,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();"  name="button_   order" class="btn btn-primary " value="Add Order">
+                                <input onclick="check_all_not_null();"  name="button_   order" class="btn btn-primary " value="Edit Order">
                             </div>
                         </div>
 

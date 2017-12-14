@@ -300,6 +300,7 @@
                                         <th  style="width: 100px;" >Product ID</th>
                                         <th    >Product Name</th>
                                         <th  style="width: 100px;" >Qty</th>
+                                        <th  style="width: 100px;" >Long (CM)</th>
                                         <th  style="width: 150px;" >Price</th>
                                         <th  style="width: 75px;" >%</th>
                                         <th  style="width: 150px;" >Subtotal</th>
@@ -772,6 +773,7 @@
                             "<td>" + name['id_produk'] + "</td>" +
                             "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                             "<td>" + name['jumlah'] + "</td>" +
+                            "<td>" + name['long'] + " CM</td>" +
                             "<td>" + name['harga'] + "</td>" +
                             "<td>" + name['diskon'] + "</td>" +
                             "<td>" + name['subtotal'] + "</td>" +

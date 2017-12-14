@@ -77,6 +77,7 @@ class M_promo extends CI_Model {
         $this->db->join('promo', 'promo_produk.id_promo = promo.id');
         $this->db->where('promo.awal <=', date('Y-m-d'));
         $this->db->where('promo.akhir >=', date('Y-m-d'));
+        $this->db->where('statusaktif', 1);
         $query = $this->db->get();
         //  print_r( $query->result()->);   exit();
         return $query->result_array();

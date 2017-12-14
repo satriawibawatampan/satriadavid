@@ -133,8 +133,8 @@ class Product extends CI_Controller {
 
     public function Add_Product() {
         if ($this->input->post('button_addproduct')) {
-            print_r('a');
-            exit();
+           // print_r('a');
+           // exit();
             $category = $this->input->post('name_category');
             $name = $this->input->post('name_name');
             $materialid = $this->input->post('name_txt_idmaterial');
@@ -147,6 +147,8 @@ class Product extends CI_Controller {
             $this->M_product->Add_product_real($category, $name, $materialid, $materialquantity, $minqty, $maxqty, $price);
             $this->session->set_flashdata('pesanform', "New Product has been added");
             $this->session->keep_flashdata('pesanform');
+            redirect('Back/Product/Show_add_product');
+            
         } else {
             redirect('Back/Product/Show_add_product');
         }
