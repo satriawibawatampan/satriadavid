@@ -160,7 +160,7 @@
                                                 }
 
                                                 if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="fa fa-print" style="color:green"   ></a>';
+                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="fa fa-print" style="color:green" target="_blank"  ></a>';
                                                 }
 
                                                 echo '</td></tr>';

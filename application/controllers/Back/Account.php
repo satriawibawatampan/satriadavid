@@ -69,6 +69,7 @@ class Account extends CI_Controller {
                         $this->session->set_userdata('xcellent_tipe', $tamp['id_tipeadmin']);
                         $this->session->set_userdata('xcellent_id', $tamp['id']);
                         $this->session->set_userdata('xcellent_cabang',$tamp['id_cabang'] );
+                        $this->session->set_userdata('xcellent_cabang_name',$tamp['nama_cabang'] );
 
 
                         if($this->session->userdata['xcellent_tipe'] == 3 ||$this->session->userdata['xcellent_tipe'] == 4)

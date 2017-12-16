@@ -12,7 +12,7 @@
 			</div>
 
 			<!-- #PROJECTS: projects dropdown -->
-			<span>Branch ID : <?php echo $this->session->userdata['xcellent_id']; ?> </span>
+			<span>Branch : <?php echo $this->session->userdata['xcellent_cabang_name']; ?> </span>
 			<!-- end projects dropdown -->
 
 			<!-- #TOGGLE LAYOUT BUTTONS -->

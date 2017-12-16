@@ -21,6 +21,7 @@
 
         <!-- SmartAdmin RTL Support -->
         <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/css/smartadmin-rtl.min.css"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/css/your_style.css"> 
 
 
         <!-- SmartAdmin Invoice Print CSS -->

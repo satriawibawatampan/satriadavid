@@ -96,8 +96,10 @@ class Branch extends CI_Controller {
             $branch = $this->input->post('name_select_branch');
 
             $this->M_branch->Change_branch($idadmin, $branch);
-
+            $branchData = $this->M_branch->Get_branch_byId($branch);
             $this->session->set_userdata('xcellent_cabang', $branch);
+            $this->session->set_userdata('xcellent_cabang',$branchData['id'] );
+            $this->session->set_userdata('xcellent_cabang_name',$branchData['nama'] );
 
 
             $this->session->set_flashdata('pesanform', "Your branch has changed");

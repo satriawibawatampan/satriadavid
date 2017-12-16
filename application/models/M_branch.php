@@ -20,6 +20,12 @@ class M_branch extends CI_Model {
         $this->db->insert('cabang', $data);
     }
 
+    function Get_branch_byId($id){
+        $sql = "SELECT * FROM cabang WHERE id = ?";
+        $hasil = $this->db->query($sql, array($id));
+        return $hasil->row_array();
+    }
+
     function Get_all_branch() {
         $this->db->select('*');
         $this->db->from('cabang');

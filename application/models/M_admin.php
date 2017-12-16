@@ -13,7 +13,6 @@ class M_admin extends CI_Model {
         $this->db->select("salt,statusaktif");
 
         $this->db->from('admin');
-
         $this->db->where('email', $email);
         $query = $this->db->get();
 
@@ -28,9 +27,9 @@ class M_admin extends CI_Model {
             $password = $password . $garam;
             $password = md5($password);
 
-            $this->db->select("*");
+            $this->db->select("admin.*, cabang.nama as nama_cabang");
             $this->db->from('admin');
-
+            $this->db->join('cabang', "admin.id_cabang = cabang.id");
             $this->db->where('email', $email);
             $this->db->where('password', $password);
             $query = $this->db->get();
