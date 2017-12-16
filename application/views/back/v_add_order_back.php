@@ -137,7 +137,7 @@
                             var tipenya = null;
                             if ($("#id_category").val() == 1)
                             {
-                               // alert("a");
+                                 alert("a");
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
@@ -149,16 +149,16 @@
                                         {
 
                                             tipenya = name['tipematerial'];
-                                            
+
                                             if (tipenya == 1) {
                                                 //alert("es");
                                                 $("#id_long").prop("disabled", false);
-                                                 $("#id_long").val("1");
+                                                $("#id_long").val("1");
                                             } else {
-                                               // alert(tipenya);
+                                                // alert(tipenya);
                                                 $("#id_long").val("1");
                                                 $("#id_long").prop("disabled", true);
-                                                
+
                                             }
 
 
@@ -166,10 +166,13 @@
                                     }
                                 });
 
-                               
 
 
 
+
+                            } else if ($("#id_category").val() == 2 ||$("#id_category").val() == 3  ) {
+                                $("#id_long").prop("disabled", false);
+                                $("#id_long").val("1");
                             } else
                             {
                                 $("#id_long").prop("disabled", true);
@@ -428,7 +431,7 @@
 
                         function check_all_not_null()
                         {
-                           // alert("yes");
+                            // alert("yes");
 
                             if ($('.hitung').length == 0)
                             {
@@ -596,7 +599,7 @@
                         <label class="col-md-2 control-label" for="select-1">Product</label>
                         <div class="col-md-2">
                             <select onchange="show_product_by_category(this.value);
-                                    get_price();
+                                    get_price(); checktipe();
                                     cek_promo()" class="form-control" name="name_category" id="id_category" selected ="select" >
                                     <?php for ($x = 0; $x < count($listkategori); $x++) {
                                         ?>
@@ -848,5 +851,5 @@
 
 </div>
 <script>
-  //  checktipe();
-    </script>
+    //  checktipe();
+</script>
