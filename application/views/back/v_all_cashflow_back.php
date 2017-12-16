@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1">Amount</label>
                             <div class="col-md-2">
-                                <input class="form-control" name="name_amount" placeholder="Amount" type="text" value="<?php echo set_value('name_amount'); ?>">
+                                <input class="form-control" name="name_amount" placeholder="Amount" type="number" value="<?php echo set_value('name_amount'); ?>">
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_amount'); ?>
                                 </span>
