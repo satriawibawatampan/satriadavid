@@ -104,8 +104,8 @@
 
                     <div class="form-group">
                         <label class="col-md-2 control-label">HPP</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_hpp" placeholder="HPP" type="text" value="<?php echo set_value('name_hpp'); ?>">
+                        <div class="col-md-2">
+                            <input class="form-control" name="name_hpp" placeholder="HPP" type="number" value="<?php echo set_value('name_hpp'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_hpp'); ?>
                             </span>
