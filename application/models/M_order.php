@@ -46,8 +46,8 @@ class M_order extends CI_Model {
             for ($a = 0; $a < count($produk_material); $a++) {
                 if ($produk_material[$a]['id_kategori'] == "1"||$produk_material[$a]['id_kategori'] == "2"||$produk_material[$a]['id_kategori'] == "3") {
                     if ($produk_material[$a]['tipematerial'] == 1) {
-                        
-                        $neededtipe1[$a] = $products[$x]['jumlah'] ;
+                        $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
+                        $neededtipe1[$a] = $products[$x]['jumlah'];
                     } else {
                         $needed[$a] = $products[$x]['jumlah'];
                         $neededtipe1[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
@@ -57,11 +57,10 @@ class M_order extends CI_Model {
                     $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                     $neededtipe1[$a] = $products[$x]['jumlah'];
                 }
-
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
                         if ($detailmaterial[$b]['tipe'] == 2) {
-
+                            $neededtipe1[$a] = 0;
                             if ($needed[$a] <= $detailmaterial[$b]['stok'] && $detailmaterial[$b]['stok'] > 0) {
                                 $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                 $tampung[$countertampung]['stok'] = $needed[$a];
@@ -96,7 +95,8 @@ class M_order extends CI_Model {
                                     
                                     if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
                                         
-                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['jumlahmaterial'];
+                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
+
                                         
                                         $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                         $tampung[$countertampung]['stok'] = $products[$x]['long'];
