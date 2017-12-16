@@ -159,10 +159,10 @@ class M_material extends CI_Model {
     }
 
     function Get_material_out_of_stock_tipe1() {
-        $sql = "select material.id as idmaterial,material.nama as namamaterial, detailmaterial.stok as stok,  material.minimum_stok as minstok
-                from material
-                join detailmaterial  on detailmaterial.id_material = material.id
-                where material.tipe = 1 AND detailmaterial.statuspakai = 1";
+        $sql = "select material.id as idmaterial,material.nama as namamaterial, count(detailmaterial.id) as total, detailmaterial.stok as stok, material.minimum_stok as minstok 
+                from material 
+                LEFT join detailmaterial on detailmaterial.id_material = material.id AND detailmaterial.statuspakai = 0 
+                where material.tipe = 1 HAVING total < minstok";
 
         $result = $this->db->query($sql);
         $data = $result->result_array();
