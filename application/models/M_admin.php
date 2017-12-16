@@ -74,6 +74,18 @@ class M_admin extends CI_Model {
 
         $this->db->insert('tipeadmin', $data);
     }
+    
+    function Edit_admin_type($name,$id)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'nama' => $name
+                
+            
+        );
+        $this->db->where('id', $id);
+        $this->db->update('tipeadmin', $data);
+    }
 
     function Get_all_admintype() {
         $this->db->select('*');

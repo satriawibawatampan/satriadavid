@@ -58,4 +58,11 @@
         <link rel="apple-touch-startup-image" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
         <link rel="apple-touch-startup-image" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/js/libs/jquery-2.1.1.min.js"><\/script>');
+    }
+</script>
     </head>

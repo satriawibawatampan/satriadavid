@@ -15,7 +15,7 @@ class Admin extends CI_Controller {
 
             $this->load->model('M_admin');
             $this->load->model('M_branch');
-             $this->load->model('M_material');
+            $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
@@ -27,11 +27,11 @@ class Admin extends CI_Controller {
     public function index() {
 
         //INI GA ADA PAGE
-        $navigation=array(
-                    "menu" => "admin",
-                    "submenu" => "main",
+        $navigation = array(
+            "menu" => "admin",
+            "submenu" => "main",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
-                );
+        );
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
@@ -48,11 +48,11 @@ class Admin extends CI_Controller {
             $data['listbranch'] = $this->M_branch->Get_all_branch();
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
 
-            $navigation=array(
-                    "menu" => "admin",
-                    "submenu" => "add",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
-                );
+            $navigation = array(
+                "menu" => "admin",
+                "submenu" => "add",
+                "stokhabis" => $this->M_material->Get_material_out_of_stock()
+            );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
             $this->load->view('back/v_navigation_back', $navigation);
@@ -71,11 +71,11 @@ class Admin extends CI_Controller {
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
             $data['tableadmin'] = $this->M_admin->Show_all_admin();
 
-            $navigation=array(
-                    "menu" => "admin",
-                    "submenu" => "all",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
-                );
+            $navigation = array(
+                "menu" => "admin",
+                "submenu" => "all",
+                "stokhabis" => $this->M_material->Get_material_out_of_stock()
+            );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
             $this->load->view('back/v_navigation_back', $navigation);
@@ -102,10 +102,10 @@ class Admin extends CI_Controller {
                 if ($this->form_validation->run() == FALSE) {
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
                     $data['listbranch'] = $this->M_branch->Get_all_branch();
-                    $navigation=array(
+                    $navigation = array(
                         "menu" => "admin",
                         "submenu" => "add",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                        "stokhabis" => $this->M_material->Get_material_out_of_stock()
                     );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');
@@ -143,11 +143,11 @@ class Admin extends CI_Controller {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
 
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
-            $navigation=array(
-                    "menu" => "admin",
-                    "submenu" => "type",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
-                );
+            $navigation = array(
+                "menu" => "admin",
+                "submenu" => "type",
+                "stokhabis" => $this->M_material->Get_material_out_of_stock()
+            );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
             $this->load->view('back/v_navigation_back', $navigation);
@@ -161,15 +161,15 @@ class Admin extends CI_Controller {
     public function Add_admin_type() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_addadmintype')) {
-                $this->form_validation->set_rules('name_namenewtype', 'Type Name', 'required');
+                $this->form_validation->set_rules('name_namenewtype', 'Type Name', 'required|is_unique[tipeadmin.nama]');
                 if ($this->form_validation->run() == FALSE) {
 
 
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
-                    $navigation=array(
+                    $navigation = array(
                         "menu" => "admin",
                         "submenu" => "type",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                        "stokhabis" => $this->M_material->Get_material_out_of_stock()
                     );
                     $this->load->view('back/v_head_admin_back');
                     $this->load->view('back/v_header_back');
@@ -181,6 +181,44 @@ class Admin extends CI_Controller {
                     $this->M_admin->Add_admin_type($name);
 
                     $this->session->set_flashdata('pesanform', "New admin type, " . $name . " , has been added.");
+                    $this->session->keep_flashdata('pesanform');
+                    redirect('Back/Admin/Show_admin_type');
+                }
+            }
+        } else {
+            redirect('Back/Account/Log_out');
+        }
+    }
+
+    public function Edit_admin_type() {
+        if ($this->session->userdata['xcellent_tipe'] == 1) {
+            if ($this->input->post('name_btn_edit')) {
+
+                $this->form_validation->set_rules('name_editname', 'Type Name', 'required|is_unique[tipeadmin.nama]');
+              //  $this->form_validation->set_rules('name_hidden_idedit', 'Type ID', 'required');
+                if ($this->form_validation->run() == FALSE) {
+                  //  print_r(validation_errors()); exit();
+
+                    $data['listadmintype'] = $this->M_admin->Get_all_admintype();
+                    $data['idopen']=$this->input->post('name_hidden_idedit');
+                    $navigation = array(
+                        "menu" => "admin",
+                        "submenu" => "type",
+                        "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    );
+                    $this->load->view('back/v_head_admin_back');
+                    $this->load->view('back/v_header_back');
+                    $this->load->view('back/v_navigation_back', $navigation);
+                    $this->load->view('back/v_admintype_back', $data);
+                    $this->load->view('back/v_footer_back');
+                    
+                } else {
+
+                    $name = $this->input->post('name_editname');
+                    $id = $this->input->post('name_hidden_idedit');
+                    $this->M_admin->Edit_admin_type($name, $id);
+                    //print_r($id."/".$name); exit();
+                    $this->session->set_flashdata('pesanform', "Admin type has been added.");
                     $this->session->keep_flashdata('pesanform');
                     redirect('Back/Admin/Show_admin_type');
                 }
@@ -212,6 +250,7 @@ class Admin extends CI_Controller {
             redirect('Back/Account/Log_out');
         }
     }
+
     public function Activate_admin() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_activateadmin')) {

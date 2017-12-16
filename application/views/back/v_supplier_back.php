@@ -392,6 +392,22 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        var idopen = "<?php
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
+        //alert(idopen);
+        if (idopen != "")
+        {
+           // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
+    
     function showdeactivatedatasupplier(idnya, nama)
     {
         document.getElementById('id_deactivateid').value = idnya;

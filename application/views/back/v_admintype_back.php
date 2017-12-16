@@ -11,7 +11,7 @@
 
         <!-- breadcrumb -->
         <ol class="breadcrumb">
-            
+
         </ol>
         <!-- end breadcrumb -->
 
@@ -83,7 +83,7 @@
             <div class="widget-body no-padding">
 
                 <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Add_admin_type" class="smart-form" novalidate="novalidate" method="post">
-                    
+
                     <fieldset>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
@@ -211,49 +211,7 @@
 <!-- END MAIN CONTENT -->
 
 <!-- MODAL HAPUS -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Delete Category</h4>
-            </div>
-            <form  role="form" action="<?php echo base_url(); ?>Back/Admin/Delete_kategori" method="post">
-
-                <div class="modal-body">
-
-                    <p>Are you sure want to delete Admin Type <span id="span_nama" style="color:blue"></span> ?</p>
-
-                    <div class="form-group">
-
-                        <div class="col-md-9">
-                            <input name="name_hidden_id" type="hidden"  id="id_hidden_id" class="form-control" value="">
-
-                        </div>
-
-                    </div>
-
-                                                        <!--<p></p>-->
-                    <div class="modal-footer">
-                        <div class="form-group">
-                            <div class="">
-                                <input type="submit" class="  btn  btn-primary btn-lg " name="name_btn_Hapus" value="Delete" >
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </form>
-
-        </div>
-
-    </div>
-</div>
 
 <!-- MODAL Edit -->
 <div class="modal fade" id="myEditModal" role="dialog">
@@ -263,27 +221,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Category</h4>
+                <h4 class="modal-title">Edit Admin Type</h4>
             </div>
-            <form class="smart-form" novalidate="novalidate" role="form" action="<?php echo base_url(); ?>Back/Category/Edit_category" method="post">
+            <form class="smart-form" novalidate="novalidate" role="form" action="<?php echo base_url(); ?>Back/Admin/Edit_admin_type" method="post">
                 <div class="modal-body">
                     <header>
-                        Edit category form
+                        Edit Admin Type form
                     </header>
-                    
+
                     <input hidden type="text" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
-                           
+
                     <fieldset>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input  type="text" name="name_editname"  id="editname" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
+                                <input  type="text" name="name_editname"  id="editname" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                             </label>
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
                             </span>
                         </section>
                     </fieldset>
-                    
+
                     <div class="modal-footer">
                         <div class="form-group">
                             <div class="">
@@ -294,7 +252,7 @@
 
                 </div>
 
-               
+
             </form>
 
         </div>
@@ -302,3 +260,29 @@
     </div>
 </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var idopen = "<?php
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
+        //alert(idopen);
+        if (idopen != "")
+        {
+           // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
+    function editdata($idnya, $nama)
+    {
+        // alert("a");
+        $("#editname").val($nama);
+        $("#id_hidden_edit").val($idnya);
+
+        //  alert($("#id_hidden_edit").val());
+    }
+</script>

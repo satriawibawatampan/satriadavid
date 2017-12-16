@@ -12,7 +12,7 @@ class Supplier extends CI_Controller {
         if (isset($this->session->userdata['xcellent_id'])) {
 
             $this->load->model('M_supplier');
-             $this->load->model('M_material');
+            $this->load->model('M_material');
 
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
@@ -27,7 +27,7 @@ class Supplier extends CI_Controller {
 
         $data['listsupplier'] = $this->M_supplier->get_all_supplier_all();
 
-        $navigation=array(
+        $navigation = array(
             "menu" => "supplier",
             "submenu" => "supplier",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -36,13 +36,13 @@ class Supplier extends CI_Controller {
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_supplier_back', $data);
-        
+
         $this->load->view('back/v_footer_back');
     }
 
     public function Add_supplier() {
 
-        $this->form_validation->set_rules('name_company', 'Company', 'required');
+        $this->form_validation->set_rules('name_company', 'Company', 'required|is_unique[supplier.perusahaan]');
         $this->form_validation->set_rules('name_name', 'Name', 'required');
         $this->form_validation->set_rules('name_address', 'Address', 'required');
         $this->form_validation->set_rules('name_phone', 'Phone Number', 'required');
@@ -53,10 +53,10 @@ class Supplier extends CI_Controller {
 
                 $data['listsupplier'] = $this->M_supplier->get_all_supplier();
 
-                $navigation=array(
+                $navigation = array(
                     "menu" => "supplier",
                     "submenu" => "supplier",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -85,17 +85,41 @@ class Supplier extends CI_Controller {
     public function Edit_supplier() {
         if ($this->input->post('button_editsupplier')) {
 
-            $id = $this->input->post('name_editid');
-            $name = $this->input->post('name_editname');
-            $address = $this->input->post('name_editaddress');
-            $phone = $this->input->post('name_editphone');
-            $company = $this->input->post('name_editcompany');
+            $this->form_validation->set_rules('name_editcompany', 'Company', 'required|is_unique[supplier.perusahaan]');
+            $this->form_validation->set_rules('name_editname', 'Name', 'required');
+            $this->form_validation->set_rules('name_editaddress', 'Address', 'required');
+            $this->form_validation->set_rules('name_editphone', 'Phone Number', 'required');
+
+            if ($this->form_validation->run() == FALSE) {
+
+                $data['listsupplier'] = $this->M_supplier->get_all_supplier();
+                $data['idopen']=$this->input->post('name_editid');
+
+                $navigation = array(
+                    "menu" => "supplier",
+                    "submenu" => "supplier",
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_supplier_back', $data);
+                $this->load->view('back/v_footer_back');
+                //  $this->load->view('back/script/s_branch');
+            } else {
+
+                $id = $this->input->post('name_editid');
+                $name = $this->input->post('name_editname');
+                $address = $this->input->post('name_editaddress');
+                $phone = $this->input->post('name_editphone');
+                $company = $this->input->post('name_editcompany');
 
 
-            $this->M_supplier->Edit_supplier($id, $name, $address, $phone, $company);
-            $this->session->set_flashdata('pesanform', "Your supplier's data (" . $company . ") has been edited");
-            $this->session->keep_flashdata('pesanform');
-            redirect('Back/Supplier/index');
+                $this->M_supplier->Edit_supplier($id, $name, $address, $phone, $company);
+                $this->session->set_flashdata('pesanform', "Your supplier's data (" . $company . ") has been edited");
+                $this->session->keep_flashdata('pesanform');
+                redirect('Back/Supplier/index');
+            }
         }
     }
 
@@ -105,11 +129,12 @@ class Supplier extends CI_Controller {
             $name = $this->input->post('name_deactivatename');
 
             $this->M_supplier->Deactivate_supplier($id);
-            $this->session->set_flashdata('pesanform', "Your supplier, ".$name." , has been deactivated");
+            $this->session->set_flashdata('pesanform', "Your supplier, " . $name . " , has been deactivated");
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Supplier/index');
         }
     }
+
     public function Activate_supplier() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_activatesupplier')) {
