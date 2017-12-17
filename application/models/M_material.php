@@ -388,4 +388,14 @@ class M_material extends CI_Model {
 //        exit();
     }
 
+
+    public function Update_detailMaterialStok($iddetailmaterial, $addNewStok){        
+        $this->db->trans_start();
+        
+        $sql="UPDATE detailmaterial SET stok = stok + ? WHERE id = ?";
+        $this->db->query($sql, array($iddetailmaterial, $addNewStok));
+
+        $this->db->trans_complete();
+    }
+
 }

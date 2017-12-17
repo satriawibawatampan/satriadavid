@@ -295,5 +295,4 @@ class Material extends CI_Controller {
         $data = $this->M_material->Get_all_residual_description($iddetailmaterial);
         echo json_encode($data);
     }
-
 }
