@@ -208,7 +208,7 @@ class M_product extends CI_Model {
 
         $sql = "SELECT p.*
                 FROM produk p
-				WHERE p.id_kategori = ?";
+				WHERE p.id_kategori = ? and p.id!=11 and p.id!=13";
 
         $result = $this->db->query($sql, array($id_kategori));
         $products = $result->result_array();

@@ -136,7 +136,7 @@
                             var tipenya = null;
                             if ($("#id_category").val() == 1)
                             {
-                                 alert("a");
+                                // alert("a");
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
@@ -642,7 +642,7 @@
                             <span>Long in CM</span>
 
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <input  readonly id="id_unitprice"  class="form-control" name="name_unitprice" placeholder="Price" type="number" value="">
                             <input   id="id_discount"  class="form-control" name="name_discount" placeholder="Price" type="hidden" value="0">
                             <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>

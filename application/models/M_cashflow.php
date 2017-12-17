@@ -54,6 +54,7 @@ where notajual.id_cabang = ? order by notajual.id
         $this->db->where('uangkasir.id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->order_by('uangkasir.id', 'desc');
         $query = $this->db->get();
+      //  print_r($query->result());exit();
         return $query->result();
     }
     
