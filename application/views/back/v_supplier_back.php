@@ -339,6 +339,7 @@
                         <label class="input control-label">Company</label>
                         <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                             <input  id="id_editnamecompany" type="text" name="name_editcompany" placeholder="Company" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editcompany'); ?>">
+                            <input  id="id_editnamecompany2" type="hidden" name="name_editcompany2" placeholder="Company" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editcompany'); ?>">
                             <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                         </label>
                         <span class="col-md-9 text-danger">
@@ -442,6 +443,7 @@
                     }
                     if (id == 'perusahaan') {
                         document.getElementById('id_editnamecompany').value = name;
+                        document.getElementById('id_editnamecompany2').value = name;
                     }
                     if (id == 'alamat') {
                         document.getElementById('id_editaddress').value = name;

@@ -120,7 +120,7 @@
                             </select> 
                         </div>
                         <div   class="col-md-2">
-                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount" type="number" min="0" value="<?php echo set_value('name_discount'); ?>">
+                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount in %" type="number" min="0" value="<?php echo set_value('name_discount'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_discount'); ?>
                             </span>

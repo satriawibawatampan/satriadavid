@@ -84,8 +84,18 @@ class Supplier extends CI_Controller {
 
     public function Edit_supplier() {
         if ($this->input->post('button_editsupplier')) {
-
+            
+            if($this->input->post('name_editcompany')!=$this->input->post('name_editcompany2'))
+            {
+               // print_r($this->input->post('name_editcompany').$this->input->post('name_editcompany2')); exit();
             $this->form_validation->set_rules('name_editcompany', 'Company', 'required|is_unique[supplier.perusahaan]');
+            }
+            else if($this->input->post('name_editcompany')==$this->input->post('name_editcompany2'))
+            { 
+                //  print_r("f"); exit();
+                $this->form_validation->set_rules('name_editcompany', 'Company', 'required');
+           
+            }
             $this->form_validation->set_rules('name_editname', 'Name', 'required');
             $this->form_validation->set_rules('name_editaddress', 'Address', 'required');
             $this->form_validation->set_rules('name_editphone', 'Phone Number', 'required');
@@ -113,6 +123,7 @@ class Supplier extends CI_Controller {
                 $address = $this->input->post('name_editaddress');
                 $phone = $this->input->post('name_editphone');
                 $company = $this->input->post('name_editcompany');
+               
 
 
                 $this->M_supplier->Edit_supplier($id, $name, $address, $phone, $company);

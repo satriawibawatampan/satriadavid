@@ -273,12 +273,13 @@
                         Edit category form
                     </header>
                     
-                    <input  type="text" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
+                    <input  type="hidden" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                            
                     <fieldset>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input  type="text" name="name_editname"  id="editname" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
+                                <input  type="text" name="name_editname"  id="editname" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
+                                <input  type="hidden" name="name_editname2"  id="editname2" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                             </label>
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
@@ -307,10 +308,27 @@
 
 
 <script>
+    
+      $(document).ready(function () {
+        var idopen = "<?php
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
+        //alert(idopen);
+        if (idopen != "")
+        {
+           // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
 function editdata($idnya,$nama)
 {
    // alert("a");
     $("#editname").val($nama);
+    $("#editname2").val($nama);
     $("#id_hidden_edit").val($idnya);
 }
 </script>

@@ -112,7 +112,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">HPP</label>
                         <div class="col-md-3">
-                            <input required class="form-control" name="name_edithpp" placeholder="HPP" type="text" value="<?php echo set_value('name_edithpp', $datamaterial->hargapokok); ?>" />
+                            <input required class="form-control" name="name_edithpp" placeholder="HPP" type="number" value="<?php echo set_value('name_edithpp', $datamaterial->hargapokok); ?>" />
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_edithpp'); ?>
                             </span>
