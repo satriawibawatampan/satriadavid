@@ -278,7 +278,7 @@
 //                    $("#id_txt_price_1").val($("#id_txt_price_retail").val());
 
                     urutan++;
-                    alert(urutan);
+                   // alert(urutan);
                     //  $("#id_button_reset").show();
 
                 } else
@@ -330,15 +330,15 @@
                                         "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]' placeholder='Price' type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
                                         "</tr>");
                                 urutan++;
-                                alert("urutan ke " + urutan.toString());
+                               // alert("urutan ke " + urutan.toString());
                                 $("#id_input_qty_max").val("");
                                 $("#id_input_qty_min").val("");
                                 $("#id_input_price_grossir").val("");
                             } else
                             {
                                 alert("Price Must be cheaper than before")
-                                alert(document.getElementById('id_input_price_grossir').value);
-                                alert(document.getElementById('id_txt_price_' + (urutan - 1)).value);
+                              //  alert(document.getElementById('id_input_price_grossir').value);
+                              //  alert(document.getElementById('id_txt_price_' + (urutan - 1)).value);
                             }
                         } else
                         {

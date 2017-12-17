@@ -53,12 +53,12 @@
             You do not need to use widgets if you dont want to. Simply remove 
             the <section></section> and you can use wells or panels instead 
     -->
-<?php if (isset($_SESSION['pesanform'])) { ?>
-                        <div class="alert alert-success">
-                            <?php echo $_SESSION['pesanform']; ?>
+    <?php if (isset($_SESSION['pesanform'])) { ?>
+        <div class="alert alert-success">
+            <?php echo $_SESSION['pesanform']; ?>
 
-                        </div>
-                    <?php } ?>
+        </div>
+    <?php } ?>
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
 
         <header role="heading"><div class="jarviswidget-ctrls" role="menu">   
@@ -82,19 +82,30 @@
                         Change Branch form
                     </header>
 
-                    
+
                     <fieldset>
                         <section>
                             <label class="input"> 
                                 <select name="name_select_branch"  aria-required="true" class="form-control" aria-invalid="true" >
-                                  <?php foreach($listbranch as $item) { ?>
-                                    
-                                    <option value="<?php echo $item->id; ?>"><?php echo $item->nama; ?></option>
-                                  <?php } ?>
+                                    <?php
+                                    foreach ($listbranch as $item) {
+                                        if ($item->id == $this->session->userdata['xcellent_cabang']) {
+                                            ?>
+                                    <option value="<?php echo $item->id; ?>" selected=""><?php echo $item->nama; ?></option>
+
+                                            <?php
+                                        } else {
+                                            ?>
+
+                                            <option value="<?php echo $item->id; ?>"><?php echo $item->nama; ?></option>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
-                                
+
                             </label>
-                            
+
                         </section>
 
 
@@ -137,7 +148,7 @@
                     <header>
                         Add Branch form
                     </header>
-                    
+
 
                     <fieldset>
                         <section>
@@ -146,7 +157,7 @@
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Branch</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_branch'); ?>
+<?php echo form_error('name_branch'); ?>
                             </span>
                         </section>
 
@@ -167,9 +178,9 @@
 
         </div>
         <!-- end widget div -->
-        
-         <div>
-            
+
+        <div>
+
         </div>
 
 
@@ -281,37 +292,30 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit Category</h4>
             </div>
-            
-            <form class="smart-form-register"  role="form" action="<?php echo base_url(); ?>Back/Branch/Edit_branch" method="post">
+
+            <form class="smart-form"  role="form" action="<?php echo base_url(); ?>Back/Branch/Edit_branch" method="post">
 
                 <div class="modal-body">
+                    <header>
+                        Edit Branch Form
+                    </header>
+                    <input hidden type="text" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
 
-                    <p>Change your Branch's name.</p>
-
-                    <div class="form-group">
-
-                        <div class="col-md-9">
-                            <input name="name_hidden_idedit" type="hidden"  id="id_hidden_edit" class="form-control" value="">
-
-                        </div>
-
-
+                    <fieldset>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                                 <input type="text" name="name_editname"  id="editname" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input type="text" name="name_editname2"  id="editname2" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to edit branch</b>
                             </label>
                             <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editname'); ?>
+<?php echo form_error('name_editname'); ?>
                             </span>
                         </section>
+                    </fieldset>
 
 
-
-
-                    </div>
-
-                                                        <!--<p></p>-->
+        <!--<p></p>-->
                     <div class="modal-footer">
                         <div class="form-group">
                             <div class="">
@@ -331,3 +335,29 @@
     </div>
 </div>
 </div>
+<script>
+    $(document).ready(function () {
+        var idopen = "<?php
+if (isset($idopen)) {
+    echo $idopen;
+} else {
+    echo "";
+}
+?>";
+        //alert(idopen);
+        if (idopen != "")
+        {
+            // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
+    function editdata($idnya, $nama)
+    {
+        // alert("a");
+        $("#editname").val($nama);
+        $("#editname2").val($nama);
+        $("#id_hidden_edit").val($idnya);
+
+        //  alert($("#id_hidden_edit").val());
+    }
+</script>

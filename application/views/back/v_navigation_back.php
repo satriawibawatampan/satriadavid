@@ -25,20 +25,20 @@
                     </span> 
                 </a>
                 <ul>
-                    <li class="<?php if ($menu == "profile" && $submenu == "edit") echo "active"; ?>">
+<!--                    <li class="<?php if ($menu == "profile" && $submenu == "edit") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Account/Show_edit_profile" ><span class="menu-item-parent">Edit Profile</span></a>
-                    </li>
+                    </li>-->
                     <?php if ($_SESSION['xcellent_tipe'] == 1) { ?>
                         <li class="<?php if ($menu == "profile" && $submenu == "branch") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Branch/Show_change_branch" ><span class="menu-item-parent">Change Branch</span></a>
                         </li>
-                        <li>
+                        <li class="<?php if ($menu == "profile" && $submenu == "payment") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Payment/index"><i class=""></i> <span class="menu-item-parent">Payment</span></a>
 
                         </li>
                     <?php } ?>
                     
-                    <li class="<?php if ($menu == "profile" && $submenu == "password") echo "active"; ?>">
+                    <li class="<?php if ($menu == "profile" && $submenu == "changepassword") echo "active"; ?>">
                         <a href="<?php echo base_url(); ?>Back/Account/Show_change_password" ><span class="menu-item-parent">Change Password</span></a>
                     </li>
                     <li >

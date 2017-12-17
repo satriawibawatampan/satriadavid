@@ -99,6 +99,7 @@ class Account extends CI_Controller {
         $this->session->unset_userdata('xcellent_tipe');
         $this->session->unset_userdata('xcellent_id');
         $this->session->unset_userdata('xcellent_cabang');
+        $this->session->unset_userdata('xcellent_cabang_name');
         redirect('Back/Account/Show_login');
     }
 

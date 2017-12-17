@@ -100,7 +100,7 @@
                         </section>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input type="text" name="name_nilai" placeholder="Value" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_nilai'); ?>">
+                                <input type="number" name="name_nilai" placeholder="Value" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_nilai'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Value</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -250,6 +250,7 @@
                     <section>
                         <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                             <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                            <input id="id_editname2" type="text" name="name_editname2" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                             <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
                         </label>
                         <span class="col-md-9 text-danger">
@@ -282,10 +283,26 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        var idopen = "<?php
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
+        alert(idopen);
+        if (idopen != "")
+        {
+            // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
     function editdata(id, name, value)
     {
         $("#id_editid").val(id);
         $("#id_editname").val(name);
+        $("#id_editname2").val(name);
         $("#id_editvalue").val(value);
         
     }

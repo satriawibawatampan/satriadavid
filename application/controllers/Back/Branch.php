@@ -8,16 +8,16 @@ class Branch extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-   $this->load->library('session');
+        $this->load->library('session');
         if (isset($this->session->userdata['xcellent_id'])) {
             $this->load->model('M_admin');
             $this->load->model('M_branch');
-             $this->load->model('M_material');
-         
+            $this->load->model('M_material');
+
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
         } else {
-             redirect('Back/Account/Show_login');
+            redirect('Back/Account/Show_login');
         }
 
 //        
@@ -27,7 +27,7 @@ class Branch extends CI_Controller {
 
         $data['listbranch'] = $this->M_branch->Get_all_branch();
 
-        $navigation=array(
+        $navigation = array(
             "menu" => "profile",
             "submenu" => "branch",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -42,7 +42,7 @@ class Branch extends CI_Controller {
     public function Show_change_branch() {
 
         $data['listbranch'] = $this->M_branch->Get_all_branch();
-        $navigation=array(
+        $navigation = array(
             "menu" => "profile",
             "submenu" => "branch",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -57,16 +57,16 @@ class Branch extends CI_Controller {
 
     public function Add_branch() {
 
-        $this->form_validation->set_rules('name_branch', 'Name', 'required');
+        $this->form_validation->set_rules('name_branch', 'Name', 'required|is_unique[cabang.nama]');
 
         if ($this->input->post('button_addbranch')) {
             if ($this->form_validation->run() == FALSE) {
 
                 $data['listbranch'] = $this->M_branch->Get_all_branch();
-                $navigation=array(
+                $navigation = array(
                     "menu" => "profile",
                     "submenu" => "branch",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -97,9 +97,9 @@ class Branch extends CI_Controller {
 
             $this->M_branch->Change_branch($idadmin, $branch);
             $branchData = $this->M_branch->Get_branch_byId($branch);
-            $this->session->set_userdata('xcellent_cabang', $branch);
-            $this->session->set_userdata('xcellent_cabang',$branchData['id'] );
-            $this->session->set_userdata('xcellent_cabang_name',$branchData['nama'] );
+           // $this->session->set_userdata('xcellent_cabang', $branch);
+            $this->session->set_userdata('xcellent_cabang', $branchData['id']);
+            $this->session->set_userdata('xcellent_cabang_name', $branchData['nama']);
 
 
             $this->session->set_flashdata('pesanform', "Your branch has changed");
@@ -110,16 +110,39 @@ class Branch extends CI_Controller {
     }
 
     public function Edit_branch() {
+        if ($this->input->post('name_editname') != $this->input->post('name_editname2')) {
+            $this->form_validation->set_rules('name_editname', 'Name', 'required|is_unique[cabang.nama]');
+        } else {
+            $this->form_validation->set_rules('name_editname', 'Name', 'required');
+        }
         if ($this->input->post('button_editbranch')) {
 
-            $idbranch = $this->input->post('name_hidden_idedit');
-            $name = $this->input->post('name_editname');
+            if ($this->form_validation->run() == FALSE) {
+
+                $data['listbranch'] = $this->M_branch->Get_all_branch();
+                $data['idopen'] = $this->input->post('name_hidden_idedit');
+                $navigation = array(
+                    "menu" => "profile",
+                    "submenu" => "branch",
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_change_branch_back', $data);
+                $this->load->view('back/v_footer_back');
+                //  $this->load->view('back/script/s_branch');
+            } else {
+
+                $idbranch = $this->input->post('name_hidden_idedit');
+                $name = $this->input->post('name_editname');
 
 
-            $this->M_branch->Edit_branch($idbranch, $name);
-            $this->session->set_flashdata('pesanform', "Your branch's name has been edited");
-            $this->session->keep_flashdata('pesanform');
-            redirect('Back/Branch/Show_change_branch');
+                $this->M_branch->Edit_branch($idbranch, $name);
+                $this->session->set_flashdata('pesanform', "Your branch's name has been edited");
+                $this->session->keep_flashdata('pesanform');
+                redirect('Back/Branch/Show_change_branch');
+            }
         }
     }
 
