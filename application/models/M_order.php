@@ -249,10 +249,10 @@ class M_order extends CI_Model {
         $this->db->trans_start();
 
         //Delete yg lama
-        $this->DeleteOrder($id_notajual);
+        $this->DeleteOrder($idnota);
 
         //Insert yang baru
-        $this->InsertNotaProdukData($products, $id_notajual);
+        $this->InsertNotaProdukData($products, $idnota);
 
         //Update Nota
         $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
@@ -460,20 +460,20 @@ class M_order extends CI_Model {
 
     function DeleteOrder($id){
         $sql = "SELECT umt.*
-        FROM used_material_temp umt, detailmaterial dm
-        WHERE umt.id_notajual = ? AND dm.id=umt.id_detailmaterial";
+        FROM notajual_produk nj, used_material_temp umt, detailmaterial dm
+        WHERE nj.id_notajual = ? AND nj.id = umt.id_notajualproduk AND dm.id=umt.id_detailmaterial";
         $hasil = $this->db->query($sql, array($id));
         $barangs = $hasil->result_array();
 
         if(count($barangs) > 0){
             //Tambah Material stok dlu
-            for($i =0; $i<count($barangs);$i++){
-                $this->M_material->Update_detailMaterialStok($barangs['id_detailmaterial'], $barangs['jumlah']);
+            for($i =0; $i <count($barangs); $i++){
+                $this->M_material->Update_detailMaterialStok($barangs[$i]['id_detailmaterial'], $barangs[$i]['jumlah']);
             }
 
             //delete di used_material_temp
-            for($i =0; $i<count($barangs);$i++){
-                $this->DeleteTempMaterial($id, $barangs['id_detailmaterial']);
+            for($i =0; $i < count($barangs); $i++){
+                $this->DeleteTempMaterial($barangs[$i]['id_notajualproduk'], $barangs[$i]['id_detailmaterial']);
             }
         }
 
@@ -482,11 +482,11 @@ class M_order extends CI_Model {
         //Nota e d apakno yo ???
     }
 
-    function DeleteTempMaterial($id_notajual, $id_detailmaterial){
+    function DeleteTempMaterial($id_notajualproduk, $id_detailmaterial){
         $this->db->trans_start();
 
-        $sql = "DELETE FROM used_material_temp WHERE id_notajual = ? AND id_detailmaterial = ?";
-        $this->db->query($sql, array($id_notajual, $id_detailmaterial));
+        $sql = "DELETE FROM used_material_temp WHERE id_notajualproduk = ? AND id_detailmaterial = ?";
+        $this->db->query($sql, array($id_notajualproduk, $id_detailmaterial));
 
         $this->db->trans_complete();
     }
