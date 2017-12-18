@@ -14,7 +14,7 @@ class M_order extends CI_Model {
     }
 
     function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi) {
-        print_r($deskripsi); exit();
+        // print_r($products); exit();
         $this->db->trans_start();
 
         //input order note
@@ -40,7 +40,7 @@ class M_order extends CI_Model {
         return $hasil;
     }
 
-    function InsertNotaProdukData($products, $order_id){
+    function InsertNotaProdukData($products, $order_id) {
         $this->db->trans_start();
 
 
@@ -56,7 +56,7 @@ class M_order extends CI_Model {
             $needed = [];
             $neededtipe1 = [];
             for ($a = 0; $a < count($produk_material); $a++) {
-                if ($produk_material[$a]['id_kategori'] == "1"||$produk_material[$a]['id_kategori'] == "2"||$produk_material[$a]['id_kategori'] == "3") {
+                if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
                     if ($produk_material[$a]['tipematerial'] == 1) {
                         $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                         $neededtipe1[$a] = $products[$x]['jumlah'];
@@ -101,19 +101,19 @@ class M_order extends CI_Model {
                             $needed[$a] = 0;
                             //Pesen 20 brang
                             //Produk material per barag, butuh mek 7
-                            if ($produk_material[$a]['id_kategori'] == "1"||$produk_material[$a]['id_kategori'] == "2"||$produk_material[$a]['id_kategori'] == "3") {
+                            if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
                                 //print_r("asd"); exit();
-                                for ($xc = $neededtipe1[$a]; $xc > 0; $xc-=$products[$x]['long']) {
-                                    
+                                for ($xc = $neededtipe1[$a]; $xc > 0; $xc -= $products[$x]['long']) {
+
                                     if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
-                                        
+
                                         $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
 
-                                        
+
                                         $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                         $tampung[$countertampung]['stok'] = $products[$x]['long'];
                                         $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-                                        
+
                                         //Jika kategori Material
                                         $neededtipe1[$a] = $neededtipe1[$a] - 1;
 
@@ -123,9 +123,8 @@ class M_order extends CI_Model {
                                         break;
                                     }
                                 }
-                            }
-                            else{
-                            //else if ($produk_material[$a]['id_kategori'] == "2") {
+                            } else {
+                                //else if ($produk_material[$a]['id_kategori'] == "2") {
                                 for ($xc = $neededtipe1[$a]; $xc > 0; $xc--) {
                                     //pesenean sisa 17
                                     if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
@@ -135,10 +134,10 @@ class M_order extends CI_Model {
                                         $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
                                         $tampung[$countertampung]['stok'] = $produk_material[$a]['jumlahmaterial'];
                                         $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-                                        
-                                            //Jika tipe Produk
-                                            $neededtipe1[$a] --;
-                                        
+
+                                        //Jika tipe Produk
+                                        $neededtipe1[$a] --;
+
 
                                         $countertampung++;
                                     } else {
@@ -250,23 +249,23 @@ class M_order extends CI_Model {
         $this->db->trans_start();
 
         //Delete yg lama
-        $this->DeleteOrder($id_notajual,"edit");
+        $this->DeleteOrder($id_notajual, "edit");
 
         //Insert yang baru
         $this->InsertNotaProdukData($products, $idnota);
 
         //Update Nota
         $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
-        $array=array($grandtotal, $totaldiskon);
-        if(isset($member)){
-            $sql.= ",id_member = ?";
+        $array = array($grandtotal, $totaldiskon);
+        if (isset($member)) {
+            $sql .= ",id_member = ?";
             array_push($array, $member);
         }
-        if(isset($promo)){
-            $sql.= ",id_promo = ?";
+        if (isset($promo)) {
+            $sql .= ",id_promo = ?";
             array_push($array, $promo);
         }
-        $sql.= " WHERE id = ?";
+        $sql .= " WHERE id = ?";
 
         $this->db->trans_complete();
         return 1;
@@ -313,14 +312,24 @@ class M_order extends CI_Model {
         return $query->result();
     }
 
-    function Make_payment($id, $grandtotal, $idpayment, $amount) {
+    function Make_payment($id, $grandtotal, $idpayment, $amount,$idmember) {
         $this->db->trans_start();
+        //cek apakah ada registrasi member
         $sql = "SELECT nj.* FROM notajual_produk np, notajual nj
                 WHERE np.id_notajual = ? AND np.id_produk = ? AND nj.id = np.id_notajual";
         $result1 = $this->db->query($sql, array($id, 0));
         $hasil = $result1->row_array();
         if (count($hasil) > 0) {
             $this->M_member->Activate_member($hasil['id_member']);
+        }
+        
+        //cek apakah ada deposit
+        $sql = "SELECT nj.* FROM notajual_produk np, notajual nj
+                WHERE np.id_notajual = ? AND np.id_produk = ? AND nj.id = np.id_notajual";
+        $result1 = $this->db->query($sql, array($id, 13));
+        $hasil = $result1->row_array();
+        if (count($hasil) > 0) {
+            $this->M_member->Add_deposit(100/90*$grandtotal,$hasil['id_member']);
         }
 
         //update status
@@ -329,10 +338,7 @@ class M_order extends CI_Model {
         $this->db->update('notajual', $data);
 
 
-//        hapus usertemp
-//        $query = $this->db->query("delete from used_material_temp
-//                where id_notajualproduk in 
-//                    (select id from notajual_produk where id_notajual=?)", array($id));
+
         //masukan ke notajual_pembayaran
         for ($f = 0; $f < count($idpayment); $f++) {
             $data = array(
@@ -344,6 +350,10 @@ class M_order extends CI_Model {
 
             if ($idpayment[$f] == 1) {
                 $this->M_cashflow->Add_pettycash("Order Payment", 1, "Order Note " . $id, $amount[$f]);
+            }
+            if($idpayment[$f]==0)
+            {
+                $this->M_member->Reduce_deposit($amount[$f]);
             }
         }
 
@@ -458,53 +468,80 @@ class M_order extends CI_Model {
 
         $this->db->trans_complete();
     }
-    
-    function Add_deposit_to_note($deposit, $idmember)
-    {
-        $data = [];
-        $member = $idmember;
-         $grandtotal = $deposit;
-         $promo = $this->M_promo->Get_promo_product_now();
-         $totaldiskon = 0;
-         $deskripsi = [];
-        $this->Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi);
+
+    function Add_deposit_to_note($deposit, $idmember) {
+         $this->db->trans_start();
+        //input order note
+        //print_r($deposit); exit();
+        date_default_timezone_set('Asia/Jakarta');
+        $data = array(
+            'id_admin' => $this->session->userdata['xcellent_id'],
+            'id_member' => $idmember,
+            'tanggal' => date('Y-m-d H:i:s'),
+            'grandtotal' => $deposit - ($deposit * 10 / 100),
+            'totaldiskon' => $deposit * 10 / 100,
+            'id_promo' => "0",
+            'id_cabang  ' => $this->session->userdata['xcellent_cabang'],
+            'createdat' => date('Y-m-d H:i:s'),
+            'updatedat' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('notajual', $data);
+        $order_id = $this->db->insert_id();
+//print_r($order_id); exit();
+        //input to notajual_produk
+        $data = array(
+            'id_notajual' => $order_id,
+            'id_produk' => 13,
+            'jumlah' => 1,
+            'long' => 1,
+            'diskon' => 10,
+            'harga' => $deposit,
+            'hargapokok  ' => $deposit ,
+            'subtotal  ' => $deposit - $deposit * 10 / 100,
+            'createdat' => date('Y-m-d H:i:s'),
+            'updatedat' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('notajual_produk', $data);
+        $id_notajualproduk = $this->db->insert_id();
+        
+       //$this->M_member->Add_deposit($deposit, $idmember) ;
+       
+        $this->db->trans_complete();
     }
 
-    function DeleteOrder($id,$dari){
-         $this->db->trans_start();
+    function DeleteOrder($id, $dari) {
+        $this->db->trans_start();
         $sql = "SELECT umt.*
         FROM notajual_produk nj, used_material_temp umt, detailmaterial dm
         WHERE nj.id_notajual = ? AND nj.id = umt.id_notajualproduk AND dm.id=umt.id_detailmaterial";
         $hasil = $this->db->query($sql, array($id));
         $barangs = $hasil->result_array();
 
-        if(count($barangs) > 0){
+        if (count($barangs) > 0) {
             //Tambah Material stok dlu
-            for($i =0; $i <count($barangs); $i++){
+            for ($i = 0; $i < count($barangs); $i++) {
                 $this->M_material->Update_detailMaterialStok($barangs[$i]['id_detailmaterial'], $barangs[$i]['jumlah']);
             }
 
             //delete di used_material_temp
-            for($i =0; $i < count($barangs); $i++){
+            for ($i = 0; $i < count($barangs); $i++) {
                 $this->DeleteTempMaterial($barangs[$i]['id_notajualproduk'], $barangs[$i]['id_detailmaterial']);
             }
         }
-        
+
         $this->DeleteNotaJualProduk($id);
 
-        if($dari=="delete"){
+        if ($dari == "delete") {
             $this->DeleteNotaJual($id);
-        }
-        else if($dari=="edit")
-        {
+        } else if ($dari == "edit") {
             
         }
-       
-        
+
+
         $this->db->trans_complete();
     }
 
-    function DeleteTempMaterial($id_notajualproduk, $id_detailmaterial){
+    function DeleteTempMaterial($id_notajualproduk, $id_detailmaterial) {
         $this->db->trans_start();
 
         $sql = "DELETE FROM used_material_temp WHERE id_notajualproduk = ? AND id_detailmaterial = ?";
@@ -513,7 +550,7 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function DeleteNotaJualProduk($id_notajual){
+    function DeleteNotaJualProduk($id_notajual) {
         $this->db->trans_start();
 
         $sql = "DELETE FROM notajual_produk WHERE id_notajual = ?";
@@ -521,9 +558,8 @@ class M_order extends CI_Model {
 
         $this->db->trans_complete();
     }
-    
-    function DeleteNotaJual($id_notajual)
-    {
+
+    function DeleteNotaJual($id_notajual) {
         $this->db->trans_start();
 
         $sql = "DELETE FROM notajual WHERE id = ?";

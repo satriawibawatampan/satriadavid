@@ -152,7 +152,7 @@
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
                                                 } else if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
@@ -342,6 +342,7 @@
                     <form id="smart-form-register-payment" action="<?php echo base_url(); ?>Back/Order/Make_payment" class="form-horizontal" novalidate="novalidate" method="post">
                         <p>Are you sure want to make a Payment for Order Note <span id="span_nama_payment" style="color:blue"></span>?</p>
                         <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input  id="id_memberid" type="hidden" name="name_txt_id_member"  aria-required="true" class="error" aria-invalid="true" >
                         <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
                         <div class="form-group">
                             <table id="id_table_payment" class="table table-bordered table-striped" >
@@ -636,10 +637,11 @@
         });
     }
 
-    function showmodalpayment(idnya, grandtotal)
+    function showmodalpayment(idnya, grandtotal,idmember)
     {
 
         document.getElementById('id_paymentid').value = idnya;
+        document.getElementById('id_memberid').value = idmember;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
         document.getElementById('span_nama_payment').innerHTML = idnya.toString();
         $("#id_body_table_payment").empty();
@@ -794,7 +796,7 @@
     {
 
         if (
-                document.getElementById('id_paymentmethod').value > 0 &&
+              //  document.getElementById('id_paymentmethod').value > 0 &&
                 document.getElementById('id_paymentamount').value.length > 0
                 )
         {

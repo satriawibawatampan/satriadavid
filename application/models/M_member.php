@@ -203,7 +203,7 @@ class M_member extends CI_Model {
         $this->db->update('member');
 
 
-        $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
+       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
         $this->db->trans_complete();
     }
 
