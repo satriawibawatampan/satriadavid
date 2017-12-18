@@ -204,7 +204,7 @@ class Order extends CI_Controller {
             $grandtotal = $this->input->post('name_grandtotal');
             $idpayment = $this->input->post('name_txt_id_paymentmethod');
             $amount=$this->input->post('name_txt_id_paymentamount');
-            $amount=$this->input->post('name_txt_id_member');
+            $idmember=$this->input->post('name_txt_id_member');
 
             $this->M_order->Make_payment($id, $grandtotal,$idpayment,$amount,$idmember);
             $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been paid");
