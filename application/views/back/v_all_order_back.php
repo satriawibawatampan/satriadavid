@@ -152,7 +152,7 @@
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ')" class="fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
                                                 } else if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
@@ -160,7 +160,10 @@
                                                 }
 
                                                 if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="fa fa-print" style="color:green" target="_blank"  ></a>';
+                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="btn fa fa-print" style="color:green" target="_blank"   ></a>';
+                                                }
+                                                if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
+                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="btn fa fa-trash" style="color:red    " target="_blank"   ></a>';
                                                 }
 
                                                 echo '</td></tr>';

@@ -15,6 +15,7 @@ class Member extends CI_Controller {
 
             $this->load->model('M_admin');
             $this->load->model('M_member');
+            $this->load->model('M_order');
              $this->load->model('M_material');
 
 
@@ -201,6 +202,32 @@ class Member extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function Add_deposit_to_note()
+    {
+        if ($this->input->post('button_adddeposit')) {
+
+            $this->form_validation->set_rules('name_deposit', 'Deposit', 'required');
+            if ($this->form_validation->run() == FALSE) {
+                 $navigation=array(
+                    "menu" => "member",
+                    "submenu" => "adddeposit",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_add_deposit_back');
+                $this->load->view('back/v_footer_back');
+            } else {
+                $deposit = $this->input->post('name_deposit');
+                $idmember = $this->input->post('name_member');
+                $this->M_order->Add_deposit_to_note($deposit, $idmember);
+                $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
+                $this->session->keep_flashdata('pesanform');
+                  redirect('Back/Member/Show_add_deposit');
+            }
+        }
+    }
     public function Add_deposit() {
         if ($this->input->post('button_adddeposit')) {
 
@@ -208,7 +235,7 @@ class Member extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                  $navigation=array(
                     "menu" => "member",
-                    "submenu" => "add",
+                    "submenu" => "adddeposit",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
@@ -220,7 +247,7 @@ class Member extends CI_Controller {
                 $deposit = $this->input->post('name_deposit');
                 $idmember = $this->input->post('name_member');
                 $this->M_member->Add_deposit($deposit, $idmember);
-                $this->session->set_flashdata('pesanform', "Deposit has been added.");
+                $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
                   redirect('Back/Member/Show_add_deposit');
             }

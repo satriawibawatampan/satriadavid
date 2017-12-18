@@ -97,18 +97,34 @@
                                     data-title="Member Registration"
                                     id="btnModal">Add Member</button>
                         </div>
+                        <div class="col-md-4" id="deposit" style="display: show;">
+                            <button  type='button' class="btn btn-primary" 
+                                     data-toggle="modal" data-target="#addDeposit"
+                                     onclick="OpenModalDeposit(1)"
+                                     data-title="Deposit Member"
+                                     id="btnModal">Deposit</button>
+                        </div>
                     </div>
                     <script>
-
+                       $("#deposit").hide();
+                        
                         function OpenModal() {
                             $(".modal-title").text("Member Registration");
+                        }
+                        function OpenModalDeposit(id) {
+                        // alert($("#id_member").val());
+                            $(".modal-title").text("Deposit Member");
+                            $("#id_id_add_deposit").val($("#id_member").val());
                         }
                         function checkNewMember() {
                             var member = $("#id_member").val();
                             if (member === "0") {
                                 $("#noMember").show();
+                                $("#deposit").hide();
                             } else {
+                                alert("yes");
                                 $("#noMember").hide();
+                                $("#deposit").show();
                             }
                         }
 
@@ -169,7 +185,7 @@
 
 
 
-                            } else if ($("#id_category").val() == 2 ||$("#id_category").val() == 3  ) {
+                            } else if ($("#id_category").val() == 2 || $("#id_category").val() == 3) {
                                 $("#id_long").prop("disabled", false);
                                 $("#id_long").val("1");
                             } else
@@ -598,7 +614,8 @@
                         <label class="col-md-2 control-label" for="select-1">Product</label>
                         <div class="col-md-2">
                             <select onchange="show_product_by_category(this.value);
-                                    get_price(); checktipe();
+                                    get_price();
+                                    checktipe();
                                     cek_promo()" class="form-control" name="name_category" id="id_category" selected ="select" >
                                     <?php for ($x = 0; $x < count($listkategori); $x++) {
                                         ?>
@@ -794,6 +811,43 @@
                                             <label class="col-md-4 control-label" for="select-1"></label>
                                             <div class="col-md-4">
                                                 <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="addDeposit" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="widget-body no-padding">
+                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
+                                                                        
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                                        <div class="col-md-4">
+                                            <input  id="add_deposit" type="number" name="add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                            <input  id="id_id_add_deposit" type="number" name="name_id_add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+
+                                    <footer>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="select-1"></label>
+                                            <div class="col-md-4">
+                                                <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Deposit">
                                             </div>
                                         </div>
                                     </footer>

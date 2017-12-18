@@ -8,12 +8,13 @@ class M_order extends CI_Model {
         $this->load->helper('date');
         $this->load->model('M_cashflow');
         $this->load->model('M_material');
+        $this->load->model('M_promo');
         $this->load->model('M_product');
         $this->load->model('M_member');
     }
 
     function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi) {
-
+        print_r($deskripsi); exit();
         $this->db->trans_start();
 
         //input order note
@@ -249,7 +250,7 @@ class M_order extends CI_Model {
         $this->db->trans_start();
 
         //Delete yg lama
-        $this->DeleteOrder($idnota);
+        $this->DeleteOrder($id_notajual,"edit");
 
         //Insert yang baru
         $this->InsertNotaProdukData($products, $idnota);
@@ -457,8 +458,20 @@ class M_order extends CI_Model {
 
         $this->db->trans_complete();
     }
+    
+    function Add_deposit_to_note($deposit, $idmember)
+    {
+        $data = [];
+        $member = $idmember;
+         $grandtotal = $deposit;
+         $promo = $this->M_promo->Get_promo_product_now();
+         $totaldiskon = 0;
+         $deskripsi = [];
+        $this->Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi);
+    }
 
-    function DeleteOrder($id){
+    function DeleteOrder($id,$dari){
+         $this->db->trans_start();
         $sql = "SELECT umt.*
         FROM notajual_produk nj, used_material_temp umt, detailmaterial dm
         WHERE nj.id_notajual = ? AND nj.id = umt.id_notajualproduk AND dm.id=umt.id_detailmaterial";
@@ -476,10 +489,19 @@ class M_order extends CI_Model {
                 $this->DeleteTempMaterial($barangs[$i]['id_notajualproduk'], $barangs[$i]['id_detailmaterial']);
             }
         }
-
+        
         $this->DeleteNotaJualProduk($id);
 
-        //Nota e d apakno yo ???
+        if($dari=="delete"){
+            $this->DeleteNotaJual($id);
+        }
+        else if($dari=="edit")
+        {
+            
+        }
+       
+        
+        $this->db->trans_complete();
     }
 
     function DeleteTempMaterial($id_notajualproduk, $id_detailmaterial){
@@ -495,6 +517,16 @@ class M_order extends CI_Model {
         $this->db->trans_start();
 
         $sql = "DELETE FROM notajual_produk WHERE id_notajual = ?";
+        $this->db->query($sql, array($id_notajual));
+
+        $this->db->trans_complete();
+    }
+    
+    function DeleteNotaJual($id_notajual)
+    {
+        $this->db->trans_start();
+
+        $sql = "DELETE FROM notajual WHERE id = ?";
         $this->db->query($sql, array($id_notajual));
 
         $this->db->trans_complete();

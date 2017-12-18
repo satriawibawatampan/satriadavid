@@ -245,5 +245,10 @@ class Order extends CI_Controller {
 
         $this->M_order->AddMemberToNota($id, $idMember);
     }
+    
+    public function DeleteOrder($idnota)
+    {
+        $this->M_order->DeleteOrder($idnota,"delete");
+    }
 
 }

@@ -262,7 +262,7 @@
     <!--------------------------------------------------------------------------------------------------------->
     <!--------------------------------------------------------------------------------------------------------->
 
-    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
+<!--    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
 
         <header role="heading">
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
@@ -270,7 +270,7 @@
 
             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
-        <!-- widget div-->
+         widget div
         <div role="content">
 
 
@@ -390,12 +390,12 @@
 
 
             </div>
-            <!-- end widget content -->
+             end widget content 
 
         </div>
-        <!-- end widget div -->
+         end widget div 
 
-    </div>
+    </div>-->
 <?php } 
 else{
     ?>

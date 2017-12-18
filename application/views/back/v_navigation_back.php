@@ -123,21 +123,21 @@
             <?php } ?>
             <?php if ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 2 || $this->session->userdata['xcellent_tipe'] == 3) { ?>
                 <li class="<?php if ($menu == "member") echo "open"; ?>">
-                    <a href="<?php echo base_url(); ?>Back/Member/Show_all_member"><i class="fa fa-lg fa-fw fa-group"></i> <span class="menu-item-parent">Member</span></a>
-<!--                    <ul>
-                        <li  class="<?php if ($menu == "member" && $submenu == "add") echo "active"; ?>">
+                    <a ><i class="fa fa-lg fa-fw fa-group"></i> <span class="menu-item-parent">Member</span></a>
+                    <ul>
+<!--                        <li  class="<?php if ($menu == "member" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_add_member">Add Member</a>
-                        </li>
+                        </li>-->
 
                         <li  class="<?php if ($menu == "member" && $submenu == "all") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_all_member">Member List   </a>
                         </li>
-                        <li  class="<?php if ($menu == "member" && $submenu == "deposit") echo "active"; ?>">
+                        <li  class="<?php if ($menu == "member" && $submenu == "adddeposit") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Member/Show_add_deposit">Member deposit   </a>
                         </li>
 
 
-                    </ul>-->
+                    </ul>
                 </li>
 
             <?php } ?>

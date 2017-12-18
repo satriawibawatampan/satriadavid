@@ -49,7 +49,7 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
-            'deposit' => $deposit,
+            'deposit' => $deposit + $deposit*10/100,
             'ttl' => $bod,
             'gender' => $gender,
             'telepon' => $phone,

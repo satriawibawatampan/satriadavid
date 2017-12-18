@@ -80,7 +80,7 @@
             <!-- widget content -->
             <div class="widget-body ">
 
-                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Add_deposit" class="form-horizontal" novalidate="novalidate" method="post">
+                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Add_deposit_to_note" class="form-horizontal" novalidate="novalidate" method="post">
 
                     <?php //echo validation_errors(); ?>
                     <div class="form-group">
