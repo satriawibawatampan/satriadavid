@@ -194,7 +194,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();" type="submit" name="button_addpurchasingnote" id="id_button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
+                                <input onclick="check_all_not_null();" type="submit" name="test" id="id_button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
+                                <input type="hidden" name="button_addpurchasingnote" value="1"/>
                             </div>
                         </div>
 
@@ -302,18 +303,18 @@
         $("#id_button_addpurchasingnote").prop('disabled', true);
         if ($('.hitung').length == 0 || $("#id_supplier")==null)
         {
-            $("form").submit(function (e) {
+            $("#smart-form-register").submit(function (e) {
                 e.preventDefault();
             });
             alert("Register at least 1 material to purchasing note & Supplier can't be Null");
-              $("#id_button_addpurchasingnote").prop('disabled', false);
+            $("#id_button_addpurchasingnote").prop('disabled', false);
 
         } else
         {
             $("#id_button_addpurchasingnote").prop('disabled', false);
         //    alert("yes");
 
-            document.getElementById("smart-form-register").submit();
+            $("#smart-form-register").submit();
             $("#id_button_addpurchasingnote").prop('disabled', true);
         }
 
