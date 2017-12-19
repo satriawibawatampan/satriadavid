@@ -143,7 +143,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1"></label>
                         <div class="col-md-4">
-                            <button onclick="add_table_purchasing()" type="button" name="button_addpurchasingnote" class="btn btn-success " >Add Material </button>
+                            <button onclick="add_table_purchasing()" type="button"  class="btn btn-success "> Add Material </button>
 
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();" type="submit" name="button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
+                                <input onclick="check_all_not_null();" type="submit" name="button_addpurchasingnote" id="id_button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
                             </div>
                         </div>
 
@@ -220,8 +220,7 @@
     var urutan = 1;
     function add_table_purchasing()
     {
-
-
+       
         if (
                 document.getElementById('id_material').value.length > 0 &&
                 document.getElementById('id_buyingprice').value.length > 0 &&
@@ -247,7 +246,7 @@
                         "</tr>");
 
                 urutan++;
-                alert("urutan ke " + urutan.toString());
+             //   alert("urutan ke " + urutan.toString());
                 $("#id_material").val(1);
                 $("#id_buyingprice").val("");
                 $("#id_quantity").val("");
@@ -300,19 +299,22 @@
 
     function check_all_not_null()
     {
-
+        $("#id_button_addpurchasingnote").prop('disabled', true);
         if ($('.hitung').length == 0 || $("#id_supplier")==null)
         {
             $("form").submit(function (e) {
                 e.preventDefault();
             });
             alert("Register at least 1 material to purchasing note & Supplier can't be Null");
+              $("#id_button_addpurchasingnote").prop('disabled', false);
 
         } else
         {
-            alert("yes");
+            $("#id_button_addpurchasingnote").prop('disabled', false);
+        //    alert("yes");
 
             document.getElementById("smart-form-register").submit();
+            $("#id_button_addpurchasingnote").prop('disabled', true);
         }
 
 
