@@ -113,6 +113,7 @@
                                         <tbody>	
                                             <?php
                                             foreach ($tablepromo as $hasil) {
+                                                if ($hasil->id!=1) {
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td ><a   onclick="show_promo(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-eye-open" style="color:green"  data-toggle="modal" data-target="#myPromo"> ' . $hasil->nama . '</a></td>';
@@ -131,6 +132,7 @@
                                                     echo' <a   onclick="showdeactivatepromo(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }
                                                 echo '</tr>';
+                                            }
                                             }
                                             ?>
                                         </tbody>

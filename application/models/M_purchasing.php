@@ -65,7 +65,7 @@ class M_purchasing extends CI_Model {
 
     function Get_all_purchasing_note() {
 
-        $this->db->select('notabeli.*,supplier.nama as namasupplier');
+        $this->db->select('notabeli.*,supplier.nama as namasupplier, supplier.perusahaan as perusahaan');
         $this->db->from('notabeli');
         $this->db->join('supplier', 'supplier.id = notabeli.id_supplier');
         $this->db->order_by("tanggal","desc");

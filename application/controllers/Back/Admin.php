@@ -272,6 +272,34 @@ class Admin extends CI_Controller {
     public function Edit_admin() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_editadmin')) {
+                
+                
+                $this->form_validation->set_rules('name_editname', 'Type Name', 'required');
+               // $this->form_validation->set_rules('name_editemail', 'Type Name', 'required|is_unique[admin.email]');
+                $this->form_validation->set_rules('name_editaddress', 'Type Name', 'required');
+                $this->form_validation->set_rules('name_editphone', 'Type Name', 'required');
+                $this->form_validation->set_rules('name_edittype', 'Type Name', 'required');
+                $this->form_validation->set_rules('name_editbranch', 'Type Name', 'required');
+              
+                if ($this->form_validation->run() == FALSE) {
+                
+                    $data['listbranch'] = $this->M_branch->Get_all_branch();
+                    $data['listadmintype'] = $this->M_admin->Get_all_admintype();
+                     $data['tableadmin'] = $this->M_admin->Show_all_admin();
+                    $data['idopen']=$this->input->post('name_editemail');
+                    //print_r($this->input->post('name_editemail')); exit();
+                    $navigation = array(
+                        "menu" => "admin",
+                        "submenu" => "type",
+                        "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    );
+                    $this->load->view('back/v_head_admin_back');
+                    $this->load->view('back/v_header_back');
+                    $this->load->view('back/v_navigation_back', $navigation);
+                    $this->load->view('back/v_all_admin_back', $data);
+                    $this->load->view('back/v_footer_back');
+                    
+                } else {
                 $id = $this->input->post('name_editid');
                 $nama = $this->input->post('name_editname');
                 $email = $this->input->post('name_editemail');
@@ -286,6 +314,7 @@ class Admin extends CI_Controller {
 
 
                 redirect('Back/Admin/Show_all_admin');
+                }
             }
         } else {
             redirect('Back/Account/Log_out');

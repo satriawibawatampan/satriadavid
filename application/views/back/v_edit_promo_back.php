@@ -78,7 +78,7 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Promo/Edit_promo" class="form-horizontal" novalidate="novalidate" method="post">
- <input required  class="form-control" name="name_editid" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editid', $datapromo->id); ?>" />
+ <input required  class="form-control" id='id_editid' name="name_editid" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editid', $datapromo->id); ?>" />
 
 
                     <div class="form-group">
@@ -120,14 +120,14 @@
                             </select> 
                         </div>
                         <div   class="col-md-2">
-                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount in %" type="number" min="0" value="<?php echo set_value('name_discount'); ?>">
+                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount in %" type="number" min="0" max="100" value="<?php echo set_value('name_discount'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_discount'); ?>
                             </span>
                         </div>
 
                         <div   class="col-md-2">
-                            <i id="id_button_plus_item" onclick="add_promo()" style="color:blue;" class="glyphicon glyphicon-plus control-label" >Add Item</i>
+                            <i id="id_button_plus_item" onclick="add_promo()" style="color:blue;" class="button glyphicon glyphicon-plus control-label" >Add Product</i>
                         </div>
 
 
@@ -148,6 +148,7 @@
                                 <tbody id="id_body_table_promo">
                                     <?php 
                                     $urutannya = 1;
+                                    if($datapromoproduct != -1){
                                     foreach($datapromoproduct as $itempromoproduct){ ?>
                                     <tr id='tr_<?php echo $urutannya; ?>'>
                                         <td> <div ><input readonly id='id_txt_product_<?php echo $urutannya; ?>' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='<?php echo $itempromoproduct->namaproduct; ?>'></div></td> 
@@ -157,7 +158,8 @@
                                         </tr>
                                     <?php 
                                     $urutannya++;
-                                    } ?>
+                                    }
+                                    }?>
                                 </tbody>
                             </table>
                         </div>
@@ -175,7 +177,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null()" name="button_editpromo" class="btn btn-primary " value="Edit Promo">
+                                <input onclick="check_all_not_null()" id='id_button_editpromo' name="tes" class="btn btn-primary " value="Edit Promo">
+                                <input type='hidden' name="button_editpromo" class="btn btn-primary " value="1">
                             </div>
                         </div>
 
@@ -201,6 +204,59 @@
 
 
     var urutanpromo = <?php echo $urutannya; ?>;
+    
+    var urutanpromo = 1;
+    
+     var idproduk= [];
+    var diskon=[];
+    var namaproduk=[];
+    
+  
+    
+    $(document).ready(function () {
+        <?php
+             if (isset($idproduk)) {
+                 for($m = 0; $m<count($idproduk); $m++){
+                ?> 
+            
+                idproduk.push(<?php echo $idproduk[$m]; ?>);
+                namaproduk.push("<?php echo (string)$namaproduk[$m]; ?>");
+                diskon.push(<?php echo $diskon[$m]; ?>);
+                <?php
+                                } 
+                                
+             }
+             
+             
+                                ?>
+        
+        
+        if (idproduk != "")
+        {
+            
+            
+           $("#id_table_promo").show();
+            for(var m = 0; m< idproduk.length; m++){
+            
+                $("#id_body_table_promo").append(
+                        "<tr id='tr_" + urutanpromo + "'>" +
+                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='" + namaproduk[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='" + diskon[m] + "'></div></td>" +
+                        "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td hidden ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='" + idproduk[m]+ "'></td>" +
+                        "</tr>");
+                urutanpromo++;
+
+
+
+          
+            }
+            
+           
+            
+            
+        }
+    });
 
 
     function add_promo()
@@ -277,6 +333,7 @@
     function check_all_not_null()
     {
 
+$("#id_button_editpromo").prop('disabled', true);
         if (
                 $("#id_txt_name_product").val() == "" ||
                 $("#id_datetime_start").val() == "" ||
@@ -284,27 +341,64 @@
                 )
 
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Null is not Allowed");
+            $("#id_button_editpromo").prop('disabled', false);
         } else if (new Date($("#id_datetime_start").val()).getTime() > new Date($("#id_datetime_end").val()).getTime())
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Start must be lower than End");
+            $("#id_button_editpromo").prop('disabled', false);
         } else if ($('.hitung').length == 0)
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Register the product first");
+            $("#id_button_editpromo").prop('disabled', false);
         }
         else
         {
-        
-            document.getElementById("smart-form-register").submit();
+            var datestart = $("#id_datetime_start").val();
+            var dateend = $("#id_datetime_end").val();
+            var idnya = $("#id_editid").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Promo/Check_for_register_promo_edit",
+                dataType: "json",
+                data: {
+
+                    start: datestart,
+                    end: dateend,
+                    id: idnya
+
+                },
+                success: function (result) {
+
+                    //alert(result[0]['kode'] == 1);
+                    if (result[0]['kode'] == 0)
+                    {
+                        alert("There is another promo on that days");
+                        $("#id_button_addpromo").prop('disabled', false);
+                    } else if (result[0]['kode'] == 1)
+                    {
+                         
+      
+
+            $("#smart-form-register").submit();
+            $("#id_button_editpromo").prop('disabled', true);
+      
+                    
+                    }
+
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
+
+
         }
 
     }

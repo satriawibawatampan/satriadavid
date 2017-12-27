@@ -114,6 +114,7 @@
                                         <tbody>	
                                             <?php
                                             foreach ($tablemember as $hasil) {
+if ($hasil->id!=0) {
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->nama . '</td>';
@@ -128,14 +129,19 @@
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
-                                                echo '<td>   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                                if ($hasil->statusaktif == 0) {
-                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
-                                                } else if ($hasil->statusaktif == 1) {
-                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
+                                                
+                                                echo '<td>';
+                                                 if ($hasil->id!=0 && $hasil->statusaktif==1) {
+                                                echo '   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                                 }
+                                                if ($hasil->statusaktif == 0 && $hasil->id!=0) {
+                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a>';
+                                                } else if ($hasil->statusaktif == 1 && $hasil->id!=0) {
+                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a>';
                                                 }
 
-                                                echo '</tr>';
+                                                echo '</td></tr>';
+                                            }
                                             }
                                             ?>
                                         </tbody>
@@ -351,8 +357,7 @@
 
     function showeditdatamember(idnya, nama)
     {
-        // document.getElementById('id_hidden_edit').value = idnya;
-        //document.getElementById('editname').value = nama;
+        alert("oke jek");
 
         $.ajax({
             type: "POST",

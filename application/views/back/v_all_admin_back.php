@@ -129,11 +129,11 @@
                                                 }
                                                 echo '<td>' . $hasil->namacabang . '</td>';
                                                 echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                                  if($hasil->statusaktif==0)
+                                                  if($hasil->statusaktif==0 && $hasil->tipe != "Super Admin")
                                                 {
                                                     echo '<a   onclick="showactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
                                                 }
-                                                else if($hasil->statusaktif==1)
+                                                else if($hasil->statusaktif==1 && $hasil->tipe != "Super Admin")
                                                 {
                                                        echo '<a   onclick="showdeactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }
@@ -191,7 +191,7 @@
                     <h4 class="modal-title">Deactivate Admin Form</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Deactivate_admin" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register-deactivate" action="<?php echo base_url(); ?>Back/Admin/Deactivate_admin" class="smart-form" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to deactivate Admin <span id="span_nama" style="color:blue"></span>?</p>
                         <input hidden  id="id_deactivateid" type="text" name="name_deactivateid"  aria-required="true" class="error" aria-invalid="true" >
@@ -216,7 +216,7 @@
                     <h4 class="modal-title">Activate Admin Form</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Activate_admin" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register-activate" action="<?php echo base_url(); ?>Back/Admin/Activate_admin" class="smart-form" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to Activate Admin <span id="span_nama_activate" style="color:blue"></span>?</p>
                         <input hidden  id="id_activateid" type="text" name="name_activateid"  aria-required="true" class="error" aria-invalid="true" >
@@ -241,13 +241,13 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Edit Admin Form</h4>
                 </div>
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Edit_admin" class="smart-form" novalidate="novalidate" method="post">
+                <form id="smart-form-register-edit" action="<?php echo base_url(); ?>Back/Admin/Edit_admin" class="smart-form" novalidate="novalidate" method="post">
                     <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
                     <fieldset>
                         <section>
                             <label class="input control-label">Email</label>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input disabled  id="id_editemail" type="text" name="name_editemail" placeholder="Email" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
+                                <input readonly  id="id_editemail" type="text" name="name_editemail" placeholder="Email" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Email</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -348,6 +348,22 @@
 
 </div>          
 <script>
+
+ $(document).ready(function () {
+        var idopen = "<?php
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
+        //alert(idopen);
+        if (idopen != "")
+        {
+           // alert("as");
+            $("#myEditModal").modal("show");
+        }
+    });
 
           
             function showdeactivatedataadmin(idnya, nama)

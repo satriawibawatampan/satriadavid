@@ -47,7 +47,7 @@ class M_supplier extends CI_Model {
             'telepon' => $phone
         );
         $this->db->where('id', $id);
-        $this->db->update(supplier, $data);
+        $this->db->update('supplier', $data);
     }
 
     function Deactivate_supplier($ida) {

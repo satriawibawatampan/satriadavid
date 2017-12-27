@@ -17,7 +17,7 @@ class Member extends CI_Controller {
             $this->load->model('M_member');
             $this->load->model('M_order');
              $this->load->model('M_material');
-
+  $this->load->model('M_payment');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
@@ -58,7 +58,7 @@ class Member extends CI_Controller {
     }
 
     public function Show_all_member() {
-        $data['tablemember'] = $this->M_member->Show_all_member_active();
+        $data['tablemember'] = $this->M_member->Show_all_member();
         $navigation=array(
             "menu" => "member",
             "submenu" => "all",
@@ -108,9 +108,10 @@ class Member extends CI_Controller {
 
     public function Show_add_deposit() {
          $data['listmember'] = $this->M_member->Show_all_member_active();
+         $data['listpaymentmethod']= $this->M_payment->Get_all_payment();
           $navigation=array(
             "menu" => "member",
-            "submenu" => "deposit",
+            "submenu" => "adddeposit",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
@@ -221,7 +222,9 @@ class Member extends CI_Controller {
             } else {
                 $deposit = $this->input->post('name_deposit');
                 $idmember = $this->input->post('name_member');
-                $this->M_order->Add_deposit_to_note($deposit, $idmember);
+                $idpayment = $this->input->post('name_txt_id_paymentmethod');
+                 $amount = $this->input->post('name_txt_id_paymentamount');
+                $this->M_order->Add_deposit_to_note($deposit, $idmember,$idpayment, $amount);
                 $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
                   redirect('Back/Member/Show_add_deposit');
@@ -246,7 +249,8 @@ class Member extends CI_Controller {
             } else {
                 $deposit = $this->input->post('name_deposit');
                 $idmember = $this->input->post('name_member');
-                $this->M_member->Add_deposit($deposit, $idmember);
+               
+                $this->M_order->Add_order_note_deposit( $member, $grandtotal);
                 $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
                   redirect('Back/Member/Show_add_deposit');

@@ -120,8 +120,7 @@ class M_member extends CI_Model {
     function Show_all_member() {
         $this->db->select('*');
         $this->db->from('member');
-       // $this->db->where('statusaktif', 1);
-
+      
         $query = $this->db->get();
         return $query->result();
     }

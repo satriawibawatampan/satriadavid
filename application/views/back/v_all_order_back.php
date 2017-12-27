@@ -216,7 +216,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="widget-body no-padding">
-                            <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
+                            <form id="smart-form-register-member" class="form-horizontal" novalidate="novalidate" method="post">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="select-1">Email</label>
                                     <div class="col-md-4">
@@ -370,7 +370,9 @@
                                 <select class="form-control" name="name_paymentmethod" id="id_paymentmethod" selected ="select" >
                                     <?php
                                     foreach ($listpaymentmethod as $hasil) {
+                                        
                                         echo "<option value='" . $hasil->id . "'>" . $hasil->nama . "</option>";
+                                        
                                     }
                                     ?>
 
@@ -391,7 +393,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="add_to_table_payment()"  name="" id="id_button_add_to_table_payment" class="btn btn-primary " value="Add Payment">
+                                <button onclick="add_to_table_payment()" type="button"  name="" id="id_button_add_to_table_payment" class="btn btn-primary " value=""> Add Payment</button>
 
                             </div>
                         </div>
@@ -427,7 +429,8 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="select-1"></label>
                                 <div class="col-md-4">
-                                    <input onclick="check_all_not_null();"  name="button_payment" class="btn btn-primary " value="They Have Paid">
+                                    <input onclick="check_all_not_null();" id="id_button_payment" type="button"  name="test" class="btn btn-primary " value="They Have Paid">
+                                    <input type="hidden"  name="button_payment" class="btn btn-primary " value="1">
                                 </div>
                             </div>
                         </footer>
@@ -466,7 +469,8 @@
                             </tbody>
                         </table>
                         <footer>
-                            <input type="submit" name="button_producing" class="btn btn-primary" value="Produce all items">
+                            <input type="button" id="id_button_producing" name="tes" class="btn btn-primary" value="Produce all items">
+                            <input type="hidden" name="button_producing" class="btn btn-primary" value="Produce all items">
                         </footer>
                     </form>	
                 </div>
@@ -591,8 +595,7 @@
         idNota = id;
     }
     function add_member() {
-       // alert("ok");
-
+       
         var nama = $("#daftar_nama").val();
         var deposit = $("#daftar_deposit").val();
         var email = $("#daftar_email").val();
@@ -639,7 +642,9 @@
 
     function showmodalpayment(idnya, grandtotal,idmember)
     {
-
+        var adadeposit = 0;
+        var adaregistermember=0;
+        
         document.getElementById('id_paymentid').value = idnya;
         document.getElementById('id_memberid').value = idmember;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
@@ -651,11 +656,19 @@
             url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
             dataType: "json",
             success: function (result) {
-                //ini kalau mau ambil 1 data saja sudah bisa.
-                //alert ("hore sukses" + result);
+                
                 $.each(result, function (id, name)
                 {
-
+                //    alert("yes"+name['id_produk']);
+                    if(name['id_produk']==1)
+                    {
+                       adadeposit=1; 
+                    }
+                    if(name['id_produk']==0)
+                    {
+                       adaregistermember=1; 
+                    }
+                //$("#id_body_table_payment").val()=
                     $("#id_body_table_payment").append(
                             "<tr role = 'row' class = 'odd'>" +
                             "<td>" + name['id_produk'] + "</td>" +
@@ -672,10 +685,89 @@
                         "<td colspan='5'>Grandtotal</td>" +
                         "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
                         "</tr>");
+                        
+                      //  alert("adadepost"+adadeposit+"adaregister"+adaregistermember);
+                        
+                        var methodpayment = [];
+                        
+                        $("#id_paymentmethod").find('option').remove().end();
+                        if(idmember==0)
+                        {
+                    //        alert("member 0");
+                            
+                        <?php
+                        
+                        foreach ($listpaymentmethod as $hasil) {
+                            if($hasil->id!=0){
+                            ?>
+                            $("#id_paymentmethod").append(
+                                
+                                 "<option value='" + <?php echo $hasil->id; ?> + "'>" + "<?php echo $hasil->nama; ?>" + "</option>"
+                                );
+                                                        
+                            <?php
+                                                } 
+                        }
+                                                
+                             
+                                                ?>
+                        }
+                        else
+                        {
+                            if(adadeposit==1 || adaregistermember==1)
+                            {
+                           //     alert("adadepost"+adadeposit+"adaregister"+adaregistermember);
+                            //disini harus cek apakah betul buka tutup kurungnya!!
+                            
+                            <?php
+                        
+                                foreach ($listpaymentmethod as $hasil) {
+                                
+                                    if( $hasil->id!=0)
+                                        {
+                                        ?>
+                                        $("#id_paymentmethod").append(
+                                            
+                                             "<option value='" + <?php echo $hasil->id; ?> + "'>" + "<?php echo $hasil->nama; ?>" + "</option>"
+                                            );
+                                                                    
+                                        <?php
+                                        } 
+                                                        
+                                }
+                                                ?>
+                                                
+                            }
+                            else if (adadeposit ==0)
+                            { 
+                         //       alert("masuk sini");
+                                <?php
+                        
+                            foreach ($listpaymentmethod as $hasil) {
+                            
+                          
+                            ?>
+                            $("#id_paymentmethod").append(
+                                
+                                 "<option value='" + <?php echo $hasil->id; ?> + "'>" + "<?php echo $hasil->nama; ?>" + "</option>"
+                                );
+                                                        
+                            <?php
+                                                 
+                                                
+                        }
+                                                ?>
+                            }
+                        
+                
+                }
+                        
+                        
+                        
             }
         });
-
-
+        
+        
 
     }
     function showmodalproducing(idnya)
@@ -796,7 +888,7 @@
     {
 
         if (
-              //  document.getElementById('id_paymentmethod').value > 0 &&
+            
                 document.getElementById('id_paymentamount').value.length > 0
                 )
         {
@@ -886,21 +978,32 @@
 
     function check_all_not_null()
     {
+        $("#id_button_payment").prop('disabled', true);
 
         if ($('.hitung').length == 0)
         {
-            $("#smart-form-register-payment").submit(function (e) {
-                e.preventDefault();
-            });
+            
             alert("Register at least one payment method");
+            $("#id_button_payment").prop('disabled', false);
         } else
         {
+            
+           // alert($("#id_payment_method_grandtotal").val());
+           // alert($("#id_paymentgrandtotal").val());
             if ($("#id_payment_method_grandtotal").val() < $("#id_paymentgrandtotal").val()) {
                 alert("Your fund is insufficient");
+                 $("#id_button_payment").prop('disabled', false);
 
-            } else {
-
+            }
+            else if($("#id_payment_method_grandtotal").val() > $("#id_paymentgrandtotal").val())
+            {
+                alert("Your fund is more than needed");
+                 $("#id_button_payment").prop('disabled', false);
+             }
+            else {
+alert("oke");
                 document.getElementById("smart-form-register-payment").submit();
+                // $("#id_button_payment").prop('disabled', false);
             }
         }
 

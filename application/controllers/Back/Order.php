@@ -55,6 +55,7 @@ class Order extends CI_Controller {
             "nota" => $nota
         );
         if (count($nota) > 0) {
+           // print_r($nota); exit();
             $this->load->view('back/v_print', $data);
         } else {
             $navigation = array(
@@ -71,7 +72,7 @@ class Order extends CI_Controller {
     }
 
     public function Show_add_order_note() {
-        $data['listkategori'] = $this->M_product->get_all_produk_kategori();
+        $data['listkategori'] = $this->M_product->Get_all_produk_kategori();
 
         $data['listmember'] = $this->M_member->Show_all_member_active();
         $data['listpromo'] = $this->M_promo->Get_promo_product_now();
@@ -83,8 +84,7 @@ class Order extends CI_Controller {
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
 
-//          print_r($navigation);   exit();
-//          print_r($data['listkategori']);   exit();
+
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
@@ -141,6 +141,8 @@ class Order extends CI_Controller {
 
         echo json_encode($bolehtambah);
     }
+    
+   
 
     public function Edit_order_note() {
         //$data = $this->input->post("data");

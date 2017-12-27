@@ -37,11 +37,11 @@ class M_cashflow extends CI_Model {
     }
 
      function Get_income_summary() {
-        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.updatedat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok*notajual_produk.jumlah) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
+        $query = "SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.updatedat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
-where notajual.id_cabang = ? order by notajual.id        
+where notajual.id_cabang = ?        
 ";
-        $result = $this->db->query($query,  $this->session->userdata['xcellent_id']);
+        $result = $this->db->query($query,array($this->session->userdata['xcellent_cabang']));
         return $result->result();
         //$result->result();
         //print_r($laporan); exit();
@@ -119,11 +119,11 @@ where notajual.id_cabang = ? order by notajual.id
     }
 
     function Get_income_summary_bydate($from, $to) {
-        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok*notajual_produk.jumlah) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
+        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
-where createdat >= ? and createdat <= ?        
+where createdat >= ? and createdat <= ?  and id_cabang= ?      
 ";
-        $result = $this->db->query($query, array($from, $to));
+        $result = $this->db->query($query, array($from, $to,$this->session->userdata['xcellent_cabang']));
         return $result->result();
         //$result->result();
         //print_r($laporan); exit();

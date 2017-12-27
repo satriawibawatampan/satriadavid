@@ -18,6 +18,7 @@ class M_product extends CI_Model {
             'nama' => $name,
             'statusaktif' => 1,
             'id_kategori' => $category,
+            'id_cabang' => $this->session->userdata['xcellent_cabang'],
             'createdAt' => $date,
             'updatedAt' => $date
         );
@@ -67,6 +68,25 @@ class M_product extends CI_Model {
         $this->db->insert('produk_material', $data2);
 
         return $insert_id;
+    }
+    
+    function Unique_product_name($str)
+    {
+        $this->db->select('*');
+        $this->db->from('produk');
+        $this->db->where('produk.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->where('produk.nama', $str);
+        $query = $this->db->get();
+        
+        if($query->row()!=null)
+        {
+        $boleh= $query->row()->nama;
+              return $boleh;
+        }
+        else
+        {
+            return "produknya kosong lalala";
+        }
     }
 
     function Get_all_product() {
@@ -162,7 +182,7 @@ class M_product extends CI_Model {
     public function get_allProductAndListHarga() {
 
         $sql = "SELECT p.*
-                    FROM produk p";
+                    FROM produk p ";
 
         $result = $this->db->query($sql);
         $products = $result->result_array();
@@ -182,10 +202,12 @@ class M_product extends CI_Model {
         return $products2;
     }
 
-    public function get_all_produk_kategori() {
+    public function Get_all_produk_kategori() {
 
         $sql = "SELECT k.*
-                    FROM kategori k";
+                    FROM kategori k 
+                    where k.id in (select id_kategori from produk )
+                    order by k.nama";
 
         $result = $this->db->query($sql);
         $kategori = $result->result_array();
@@ -205,10 +227,10 @@ class M_product extends CI_Model {
     }
 
     public function get_productAndListHargaByKategori($id_kategori) {
-
+$cabang = $this->session->userdata['xcellent_cabang'];
         $sql = "SELECT p.*
                 FROM produk p
-				WHERE p.id_kategori = ? and p.id!=11 and p.id!=13";
+				WHERE p.id_kategori = ? and p.id!=0 and p.id!=1 and p.id_cabang =". $this->session->userdata['xcellent_cabang']."  order by p.nama";
 
         $result = $this->db->query($sql, array($id_kategori));
         $products = $result->result_array();

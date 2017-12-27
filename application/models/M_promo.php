@@ -16,6 +16,7 @@ class M_promo extends CI_Model {
         $data = array(
             'nama' => $name,
             'statusaktif' => 1,
+             'id_cabang' => $this->session->userdata['xcellent_cabang'],
             'awal' => $start,
             'akhir' => $end,
         );
@@ -27,9 +28,9 @@ class M_promo extends CI_Model {
         for ($x = 0; $x < count($product); $x++) {
             $date = date('Y-m-d H:i:s');
             $data = array(
-                'id_produk' => $discount[$x],
+                'id_produk' => $product[$x],
                 'id_promo' => $insert_id,
-                'diskon' => $product[$x],
+                'diskon' => $discount[$x],
             );
 
             $this->db->insert('promo_produk', $data);
@@ -37,6 +38,25 @@ class M_promo extends CI_Model {
 
 
         $this->db->trans_complete();
+    }
+    
+    function Unique_promo_name($str)
+    {
+        $this->db->select('*');
+        $this->db->from('promo');
+       // $this->db->where('material.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->where('promo.nama', $str);
+        $query = $this->db->get();
+        
+        if($query->row()!=null)
+        {
+        $boleh= $query->row()->nama;
+              return $boleh;
+        }
+        else
+        {
+            return "promonya kosong lalala";
+        }
     }
 
     
@@ -46,6 +66,7 @@ class M_promo extends CI_Model {
         $this->db->from('promo');
 //hapus statusaktif = 1
         //$this->db->where('statusaktif', 1);
+        $this->db->where('id_cabang',$this->session->userdata['xcellent_cabang'] );
         $query = $this->db->get();
         return $query->result();
     }
@@ -78,6 +99,7 @@ class M_promo extends CI_Model {
         $this->db->where('promo.awal <=', date('Y-m-d'));
         $this->db->where('promo.akhir >=', date('Y-m-d'));
         $this->db->where('statusaktif', 1);
+         $this->db->where('id_cabang',$this->session->userdata['xcellent_cabang'] );
         $query = $this->db->get();
         //  print_r( $query->result()->);   exit();
         return $query->result_array();

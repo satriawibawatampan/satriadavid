@@ -99,11 +99,12 @@
                                         <thead>
                                             <tr role="row">
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Type</th>
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 100px;">Name</th>
+                                               
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">HPP</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Stock</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Amount/Pack</th>
+                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Type</th>
+                                             
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
 
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
@@ -114,17 +115,27 @@
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->nama . '</td>';
-                                                echo '<td>' . $hasil->tipe . '</td>';
-                                                echo '<td>' . $hasil->hpp . '</td>';
-                                                echo '<td>' . $hasil->stok . ' Pack (' . $hasil->totalstok . ') <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
+                                                echo ' <td >' . $hasil->hpp . '</td>';
+                                                
+                                                echo '<td>' . $hasil->totalstok . ' <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
 
-                                                echo '<td>' . $hasil->jumlahperpack . '</td>';
+                                                    if($hasil->tipe==1)
+                                                {
+                                                echo '<td> Roll </td>';
+                                                }
+                                                else if($hasil->tipe==2)
+                                                {
+                                                echo '<td> Pcs </td>';
+                                                }
+                                               
                                                 if ($hasil->statusaktif == 0) {
                                                     echo '<td style="color:red">Deactivated</td>';
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
+                                                 
                                                 echo '<td>   <a href="' . base_url() . 'Back/Material/Show_edit_material/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                 
                                                 if ($hasil->statusaktif == 0) {
                                                     echo '<a   onclick="showactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
                                                 } else if ($hasil->statusaktif == 1) {
@@ -388,6 +399,8 @@
 
 </div>    
 <script>
+
+ 
     function showdeactivatematerial(idnya, nama)
     {
         document.getElementById('id_deactivateid').value = idnya;

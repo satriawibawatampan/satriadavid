@@ -23,6 +23,7 @@ class Welcome extends CI_Controller {
             
             //check
 		//gellooadsadsadasdsd
-	$this->load->view('welcome_message');
+	    //$this->load->view('welcome_message');
+	    redirect("Back/Account/Show_login");
 	}
 }

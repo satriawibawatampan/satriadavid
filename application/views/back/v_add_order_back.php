@@ -81,7 +81,7 @@
                         <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
                             <select class="form-control" name="name_member" id="id_member" selected ="select" onchange="checkNewMember()">
-                                <option value="0" >- No Member -</option>
+                                
 
                                 <?php foreach ($listmember as $itemmember) { ?>
 
@@ -97,13 +97,7 @@
                                     data-title="Member Registration"
                                     id="btnModal">Add Member</button>
                         </div>
-                        <div class="col-md-4" id="deposit" style="display: show;">
-                            <button  type='button' class="btn btn-primary" 
-                                     data-toggle="modal" data-target="#addDeposit"
-                                     onclick="OpenModalDeposit(1)"
-                                     data-title="Deposit Member"
-                                     id="btnModal">Deposit</button>
-                        </div>
+                        
                     </div>
                     <script>
                        $("#deposit").hide();
@@ -150,10 +144,11 @@
                         function checktipe()
                         {
                             var tipenya = null;
-                            if ($("#id_category").val() == 1)
-                            {
+                          
+                            
                                 // alert("a");
                                 $.ajax({
+                                    async: true, 
                                     type: "POST",
                                     url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
                                     dataType: "json",
@@ -166,13 +161,18 @@
                                             tipenya = name['tipematerial'];
 
                                             if (tipenya == 1) {
-                                                //alert("es");
-                                                $("#id_long").prop("disabled", false);
+                                                
+                                               // alert(tipenya);
+                                                $("#id_long").show();
+                                                $("#id_span_long").show();
                                                 $("#id_long").val("1");
+                                                $(".cm").show();
                                             } else {
-                                                // alert(tipenya);
+                                            //     alert(tipenya);
                                                 $("#id_long").val("1");
-                                                $("#id_long").prop("disabled", true);
+                                                $("#id_long").hide();
+                                                $("#id_span_long").hide();
+                                                $(".cm").hide();
 
                                             }
 
@@ -185,17 +185,12 @@
 
 
 
-                            } else if ($("#id_category").val() == 2 || $("#id_category").val() == 3) {
-                                $("#id_long").prop("disabled", false);
-                                $("#id_long").val("1");
-                            } else
-                            {
-                                $("#id_long").prop("disabled", true);
-                            }
+                          
                         }
 
                         function get_price()
-                        { //alert("idproduk");
+                        { 
+                            //alert($("#id_category").val());
                             $("#tablebodyprice").empty();
                             var idkategori = $("#id_category").val();
                             var idproduk = $("#id_product").val();
@@ -447,13 +442,15 @@
                         function check_all_not_null()
                         {
                             // alert("yes");
-
+                            $("#id_button_addorder").prop('disabled', true);
+                            
                             if ($('.hitung').length == 0)
                             {
                                 $("form").submit(function (e) {
                                     e.preventDefault();
                                 });
                                 alert("Register a product first");
+                                $("#id_button_addorder").prop('disabled', false);
                             } else
                             {
 //  
@@ -523,10 +520,12 @@
                                             produk_material = [];
 
                                             tampungall = [];
+                                               location.reload();
                                         }
                                         if (result == 0)
                                         {
                                             alert("Your Product Out of Stock");
+                                             $("#id_button_addorder").prop('disabled', false);
                                         }
 
 
@@ -550,6 +549,7 @@
 
                         var id_member = null;
                         function add_member() {
+                            $("#id_button_addmember").prop("disable",true);
                             var nama = $("#daftar_nama").val();
                             var deposit = $("#daftar_deposit").val();
                             var email = $("#daftar_email").val();
@@ -578,17 +578,20 @@
                                     if (idnya == 0)
                                     {
                                         alert("Email has been registered before.");
+                                        $("#id_button_addmember").prop("disable",false);
                                     } else {
                                         alert("Member Registration Success");
-                                        alert(idnya);
+                                        //alert(idnya);
                                         $('#addMember').modal('toggle');
+                                       
 //$("#id_member_input").val(id_member);
                                         $("#id_body_table").append(
                                                 "<tr id='tr_" + urutanproduct + "'>" +
                                                 "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
                                                 "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
                                                 "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
-                                                "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
+                                               "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='1'></div></td>" +
+                                           "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
                                                 "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
                                                 "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
                                                 "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
@@ -600,6 +603,7 @@
 
                                         $("#id_member").attr("disabled", "disabled");
                                         $("#btnModal").attr("disabled", "disabled");
+                                         $("#id_button_addmember").prop("disable",false);
 
                                     }
                                 },
@@ -633,7 +637,7 @@
                                     <?php
                                     for ($x = 0; $x < count($listkategori); $x++) {
                                         for ($y = 0; $y < count($listkategori[$x]['product']); $y++) {
-                                            if ($listkategori[$x]['product'][$y]['id_kategori'] == 1) {
+                                            if ($listkategori[$x]['product'][$y]['id_kategori'] == $listkategori[0]['id']) {
                                                 ?>
 
                                             <option value="<?php echo $listkategori[$x]['product'][$y]['id']; ?>" ><?php echo $listkategori[$x]['product'][$y]['nama']; ?></option>
@@ -656,7 +660,7 @@
                         </div>
                         <div class="col-md-1">
                             <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" placeholder="Quantity" type="number" value="1">
-                            <span>Long in CM</span>
+                            <span id="id_span_long" >Long in CM</span>
 
                         </div>
                         <div class="col-md-2">
@@ -679,7 +683,7 @@
                             <input onclick="add_to_note();
                                     update_grandtotal();
                                     update_total_discount();
-                                   "  name="" id="id_button_add_to_note" class="btn btn-primary " value="Add Product">
+                                   "  name="" id="id_button_add_to_note" type="button" class="btn btn-primary " value="Add Product">
 
                         </div>
                     </div>
@@ -734,7 +738,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();"  name="button_addorder" class="btn btn-primary " value="Add Order">
+                                <input id="id_button_addorder" type="button" onclick="check_all_not_null();"  name="tes" class="btn btn-primary " value="Add Order">
+                                 <input type="hidden"  name="button_addorder" class="btn btn-primary " value="1">
                             </div>
                         </div>
 
@@ -810,7 +815,8 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="select-1"></label>
                                             <div class="col-md-4">
-                                                <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
+                                                <input onclick="add_member();" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
+                                                <input type="hidden" name="button_addmember" class="btn btn-primary " value="1">
                                             </div>
                                         </div>
                                     </footer>
@@ -847,7 +853,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="select-1"></label>
                                             <div class="col-md-4">
-                                                <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Deposit">
+                                              
                                             </div>
                                         </div>
                                     </footer>

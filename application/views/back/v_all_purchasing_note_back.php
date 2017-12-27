@@ -115,7 +115,7 @@
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td><a href="' . base_url() . 'Back/Purchasing/Show_detail_purchasing_note/' . $hasil->id . '">' . $hasil->id . '</a></td>';
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
-                                                echo '<td>' . $hasil->namasupplier . '</td>';
+                                                echo '<td>' . $hasil->perusahaan . '</td>';
 
                                                 echo '<td>' . number_format (  $hasil->grandtotal , 0 , "." , "," )  . '</td>';
                                                 if ($hasil->statusbayar == 0) {

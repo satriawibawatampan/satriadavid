@@ -12,7 +12,7 @@
 			</div>
 
 			<!-- #PROJECTS: projects dropdown -->
-			<span>Branch : <?php echo $this->session->userdata['xcellent_cabang_name']; ?> </span>
+			<span>Branch : <?php echo $this->session->userdata['xcellent_cabang_name']; ?> / <?php echo $this->session->userdata['xcellent_cabang']; ?> </span>
 			<!-- end projects dropdown -->
 
 			<!-- #TOGGLE LAYOUT BUTTONS -->

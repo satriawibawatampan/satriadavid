@@ -118,7 +118,7 @@
                             </select> 
                         </div>
                         <div   class="col-md-2">
-                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount in %" type="number" min="0" value="<?php echo set_value('name_discount'); ?>">
+                            <input class="form-control" name="name_discount"  id="id_discount" placeholder="Discount in %" type="number" min="0" max="100" value="<?php echo set_value('name_discount'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_discount'); ?>
                             </span>
@@ -160,7 +160,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null()"  name="button_addpromo" class="btn btn-primary " value="Add Material">
+                                <input onclick="check_all_not_null()" id='id_button_addpromo' type='button'  name="tes" class="btn btn-primary " value="Add Promo">
+                                <input type='hidden'  name="button_addpromo" class="btn btn-primary " value="1">
                             </div>
                         </div>
 
@@ -186,6 +187,56 @@
 
 
     var urutanpromo = 1;
+    
+     var idproduk= [];
+    var diskon=[];
+    var namaproduk=[];
+    
+  
+    
+    $(document).ready(function () {
+        <?php
+             if (isset($idproduk)) {
+                 for($m = 0; $m<count($idproduk); $m++){
+                ?> 
+            
+                idproduk.push(<?php echo $idproduk[$m]; ?>);
+                namaproduk.push("<?php echo (string)$namaproduk[$m]; ?>");
+                diskon.push(<?php echo $diskon[$m]; ?>);
+                <?php
+                                } 
+                                
+             }
+             
+             
+                                ?>
+        
+        
+        if (idproduk != "")
+        {
+            
+            
+           $("#id_table_promo").show();
+            for(var m = 0; m< idproduk.length; m++){
+            
+                $("#id_body_table_promo").append(
+                        "<tr id='tr_" + urutanpromo + "'>" +
+                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='" + namaproduk[m]+ "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='" + diskon[m] + "'></div></td>" +
+                        "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td hidden ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='" + idproduk[m] + "'></td>" +
+                        "</tr>");
+                urutanpromo++;
+
+
+          
+            }
+            
+           
+            
+            
+        }
+    });
     function add_promo()
     {
 
@@ -258,7 +309,7 @@
     }
 
     function check_all_not_null()
-    {
+    {$("#id_button_addpromo").prop('disabled', true);
 
         if (
                 $("#id_txt_name_product").val() == "" ||
@@ -267,23 +318,20 @@
                 )
 
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+          
             alert("Null is not Allowed");
+            $("#id_button_addpromo").prop('disabled', false);
 
         } else if (new Date($("#id_datetime_start").val()).getTime() > new Date($("#id_datetime_end").val()).getTime())
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Start must be lower than End");
+            $("#id_button_addpromo").prop('disabled', false);
         } else if ($('.hitung').length == 0)
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Register the product first");
+            $("#id_button_addpromo").prop('disabled', false);
         } else
         {
             var datestart = $("#id_datetime_start").val();
@@ -304,10 +352,16 @@
                     if (result[0]['kode'] == 0)
                     {
                         alert("There is another promo on that days");
+                        $("#id_button_addpromo").prop('disabled', false);
                     } else if (result[0]['kode'] == 1)
                     {
-                        document.getElementById("smart-form-register").submit();
+                         
+      
 
+            $("#smart-form-register").submit();
+            $("#id_button_addpromo").prop('disabled', true);
+      
+                    
                     }
 
 

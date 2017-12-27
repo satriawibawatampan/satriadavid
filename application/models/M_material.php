@@ -39,6 +39,24 @@ class M_material extends CI_Model {
         //      return $this->db->insert_id();
     }
 
+ function Unique_material_name($str)
+    {
+        $this->db->select('*');
+        $this->db->from('material');
+        $this->db->where('material.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->where('material.nama', $str);
+        $query = $this->db->get();
+        
+        if($query->row()!=null)
+        {
+        $boleh= $query->row()->nama;
+              return $boleh;
+        }
+        else
+        {
+            return "materialnya kosong lalala";
+        }
+    }
     function Add_detailmaterial($idmaterial, $amountperpack, $bigstock, $idbranch, $insert_nota_beli_id) {
 
 
@@ -108,6 +126,8 @@ class M_material extends CI_Model {
         $this->db->select('*');
         $this->db->from('material');
         $this->db->where('statusaktif', 1);
+         $this->db->where('id!=', 1);
+         $this->db->where('id!=', 0);
         $this->db->where('id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->order_by('nama');
         $query = $this->db->get();
@@ -229,7 +249,9 @@ class M_material extends CI_Model {
         // return $query->result_array();
     }
 
-    function Edit_material($id, $nama, $tipe, $hargapokok, $name_minimumstock) {
+    function Edit_material($id, $nama, $tipe, $hargapokok, $name_minimumstock, $namalama) {
+        
+        
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $nama,
@@ -241,6 +263,17 @@ class M_material extends CI_Model {
 
         $this->db->where('id', $id);
         $this->db->update('material', $data);
+        
+        
+        //rubah nama produk juga
+        // $data = array(
+      //      'nama' => $nama
+            
+      //  );
+
+      //  $this->db->where('id_kategori', 0);
+     //   $this->db->where('nama',$namalama);
+    //    $this->db->update('produk', $data);
     }
 
     function Add_more_stock($id, $stock) {

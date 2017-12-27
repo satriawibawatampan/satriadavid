@@ -165,7 +165,8 @@
 
                             <div class="col-md-4">
 
-                                <input type="submit" name="button_addadmin" class="btn btn-primary" value="Add Admin">
+                                <input onclick="disable_button()" type="submit" id="id_button_addadmin" name="tes" class="btn btn-primary" value="Add Admin">
+                                <input type="hidden" name="button_addadmin" class="btn btn-primary" value="1">
                             </div>
 
                         </div>
@@ -184,3 +185,15 @@
 <!-- END MAIN CONTENT -->
 
 </div>
+
+<script>
+
+function disable_button()
+{
+    $("#id_button_addadmin").prop('disabled', false);
+        
+            $("#smart-form-register").submit();
+            $("#id_button_addadmin").prop('disabled', true);
+}
+        
+</script>

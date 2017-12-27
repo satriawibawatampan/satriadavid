@@ -84,9 +84,9 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Type</label>
                         <div class="col-md-2">
-                            <select class="form-control" name="name_type" id="select-1" selected ="select" >
+                            <select onchange="change_type();" class="form-control" name="name_type" id="select-1" selected ="select" >
                                 <option value="2" >Ordinary</option>
-                                <option value="1" >Special (Role)</option>
+                                <option value="1" >Role</option>
                             </select> 
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
+                            <input class="form-control" name="name_name" id="id_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_name'); ?>
                             </span>
@@ -105,7 +105,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">HPP</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_hpp" placeholder="HPP" type="number" value="<?php echo set_value('name_hpp'); ?>">
+                            <input class="form-control" name="name_hpp" placeholder="HPP" id="id_hpp" type="number" value="<?php echo set_value('name_hpp'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_hpp'); ?>
                             </span>
@@ -113,20 +113,20 @@
 
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Stock</label>
+                    <div class="form-group" id="id_div_pack" hidden>
+                        <label class="col-md-2 control-label">Roll</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_bigstock" placeholder="Stock" type="number" value="<?php echo set_value('name_bigstock'); ?>">
+                            <input class="form-control" name="name_bigstock" placeholder="Roll" id="id_bigstock" type="number" value="<?php echo set_value('name_bigstock',1); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_bigstock'); ?>
                             </span>
                         </div>
 
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Amount per Pack</label>
+                    <div class="form-group" id="id_div_amount">
+                        <label class="col-md-2 control-label" id="id_label">Amount</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_amountperpack" placeholder="Ammount per Pack" type="number" value="<?php echo set_value('name_amountperpack'); ?>">
+                            <input class="form-control" name="name_amountperpack" placeholder="Ammount" id="id_amountperpack" type="number" value="<?php echo set_value('name_amountperpack'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_amountperpack'); ?>
                             </span>
@@ -136,7 +136,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Minimum Stock</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_minimumstock" placeholder="Minimum Stock" type="number" value="<?php echo set_value('name_minimumstock'); ?>">
+                            <input class="form-control" name="name_minimumstock" placeholder="Minimum Stock" id="id_minimumstock" type="number" value="<?php echo set_value('name_minimumstock'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_minimumstock'); ?>
                             </span>
@@ -231,7 +231,9 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input id="id_button_addmaterial" onclick="show_div_grossir(); " type="submit" name="button_addmaterial" class="btn btn-primary " value="Add Material">
+                                <button id="id_button_addmaterial" onclick="check_all_not_null(); " type="button" name="tes" class="btn btn-primary " >Add Material </button>
+                                <input  type="hidden" name="button_addmaterial" class="btn btn-primary " value="1">
+                                
                             </div>
                         </div>
 
@@ -251,14 +253,113 @@
 
 </div>
 <script>
-    var urutan = 1;
+var urutan = 1;
+var hargakembali= [];
+var minqtykembali=[];
+var maxqtykembali=[];
+$(document).ready(function () {
+        <?php
+             if (isset($harga)) {
+                 for($m = 0; $m<count($harga); $m++){
+                ?> 
+               // alert("masuk");
+                hargakembali.push(<?php echo $harga[$m]; ?>);
+                minqtykembali.push(<?php echo $minimum[$m]; ?>);
+                maxqtykembali.push(<?php echo $maksimum[$m]; ?>);
+                <?php
+                                } 
+                                
+             }
+                                ?>
+        //alert(hargakembali);
+        if (hargakembali != "")
+        {
+            
+           $("#id_div_grossir").show();
+            $("#id_table_grossir").show();
+            
+            for(var m = 0; m< hargakembali.length; m++){
+            $("#id_body_table").append(
+                    "<tr>" +
+                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='"+minqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='"+maxqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='"+hargakembali[m]+"'></div></td>" +
+                    "</tr>");
 
-    function disable_button()
-    {
-       
-        $("#smart-form-register").submit();
-       //  $("#id_button_addmaterial").prop('disabled', true);
+
+
+            urutan++;
+            }
+        }
+    });
     
+    function change_type()
+    {
+        if($("#select-1 option:selected").val() == 1)
+        {
+            $("#id_bigstock").val(1);
+            $("#id_div_pack").show();
+            $("#id_label").text("Long per Roll");
+           $("#id_amountperpack").attr("placeholder", "Long per Roll");
+          // $("#id_amountperpack").val(1);
+          
+            alert($("#id_bigstock").val());
+        }
+        else if ($("#select-1 option:selected").val() == 2)
+        {
+            $("#id_bigstock").val(1);
+            $("#id_div_pack").hide();
+           
+            
+           $("#id_label").text(" Amount");
+           $("#id_amountperpack").attr("placeholder", "Amount");
+          
+            alert($("#id_bigstock").val());
+         //   $(this).attr("placeholder", "Type your answer here");
+        }
+        
+    }
+    
+
+    function check_all_not_null()
+    { $("#id_button_addmaterial").prop('disabled', true);
+
+        if (
+                $("#select-1 option:selected").val() == "" ||
+                $("#id_name").val() == "" ||
+                $("#id_hpp").val() == "" ||
+                $("#id_bigstock").val() == "" ||
+                $("#id_amountperpack").val() == "" ||
+                $("#id_minimumstock").val() == ""
+
+
+                )
+
+        {
+            
+            alert( $("#select-1 option:selected").val() +"/"+ $("#id_name").val()  +"/"+$("#id_hpp").val()  +"/"+$("#id_bigstock").val()  +"/"+$("#id_amountperpack").val() +"/"+ $("#id_minimumstock").val())
+            alert("Null is not Allowed");
+             $("#id_button_addmaterial").prop('disabled', false);
+
+           
+
+        }  else if ($('.hitungmaterial').length == 0)
+        {
+           
+            alert("Register this product's price first / "+$('.hitungmaterial').length );
+            $("#id_button_addmaterial").prop('disabled', false);
+        } else
+        {
+            
+            
+            $("#smart-form-register").submit();
+            $("#id_button_addmaterial").prop('disabled', true);
+      
+
+           // document.getElementById("smart-form-register").submit();
+        }
+
+
     }
     function show_div_grossir()
     {
@@ -279,7 +380,7 @@
                     "<tr>" +
                     "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='1'></div></td>" +
                     "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='1'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]' placeholder='Price' type='number' value='" + parseInt($("#id_txt_price_retail").val()) + "'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='" + parseInt($("#id_txt_price_retail").val()) + "'></div></td>" +
                     "</tr>");
 
 //                    $("#id_txt_qty_min_1").val(1);
@@ -336,7 +437,7 @@
                                 "<tr>" +
                                 "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='" + $("#id_input_qty_min").val() + "'></div></td>" +
                                 "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='" + $("#id_input_qty_max").val() + "'></div></td>" +
-                                "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]' placeholder='Price' type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
                                 "</tr>");
                         urutan++;
                         // alert("urutan ke " + urutan.toString());

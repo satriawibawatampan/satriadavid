@@ -42,7 +42,7 @@ class M_kategori extends CI_Model {
         $this->db->from('kategori');
        
         $this->db->where('kategori.statusaktif', 1);
-        $this->db->where('kategori.id !=', 0);
+        $this->db->where('kategori.id !=', 1);
        
         $query = $this->db->get();
         return $query->result();
@@ -84,6 +84,18 @@ class M_kategori extends CI_Model {
 
         return $query->result();
     }
+    
+    function Get_product_in_category($id) {
+        $this->db->select("produk.*");
+        $this->db->from("produk");
+          $this->db->join("kategori","kategori.id = produk.id_kategori");
+       // $this->db->where("statusaktif", 1);
+        $this->db->where("kategori.id", $id);
+
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     
     function Jumlah_data($idkategori)
     {

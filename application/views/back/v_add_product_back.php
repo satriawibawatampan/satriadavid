@@ -83,7 +83,7 @@
                             <select class="form-control" name="name_category" id="select-1" selected ="select" >
                                 <?php foreach ($listkategori as $item) { ?>
 
-                                    <option value="<?php echo $item->id; ?>" ><?php echo $item->nama; ?></option>
+                                    <option value="<?php echo $item->id; ?>" <?php echo set_select("name_category", $item->id); ?>  ><?php echo $item->nama; ?></option>
 
                                 <?php } ?>
                             </select> 
@@ -228,7 +228,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();"  name="button_addproduct" class="btn btn-primary " value="Add Material">
+                                <input onclick="check_all_not_null();" id="id_button_addproduct" type="button"  name="tes" class="btn btn-primary " value="Add Product">
+                                <input  type="hidden"  name="button_addproduct" class="btn btn-primary " value="12">
                             </div>
                         </div>
 
@@ -252,6 +253,81 @@
 
 <script>
     var urutan = 1;
+      var urutanmaterial = 1;
+    
+    var hargakembali= [];
+    var minqtykembali=[];
+    var maxqtykembali=[];
+    
+    var matid =[];
+    var matnama = [];
+    var matqty = [];
+    
+    $(document).ready(function () {
+        <?php
+             if (isset($harga)) {
+                 for($m = 0; $m<count($harga); $m++){
+                ?> 
+            
+                hargakembali.push(<?php echo $harga[$m]; ?>);
+                minqtykembali.push(<?php echo (string)$minimum[$m]; ?>);
+                maxqtykembali.push(<?php echo $maksimum[$m]; ?>);
+                <?php
+                                } 
+                                
+             }
+             
+             if (isset($matid)) {
+                 for($m = 0; $m<count($matid); $m++){
+                ?> 
+             
+                matid.push(<?php echo $matid[$m]; ?>);
+                matnama.push("<?php echo $matnama[$m]; ?>");
+                matqty.push(<?php echo $matqty[$m]; ?>);
+                <?php
+                                } 
+                                
+             }
+                                ?>
+        //alert(hargakembali);
+        
+        
+        if (hargakembali != "")
+        {
+            
+           $("#id_div_grossir").show();
+            $("#id_table_grossir").show();
+            
+            for(var m = 0; m< hargakembali.length; m++){
+            $("#id_body_table").append(
+                    "<tr>" +
+                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='"+minqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='"+maxqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='"+hargakembali[m]+"'></div></td>" +
+                    "</tr>");
+
+
+
+            urutan++;
+            }
+            
+            $("#id_table_material").show();
+            
+            for(var m = 0; m< matid.length; m++){
+                $("#id_body_table_material").append(
+                        "<tr id='tr_" + urutanmaterial + "'>" +
+                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='"+matnama[m]+"'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]' placeholder='Qty Max' type='number' value='"+matqty[m]+"'></div></td>" +
+                        "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                        "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Max' type='hidden' value='"+matid[m]+"'></td>" +
+                        "</tr>");
+                urutanmaterial++;
+            }
+                
+                checkingadamaterialsama = 1;
+        }
+    });
+    
     function show_div_grossir()
     {
         if (document.getElementById('id_txt_price_retail').value.length > 0 && urutan == 1)
@@ -279,7 +355,7 @@
 //                    $("#id_txt_price_1").val($("#id_txt_price_retail").val());
 
             urutan++;
-            alert(urutan);
+            //alert(urutan);
             //  $("#id_button_reset").show();
 
         } else
@@ -338,8 +414,8 @@
                     } else
                     {
                         alert("Price Must be cheaper than before")
-                        alert(document.getElementById('id_input_price_grossir').value);
-                        alert(document.getElementById('id_txt_price_' + (urutan - 1)).value);
+                       // alert(document.getElementById('id_input_price_grossir').value);
+                        //alert(document.getElementById('id_txt_price_' + (urutan - 1)).value);
                     }
                 } else
                 {
@@ -356,7 +432,7 @@
         }
     }
 
-    var urutanmaterial = 1;
+  
 
 
     function add_material()
@@ -397,7 +473,7 @@
     {
         var numItems = $('.hitung').length;
 
-        var id = event.target.id;
+       // var id = event.target.id;
         var counterwhile = 1;
         while (numItems > 0)
         {   // jika yang dipilih ada di id-text_id_material(table)
@@ -431,7 +507,7 @@
 
     function check_all_not_null()
     {
-
+    $("#id_button_addproduct").prop('disabled', true);
         if (
                 $("#select-1 option:selected").val() == "" ||
                 $("#id_txt_name_product").val() == ""
@@ -441,30 +517,31 @@
 
         {
             alert("Null is not Allowed");
-
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+$("#id_button_addproduct").prop('disabled', false);
+           
 
         } else if ($('.hitung').length == 0)
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+            
             alert("Register this product's material first");
+            $("#id_button_addproduct").prop('disabled', false);
 
         } else if ($('.hitungmaterial').length == 0)
         {
-            $("form").submit(function (e) {
-                e.preventDefault();
-            });
+           
             alert("Register this product's price first / "+$('.hitungmaterial').length );
+            $("#id_button_addproduct").prop('disabled', false);
 
         } else
         {
-            alert("yes");
+             $("#id_button_addproduct").prop('disabled', false);
+      
 
-            document.getElementById("smart-form-register").submit();
+            $("#smart-form-register").submit();
+            $("#id_button_addproduct").prop('disabled', true);
+      
+
+           // document.getElementById("smart-form-register").submit();
         }
 
 

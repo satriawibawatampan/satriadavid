@@ -65,7 +65,7 @@ class Product extends CI_Controller {
         $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $data['dataproduct'] = $this->M_product->Get_one_product($id);
-        //    print_r( $data['dataproduct']); exit();
+        
         $data['dataproductmaterial'] = $this->M_product->Get_product_material($id);
         $data['dataharga'] = $this->M_harga->Get_harga($id);
 
@@ -130,11 +130,66 @@ class Product extends CI_Controller {
             redirect('Back/Account/Log_out');
         }
     }
+    
+     public function unique_product_name($str)
+        {
+            $boleh = $this->M_product->Unique_product_name($str);
+            //print_r($boleh); exit();
+                if (strtolower($boleh) == strtolower($str))
+                {
+                        $this->form_validation->set_message('unique_product_name', 'The {field} field must be unique in branch '. $this->session->userdata['xcellent_cabang_name']);
+                        return FALSE;
+                }
+                else
+                {
+                        return TRUE;
+                }
+        }
 
     public function Add_Product() {
+        
+        
         if ($this->input->post('button_addproduct')) {
-           // print_r('a');
-           // exit();
+          
+           $this->form_validation->set_rules('name_name', 'Name', 'required|callback_unique_product_name');
+           $this->form_validation->set_rules('name_category', 'Category', 'required');
+           
+            if ($this->form_validation->run() == FALSE) {
+                $navigation = array(
+                    "menu" => "produk",
+                    "submenu" => "add",
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                
+                 if ($this->input->post('name_price') != null) {
+                    $grossirprice = $this->input->post('name_price');
+                    $minimumqty = $this->input->post('name_qty_min');
+                    $maximumqty = $this->input->post('name_qty_max');
+                    $materialid= $this->input->post('name_txt_idmaterial');
+                     $materialqty= $this->input->post('name_txt_jumlah');
+                      $materialnama= $this->input->post('name_txt_material');
+                }
+                 
+           
+              $data['harga']= $grossirprice;
+              $data['minimum']= $minimumqty;
+              $data['maksimum']= $maximumqty;
+              $data['matid']= $materialid;
+              $data['matqty']= $materialqty;
+              $data['matnama']= $materialnama;
+              
+               $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
+                $data['listmaterial'] = $this->M_material->Get_all_material();
+              
+        
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_add_product_back',$data);
+                $this->load->view('back/v_footer_back');
+            } else {
+
+          
             $category = $this->input->post('name_category');
             $name = $this->input->post('name_name');
             $materialid = $this->input->post('name_txt_idmaterial');
@@ -148,6 +203,7 @@ class Product extends CI_Controller {
             $this->session->set_flashdata('pesanform', "New Product has been added");
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Product/Show_add_product');
+            }
             
         } else {
             redirect('Back/Product/Show_add_product');
@@ -169,12 +225,67 @@ class Product extends CI_Controller {
        
         echo json_encode($data);
     }
+    public function Json_get_product_in_category($id) {
+        $data = $this->M_kategori->Get_product_in_category($id);
+       
+        echo json_encode($data);
+    }
 
     
 
     public function Edit_product() {
 
         if ($this->input->post('button_editproduct')) {
+            
+            if($this->input->post('name_editname')!=$this->input->post('name_editname2'))
+            {
+           $this->form_validation->set_rules('name_editname', 'Name', 'required|callback_unique_product_name');
+            }
+           $this->form_validation->set_rules('name_editcategory', 'Category', 'required');
+           
+           if ($this->form_validation->run() == FALSE) {
+                $navigation = array(
+                    "menu" => "produk",
+                    "submenu" => "add",
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                
+                 if ($this->input->post('name_price') != null) {
+                    $grossirprice = $this->input->post('name_price');
+                    $minimumqty = $this->input->post('name_qty_min');
+                    $maximumqty = $this->input->post('name_qty_max');
+                    $materialid= $this->input->post('name_txt_idmaterial');
+                     $materialqty= $this->input->post('name_txt_jumlah');
+                      $materialnama= $this->input->post('name_txt_material');
+                }
+                 
+           
+              $data['harga']= $grossirprice;
+              $data['minimum']= $minimumqty;
+              $data['maksimum']= $maximumqty;
+              $data['matid']= $materialid;
+              $data['matqty']= $materialqty;
+              $data['matnama']= $materialnama;
+              
+             
+                
+                $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
+        $data['listmaterial'] = $this->M_material->Get_all_material();
+        $data['dataproduct'] = $this->M_product->Get_one_product($this->input->post('name_editidproduct'));
+        
+        //tidak mengirim apa2. kasih -1 agar di view dia gak usah looping
+        $data['dataproductmaterial'] = -1;
+        $data['dataharga'] = -1;
+              
+        
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_edit_product_back',$data);
+                $this->load->view('back/v_footer_back');
+            } else {
+
+           
             $id = $this->input->post('name_editidproduct');
             $name = $this->input->post('name_editname');
             $category = $this->input->post('name_editcategory');
@@ -192,6 +303,7 @@ class Product extends CI_Controller {
 
 
             redirect('Back/Product/Show_edit_product/' . $id);
+            }
         }
     }
 

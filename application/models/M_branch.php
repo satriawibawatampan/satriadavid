@@ -41,7 +41,7 @@ class M_branch extends CI_Model {
             
         );
          $this->db->where('id', $idadmin);
-         $this->db->update(admin,$data);
+         $this->db->update('admin',$data);
     }
     
     function Edit_branch($id,$name)

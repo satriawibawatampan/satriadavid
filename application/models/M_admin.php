@@ -17,9 +17,11 @@ class M_admin extends CI_Model {
         $query = $this->db->get();
 
         //cek status aktif baru ambil datanya.
+     if($query->row()!=null){
         if ($query->row()->statusaktif == 1) {
             $ambilgaram = $query->row();
         }
+    }
 
         if (isset($ambilgaram)) {
             $garam = $ambilgaram->salt;
@@ -37,7 +39,7 @@ class M_admin extends CI_Model {
             return $tampung;
         } else {
             return null;
-            //redirect('Back/Account/Show_login');
+    
         }
     }
 

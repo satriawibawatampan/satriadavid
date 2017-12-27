@@ -96,7 +96,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Material</label>
                         <div class="col-md-2">
-                            <select id="id_material" class="form-control"   selected ="select" >
+                            <select id="id_material" onchange="checktipe()" class="form-control"   selected ="select" >
                                 <?php foreach ($listmaterial as $item) { ?>
 
                                     <option value="<?php echo $item->id; ?>" ><?php echo $item->nama; ?></option>
@@ -116,10 +116,11 @@
                                 <?php echo form_error('name_buyingprice'); ?>
                             </span>
                         </div>
+                        <span class="cm">/CM</span>
 
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Quantity (Big Pack)</label>
+                    <div class="form-group" id="id_div_pack">
+                        <label class="col-md-2 control-label">Roll</label>
                         <div class="col-md-2">
                             <input id="id_quantity" class="form-control" placeholder="Quantity" type="number" value="<?php echo set_value('name_quantity'); ?>">
                             <span class="col-md-9 text-danger">
@@ -129,14 +130,18 @@
 
                     </div>
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Amount per Pack</label>
+                        <label class="col-md-2 control-label" id="id_label">Amount per Pack</label>
                         <div class="col-md-2 ">
                             <input id="id_amountperpack" class="form-control"  placeholder="Ammount per Pack" type="number" value="<?php echo set_value('name_amountperpack'); ?>">
+                            
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_amountperpack'); ?>
                             </span>
 
                         </div>
+                       
+                        <span class="cm">CM</span>
+                       
 
                     </div>
 
@@ -194,7 +199,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
-                                <input onclick="check_all_not_null();" type="submit" name="test" id="id_button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
+                                <input onclick="check_all_not_null();" type="button" name="test" id="id_button_addpurchasingnote" class="btn btn-primary " value="Create Purchasing Note">
                                 <input type="hidden" name="button_addpurchasingnote" value="1"/>
                             </div>
                         </div>
@@ -218,7 +223,68 @@
 </div>
 
 <script>
+
+ window.onload = function () {
+                          
+                            checktipe();
+
+
+                        };
+                        
+                        function checktipe()
+                        {
+                            var tipenya = null;
+                          
+                            
+                                // alert("a");
+                                $.ajax({
+                                    async: true, 
+                                    type: "POST",
+                                    url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_one_material/" + $("#id_material").val(),
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (result) {
+
+                                      // alert(result['tipe']);
+                                        
+                                          //  name=result;
+                                            tipenya = result['tipe'];
+
+                                            if (tipenya == 1) {
+                                                
+                                                //alert(tipenya);
+                                                $("#id_quantity").val(1);
+                                                $("#id_div_pack").show();
+                                                $("#id_label").text("Long per Roll");
+                                                $("#id_amountperpack").attr("placeholder", "Long per Roll");
+                                                $(".cm").show();
+                                            } else {
+                                              //   alert(tipenya);
+                                               $("#id_quantity").val(1);
+                                                $("#id_div_pack").hide();
+                                                $("#id_label").text(" Amount");
+                                               $("#id_amountperpack").attr("placeholder", "Amount");
+                                               $(".cm").hide();
+
+                                            }
+
+
+                                        
+                                    }
+                                });
+
+
+
+
+
+                          
+                        }
+
     var urutan = 1;
+    var pack = $("#id_quantity").val();
+    if(pack === ""){
+        $("#id_quantity").val(1);
+    }
     function add_table_purchasing()
     {
        
@@ -300,12 +366,9 @@
 
     function check_all_not_null()
     {
-        $("#id_button_addpurchasingnote").prop('disabled', true);
+        
         if ($('.hitung').length == 0 || $("#id_supplier")==null)
         {
-            $("#smart-form-register").submit(function (e) {
-                e.preventDefault();
-            });
             alert("Register at least 1 material to purchasing note & Supplier can't be Null");
             $("#id_button_addpurchasingnote").prop('disabled', false);
 

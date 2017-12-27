@@ -162,9 +162,13 @@
                                             foreach ($tablekategori as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->id . '</td>';
-                                                echo ' <td class = " expand"><span class = "responsiveExpander"></span>' . $hasil->nama . '</td>';
-                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                       </td>';
+                                               
+                                                echo ' <td class = " expand"><a onclick="show_product_in_category(' . $hasil->id . ',\'' . $hasil->nama . '\')" lass="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myProductModal"><span class = "responsiveExpander"></span>' . $hasil->nama . '</a></td>';
+                                                echo '<td>';
+                                                 if ($hasil->id !=1) {
+                                                echo '<a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                                      }
+                                                       echo '</td>';
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -257,6 +261,44 @@
 
     </div>
 </div>
+
+<!-- MODAL myProduct -->
+    <div class="modal fade" id="myProductModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Product in Category <span id="span_nama_category" style="color:blue"></span> </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-body no-padding">
+
+                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
+                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Products</th>
+                                        
+
+
+                                </thead>
+                                <tbody id="tablebody">	
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 <!-- MODAL Edit -->
 <div class="modal fade" id="myEditModal" role="dialog">
     <div class="modal-dialog">
@@ -331,4 +373,30 @@ function editdata($idnya,$nama)
     $("#editname2").val($nama);
     $("#id_hidden_edit").val($idnya);
 }
+
+function show_product_in_category(idnya, nama)
+    {
+
+        $("#span_nama_category").text(nama + " (Category " + nama + ")");
+        $("#tablebody").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_product_in_category/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                // alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#tablebody").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                           
+                            "<td>" + name['nama'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
+    }
 </script>

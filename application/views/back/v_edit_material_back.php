@@ -77,7 +77,7 @@
 
             <div class="widget-body ">
 
-                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="form-horizontal" novalidate="novalidate" method="post">
+                <form role='form' id="smart-form-register-edit-material" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="form-horizontal" novalidate="novalidate" method="post">
                     <input required  class="form-control" name="name_editid" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editid', $datamaterial->id); ?>" />
 
                     <div class="form-group">
@@ -102,6 +102,8 @@
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
                             <input class="form-control" name="name_editname" placeholder="Name" type="text" value="<?php echo set_value('name_editname', $datamaterial->nama); ?>">
+                            <input class="form-control" name="name_editname2" placeholder="Name" type="hidden" value="<?php echo set_value('name_editname2', $datamaterial->nama); ?>">
+                            
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
                             </span>
@@ -201,7 +203,7 @@
                     </div>
                 <?php } ?>
 
-                <form id="existing" role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_stock_material" class="form-horizontal" novalidate="novalidate" method="post">
+                <form id="existing" role='form' id="smart-form-register-edit-stok" action="<?php echo base_url(); ?>Back/Material/Edit_stock_material" class="form-horizontal" novalidate="novalidate" method="post">
 
                     <div class="form-group">
                         <label class="col-md-2 control-label">Exsisting Stock</label>

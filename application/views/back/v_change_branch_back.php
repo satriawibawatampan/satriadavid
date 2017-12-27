@@ -290,7 +290,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Category</h4>
+                <h4 class="modal-title">Edit Branch</h4>
             </div>
 
             <form class="smart-form"  role="form" action="<?php echo base_url(); ?>Back/Branch/Edit_branch" method="post">
@@ -305,7 +305,7 @@
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                                 <input type="text" name="name_editname"  id="editname" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <input type="text" name="name_editname2"  id="editname2" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input type="hidden" name="name_editname2"  id="editname2" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to edit branch</b>
                             </label>
                             <span class="col-md-9 text-danger">

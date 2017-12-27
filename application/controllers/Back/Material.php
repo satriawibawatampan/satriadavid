@@ -87,10 +87,30 @@ class Material extends CI_Controller {
         $this->load->view('back/v_footer_back');
     }
 
+public function unique_material_name($str)
+        {
+            $boleh = $this->M_material->Unique_material_name($str);
+            //print_r($boleh); exit();
+                if (strtolower($boleh) == strtolower($str))
+                {
+                        $this->form_validation->set_message('unique_material_name', 'The {field} field must be unique material name in branch '. $this->session->userdata['xcellent_cabang_name']);
+                        return FALSE;
+                }
+            $boleh = $this->M_product->Unique_product_name($str);
+                if (strtolower($boleh) == strtolower($str))
+                {
+                        $this->form_validation->set_message('unique_material_name', 'The {field} field must be unique product name in branch '. $this->session->userdata['xcellent_cabang_name']);
+                        return FALSE;
+                }
+                else
+                {
+                        return TRUE;
+                }
+        }
     public function Add_material() {
         if ($this->input->post('button_addmaterial')) {
 
-            $this->form_validation->set_rules('name_name', 'Name', 'required');
+            $this->form_validation->set_rules('name_name', 'Name', 'required|callback_unique_material_name');
             $this->form_validation->set_rules('name_type', 'Type', 'required');
             $this->form_validation->set_rules('name_hpp', 'Phone', 'required');
             $this->form_validation->set_rules('name_retailprice', 'Retail Price', 'required');
@@ -105,10 +125,27 @@ class Material extends CI_Controller {
                     "submenu" => "add",
                     "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
+                
+                 if ($this->input->post('name_price') != null) {
+                    $grossirprice = $this->input->post('name_price');
+                    $minimumqty = $this->input->post('name_qty_min');
+                    $maximumqty = $this->input->post('name_qty_max');
+                    // redirect('Back/Material/Show_add_material');
+                }
+                
+               // $data=array();
+               // array_push($data, $grossirprice);
+                //  array_push($data, $minimumqty);
+                 //   array_push($data, $maximumqty);
+                      
+              $data['harga']= $grossirprice;
+              $data['minimum']= $minimumqty;
+              $data['maksimum']= $maximumqty;
+             // $data['idopen'] = $this->input->post('name_hidden_idedit') ;
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
                 $this->load->view('back/v_navigation_back', $navigation);
-                $this->load->view('back/v_add_material_back');
+                $this->load->view('back/v_add_material_back',$data);
                 $this->load->view('back/v_footer_back');
             } else {
 
@@ -200,21 +237,45 @@ class Material extends CI_Controller {
     public function Edit_material() {
 
         if ($this->input->post('button_editmaterial')) {
+            if($this->input->post('name_editname')!=$this->input->post('name_editname2'))
+            {
+              $this->form_validation->set_rules('name_editname', 'Name', 'required|callback_unique_material_name');
+            }
+            $this->form_validation->set_rules('name_edittype', 'Type', 'required');
+            $this->form_validation->set_rules('name_edithpp', 'Phone', 'required');
+                      $this->form_validation->set_rules('name_minimumstock', 'Minimum Stock', 'required');
+            
+             if ($this->form_validation->run() == FALSE) {
+                 $data['datamaterial'] = $this->M_material->Json_get_one_material($this->input->post('name_editid'));
+        $data['datadetailmaterial'] = $this->M_material->Json_get_detail_material($this->input->post('name_editid'));
+
+        $navigation = array(
+            "menu" => "material",
+            "submenu" => "all",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+        );
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back', $navigation);
+        $this->load->view('back/v_edit_material_back', $data);
+        $this->load->view('back/v_footer_back');
+            } else {
+            
             $id = $this->input->post('name_editid');
             $nama = $this->input->post('name_editname');
+            $namalama = $this->input->post('name_editname2');
             $tipe = $this->input->post('name_edittype');
             $hpp = $this->input->post('name_edithpp');
             $name_minimumstock = $this->input->post('name_minimumstock');
 
-            // print_r($id.$nama.$tipe.$hpp);
-            // exit();
 
-            $this->M_material->Edit_material($id, $nama, $tipe, $hpp, $name_minimumstock);
+            $this->M_material->Edit_material($id, $nama, $tipe, $hpp, $name_minimumstock,$namalama);
             $this->session->set_flashdata('pesanform', "Your Material , " . $nama . " , has been edited");
             $this->session->keep_flashdata('pesanform');
 
 
             redirect('Back/Material/Show_edit_material/' . $id);
+            }
         }
     }
 

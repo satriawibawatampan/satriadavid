@@ -163,7 +163,7 @@
                                                 <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Grandtotal</th>
                                                 <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">HPP</th>
                                                 <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Margin</th>
-
+                                                <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">%</th>
 
 
 
@@ -176,20 +176,20 @@
                                                 $margin =($hasil->grandtotal-$hasil->hpp);
                                                 $persen = ($margin*100/$grandtotal);
                                                 
-                                                //number_format ( $margin , 2 , "." , "," );
+                                            
+                                                
+                                                
                                                
                                                 
-                                                echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->tanggalupdate . '</td>';
-                                                echo '<td><a target="_blank" href="'. base_url().'Back/Order/Prints/'. $hasil->idnotajual.'">Order Note '. $hasil->idnotajual . '</a>';
-                                                echo '<td>' . number_format ( $hasil->grandtotal , 0 , "." , "," ) . '</td>';
-                                                echo '<td>' .  number_format ( $hasil->hpp , 0 , "." , "," ) . '</td>';
+                                              echo '<tr role = "row" class = "odd">';
+                                               echo '<td>' . $hasil->tanggalupdate . '</td>';
+                                             echo '<td><a target="_blank" href="'. base_url().'Back/Order/Prints/'. $hasil->idnotajual.'">Order Note '. $hasil->idnotajual . '</a>';
+                                               echo '<td>' . number_format ( $hasil->grandtotal , 0 , "." , "," ) . '</td>';
+                                               echo '<td>' .  number_format ( $hasil->hpp , 0 , "." , "," ) . '</td>';
                                                 
-                                                echo '<td>'.number_format ( $margin , 0 , "." , "," ) .' ( '. number_format ( $persen , 2 , "." , "," ).'% )</td>';
-
-
-
-                                                echo '</tr>';
+                                               echo '<td>'.number_format ( $margin , 0 , "." , "," ) .'</td>';
+                                               echo '<td>'. number_format ( $persen , 2 , "." , "," ).'% </td>';
+ echo '</tr>';
                                             }
                                              ?>
                                             
