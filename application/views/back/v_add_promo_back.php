@@ -276,7 +276,7 @@
     {
         var numItems = $('.hitung').length;
 
-        var id = event.target.id;
+       // var id = event.target.id;
         var counterwhile = 1;
         while (numItems > 0)
         {   // jika yang dipilih ada di id-text_id_material(table)

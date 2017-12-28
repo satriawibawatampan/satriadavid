@@ -116,7 +116,7 @@
                             var numItem = $('.hitung').length;
 
                             var grandtotal = 0;
-                            var id = event.target.id;
+                         //   var id = event.target.id;
                             var counterwhile = 1;
                             while (numItem > 0)
                             {   // jika yang dipilih ada di id-text_id_material_product(table)
@@ -140,7 +140,7 @@
                             var numItem = $('.hitung').length;
 
                             var totaldiskon = 0;
-                            var id = event.target.id;
+                        //    var id = event.target.id;
                             var counterwhile = 1;
                             while (numItem > 0)
                             {   // jika yang dipilih ada di id-text_id_material_product(table)

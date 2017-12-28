@@ -12,6 +12,7 @@ class Account extends CI_Controller {
 
         $this->load->model('M_admin');
          $this->load->model('M_material');
+         $this->load->model('M_setting');
         $this->load->library('session');
         $this->load->helper(array('form', 'url', 'string'));
         $this->load->library('form_validation');
@@ -180,6 +181,26 @@ class Account extends CI_Controller {
             $this->load->view('back/v_header_back');
             $this->load->view('back/v_navigation_back', $navigation);
             $this->load->view('back/v_change_password_back');
+            $this->load->view('back/v_footer_back');
+        } else {
+            redirect('Back/Account/Show_login');
+        }
+    }
+    
+     public function Show_setting() {
+
+        if (isset($this->session->userdata['xcellent_id'])) {
+            $navigation=array(
+                    "menu" => "profile",
+                    "submenu" => "setting",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+            );
+            
+            $data['datasetting'] = $this->M_setting->Get_all_setting();
+            $this->load->view('back/v_head_admin_back');
+            $this->load->view('back/v_header_back');
+            $this->load->view('back/v_navigation_back', $navigation);
+            $this->load->view('back/v_setting_back',$data);
             $this->load->view('back/v_footer_back');
         } else {
             redirect('Back/Account/Show_login');

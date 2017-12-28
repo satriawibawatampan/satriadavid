@@ -36,6 +36,9 @@
                             <a href="<?php echo base_url(); ?>Back/Payment/index"><i class=""></i> <span class="menu-item-parent">Payment</span></a>
 
                         </li>
+                        <li class="<?php if ($menu == "profile" && $submenu == "setting") echo "active"; ?>">
+                        <a href="<?php echo base_url(); ?>Back/Account/Show_setting" ><span class="menu-item-parent">Setting</span></a>
+                    </li>
                     <?php } ?>
                     
                     <li class="<?php if ($menu == "profile" && $submenu == "changepassword") echo "active"; ?>">

@@ -1,6 +1,6 @@
 <?php
 
-class M_admin extends CI_Model {
+class M_setting extends CI_Model {
 
     function __construct() {
         parent::__construct();
@@ -8,92 +8,12 @@ class M_admin extends CI_Model {
         $this->load->helper('date');
     }
 
-    function Cek_login($email, $pass) {
-
-        $this->db->select("salt,statusaktif");
-
-        $this->db->from('admin');
-        $this->db->where('email', $email);
-        $query = $this->db->get();
-
-        //cek status aktif baru ambil datanya.
-     if($query->row()!=null){
-        if ($query->row()->statusaktif == 1) {
-            $ambilgaram = $query->row();
-        }
-    }
-
-        if (isset($ambilgaram)) {
-            $garam = $ambilgaram->salt;
-            $password = md5($pass);
-            $password = $password . $garam;
-            $password = md5($password);
-
-            $this->db->select("admin.*, cabang.nama as nama_cabang");
-            $this->db->from('admin');
-            $this->db->join('cabang', "admin.id_cabang = cabang.id");
-            //$this->db->join('setting', "admin.id_cabang = setting.id_cabang","left");
-            $this->db->where('email', $email);
-            $this->db->where('password', $password);
-            $query = $this->db->get();
-            $tampung = $query->row_array();
-            return $tampung;
-        } else {
-            return null;
     
-        }
-    }
 
-    function Add_admin($name, $email, $salt, $password, $phone, $address, $type, $branch) {
-
-        date_default_timezone_set('Asia/Jakarta');
-
-        $data = array(
-            'nama' => $name,
-            'email' => $email,
-            'id_tipeadmin' => $type,
-            'password' => $password,
-            'salt' => $salt,
-            'id_cabang' => $branch,
-            'statusaktif' => 1,
-            'telepon' => $phone,
-            'alamat' => $address,
-            'id_admin' => $this->session->userdata['xcellent_id'],
-            'createdAt' => date('Y-m-d H:i:s'),
-            'updatedAt' => date('Y-m-d H:i:s')
-        );
-
-        $this->db->insert('admin', $data);
-    }
-
-    function Add_admin_type($name) {
-        date_default_timezone_set('Asia/Jakarta');
-        $data = array(
-            'nama' => $name,
-            'statusaktif' => 1,
-            'createdAt' => date('Y-m-d H:i:s'),
-            'updatedAt' => date('Y-m-d H:i:s')
-        );
-
-        $this->db->insert('tipeadmin', $data);
-    }
-    
-    function Edit_admin_type($name,$id)
-    {
-        date_default_timezone_set('Asia/Jakarta');
-        $data = array(
-            'nama' => $name
-                
-            
-        );
-        $this->db->where('id', $id);
-        $this->db->update('tipeadmin', $data);
-    }
-
-    function Get_all_admintype() {
+    function Get_all_setting() {
         $this->db->select('*');
-        $this->db->from('tipeadmin');
-        $this->db->where('statusaktif', 1);
+        $this->db->from('setting');
+        $this->db->where('id_cabang', $this->session->userdata['xcellent_cabang']);
         $query = $this->db->get();
         return $query->result();
     }
