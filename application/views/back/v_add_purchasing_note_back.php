@@ -109,9 +109,9 @@
 
 
                     <div class="form-group">
-                        <label class="col-md-2 control-label">Buying Price per Single Item</label>
+                        <label class="col-md-2 control-label">HPP</label>
                         <div class="col-md-2">
-                            <input id="id_buyingprice" required class="form-control"  placeholder="HPP" type="number" value="<?php echo set_value('name_buyingprice'); ?>">
+                            <input id="id_buyingprice" required class="form-control"    type="number" value="<?php echo set_value('name_buyingprice'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_buyingprice'); ?>
                             </span>
@@ -122,7 +122,7 @@
                     <div class="form-group" id="id_div_pack">
                         <label class="col-md-2 control-label">Roll</label>
                         <div class="col-md-2">
-                            <input id="id_quantity" class="form-control" placeholder="Quantity" type="number" value="<?php echo set_value('name_quantity'); ?>">
+                            <input id="id_quantity" class="form-control"   type="number" min="0" value="<?php echo set_value('name_quantity'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_quantity'); ?>
                             </span>
@@ -132,7 +132,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" id="id_label">Amount per Pack</label>
                         <div class="col-md-2 ">
-                            <input id="id_amountperpack" class="form-control"  placeholder="Ammount per Pack" type="number" value="<?php echo set_value('name_amountperpack'); ?>">
+                            <input id="id_amountperpack" class="form-control"   type="number" min="0" value="<?php echo set_value('name_amountperpack'); ?>">
                             
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_amountperpack'); ?>
@@ -177,8 +177,8 @@
                                                 <tr >
                                                     <th class="col-xs-3"  >Material</th>
                                                     <th    >Buying Price</th>
-                                                    <th   >Quantity</th>
-                                                    <th   >Amount per Pack</th>
+                                                    <th   >Roll</th>
+                                                    <th   >Long / Quantity</th>
                                                     <th   >Subtotal</th>
 
 
@@ -256,14 +256,14 @@
                                                 $("#id_quantity").val(1);
                                                 $("#id_div_pack").show();
                                                 $("#id_label").text("Long per Roll");
-                                                $("#id_amountperpack").attr("placeholder", "Long per Roll");
+                                               
                                                 $(".cm").show();
                                             } else {
                                               //   alert(tipenya);
                                                $("#id_quantity").val(1);
                                                 $("#id_div_pack").hide();
                                                 $("#id_label").text(" Amount");
-                                               $("#id_amountperpack").attr("placeholder", "Amount");
+                                               
                                                $(".cm").hide();
 
                                             }
@@ -287,8 +287,12 @@
     }
     function add_table_purchasing()
     {
-       
-        if (
+       if(document.getElementById('id_quantity').value == 0 ||
+                document.getElementById('id_amountperpack').value == 0)
+       {
+           alert("Quantity can't be null");
+        }
+        else if (
                 document.getElementById('id_material').value.length > 0 &&
                 document.getElementById('id_buyingprice').value.length > 0 &&
                 document.getElementById('id_quantity').value.length > 0 &&
@@ -303,13 +307,13 @@
 
                 $("#id_body_table").append(
                         "<tr id='tr_" + urutan + "'>" +
-                        "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]' placeholder='Id Material' type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]' placeholder='Buying Price' type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]' placeholder='Quantity' type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]' placeholder='Amount per Pack' type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]' placeholder='Subtotal' type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]'   type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]'   type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]'   type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]'  type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
+                        "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]'   type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
                         "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]' placeholder='Id Material' type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
+                        "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]'   type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
                         "</tr>");
 
                 urutan++;

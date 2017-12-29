@@ -78,13 +78,13 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Promo/Edit_promo" class="form-horizontal" novalidate="novalidate" method="post">
- <input required  class="form-control" id='id_editid' name="name_editid" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editid', $datapromo->id); ?>" />
+ <input required  class="form-control" id='id_editid' name="name_editid"  type="hidden" value="<?php echo set_value('name_editid', $datapromo->id); ?>" />
 
 
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input id="id_txt_name_product" class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name', $datapromo->nama); ?>">
+                            <input id="id_txt_name_product" class="form-control" name="name_name"  type="text" value="<?php echo set_value('name_name', $datapromo->nama); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_name'); ?>
                             </span>
@@ -94,13 +94,13 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Start - End</label>
                         <div class="col-md-2">
-                            <input id="id_datetime_start" class="form-control" name="name_start" placeholder="Start" type="date" value="<?php echo set_value('name_start', $datapromo->awal); ?>">
+                            <input id="id_datetime_start" class="form-control" name="name_start"  type="date" value="<?php echo set_value('name_start', $datapromo->awal); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_start'); ?>
                             </span>
                         </div>
                         <div class="col-md-2">
-                            <input id="id_datetime_end" class="form-control" name="name_end" placeholder="End" type="date" value="<?php echo set_value('name_end', $datapromo->akhir); ?>">
+                            <input id="id_datetime_end" class="form-control" name="name_end"   type="date" value="<?php echo set_value('name_end', $datapromo->akhir); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_end'); ?>
                             </span>
@@ -151,10 +151,10 @@
                                     if($datapromoproduct != -1){
                                     foreach($datapromoproduct as $itempromoproduct){ ?>
                                     <tr id='tr_<?php echo $urutannya; ?>'>
-                                        <td> <div ><input readonly id='id_txt_product_<?php echo $urutannya; ?>' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='<?php echo $itempromoproduct->namaproduct; ?>'></div></td> 
-                                        <td> <div ><input readonly id='id_txt_discount_<?php echo $urutannya; ?>' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='<?php echo $itempromoproduct->diskon; ?>'></div></td> 
+                                        <td> <div ><input readonly id='id_txt_product_<?php echo $urutannya; ?>' class='form-control' name='name_txt_product[]'   type='text' value='<?php echo $itempromoproduct->namaproduct; ?>'></div></td> 
+                                        <td> <div ><input readonly id='id_txt_discount_<?php echo $urutannya; ?>' class='form-control' name='name_txt_discount[]'  type='number' value='<?php echo $itempromoproduct->diskon; ?>'></div></td> 
                                         <td> <div ><i  onclick='remove_promo_tr(<?php echo $urutannya; ?>)' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td> 
-                                        <td ><input readonly id='id_txt_id_product_<?php echo $urutannya; ?>' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='<?php echo $itempromoproduct->id_produk; ?>'></td> 
+                                        <td ><input readonly id='id_txt_id_product_<?php echo $urutannya; ?>' class='form-control hitung' name='name_txt_id_product[]'   type='hidden' value='<?php echo $itempromoproduct->id_produk; ?>'></td> 
                                         </tr>
                                     <?php 
                                     $urutannya++;
@@ -240,10 +240,10 @@
             
                 $("#id_body_table_promo").append(
                         "<tr id='tr_" + urutanpromo + "'>" +
-                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='" + namaproduk[m] + "'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='" + diskon[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]'   type='text' value='" + namaproduk[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]'  type='number' value='" + diskon[m] + "'></div></td>" +
                         "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td hidden ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='" + idproduk[m]+ "'></td>" +
+                        "<td hidden ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]'  type='hidden' value='" + idproduk[m]+ "'></td>" +
                         "</tr>");
                 urutanpromo++;
 
@@ -275,10 +275,10 @@
                 $("#id_table_promo").show();
                 $("#id_body_table_promo").append(
                         "<tr id='tr_" + urutanpromo + "'>" +
-                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]' placeholder='Product' type='text' value='" + $("#id_name_product option:selected").text() + "'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]' placeholder='Discount' type='number' value='" + $("#id_discount").val() + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_product_" + urutanpromo + "' class='form-control' name='name_txt_product[]'  type='text' value='" + $("#id_name_product option:selected").text() + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_discount_" + urutanpromo + "' class='form-control' name='name_txt_discount[]'  type='number' value='" + $("#id_discount").val() + "'></div></td>" +
                         "<td> <div ><i  onclick='remove_promo_tr(" + urutanpromo + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]' placeholder='Qty Max' type='hidden' value='" + $("#id_name_product option:selected").val() + "'></td>" +
+                        "<td ><input readonly id='id_txt_id_product_" + urutanpromo + "' class='form-control hitung' name='name_txt_id_product[]'  type='hidden' value='" + $("#id_name_product option:selected").val() + "'></td>" +
                         "</tr>");
                 urutanpromo++;
                 checkingadaproductsama = 1; // bikin agar isa kebaca lagi

@@ -103,7 +103,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Amount</label>
                         <div class="col-md-3">
-                            <input class="form-control" id="id_deposit" name="name_deposit" placeholder="Deposit" type="number" value="<?php echo set_value('name_deposit'); ?>">
+                            <input class="form-control" id="id_deposit" name="name_deposit"  type="number" value="<?php echo set_value('name_deposit'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_deposit'); ?>
                             </span>

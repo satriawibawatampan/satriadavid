@@ -75,15 +75,15 @@
             <!-- end widget edit box -->
 
             <!-- widget content -->
-            <div class="widget-body no-padding">
+            <div class="widget-body">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Account/Change_setting" class="form-horizontal" novalidate="novalidate" method="post">
 
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Minimal</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_depositminimal" placeholder="Deposit Minimal" min="0" type="number" value="<?php echo set_value('name_depositminimal'); ?>">
+                        <div class="col-md-2">
+                            <input class="form-control" name="name_depositminimal"  min="0" type="number" value="<?php echo set_value('name_depositminimal'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_depositminimal'); ?>
                             </span>
@@ -93,8 +93,8 @@
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Bonus</label>
-                        <div class="col-md-3">
-                            <input class="form-control" name="name_depositbonus" placeholder="Deposit Bonus" type="number" max="100" min="0" value="<?php echo set_value('name_depositbonus',0); ?>">
+                        <div class="col-md-2">
+                            <input class="form-control" name="name_depositbonus"  type="number" max="100" min="0" value="<?php echo set_value('name_depositbonus',0); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_depositbonus'); ?>
                             </span>
@@ -105,7 +105,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Member Price</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_memberprice" placeholder="Member Price" type="number" min="0" value="<?php echo set_value('name_memberprice'); ?>">
+                            <input class="form-control" name="name_memberprice"  type="number" min="0" value="<?php echo set_value('name_memberprice'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_memberprice'); ?>
                             </span>
@@ -114,8 +114,8 @@
                     </div>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Point Price</label>
-                        <div class="col-md-6">
-                            <input class="form-control" name="name_pointprice" placeholder="Point Price"  type="number" min="0" value="<?php echo set_value('name_pointprice'); ?>" >
+                        <div class="col-md-2">
+                            <input class="form-control" name="name_pointprice"   type="number" min="0" value="<?php echo set_value('name_pointprice'); ?>" >
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_pointprice'); ?>
                             </span>
@@ -149,149 +149,10 @@
 
         </div>
 
-        <header role="heading">
-            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-            <h2>Add Branch Form </h2>				
-
-            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
-
-        <!-- widget div-->
-        <div role="content">
-
-            <!-- widget edit box -->
-            <!-- end widget edit box -->
-
-            <!-- widget content -->
-            <div class="widget-body no-padding">
-
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="smart-form" novalidate="novalidate" method="post">
-                    <header>
-                        Add Branch form
-                    </header>
+        
 
 
-                    <fieldset>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input type="text" name="name_branch" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_branch'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the Branch</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-<?php echo form_error('name_branch'); ?>
-                            </span>
-                        </section>
-
-
-
-                    </fieldset>
-
-
-                    <footer>
-                        <input type="submit" name="button_addbranch" class="btn btn-primary" value="Submit">
-
-
-                    </footer>
-                </form>						
-
-            </div>
-            <!-- end widget content -->
-
-        </div>
-        <!-- end widget div -->
-
-        <div>
-
-        </div>
-
-
-        <section id="widget-grid" class="">
-
-            <!-- row -->
-            <div class="row">
-
-                <!-- NEW WIDGET START -->
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                    <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" id="wid-id-2" data-widget-editbutton="false" role="widget">
-
-                        <header role="heading">
-                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                            <h2>Hide / Show Columns </h2>
-
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
-
-                        <!-- widget div-->
-                        <div role="content">
-
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
-
-                            </div>
-                            <!-- end widget edit box -->
-
-                            <!-- widget content -->
-                            <div class="widget-body no-padding">
-
-                                <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-
-                                    <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Branch Name</th>
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
-                                        </thead>
-                                        <tbody>	
-                                            <?php
-                                            foreach ($listbranch as $hasil) {
-                                                echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
-                                                echo ' <td class = " expand"><span class = "responsiveExpander"></span>' . $hasil->nama . '</td>';
-                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                       </td>';
-                                                echo '</tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                    <div class = "dt-toolbar-footer">
-
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!--end widget content -->
-
-                        </div>
-                        <!--end widget div -->
-
-                    </div>
-                    <!--end widget -->
-
-                </article>
-                <!--WIDGET END -->
-
-            </div>
-
-            <!--end row -->
-
-            <!--row -->
-
-            <div class = "row">
-
-                <!--a blank row to get started -->
-                <div class = "col-sm-12">
-                    <!--your contents here -->
-                </div>
-
-            </div>
-
-            <!--end row -->
-
-        </section>
+        
 
 
 
@@ -302,58 +163,6 @@
 
 
 
-<!-- MODAL Edit -->
-<div class="modal fade" id="myEditModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Branch</h4>
-            </div>
-
-            <form class="smart-form"  role="form" action="<?php echo base_url(); ?>Back/Branch/Edit_branch" method="post">
-
-                <div class="modal-body">
-                    <header>
-                        Edit Branch Form
-                    </header>
-                    <input hidden type="text" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
-
-                    <fieldset>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input type="text" name="name_editname"  id="editname" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <input type="hidden" name="name_editname2"  id="editname2" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to edit branch</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-<?php echo form_error('name_editname'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-
-
-        <!--<p></p>-->
-                    <div class="modal-footer">
-                        <div class="form-group">
-                            <div class="">
-                                <input type="submit" class="  btn  btn-primary btn-lg " name="button_editbranch" value="Edit" >
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-                </div>
-            </form>
-
-        </div>
-
-    </div>
-</div>
 </div>
 <script>
     $(document).ready(function () {

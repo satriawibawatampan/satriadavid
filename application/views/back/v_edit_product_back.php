@@ -67,7 +67,7 @@
 
         <header role="heading">
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-            <h2>Edit Material Form </h2>				
+            <h2>Edit Product Form </h2>				
 
             <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
@@ -104,8 +104,8 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input id="id_txt_name_product" class="form-control" name="name_editname" placeholder="Name" type="text" value="<?php echo set_value('name_editname', $dataproduct->nama); ?>">
-                            <input id="id_txt_name_product" class="form-control" name="name_editname2" placeholder="Name" type="hidden" value="<?php echo set_value('name_editname2', $dataproduct->nama); ?>">
+                            <input id="id_txt_name_product" class="form-control" name="name_editname"  type="text" value="<?php echo set_value('name_editname', $dataproduct->nama); ?>">
+                            <input id="id_txt_name_product" class="form-control" name="name_editname2"  type="hidden" value="<?php echo set_value('name_editname2', $dataproduct->nama); ?>">
                             
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
@@ -159,9 +159,9 @@
                                         
                                         ?>
                                         <tr id='tr_<?php echo $urutanmaterial; ?>'>
-                                            <td><div><input readonly id='id_txt_material_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='<?php echo $productmaterial->namamaterial; ?>'></div></td>
-                                            <td><div><input readonly id='id_txt_jumlah_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_jumlah[]' placeholder='Qty Min' type='number' value='<?php echo $productmaterial->jumlah; ?>'></div></td>
-                                            <td><div><input readonly id='id_txt_id_material_<?php echo $urutanmaterial; ?>'class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Min' type='hidden' value='<?php echo $productmaterial->id_material; ?>'></div></td>
+                                            <td><div><input readonly id='id_txt_material_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_material[]'   type='text' value='<?php echo $productmaterial->namamaterial; ?>'></div></td>
+                                            <td><div><input readonly id='id_txt_jumlah_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_jumlah[]' type='number' value='<?php echo $productmaterial->jumlah; ?>'></div></td>
+                                            <td><div><input readonly id='id_txt_id_material_<?php echo $urutanmaterial; ?>'class='form-control hitung' name='name_txt_idmaterial[]'  type='hidden' value='<?php echo $productmaterial->id_material; ?>'></div></td>
                                             <td> <div ><i  onclick='remove_material_tr(<?php echo $urutanmaterial; ?>)' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>
                                         </tr>
                                         <?php
@@ -246,9 +246,9 @@
                                     foreach ($dataharga as $datahargax) {
                                         ?>
                                         <tr>
-                                            <td> <div ><input readonly id='id_txt_qty_min_<?php echo $urutan; ?>' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='<?php echo $datahargax->batasbawah; ?>'></div></td>
-                                            <td> <div ><input readonly id='id_txt_qty_max_<?php echo $urutan; ?>' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='<?php echo $datahargax->batasatas; ?>'></div></td>
-                                            <td> <div ><input  readonly id='id_txt_price_<?php echo $urutan; ?>' class='form-control hitungmaterial' name='name_price[]' placeholder='Price' type='number' value='<?php echo $datahargax->hargajual; ?>'></div></td>
+                                            <td> <div ><input readonly id='id_txt_qty_min_<?php echo $urutan; ?>' class='form-control' name='name_qty_min[]' type='number' value='<?php echo $datahargax->batasbawah; ?>'></div></td>
+                                            <td> <div ><input readonly id='id_txt_qty_max_<?php echo $urutan; ?>' class='form-control' name='name_qty_max[]'  type='number' value='<?php echo $datahargax->batasatas; ?>'></div></td>
+                                            <td> <div ><input  readonly id='id_txt_price_<?php echo $urutan; ?>' class='form-control hitungmaterial' name='name_price[]' type='number' value='<?php echo $datahargax->hargajual; ?>'></div></td>
                                         </tr>
                                         <?php
                                         $urutan += 1;
@@ -341,9 +341,9 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
             for(var m = 0; m< hargakembali.length; m++){
             $("#id_body_table").append(
                     "<tr>" +
-                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='"+minqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='"+maxqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='"+hargakembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'   type='number' value='"+minqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'  type='number' value='"+maxqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]'   type='number' value='"+hargakembali[m]+"'></div></td>" +
                     "</tr>");
 
 
@@ -356,10 +356,10 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
             for(var m = 0; m< matid.length; m++){
                 $("#id_body_table_material").append(
                         "<tr id='tr_" + urutanmaterial + "'>" +
-                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='"+matnama[m]+"'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]' placeholder='Qty Max' type='number' value='"+matqty[m]+"'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]'   type='text' value='"+matnama[m]+"'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]'   type='number' value='"+matqty[m]+"'></div></td>" +
                         "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Max' type='hidden' value='"+matid[m]+"'></td>" +
+                        "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]'   type='hidden' value='"+matid[m]+"'></td>" +
                         "</tr>");
                 urutanmaterial++;
             }
@@ -416,9 +416,9 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
 
             $("#id_body_table").append(
                     "<tr>" +
-                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='1'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='1'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]' placeholder='Price' type='number' value='" + parseInt($("#id_txt_price_retail").val()) + "'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'  type='number' value='1'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'   type='number' value='1'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='form-control' name='name_price[]'   type='number' value='" + parseInt($("#id_txt_price_retail").val()) + "'></div></td>" +
                     "</tr>");
 
 //                    $("#id_txt_qty_min_1").val(1);
@@ -476,9 +476,9 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
                     {
                         $("#id_body_table").append(
                                 "<tr>" +
-                                "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='" + $("#id_input_qty_min").val() + "'></div></td>" +
-                                "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='" + $("#id_input_qty_max").val() + "'></div></td>" +
-                                "<td> <div ><input  readonly id='id_txt_price_" + urutan + "' class='form-control hitungmaterial' name='name_price[]' placeholder='Price' type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'   type='number' value='" + $("#id_input_qty_min").val() + "'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'   type='number' value='" + $("#id_input_qty_max").val() + "'></div></td>" +
+                                "<td> <div ><input  readonly id='id_txt_price_" + urutan + "' class='form-control hitungmaterial' name='name_price[]'   type='number' value='" + $("#id_input_price_grossir").val() + "'></div></td>" +
                                 "</tr>");
                         urutan++;
                         alert("urutan ke " + urutan.toString());
@@ -525,9 +525,9 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
                 $("#id_table_material").show();
                 $("#id_body_table_material").append(
                         "<tr id='tr_" + urutanmaterial + "'>" +
-                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]' placeholder='Qty Min' type='text' value='" + $("#id_name_material option:selected").text() + "'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]' placeholder='Qty Max' type='number' value='" + $("#id_quantity_material").val() + "'></div></td>" +
-                        "<td ><input readonly id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]' placeholder='Qty Max' type='text' value='" + $("#id_name_material option:selected").val() + "'></td>" +
+                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]'   type='text' value='" + $("#id_name_material option:selected").text() + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]'   type='number' value='" + $("#id_quantity_material").val() + "'></div></td>" +
+                        "<td ><input readonly id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]'   type='text' value='" + $("#id_name_material option:selected").val() + "'></td>" +
                         "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
                         "</tr>");
 

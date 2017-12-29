@@ -245,12 +245,12 @@ if ($hasil->id!=0) {
                     <h4 class="modal-title">Edit Member Form</h4>
                 </div>
                 <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Member/Edit_member" class="smart-form" novalidate="novalidate" method="post">
-                    <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
+                    <input hidden id="id_editid" type="text" name="name_editid"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
                     <fieldset>
                         <section>
                             <label class="input control-label">Email</label>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input disabled  id="id_editemail" type="text" name="name_editemail" placeholder="Email" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
+                                <input disabled  id="id_editemail" type="text" name="name_editemail" \ aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Email</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -262,7 +262,7 @@ if ($hasil->id!=0) {
                         <label class="input control-label">Name</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input id="id_editname" type="text" name="name_editname"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -274,7 +274,7 @@ if ($hasil->id!=0) {
                         <label class="input control-label">Address</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id='id_editaddress' type="text" name="name_editaddress" placeholder="Address" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editaddress'); ?>">
+                                <input id='id_editaddress' type="text" name="name_editaddress"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editaddress'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Address</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -286,7 +286,7 @@ if ($hasil->id!=0) {
                         <label class="input control-label">Phone</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id='id_editphonenumber' type="text" name="name_editphone" placeholder="Phone Number" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editphone'); ?>">
+                                <input id='id_editphonenumber' type="text" name="name_editphone"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editphone'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Phone Number</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -298,7 +298,7 @@ if ($hasil->id!=0) {
                         <label class="input control-label">BOD</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editttl" class="form-control" name="name_editttl" placeholder="BOD" type="date" value="<?php echo set_value('name_ttl'); ?>">
+                                <input id="id_editttl" class="form-control" name="name_editttl"  value="<?php echo set_value('name_ttl'); ?>">
 
                             </label>
                             <span class="col-md-9 text-danger">

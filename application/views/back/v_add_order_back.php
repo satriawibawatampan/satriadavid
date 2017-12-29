@@ -654,18 +654,18 @@
                         </div>
 
                         <div class="col-md-1">
-                            <input id="id_quantity" oninput="get_price()" class="form-control" name="name_quantity" placeholder="Quantity" type="number" value="1">
+                            <input id="id_quantity" oninput="get_price()" class="form-control" name="name_quantity"  min="0"  type="number" value="1">
                             <span>Quantity</span>
 
                         </div>
                         <div class="col-md-1">
-                            <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" placeholder="Quantity" type="number" value="1">
+                            <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" type="number" min="0" value="1">
                             <span id="id_span_long" >Long in CM</span>
 
                         </div>
                         <div class="col-md-2">
-                            <input  readonly id="id_unitprice"  class="form-control" name="name_unitprice" placeholder="Price" type="number" value="">
-                            <input   id="id_discount"  class="form-control" name="name_discount" placeholder="Price" type="hidden" value="0">
+                            <input  readonly id="id_unitprice"  class="form-control" name="name_unitprice"  type="number" value="">
+                            <input   id="id_discount"  class="form-control" name="name_discount" type="hidden" value="0">
                             <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
                         </div>
 
@@ -673,7 +673,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1"></label>
                         <div class="col-md-6">
-                            <textarea id="id_deskripsi" class="form-control" name="name_deskripsi" placeholder="Description" rows="4" ><?php echo set_value('name_deskripsi'); ?></textarea>
+                            <textarea id="id_deskripsi" class="form-control" name="name_deskripsi"  rows="4" ><?php echo set_value('name_deskripsi'); ?></textarea>
 
                         </div>
                     </div>
@@ -779,7 +779,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">BOD</label>
                                         <div class="col-md-4">
-                                            <input id="daftar_ttl" class="form-control" name="daftar_ttl" placeholder="BOD" type="date" value="<?php echo set_value('daftar_ttl'); ?>">
+                                            <input id="daftar_ttl" class="form-control" name="daftar_ttl"  type="date" value="<?php echo set_value('daftar_ttl'); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -806,7 +806,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                         <div class="col-md-4">
-                                            <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                            <input  id="daftar_deposit" type="number" name="daftar_deposit" min="0"  aria-required="true" class="error" aria-invalid="true" value="" >
                                         </div>
                                     </div>
 

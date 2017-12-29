@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea class="form-control" name="name_description" placeholder="Description" rows="4" ><?php echo set_value('name_description'); ?></textarea>
+                                <textarea class="form-control" name="name_description"  rows="4" ><?php echo set_value('name_description'); ?></textarea>
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_description'); ?>
                                 </span>
@@ -109,7 +109,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1">Amount</label>
                             <div class="col-md-2">
-                                <input class="form-control" name="name_amount" placeholder="Amount" type="number" value="<?php echo set_value('name_amount'); ?>">
+                                <input class="form-control" name="name_amount" min="0" type="number" value="<?php echo set_value('name_amount'); ?>">
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_amount'); ?>
                                 </span>
@@ -169,11 +169,11 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1">Date From - Date To</label>
                             <div class="col-md-2">
-                                <input class="form-control" id="id_from" name="name_from" placeholder="Name" type="Date" value="<?php echo set_value('name_from'); ?>">
+                                <input class="form-control" id="id_from" name="name_from"   type="Date" value="<?php echo set_value('name_from'); ?>">
                             </div>
 
                             <div class="col-md-2">
-                                <input class="form-control"id="id_to" name="name_to" placeholder="Name" type="Date" value="<?php echo set_value('name_to'); ?>">
+                                <input class="form-control"id="id_to" name="name_to"  type="Date" value="<?php echo set_value('name_to'); ?>">
                             </div>
                         </div>
 

@@ -346,7 +346,7 @@
                     <h4 class="modal-title">Edit Material Form</h4>
                 </div>
                 <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="smart-form" novalidate="novalidate" method="post">
-                    <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
+                    <input hidden id="id_editid" type="text" name="name_editid" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
                     <fieldset>
                         <label class="input control-label">Stock Type</label>
                         <section>
@@ -367,7 +367,7 @@
                         <label class="input control-label">Name</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input id="id_editname" type="text" name="name_editname"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
                             </label>
                             <span class="col-md-9 text-danger">
@@ -379,7 +379,7 @@
                         <label class="input control-label">HPP</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_edithpp" type="number" name="name_edithpp" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input id="id_edithpp" type="number" name="name_edithpp" min="0" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the HPP</b>
                             </label>
                             <span class="col-md-9 text-danger">

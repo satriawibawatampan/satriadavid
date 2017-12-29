@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
+                            <input class="form-control" name="name_name"  type="text" value="<?php echo set_value('name_name'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_name'); ?>
                             </span>
@@ -126,7 +126,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Email</label>
                         <div class="col-md-3">
-                            <input class="form-control" name="name_email" placeholder="Email" type="email" value="<?php echo set_value('name_email'); ?>">
+                            <input class="form-control" name="name_email"  type="email" value="<?php echo set_value('name_email'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_email'); ?>
                             </span>
@@ -136,7 +136,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Phone</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_phone" placeholder="Phone" type="text" value="<?php echo set_value('name_phone'); ?>">
+                            <input class="form-control" name="name_phone"  type="text" value="<?php echo set_value('name_phone'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_phone'); ?>
                             </span>
@@ -146,7 +146,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Address</label>
                         <div class="col-md-6">
-                            <textarea class="form-control" name="name_address" placeholder="Address" rows="4" ><?php echo set_value('name_address'); ?></textarea>
+                            <textarea class="form-control" name="name_address"  rows="4" ><?php echo set_value('name_address'); ?></textarea>
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_address'); ?>
                             </span>

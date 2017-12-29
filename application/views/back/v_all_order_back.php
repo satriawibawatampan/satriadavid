@@ -232,7 +232,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="select-1">BOD</label>
                                     <div class="col-md-4">
-                                        <input id="daftar_ttl" class="form-control" name="daftar_ttl" placeholder="BOD" type="date" value="<?php echo set_value('daftar_ttl'); ?>">
+                                        <input id="daftar_ttl" class="form-control" name="daftar_ttl"  type="date" value="<?php echo set_value('daftar_ttl'); ?>">
                                     </div>
                                 </div>
                                 <div class="form-group">

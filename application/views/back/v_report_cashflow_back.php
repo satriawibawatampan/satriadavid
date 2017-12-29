@@ -99,7 +99,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1">Name</label>
                             <div class="col-md-2">
-                                <input class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
+                                <input class="form-control" name="name_name" type="text" value="<?php echo set_value('name_name'); ?>">
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_name'); ?>
                                 </span>
@@ -111,7 +111,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea class="form-control" name="name_description" placeholder="Description" rows="4" ><?php echo set_value('name_description'); ?></textarea>
+                                <textarea class="form-control" name="name_description"  rows="4" ><?php echo set_value('name_description'); ?></textarea>
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_description'); ?>
                                 </span>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1">Amount</label>
                             <div class="col-md-2">
-                                <input class="form-control" name="name_amount" placeholder="Amount" type="number" value="<?php echo set_value('name_amount'); ?>">
+                                <input class="form-control" name="name_amount"  type="number" min="0" value="<?php echo set_value('name_amount'); ?>">
                                 <span class="col-md-9 text-danger">
                                     <?php echo form_error('name_amount'); ?>
                                 </span>

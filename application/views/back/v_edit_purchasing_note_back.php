@@ -201,25 +201,25 @@
                                                         </td>
                                                         <td> 
                                                             <div>
-                                                                <input id="id_editbuyingprice_<?php echo $urutan; ?>" class="form-control" name="name_editbuyingprice[]" placeholder="Buying Price" type="number" value="<?php echo $item->harga; ?>">
+                                                                <input id="id_editbuyingprice_<?php echo $urutan; ?>" class="form-control" name="name_editbuyingprice[]"   type="number" min="0" value="<?php echo $item->harga; ?>">
                                                             </div>
                                                         </td>
                                                         <td> 
                                                             <div>
-                                                                <input  id="id_editquantity_<?php echo $urutan; ?>" class="form-control" name="name_editquantity[]" placeholder="Quantity" type="number" value="<?php echo $item->jumlahmaterial; ?>">
+                                                                <input  id="id_editquantity_<?php echo $urutan; ?>" class="form-control" name="name_editquantity[]"   min="0" type="number" value="<?php echo $item->jumlahmaterial; ?>">
                                                             </div>
                                                         </td>
                                                         <td> 
                                                             <div>
-                                                                <input  id="id_editamountperpack_<?php echo $urutan; ?>" class="form-control" name="name_editamountperpack[]" placeholder="Amount per Pack" type="number" value="<?php echo $item->jumlahperpak; ?>">
+                                                                <input  id="id_editamountperpack_<?php echo $urutan; ?>" class="form-control" name="name_editamountperpack[]"  min="0" type="number" value="<?php echo $item->jumlahperpak; ?>">
                                                             </div>
                                                         </td>
                                                         <td> 
                                                             <div>
-                                                                <input readonly  id="id_editsubtotal_<?php echo $urutan; ?>" class="form-control" name="name_editsubtotal[]" placeholder="Subtotal" type="text" value="<?php echo $item->subtotal; ?>">
+                                                                <input readonly  id="id_editsubtotal_<?php echo $urutan; ?>" class="form-control" name="name_editsubtotal[]"  type="text" value="<?php echo $item->subtotal; ?>">
                                                             </div>
                                                         </td>
-                                                <input id="id_editidmaterialold_<?php echo $urutan; ?>" class="form-control" name="name_editidmaterialold[]" placeholder="Buying Price" type="hidden" value="<?php echo $item->idmaterial; ?>">
+                                                <input id="id_editidmaterialold_<?php echo $urutan; ?>" class="form-control" name="name_editidmaterialold[]"   type="hidden" value="<?php echo $item->idmaterial; ?>">
 
 
                                                 </tr>

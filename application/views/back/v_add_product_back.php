@@ -93,7 +93,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input id="id_txt_name_product" class="form-control" name="name_name" placeholder="Name" type="text" value="<?php echo set_value('name_name'); ?>">
+                            <input id="id_txt_name_product" class="form-control" name="name_name" type="text" value="<?php echo set_value('name_name'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_name'); ?>
                             </span>
@@ -113,7 +113,7 @@
                             </select> 
                         </div>
                         <div   class="col-md-2">
-                            <input class="form-control" name="name_quantity_material"  id="id_quantity_material" placeholder="Quantity" type="number" min="0" value="<?php echo set_value('name_quantity_material'); ?>">
+                            <input class="form-control" name="name_quantity_material"  id="id_quantity_material" placeholder="Quantity" min="0" type="number" min="0" value="<?php echo set_value('name_quantity_material'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_quantity_material'); ?>
                             </span>
@@ -157,7 +157,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Retail Price</label>
                         <div   class="col-md-2">
-                            <input id="id_txt_price_retail" class="form-control" name="name_retailprice" placeholder="Price" type="number" min="0"  value="<?php echo set_value('name_retailprice'); ?>">   
+                            <input id="id_txt_price_retail" class="form-control" name="name_retailprice" type="number" min="0"  value="<?php echo set_value('name_retailprice'); ?>">   
 
 
                             <span class="col-md-9 text-danger">
@@ -301,9 +301,9 @@
             for(var m = 0; m< hargakembali.length; m++){
             $("#id_body_table").append(
                     "<tr>" +
-                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]' placeholder='Qty Min' type='number' value='"+minqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]' placeholder='Qty Max' type='number' value='"+maxqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]' placeholder='Price' type='number' value='"+hargakembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'  type='number' value='"+minqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'  type='number' value='"+maxqtykembali[m]+"'></div></td>" +
+                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]'  type='number' value='"+hargakembali[m]+"'></div></td>" +
                     "</tr>");
 
 

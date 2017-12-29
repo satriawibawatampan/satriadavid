@@ -123,13 +123,10 @@
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
                                                 echo '<td>   <a href="' . base_url() . 'Back/Product/Show_edit_product/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
-                                                 if($hasil->statusaktif==0)
-                                                {
+                                                if ($hasil->statusaktif == 0) {
                                                     echo '<a   onclick="showactivateproduct(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
-                                                }
-                                                else if($hasil->statusaktif==1)
-                                                {
-                                                       echo '<a   onclick="showdeactivateproduct(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
+                                                } else if ($hasil->statusaktif == 1) {
+                                                    echo '<a   onclick="showdeactivateproduct(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }
                                                 echo '</tr>';
                                             }
@@ -304,65 +301,7 @@
 
 
     <!-- MODAL edit -->
-    <div class="modal fade" id="myEditModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Material Form</h4>
-                </div>
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="smart-form" novalidate="novalidate" method="post">
-                    <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
-                    <fieldset>
-                        <label class="input control-label">Stock Type</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <select id="id_edittype" class="form-control" name="name_edittype" id="select-1" selected ="select" >
-                                    <option value="1">Ordinary</option>
-                                    <option value="2">Role</option>
-
-
-                                </select> 
-                            </label>
-                            <span class="col-md-9 text-danger">
-<?php echo form_error('name_edittype'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">Name</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-<?php echo form_error('name_editname'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">HPP</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_edithpp" type="number" name="name_edithpp" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the HPP</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-<?php echo form_error('name_edithpp'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-
-
-                    <footer>
-                        <input type="submit" name="button_editmaterial" class="btn btn-primary" value="Submit">
-                    </footer>
-                </form>	
-            </div>
-        </div>
-    </div>
+    
 
 </div>    
 

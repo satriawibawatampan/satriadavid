@@ -78,7 +78,7 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register-edit-material" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="form-horizontal" novalidate="novalidate" method="post">
-                    <input required  class="form-control" name="name_editid" placeholder="HPP" type="hidden" value="<?php echo set_value('name_editid', $datamaterial->id); ?>" />
+                    <input required  class="form-control" name="name_editid"  type="hidden" value="<?php echo set_value('name_editid', $datamaterial->id); ?>" />
 
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Type</label>
@@ -101,8 +101,8 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
-                            <input class="form-control" name="name_editname" placeholder="Name" type="text" value="<?php echo set_value('name_editname', $datamaterial->nama); ?>">
-                            <input class="form-control" name="name_editname2" placeholder="Name" type="hidden" value="<?php echo set_value('name_editname2', $datamaterial->nama); ?>">
+                            <input class="form-control" name="name_editname"   type="text" value="<?php echo set_value('name_editname', $datamaterial->nama); ?>">
+                            <input class="form-control" name="name_editname2"  type="hidden" value="<?php echo set_value('name_editname2', $datamaterial->nama); ?>">
                             
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
@@ -114,7 +114,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">HPP</label>
                         <div class="col-md-3">
-                            <input required class="form-control" name="name_edithpp" placeholder="HPP" type="number" value="<?php echo set_value('name_edithpp', $datamaterial->hargapokok); ?>" />
+                            <input required class="form-control" name="name_edithpp" min="0" type="number" value="<?php echo set_value('name_edithpp', $datamaterial->hargapokok); ?>" />
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_edithpp'); ?>
                             </span>
@@ -124,7 +124,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Minimum Stock</label>
                         <div class="col-md-3">
-                            <input required class="form-control" name="name_minimumstock" placeholder="Minimum Stock" type="number" value="<?php echo set_value('name_minimumstock', $datamaterial->minimum_stok); ?>" />
+                            <input required class="form-control" name="name_minimumstock" type="number" value="<?php echo set_value('name_minimumstock', $datamaterial->minimum_stok); ?>" />
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_minimumstock'); ?>
                             </span>
@@ -178,11 +178,11 @@
                 <?php } ?>
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Add_more_stock" class="form-horizontal" novalidate="novalidate" method="post">
-                    <input   class='form-control' name='name_addmorestock_idmaterial' placeholder='Stock' type='hidden' value='<?php echo $datamaterial->id; ?>'>
+                    <input   class='form-control' name='name_addmorestock_idmaterial'  type='hidden' value='<?php echo $datamaterial->id; ?>'>
                     <div class="form-group">
                         <label class="col-md-2 control-label">Add more Stock</label>
                         <div class="col-md-3">
-                            <input   class='form-control' name='name_addmorestock_stock' placeholder='Stock' type='number' value=''>
+                            <input   class='form-control' name='name_addmorestock_stock'   type='number' value=''>
                         </div>
                     </div>
                     <footer>
@@ -226,9 +226,9 @@
                                             <tbody id="id_body_table" >	
                                                 <?php foreach ($datadetailmaterial as $item) { ?>
                                                     <tr>
-                                                <input   class='form-control' name='name_detailmaterialid[]' placeholder='Stock' type='hidden' value='<?php echo $item->detailmaterialid; ?>'>
+                                                <input   class='form-control' name='name_detailmaterialid[]'  type='hidden' value='<?php echo $item->detailmaterialid; ?>'>
                                                 <td><?php echo $item->detailmaterialid; ?>
-                                                <td><div><input style="min-width: 50px;"  class='form-control' name='name_detailmaterialstock[]' placeholder='Stock' type='number' value='<?php echo $item->stok; ?>'></div></td>
+                                                <td><div><input style="min-width: 50px;"  class='form-control' name='name_detailmaterialstock[]'  type='number' value='<?php echo $item->stok; ?>'></div></td>
                                                 <td><a href="<?php echo base_url(); ?>Back/Purchasing/Show_edit_purchasing_note/<?php echo $item->idnotabeli; ?>"><?php echo $item->idnotabeli; ?></a></td>
                                                 <td><?php echo $item->updatedat; ?></td>
                                                 <td><?php echo $item->createdat; ?></td>
