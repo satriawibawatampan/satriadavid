@@ -89,6 +89,15 @@ class M_admin extends CI_Model {
         $this->db->where('id', $id);
         $this->db->update('tipeadmin', $data);
     }
+    
+    function Get_admin_branch()
+    {
+        $this->db->select('id_cabang');
+        $this->db->from('admin');
+        $this->db->where('id', $this->session->userdata['xcellent_id'] );
+        $query = $this->db->get();
+        return $query->row();
+    }
 
     function Get_all_admintype() {
         $this->db->select('*');

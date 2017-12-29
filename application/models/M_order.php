@@ -533,7 +533,7 @@ class M_order extends CI_Model {
             $this->db->trans_complete();
     }
 
-    function Add_deposit_to_note($deposit, $idmember,$idpayment, $amount) {
+    function Add_deposit_to_note($deposit, $idmember,$idpayment, $amount,$bonusdeposit) {
          $this->db->trans_start();
          
         //input order note
@@ -561,7 +561,7 @@ class M_order extends CI_Model {
             'long' => 1,
             'diskon' => 0,
             'harga' => $deposit,
-            'hargapokok  ' => $deposit ,
+            'hargapokok  ' => $deposit+$deposit*$bonusdeposit ,
             'subtotal  ' => $deposit,
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')
@@ -569,7 +569,7 @@ class M_order extends CI_Model {
         $this->db->insert('notajual_produk', $data);
         $id_notajualproduk = $this->db->insert_id();
         
-       $this->M_member->Add_deposit($deposit, $idmember) ;
+       $this->M_member->Add_deposit($deposit+$deposit*$bonusdeposit, $idmember) ;
         $this->Make_payment($order_id, $deposit, $idpayment, $amount,$idmember);
        
         $this->db->trans_complete();

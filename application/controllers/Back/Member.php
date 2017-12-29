@@ -17,6 +17,7 @@ class Member extends CI_Controller {
             $this->load->model('M_member');
             $this->load->model('M_order');
              $this->load->model('M_material');
+             $this->load->model('M_setting');
   $this->load->model('M_payment');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
@@ -109,6 +110,7 @@ class Member extends CI_Controller {
     public function Show_add_deposit() {
          $data['listmember'] = $this->M_member->Show_all_member_active();
          $data['listpaymentmethod']= $this->M_payment->Get_all_payment();
+         $data['datasetting']=$this->M_setting->Get_all_setting();
           $navigation=array(
             "menu" => "member",
             "submenu" => "adddeposit",
@@ -224,7 +226,8 @@ class Member extends CI_Controller {
                 $idmember = $this->input->post('name_member');
                 $idpayment = $this->input->post('name_txt_id_paymentmethod');
                  $amount = $this->input->post('name_txt_id_paymentamount');
-                $this->M_order->Add_deposit_to_note($deposit, $idmember,$idpayment, $amount);
+                 $bonusdeposit = $this->input->post('name_bonusdeposit');
+                $this->M_order->Add_deposit_to_note($deposit, $idmember,$idpayment, $amount,$bonusdeposit);
                 $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
                   redirect('Back/Member/Show_add_deposit');

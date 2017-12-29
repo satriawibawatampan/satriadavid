@@ -806,7 +806,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                         <div class="col-md-4">
-                                            <input  id="daftar_deposit" type="number" name="daftar_deposit" min="0"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                            <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
                                         </div>
                                     </div>
 

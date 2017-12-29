@@ -103,7 +103,8 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Amount</label>
                         <div class="col-md-3">
-                            <input class="form-control" id="id_deposit" name="name_deposit"  type="number" value="<?php echo set_value('name_deposit'); ?>">
+                            <input class="form-control" id="id_deposit" name="name_deposit" min="<?php echo $datasetting[0]->harga_deposit; ?>" type="number" value="<?php echo set_value('name_deposit', $datasetting[0]->harga_deposit); ?>">
+                            <input class="form-control" id="id_bonus_deposit" name="name_depositbonus"  type="hidden" value="<?php echo set_value('name_depositbonus', $datasetting[0]->bonus_deposit); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_deposit'); ?>
                             </span>
@@ -245,7 +246,7 @@
     
     function check_all_not_null()
     {
-        alert("ok");
+        //alert("ok");
         $("#id_button_adddeposit").prop('disabled', true);
         if ($('#id_member').val() == 0)
         {
@@ -265,7 +266,10 @@
             $("#id_button_adddeposit").prop('disabled', false);
         } 
         else
-        {
+        { 
+            alert($("#id_payment_method_grandtotal").val());
+            alert($("#id_deposit").val());
+            
             if ($("#id_payment_method_grandtotal").val() < $("#id_deposit").val()) {
                 alert("Your fund is insufficient");
                  $("#id_button_adddeposit").prop('disabled', false);

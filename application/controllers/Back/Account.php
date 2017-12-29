@@ -11,11 +11,12 @@ class Account extends CI_Controller {
 
 
         $this->load->model('M_admin');
-         $this->load->model('M_material');
-         $this->load->model('M_setting');
+        $this->load->model('M_material');
+        $this->load->model('M_setting');
         $this->load->library('session');
         $this->load->helper(array('form', 'url', 'string'));
         $this->load->library('form_validation');
+
 
 //        
     }
@@ -30,12 +31,12 @@ class Account extends CI_Controller {
 
     public function Show_login() {
         if (isset($this->session->userdata['xcellent_id'])) {
-           if($this->session->userdata['xcellent_tipe'] == 3 ||$this->session->userdata['xcellent_tipe'] == 4)
-                        redirect('Back/Order/Show_all_order_note');
-                        else if($this->session->userdata['xcellent_tipe'] == 1)
-                        redirect('Back/Cashflow/Show_report_cashflow');
-                        else if($this->session->userdata['xcellent_tipe'] == 2)
-                        redirect('Back/Order/Show_add_order_note');
+            if ($this->session->userdata['xcellent_tipe'] == 3 || $this->session->userdata['xcellent_tipe'] == 4)
+                redirect('Back/Order/Show_all_order_note');
+            else if ($this->session->userdata['xcellent_tipe'] == 1)
+                redirect('Back/Cashflow/Show_report_cashflow');
+            else if ($this->session->userdata['xcellent_tipe'] == 2)
+                redirect('Back/Order/Show_add_order_note');
         } else {
             $this->load->view('back/v_loginhead_back');
             $this->load->view('back/v_login');
@@ -44,12 +45,12 @@ class Account extends CI_Controller {
 
     public function Cek_login2() {
         if (isset($this->session->userdata['xcellent_id'])) {
-           if($this->session->userdata['xcellent_tipe'] == 3 ||$this->session->userdata['xcellent_tipe'] == 4)
-                        redirect('Back/Order/Show_all_order_note');
-                        else if($this->session->userdata['xcellent_tipe'] == 1)
-                        redirect('Back/Cashflow/Show_report_cashflow');
-                        else if($this->session->userdata['xcellent_tipe'] == 2)
-                        redirect('Back/Order/Show_add_order_note');
+            if ($this->session->userdata['xcellent_tipe'] == 3 || $this->session->userdata['xcellent_tipe'] == 4)
+                redirect('Back/Order/Show_all_order_note');
+            else if ($this->session->userdata['xcellent_tipe'] == 1)
+                redirect('Back/Cashflow/Show_report_cashflow');
+            else if ($this->session->userdata['xcellent_tipe'] == 2)
+                redirect('Back/Order/Show_add_order_note');
         } else {
 
             $this->form_validation->set_rules('name_email', 'email', 'required');
@@ -74,21 +75,23 @@ class Account extends CI_Controller {
 
                     //sukses ambil data login
                     if (isset($tamp)) {
-                    //    print_r($tamp); exit();
+                        //    print_r($tamp); exit();
+
+                        $this->session->sess_expiration = 5;
                         $this->session->set_userdata('xcellent_name', $tamp['nama']);
                         $this->session->set_userdata('xcellent_email', $tamp['email']);
                         $this->session->set_userdata('xcellent_tipe', $tamp['id_tipeadmin']);
                         $this->session->set_userdata('xcellent_id', $tamp['id']);
-                        $this->session->set_userdata('xcellent_cabang',$tamp['id_cabang'] );
-                        $this->session->set_userdata('xcellent_cabang_name',$tamp['nama_cabang'] );
+                        $this->session->set_userdata('xcellent_cabang', $tamp['id_cabang']);
+                        $this->session->set_userdata('xcellent_cabang_name', $tamp['nama_cabang']);
 
 
-                        if($this->session->userdata['xcellent_tipe'] == 3 ||$this->session->userdata['xcellent_tipe'] == 4)
-                        redirect('Back/Order/Show_all_order_note');
-                        else if($this->session->userdata['xcellent_tipe'] == 1)
-                        redirect('Back/Cashflow/Show_report_cashflow');
-                        else if($this->session->userdata['xcellent_tipe'] == 2)
-                        redirect('Back/Order/Show_add_order_note');
+                        if ($this->session->userdata['xcellent_tipe'] == 3 || $this->session->userdata['xcellent_tipe'] == 4)
+                            redirect('Back/Order/Show_all_order_note');
+                        else if ($this->session->userdata['xcellent_tipe'] == 1)
+                            redirect('Back/Cashflow/Show_report_cashflow');
+                        else if ($this->session->userdata['xcellent_tipe'] == 2)
+                            redirect('Back/Order/Show_add_order_note');
                     }
                     //gagal ambil data login
                     else {
@@ -126,10 +129,10 @@ class Account extends CI_Controller {
 
             //jika gagal form validation
             if ($this->form_validation->run() == FALSE) {
-                $navigation=array(
+                $navigation = array(
                     "menu" => "profile",
                     "submenu" => "changepassword",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -172,10 +175,10 @@ class Account extends CI_Controller {
     public function Show_change_password() {
 
         if (isset($this->session->userdata['xcellent_id'])) {
-            $navigation=array(
-                    "menu" => "profile",
-                    "submenu" => "changepassword",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+            $navigation = array(
+                "menu" => "profile",
+                "submenu" => "changepassword",
+                "stokhabis" => $this->M_material->Get_material_out_of_stock()
             );
             $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_header_back');
@@ -186,22 +189,70 @@ class Account extends CI_Controller {
             redirect('Back/Account/Show_login');
         }
     }
-    
-     public function Show_setting() {
 
+    public function Show_setting() {
         if (isset($this->session->userdata['xcellent_id'])) {
-            $navigation=array(
+
+            if (isset($this->session->userdata['xcellent_id'])) {
+                $navigation = array(
                     "menu" => "profile",
                     "submenu" => "setting",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
-            );
-            
-            $data['datasetting'] = $this->M_setting->Get_all_setting();
-            $this->load->view('back/v_head_admin_back');
-            $this->load->view('back/v_header_back');
-            $this->load->view('back/v_navigation_back', $navigation);
-            $this->load->view('back/v_setting_back',$data);
-            $this->load->view('back/v_footer_back');
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+
+                $data['datasetting'] = $this->M_setting->Get_all_setting();
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_setting_back', $data);
+                $this->load->view('back/v_footer_back');
+            } else {
+                redirect('Back/Account/Show_login');
+            }
+        } else {
+            redirect('Back/Account/Show_login');
+        }
+    }
+
+    public function Change_setting() {
+
+        if (isset($this->session->userdata['xcellent_id'])) {
+
+            if ($this->input->post('button_changesetting')) {
+                $this->form_validation->set_rules('name_depositminimal', 'Deposit Minimal', 'required');
+                $this->form_validation->set_rules('name_depositbonus', 'Deposit Bonus', 'required|greater_than_equal_to[0]|less_than_equal_to[100]');
+                $this->form_validation->set_rules('name_memberprice', 'Member Price', 'required');
+                $this->form_validation->set_rules('name_pointprice', 'Point Price', 'required');
+                if ($this->form_validation->run() == FALSE) {
+                    $navigation = array(
+                        "menu" => "profile",
+                        "submenu" => "setting",
+                        "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    );
+                    $data['datasetting'] = $this->M_setting->Get_all_setting();
+                    $this->load->view('back/v_head_admin_back');
+                    $this->load->view('back/v_header_back');
+                    $this->load->view('back/v_navigation_back', $navigation);
+                    $this->load->view('back/v_setting_back', $data);
+                    $this->load->view('back/v_footer_back');
+                } else {
+
+                    $depositminimal = $this->input->post('name_depositminimal');
+                    $depositbonus = $this->input->post('name_depositbonus');
+                    $memberprice = $this->input->post('name_memberprice');
+                    $pointprice = $this->input->post('name_pointprice');
+                    $idnya = $this->input->post('name_idsetting');
+
+                    $this->M_setting->Change_setting($depositminimal, $depositbonus, $memberprice, $pointprice, $idnya);
+                    $this->session->set_flashdata('pesanform', "Your Setting has been changed");
+                    $this->session->keep_flashdata('pesanform');
+
+
+                    redirect('Back/Account/Show_setting');
+                }
+            } else {
+                redirect('Back/Account/Show_setting');
+            }
         } else {
             redirect('Back/Account/Show_login');
         }
@@ -257,7 +308,5 @@ class Account extends CI_Controller {
             }
         }
     }
-    
-  
 
 }

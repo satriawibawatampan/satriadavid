@@ -78,12 +78,13 @@
             <div class="widget-body">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Account/Change_setting" class="form-horizontal" novalidate="novalidate" method="post">
-
+<input class="form-control" name="name_idsetting"  min="0" type="hidden" value="<?php echo set_value('name_depositminimal',$datasetting[0]->id); ?>">
+                            
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Minimal</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_depositminimal"  min="0" type="number" value="<?php echo set_value('name_depositminimal'); ?>">
+                            <input class="form-control" name="name_depositminimal"  min="0" type="number" value="<?php echo set_value('name_depositminimal',$datasetting[0]->harga_deposit); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_depositminimal'); ?>
                             </span>
@@ -94,7 +95,8 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Deposit Bonus</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_depositbonus"  type="number" max="100" min="0" value="<?php echo set_value('name_depositbonus',0); ?>">
+                            
+                            <input class="form-control" name="name_depositbonus"  type="number" max="100" min="0" value="<?php echo set_value('name_depositbonus',$datasetting[0]->bonus_deposit); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_depositbonus'); ?>
                             </span>
@@ -105,7 +107,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Member Price</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_memberprice"  type="number" min="0" value="<?php echo set_value('name_memberprice'); ?>">
+                            <input class="form-control" name="name_memberprice"  type="number" min="0" value="<?php echo set_value('name_memberprice',$datasetting[0]->harga_member); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_memberprice'); ?>
                             </span>
@@ -115,7 +117,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Point Price</label>
                         <div class="col-md-2">
-                            <input class="form-control" name="name_pointprice"   type="number" min="0" value="<?php echo set_value('name_pointprice'); ?>" >
+                            <input class="form-control" name="name_pointprice"   type="number" min="0" value="<?php echo set_value('name_pointprice',$datasetting[0]->harga_poin); ?>" >
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_pointprice'); ?>
                             </span>

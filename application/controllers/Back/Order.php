@@ -22,15 +22,21 @@ class Order extends CI_Controller {
             $this->load->model('M_promo');
             $this->load->model('M_order');
             $this->load->model('M_payment');
+            $this->load->model('M_setting');
 
 
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
+            
+            
+            
         } else {
             redirect('Back/Account/Show_login');
         }
     }
+    
+    
 
     public function index() {
 
@@ -76,6 +82,7 @@ class Order extends CI_Controller {
 
         $data['listmember'] = $this->M_member->Show_all_member_active();
         $data['listpromo'] = $this->M_promo->Get_promo_product_now();
+        $data['datasetting']=$this->M_setting->Get_all_setting();
 
 //   
         $navigation = array(
@@ -114,6 +121,7 @@ class Order extends CI_Controller {
     public function Show_all_order_note() {
         $data['tableorder'] = $this->M_order->Get_all_order();
         $data['listpaymentmethod']= $this->M_payment->Get_all_payment();
+         $data['datasetting']=$this->M_setting->Get_all_setting();
         $navigation = array(
             "menu" => "order",
             "submenu" => "all",
