@@ -39,7 +39,7 @@ class M_cashflow extends CI_Model {
      function Get_income_summary() {
         $query = "SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.updatedat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
-where notajual.id_cabang = ?        
+where notajual.id_cabang = ? and notajual.status=1        
 ";
         $result = $this->db->query($query,array($this->session->userdata['xcellent_cabang']));
         return $result->result();

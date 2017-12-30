@@ -16,9 +16,9 @@ class Member extends CI_Controller {
             $this->load->model('M_admin');
             $this->load->model('M_member');
             $this->load->model('M_order');
-             $this->load->model('M_material');
-             $this->load->model('M_setting');
-  $this->load->model('M_payment');
+            $this->load->model('M_material');
+            $this->load->model('M_setting');
+            $this->load->model('M_payment');
 
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
@@ -30,7 +30,7 @@ class Member extends CI_Controller {
     public function index() {
 
         //GA ADA PAGE
-        $navigation=array(
+        $navigation = array(
             "menu" => "member",
             "submenu" => "all",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -46,7 +46,7 @@ class Member extends CI_Controller {
     }
 
     public function Show_add_member() {
-        $navigation=array(
+        $navigation = array(
             "menu" => "member",
             "submenu" => "add",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -60,7 +60,7 @@ class Member extends CI_Controller {
 
     public function Show_all_member() {
         $data['tablemember'] = $this->M_member->Show_all_member();
-        $navigation=array(
+        $navigation = array(
             "menu" => "member",
             "submenu" => "all",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -71,8 +71,8 @@ class Member extends CI_Controller {
         $this->load->view('back/v_all_member_back', $data);
         $this->load->view('back/v_footer_back');
     }
-    
-     public function Deactivate_member() {
+
+    public function Deactivate_member() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_deactivatemember')) {
                 $id = $this->input->post('name_deactivateid');
@@ -89,6 +89,7 @@ class Member extends CI_Controller {
             redirect('Back/Account/Log_out');
         }
     }
+
     public function Activate_member() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_activatemember')) {
@@ -108,10 +109,10 @@ class Member extends CI_Controller {
     }
 
     public function Show_add_deposit() {
-         $data['listmember'] = $this->M_member->Show_all_member_active();
-         $data['listpaymentmethod']= $this->M_payment->Get_all_payment();
-         $data['datasetting']=$this->M_setting->Get_all_setting();
-          $navigation=array(
+        $data['listmember'] = $this->M_member->Show_all_member_active();
+        $data['listpaymentmethod'] = $this->M_payment->Get_all_payment();
+        $data['datasetting'] = $this->M_setting->Get_all_setting();
+        $navigation = array(
             "menu" => "member",
             "submenu" => "adddeposit",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
@@ -119,7 +120,7 @@ class Member extends CI_Controller {
         $this->load->view('back/v_head_admin_back');
         $this->load->view('back/v_header_back');
         $this->load->view('back/v_navigation_back', $navigation);
-        $this->load->view('back/v_add_deposit_back',$data);
+        $this->load->view('back/v_add_deposit_back', $data);
         $this->load->view('back/v_footer_back');
     }
 
@@ -137,10 +138,10 @@ class Member extends CI_Controller {
 
 
             if ($this->form_validation->run() == FALSE) {
-                $navigation=array(
+                $navigation = array(
                     "menu" => "member",
                     "submenu" => "add",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -172,14 +173,16 @@ class Member extends CI_Controller {
         $idadmin = $this->session->userdata['xcellent_id'];
         $nama = $this->input->post("nama");
         $deposit = $this->input->post("deposit");
+        $bonusdeposit = $this->input->post("bonusdeposit");
         $email = $this->input->post("email");
         $bod = $this->input->post("bod");
         $phone = $this->input->post("phone");
         $gender = $this->input->post("gender");
         $alamat = $this->input->post("alamat");
-        
-        echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender,$alamat);
+
+        echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$bonusdeposit);
     }
+
     public function Add_member_from_kasir_ajax() {
         $idadmin = $this->session->userdata['xcellent_id'];
         $nama = $this->input->post("nama");
@@ -190,14 +193,13 @@ class Member extends CI_Controller {
         $gender = $this->input->post("gender");
         $alamat = $this->input->post("alamat");
         $idnota = $this->input->post("idnota");
-        
-        echo $this->M_member->Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender,$alamat,$idnota);
+
+        echo $this->M_member->Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota);
     }
-    
-    public function Cancel_add_member()
-    {
+
+    public function Cancel_add_member() {
         $id = $this->input->post("idmember");
-       $this->M_member->Cancel_add_member($id);
+        $this->M_member->Cancel_add_member($id);
     }
 
     public function Json_get_one_member($id) {
@@ -205,44 +207,51 @@ class Member extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function Add_deposit_to_note()
-    {
+    public function Add_deposit_to_note() {
         if ($this->input->post('button_adddeposit')) {
 
             $this->form_validation->set_rules('name_deposit', 'Deposit', 'required');
+            
+
             if ($this->form_validation->run() == FALSE) {
-                 $navigation=array(
+                $navigation = array(
                     "menu" => "member",
                     "submenu" => "adddeposit",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
+
+                $data['listmember'] = $this->M_member->Show_all_member_active();
+                $data['listpaymentmethod'] = $this->M_payment->Get_all_payment();
+                $data['datasetting'] = $this->M_setting->Get_all_setting();
+                
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
                 $this->load->view('back/v_navigation_back', $navigation);
-                $this->load->view('back/v_add_deposit_back');
+                $this->load->view('back/v_add_deposit_back', $data);
                 $this->load->view('back/v_footer_back');
             } else {
                 $deposit = $this->input->post('name_deposit');
                 $idmember = $this->input->post('name_member');
                 $idpayment = $this->input->post('name_txt_id_paymentmethod');
-                 $amount = $this->input->post('name_txt_id_paymentamount');
-                 $bonusdeposit = $this->input->post('name_bonusdeposit');
-                $this->M_order->Add_deposit_to_note($deposit, $idmember,$idpayment, $amount,$bonusdeposit);
+                $amount = $this->input->post('name_txt_id_paymentamount');
+                $bonusdeposit = $this->input->post('name_bonusdeposit');
+                $this->M_order->Add_deposit_to_note($deposit, $idmember, $idpayment, $amount, $bonusdeposit);
                 $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
-                  redirect('Back/Member/Show_add_deposit');
+                redirect('Back/Member/Show_add_deposit');
             }
         }
     }
+
     public function Add_deposit() {
         if ($this->input->post('button_adddeposit')) {
 
             $this->form_validation->set_rules('name_deposit', 'Deposit', 'required');
             if ($this->form_validation->run() == FALSE) {
-                 $navigation=array(
+                $navigation = array(
                     "menu" => "member",
                     "submenu" => "adddeposit",
-            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -252,16 +261,14 @@ class Member extends CI_Controller {
             } else {
                 $deposit = $this->input->post('name_deposit');
                 $idmember = $this->input->post('name_member');
-               
-                $this->M_order->Add_order_note_deposit( $member, $grandtotal);
+
+                $this->M_order->Add_order_note_deposit($member, $grandtotal);
                 $this->session->set_flashdata('pesanform', "Deposit has been added to Order Note.");
                 $this->session->keep_flashdata('pesanform');
-                  redirect('Back/Member/Show_add_deposit');
+                redirect('Back/Member/Show_add_deposit');
             }
         }
     }
-
-   
 
     public function Edit_member() {
 

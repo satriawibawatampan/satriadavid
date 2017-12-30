@@ -259,7 +259,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                     <div class="col-md-4">
-                                        <input  id="daftar_deposit" type="number" name="daftar_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member; ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member; ?>" >
                                     </div>
                                 </div>
 
@@ -990,18 +990,18 @@
             
            // alert($("#id_payment_method_grandtotal").val());
            // alert($("#id_paymentgrandtotal").val());
-            if ($("#id_payment_method_grandtotal").val() < $("#id_paymentgrandtotal").val()) {
+            if (parseFloat($("#id_payment_method_grandtotal").val()) < parseFloat($("#id_paymentgrandtotal").val())) {
                 alert("Your fund is insufficient");
                  $("#id_button_payment").prop('disabled', false);
 
             }
-            else if($("#id_payment_method_grandtotal").val() > $("#id_paymentgrandtotal").val())
+            else if(parseFloat($("#id_payment_method_grandtotal").val()) > parseFloat($("#id_paymentgrandtotal").val()))
             {
                 alert("Your fund is more than needed");
                  $("#id_button_payment").prop('disabled', false);
              }
             else {
-alert("oke");
+//alert("oke");
                 document.getElementById("smart-form-register-payment").submit();
                 // $("#id_button_payment").prop('disabled', false);
             }

@@ -552,6 +552,7 @@
                             $("#id_button_addmember").prop("disable",true);
                             var nama = $("#daftar_nama").val();
                             var deposit = $("#daftar_deposit").val();
+                            var bonusdeposit = $("#id_bonus_deposit").val();
                             var email = $("#daftar_email").val();
                             var BOD = $("#daftar_ttl").val();
                             var phone = $("#daftar_telepon").val();
@@ -564,6 +565,7 @@
                                 data: {
                                     nama: nama,
                                     deposit: deposit,
+                                    bonusdeposit: bonusdeposit,
                                     email: email,
                                     bod: BOD,
                                     phone: phone,
@@ -806,6 +808,8 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                         <div class="col-md-4">
+                                            
+                                            <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
                                             <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
                                         </div>
                                     </div>

@@ -8,6 +8,7 @@ class M_member extends CI_Model {
         $this->load->helper('date');
         $this->load->model('M_cashflow');
         $this->load->model('M_order');
+     //  $this->load->model('M_setting');
     }
 
     function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin, $deposit) {
@@ -31,7 +32,7 @@ class M_member extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat) {
+    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$bonusdeposit) {
         $this->db->trans_start();
         
         $allmember = $this->Show_all_member();
@@ -49,7 +50,7 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
-            'deposit' => $deposit + $deposit*10/100,
+            'deposit' => $deposit + ($deposit*$bonusdeposit/100),
             'ttl' => $bod,
             'gender' => $gender,
             'telepon' => $phone,
@@ -198,6 +199,40 @@ class M_member extends CI_Model {
 
         $this->db->trans_start();
         $this->db->set('deposit', 'deposit+' . $deposit, FALSE);
+        $this->db->where('id', $idmember);
+        $this->db->update('member');
+
+
+       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
+        $this->db->trans_complete();
+    }
+    
+    function Reduce_deposit($payment, $idmember) {
+
+
+        $this->db->trans_start();
+        $this->db->set('deposit', 'deposit-' . $payment, FALSE);
+        $this->db->where('id', $idmember);
+        $this->db->update('member');
+
+
+       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
+        $this->db->trans_complete();
+    }
+    
+     function Add_point($idmember,$grandtotal) {
+
+
+        $this->db->trans_start();
+        
+        $datasetting=$this->M_setting->Get_all_setting();
+         
+         $hargapoint= $datasetting[0]->harga_poin;
+         $poinditambah = (int)$grandtotal/(int)$hargapoint;
+       print_r($datasetting);exit();
+       //print_r($hargapoint);exit();
+       //print_r($idmember);exit();
+        $this->db->set('poin', 'poin+'.(int)$poinditambah, FALSE);
         $this->db->where('id', $idmember);
         $this->db->update('member');
 
