@@ -37,8 +37,11 @@
 
                         </li>
                         <li class="<?php if ($menu == "profile" && $submenu == "setting") echo "active"; ?>">
-                        <a href="<?php echo base_url(); ?>Back/Account/Show_setting" ><span class="menu-item-parent">Setting</span></a>
-                    </li>
+                                <a href="<?php echo base_url(); ?>Back/Account/Show_setting" ><span class="menu-item-parent">Setting</span></a>
+                        </li>
+                        <li class="<?php if ($menu == "profile" && $submenu == "email") echo "active"; ?>">
+                                <a href="<?php echo base_url(); ?>Back/Email/Show_email" ><span class="menu-item-parent">Email</span></a>
+                        </li>    
                     <?php } ?>
                     
                     <li class="<?php if ($menu == "profile" && $submenu == "changepassword") echo "active"; ?>">
