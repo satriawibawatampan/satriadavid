@@ -87,12 +87,22 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Subject</label>
                         <div class="col-md-3">
-                            <input class="form-control" id="id_bonus_deposit" name="name_subject"  type="hidden" value="<?php echo set_value('name_subject'); ?>">
+                            <input class="form-control" id="id_bonus_deposit" name="name_subject"  type="text" value="<?php echo set_value('name_subject'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_subject'); ?>
                             </span>
                         </div>
 
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Content</label>
+                        <div class="col-md-6">
+                            <textarea class="form-control" name="name_content"  rows="4" ><?php echo set_value('name_content'); ?></textarea>
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_content'); ?>
+                            </span>
+                        </div>
                     </div>
                     
                     

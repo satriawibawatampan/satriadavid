@@ -13,8 +13,18 @@ class Email extends CI_Controller {
 
         if (isset($this->session->userdata['xcellent_id'])) {
 
-            $this->load->library('email');
-          
+            $config = array( 'protocol' => 'smtp',
+         'smtp_host' => 'ssl://smtp.googlemail.com',
+         'smtp_port' => 465,
+         'smtp_user' => 'myemail@gmail.com',
+         'smtp_pass' => '***********',
+         'mailtype'  => 'html', 
+         'charset'   => 'iso-8859-1'
+      );    
+
+            $this->load->library('email',$config);
+            
+            $this->load->model('M_material');
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
 
@@ -31,6 +41,20 @@ class Email extends CI_Controller {
         
     }
 
+    
+    public function Show_email()
+    {
+         $navigation = array(
+                    "menu" => "profile",
+                    "submenu" => "email",
+                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
+                );
+                $this->load->view('back/v_head_admin_back');
+                $this->load->view('back/v_header_back');
+                $this->load->view('back/v_navigation_back', $navigation);
+                $this->load->view('back/v_email_back');
+                $this->load->view('back/v_footer_back');
+    }
     public function Send_information() {
         $this->form_validation->set_rules('name_subject', 'Subject', 'required');
         $this->form_validation->set_rules('name_content', 'Content', 'required');
