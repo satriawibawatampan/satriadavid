@@ -9,21 +9,22 @@ class Email extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
-        
+
 
         if (isset($this->session->userdata['xcellent_id'])) {
 
-            $config = array( 'protocol' => 'smtp',
-         'smtp_host' => 'ssl://smtp.googlemail.com',
-         'smtp_port' => 465,
-         'smtp_user' => 'myemail@gmail.com',
-         'smtp_pass' => '***********',
-         'mailtype'  => 'html', 
-         'charset'   => 'iso-8859-1'
-      );    
+//            $config = array('protocol' => 'smtp',
+//                'smtp_host' => 'ssl://smtp.googlemail.com',
+//                'smtp_port' => 465,
+//                'smtp_timeout' => 7,
+//                'smtp_user' => 'ilove.laikebao@gmail.com',
+//                'smtp_pass' => 'password',
+//                'mailtype' => 'html',
+//                'charset' => 'iso-8859-1'
+//            );
+//
+//            $this->load->library('email', $config);
 
-            $this->load->library('email',$config);
-            
             $this->load->model('M_material');
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
@@ -41,20 +42,19 @@ class Email extends CI_Controller {
         
     }
 
-    
-    public function Show_email()
-    {
-         $navigation = array(
-                    "menu" => "profile",
-                    "submenu" => "email",
-                    "stokhabis" => $this->M_material->Get_material_out_of_stock()
-                );
-                $this->load->view('back/v_head_admin_back');
-                $this->load->view('back/v_header_back');
-                $this->load->view('back/v_navigation_back', $navigation);
-                $this->load->view('back/v_email_back');
-                $this->load->view('back/v_footer_back');
+    public function Show_email() {
+        $navigation = array(
+            "menu" => "profile",
+            "submenu" => "email",
+            "stokhabis" => $this->M_material->Get_material_out_of_stock()
+        );
+        $this->load->view('back/v_head_admin_back');
+        $this->load->view('back/v_header_back');
+        $this->load->view('back/v_navigation_back', $navigation);
+        $this->load->view('back/v_email_back');
+        $this->load->view('back/v_footer_back');
     }
+
     public function Send_information() {
         $this->form_validation->set_rules('name_subject', 'Subject', 'required');
         $this->form_validation->set_rules('name_content', 'Content', 'required');
@@ -63,7 +63,7 @@ class Email extends CI_Controller {
 
             if ($this->form_validation->run() == FALSE) {
 
-               
+
                 $navigation = array(
                     "menu" => "profile",
                     "submenu" => "email",
@@ -76,22 +76,28 @@ class Email extends CI_Controller {
                 $this->load->view('back/v_footer_back');
             } else {
 
-                
+                $this->load->library('email');
 
+               
                 $this->email->from('ilove.laikebao@gmail.com', 'Printing');
                 $this->email->to('ferra_chen@yahoo.com');
-              
-
                 $this->email->subject($this->input->post('name_subject'));
                 $this->email->message($this->input->post('name_content'));
-
-                $this->email->send();
-
-
-                $this->session->set_flashdata('pesanform', "New category has been added");
+                if($this->email->send())
+                {
+                     $this->session->set_flashdata('pesanform', "Email has been sent.");
                 $this->session->keep_flashdata('pesanform');
+                }
+                else
+                {
+                     $this->session->set_flashdata('pesanform', "Something went wrong.");
+                $this->session->keep_flashdata('pesanform');
+                }
 
-                redirect('Back/Category/index');
+
+               
+
+                redirect('Back/Email/Show_email');
             }
         }
     }
