@@ -317,13 +317,12 @@ class M_order extends CI_Model {
 
     function Get_all_order() {
         $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, promo.nama as namapromo, admin.nama as namaadmin,'
-                . ' b.nama as namakasir, c.nama as namaproduser'
-        );
+                . ' b.nama as namakasir, c.nama as namaproduser');
         $this->db->from('notajual');
-        $this->db->join('member', 'member.id=notajual.id_member');
-        $this->db->join('admin', 'admin.id=notajual.id_admin');
-        $this->db->join('admin b', 'b.id=notajual.id_kasir');
-        $this->db->join('admin c', 'c.id=notajual.id_produser');
+        $this->db->join('member', 'member.id=notajual.id_member','left');
+        $this->db->join('admin', 'admin.id=notajual.id_admin','left');
+        $this->db->join('admin b', 'b.id=notajual.id_kasir','left');
+        $this->db->join('admin c', 'c.id=notajual.id_produser','left');
         $this->db->join('promo', 'promo.id=notajual.id_promo', 'left');
         $this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
         if ($this->session->userdata['xcellent_tipe'] == 4) {
