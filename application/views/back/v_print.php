@@ -63,9 +63,16 @@
                             <span><?php echo $nota[0]['id'];?></span><br>
                             <span>RO : <?php echo $nota[0]['namaadmin'];?></span><br>
                             <span>Csh : <?php echo $nota[0]['nama_admin'];?></span><br>
-                            <span>Pro : <?php echo $nota[0]['namaproduser'];?></span><br>
-                            <span>Member : <?php echo $nota[0]['namaproduser'];?></span><br>
-                            <span>Promo : <?php echo $nota[0]['namapromo'];?></span><br>
+                            <?php if (isset($nota[0]['namaproduser'])){
+                                ?>
+                                 <span>Member : <?php echo $nota[0]['namaproduser'];?></span><br>
+                                <?php
+                            }?>
+                            <?php if (isset($nota[0]['namapromo'])){
+                                ?>
+                                 <span>Promo : <?php echo $nota[0]['namapromo'];?></span><br>
+                                <?php
+                            }?>
                         </div>
                     </div>
                 </div>
@@ -87,15 +94,15 @@
                                                 $totalNoDiskon += $total;
                                                 $totalDiskon += $total * $items['diskon'] / 100;
                                                 $total = $total - ($total * $items['diskon'] / 100);
+                                                $hargaDiskon = $items['harga'] - $items['harga'] * $items['diskon'] / 100;
                                                 ?>
                                                 <tr class="odd gradeX">
                                                     <td colspan="4"><?php echo $items['nama_produk'] ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style='text-align: center;'><?php echo $items['jumlah'] ?> x</td>                             
-
-                                                    <td style='text-align: center;'><?php echo number_format($items['harga'], 0, '', '.'); ?></td>   
-                                                    <td style='text-align: center;'><?php echo number_format($items['diskon'], 2, ',', '.'); ?> %</td>   
+                                                    <td style='text-align: center;'><?php echo $items['jumlah'] ?> x</td>
+                                                    <td style='text-align: center;'><?php echo number_format($hargaDiskon, 0, '', '.'); ?></td>   
+                                                    <td style='text-align: center;'></td>   
                                                     <td style='text-align: center;'><?php echo number_format($total, 0, '', '.'); ?></td>   
                                                 </tr>
                                                 <?php
@@ -104,7 +111,7 @@
                                             ?>
                                         <td>-</td>
                                         <td>-</td>
-                                        <td>-</td>
+                                        <td></td>
                                         <td>-</td>
                                         <?php
                                     }
@@ -118,19 +125,26 @@
                     <div class="row">
                         <div class="col-lg-12  col-sm-12 col-xs-12">
                             <table style = "width: 100%; margin-left: auto; margin-right: auto;">
-                               
-                                <tr>
-                                    <td style="text-align: right;">Diskon</td>
-                                    <td style="text-align: left;">:</td>
-                                    <td style="text-align: left;">Rp.</td>
-                                    <td style="text-align: right;"><?php echo number_format($nota[0]['totaldiskon'], 0, '', '.'); ?>,-</td>
-                                </tr>
                                 <tr>
                                     <td style="text-align: right;">Grand Total</td>
                                     <td style="text-align: left;">:</td>
                                     <td style="text-align: left;">Rp.</td>
                                     <td style="text-align: right;"><?php echo number_format($nota[0]['grandtotal'], 0, '', '.'); ?>,-</td>
                                 </tr>
+                                <?php 
+                                if(count($bayar) > 0){
+                                    foreach($bayar as $pemb){
+                                    ?>
+                                    <tr>
+                                        <td style="text-align: right;"><?php echo $pemb['nama_pembayaran'];?></td>
+                                        <td style="text-align: left;">:</td>
+                                        <td style="text-align: left;">Rp.</td>
+                                        <td style="text-align: right;"><?php echo number_format($pemb['jumlah'], 0, '', '.'); ?>,-</td>
+                                    </tr>
+                                    <?php
+                                    }
+                                }
+                                ?>
                             </table>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">&nbsp;

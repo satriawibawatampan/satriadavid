@@ -58,9 +58,12 @@ class Order extends CI_Controller {
 
     public function Prints($id_nota) {
         $nota = $this->M_order->Get_printByIdNota($id_nota);
+        $bayar = $this->M_order->Get_pembayaranByIdNota($id_nota);
         $data = array(
-            "nota" => $nota
+            "nota" => $nota,
+            "bayar" => $bayar
         );
+
         if (count($nota) > 0) {
            // print_r($nota); exit();
             $this->load->view('back/v_print', $data);

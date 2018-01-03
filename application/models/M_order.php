@@ -496,7 +496,10 @@ class M_order extends CI_Model {
     }
 
     function Get_pembayaranByIdNota($id_notajual) {
-        $sql = "SELECT np.* FROM notajual_pembayaran np join pembayaran p on p.id = np.id_pembayaran WHERE np.id_notajual = ?";
+        $sql = "SELECT np.* , p.nama as nama_pembayaran
+                FROM notajual_pembayaran np 
+                join pembayaran p on p.id = np.id_pembayaran 
+                WHERE np.id_notajual = ?";
         $result = $this->db->query($sql, array($id_notajual));
         $hasil = $result->result_array();
         return $hasil;
