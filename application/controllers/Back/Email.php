@@ -79,7 +79,7 @@ class Email extends CI_Controller {
                 $this->load->library('email');
 
                
-                $this->email->from('ilove.laikebao@gmail.com', 'Printing');
+                $this->email->from('info@mars-printing.com', 'Mars-Printing');
                 $this->email->to('ferra_chen@yahoo.com');
                 $this->email->subject($this->input->post('name_subject'));
                 $this->email->message($this->input->post('name_content'));

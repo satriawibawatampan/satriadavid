@@ -82,7 +82,7 @@
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Add_admin" class="form-horizontal" novalidate="novalidate" method="post">
 
-                    <?php //echo validation_errors(); ?>
+                   
 
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Type</label>

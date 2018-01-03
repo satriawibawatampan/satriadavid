@@ -217,5 +217,12 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
         $laporan = $this->M_cashflow->Get_petty_cash_bydate($from, $to);
         echo json_encode($laporan);
     }
+    public function Get_cashflow_bydate() {
+        $from = $name = $this->input->post('froma');
+        $to = $name = $this->input->post('toa');
+        //   print_r($from);exit();
+        $laporan = $this->M_cashflow->Get_cashflow_bydate($from, $to);
+        echo json_encode($laporan);
+    }
 
 }

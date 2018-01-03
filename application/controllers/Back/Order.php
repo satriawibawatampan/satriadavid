@@ -23,6 +23,7 @@ class Order extends CI_Controller {
             $this->load->model('M_order');
             $this->load->model('M_payment');
             $this->load->model('M_setting');
+          //  $this->load->model('M_branch');
 
 
 
@@ -216,8 +217,16 @@ class Order extends CI_Controller {
             $amount=$this->input->post('name_txt_id_paymentamount');
             $idmember=$this->input->post('name_txt_id_member');
 
-            $this->M_order->Make_payment($id, $grandtotal,$idpayment,$amount,$idmember);
-            $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been paid");
+           $pesansukses = $this->M_order->Make_payment($id, $grandtotal,$idpayment,$amount,$idmember);
+           if($pesansukses==1)
+           {
+                $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been paid");
+           }else
+           {
+               $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , payment failed");
+           }
+           
+           
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Order/Show_all_order_note/');
         }

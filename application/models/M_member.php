@@ -8,7 +8,7 @@ class M_member extends CI_Model {
         $this->load->helper('date');
         $this->load->model('M_cashflow');
         $this->load->model('M_order');
-     //  $this->load->model('M_setting');
+        $this->load->model('M_setting');
     }
 
     function Add_member($name, $email, $phone, $address, $ttl, $gender, $idadmin, $deposit) {
@@ -32,16 +32,14 @@ class M_member extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$bonusdeposit) {
+    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $bonusdeposit) {
         $this->db->trans_start();
-        
+
         $allmember = $this->Show_all_member();
-       // print_r($allmember);$exit();
-        foreach ($allmember as $item)
-        {
+        // print_r($allmember);$exit();
+        foreach ($allmember as $item) {
             //print_r($item->email);$exit();
-            if($item->email == $email)
-            {
+            if ($item->email == $email) {
                 return 0;
             }
         }
@@ -50,7 +48,7 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
-            'deposit' => $deposit + ($deposit*$bonusdeposit/100),
+            'deposit' => $deposit + ($deposit * $bonusdeposit / 100),
             'ttl' => $bod,
             'gender' => $gender,
             'telepon' => $phone,
@@ -70,16 +68,15 @@ class M_member extends CI_Model {
 
         return $id;
     }
-    function Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$idnota) {
+
+    function Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota) {
         $this->db->trans_start();
-        
+
         $allmember = $this->Show_all_member();
-       // print_r($allmember);$exit();
-        foreach ($allmember as $item)
-        {
+        // print_r($allmember);$exit();
+        foreach ($allmember as $item) {
             //print_r($item->email);$exit();
-            if($item->email == $email)
-            {
+            if ($item->email == $email) {
                 return 0;
             }
         }
@@ -101,14 +98,14 @@ class M_member extends CI_Model {
 
         $this->db->insert('member', $data);
         $idmember = $this->db->insert_id();
-        
+
         $this->M_order->AddMemberToNota($idnota, $idmember);
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         $this->db->trans_complete();
         return $idmember;
     }
@@ -121,7 +118,7 @@ class M_member extends CI_Model {
     function Show_all_member() {
         $this->db->select('*');
         $this->db->from('member');
-      
+
         $query = $this->db->get();
         return $query->result();
     }
@@ -203,10 +200,10 @@ class M_member extends CI_Model {
         $this->db->update('member');
 
 
-       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
+        // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
         $this->db->trans_complete();
     }
-    
+
     function Reduce_deposit($payment, $idmember) {
 
 
@@ -216,28 +213,26 @@ class M_member extends CI_Model {
         $this->db->update('member');
 
 
-       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
+        // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
         $this->db->trans_complete();
     }
-    
-     function Add_point($idmember,$grandtotal) {
+
+    function Add_point($idmember, $grandtotal) {
 
 
         $this->db->trans_start();
+
+       $datasetting = $this->M_setting->Get_all_setting();
+  
+        $hargapoint = $datasetting[0]->harga_poin;
+        $poinditambah = (int) $grandtotal / (int) $hargapoint;
         
-        $datasetting=$this->M_setting->Get_all_setting();
-         
-         $hargapoint= $datasetting[0]->harga_poin;
-         $poinditambah = (int)$grandtotal/(int)$hargapoint;
-       print_r($datasetting);exit();
-       //print_r($hargapoint);exit();
-       //print_r($idmember);exit();
-        $this->db->set('poin', 'poin+'.(int)$poinditambah, FALSE);
+        
+        $this->db->set('poin', 'poin+' .  $poinditambah,FALSE);
         $this->db->where('id', $idmember);
         $this->db->update('member');
+        
 
-
-       // $this->M_cashflow->Add_cashflow("Member Deposit", 1, "Deposit Member " . $idmember, $deposit);
         $this->db->trans_complete();
     }
 

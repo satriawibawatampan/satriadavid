@@ -49,6 +49,7 @@ class M_purchasing extends CI_Model {
     function Add_notabeli_material($insert_nota_beli_id, $idmaterial, $qty, $price, $subtotal, $amountperpack) {
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
+        
         $data = array(
             'id_notabeli' => $insert_nota_beli_id,
             'id_material' => $idmaterial,

@@ -39,7 +39,8 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
         return $hasil;
     }
-    function Add_order_note_deposit( $member, $grandtotal) {
+
+    function Add_order_note_deposit($member, $grandtotal) {
         // print_r($products); exit();
         $this->db->trans_start();
 
@@ -51,33 +52,33 @@ class M_order extends CI_Model {
             'tanggal' => date('Y-m-d H:i:s'),
             'grandtotal' => $grandtotal,
             'totaldiskon' => 0,
-            'id_promo' =>0,
+            'id_promo' => 0,
             'id_cabang  ' => $this->session->userdata['xcellent_cabang'],
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')
         );
         $this->db->insert('notajual', $data);
         $order_id = $this->db->insert_id();
-        
+
         $data = array(
-                    'id_notajual' => $order_id,
-                    'id_produk' => 1,
-                    'jumlah' => 1,
-                    'long' => 1,
-                    'diskon' =>0,
-                    'harga' => $grandtotal,
-                    'hargapokok  ' => $grandtotal,
-                    'subtotal  ' => $grandtotal,
-                    'createdat' => date('Y-m-d H:i:s'),
-                    'updatedat' => date('Y-m-d H:i:s')
-                );
-                $this->db->insert('notajual_produk', $data);
-                $id_notajualproduk = $this->db->insert_id();
+            'id_notajual' => $order_id,
+            'id_produk' => 1,
+            'jumlah' => 1,
+            'long' => 1,
+            'diskon' => 0,
+            'harga' => $grandtotal,
+            'hargapokok  ' => $grandtotal,
+            'subtotal  ' => $grandtotal,
+            'createdat' => date('Y-m-d H:i:s'),
+            'updatedat' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('notajual_produk', $data);
+        $id_notajualproduk = $this->db->insert_id();
 
-        
-        
 
-         $this->M_member->Add_deposit($grandtotal, $member);
+
+
+        $this->M_member->Add_deposit($grandtotal, $member);
 
         $this->db->trans_complete();
         return $hasil;
@@ -317,7 +318,7 @@ class M_order extends CI_Model {
     function Get_all_order() {
         $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, promo.nama as namapromo, admin.nama as namaadmin,'
                 . ' b.nama as namakasir, c.nama as namaproduser'
-                );
+        );
         $this->db->from('notajual');
         $this->db->join('member', 'member.id=notajual.id_member');
         $this->db->join('admin', 'admin.id=notajual.id_admin');
@@ -355,8 +356,8 @@ class M_order extends CI_Model {
         return $query->result();
     }
 
-    function Make_payment($id, $grandtotal, $idpayment, $amount,$idmember) {
-        
+    function Make_payment($id, $grandtotal, $idpayment, $amount, $idmember) {
+
         $this->db->trans_start();
         //cek apakah ada registrasi member
         $sql = "SELECT nj.* FROM notajual_produk np, notajual nj
@@ -365,22 +366,19 @@ class M_order extends CI_Model {
         $hasil = $result1->row_array();
         if (count($hasil) > 0) {
             $this->M_member->Activate_member($hasil['id_member']);
-         
         }
-        
-        //,masukan poin. cek apakah tidak ada deposit dan terdaftar sebagaimember
+
+        //,masukan poin. KALAU TIDAK ADA DEPOSIT  dan SUDAH MEMBER
         $sql2 = "SELECT nj.* FROM notajual_produk np, notajual nj
-                WHERE np.id_notajual = ? AND np.id_produk = ? AND nj.id = np.id_notajual";
+                WHERE np.id_notajual = ? AND np.id_produk = ? AND  nj.id = np.id_notajual";
         $result2 = $this->db->query($sql2, array($id, 1));
         $hasil2 = $result2->row_array();
-        if (count($hasil2) == 0 && $idmember!=0) {
-           
-         //   print_r($idmember.$grandtotal);exit();
-            $this->M_member->Add_point($idmember,$grandtotal);
-          
+       //  print_r($idmember);exit();
+        if (count($hasil2) === 0 && $idmember != 0) {
+        
+            $point = $this->M_member->Add_point($idmember, $grandtotal);
+            //print_r($point);exit();
         }
-        
-        
 
         //update status
         $data = array('status' => 1, 'id_kasir' => $this->session->userdata['xcellent_id']);
@@ -388,8 +386,14 @@ class M_order extends CI_Model {
         $this->db->update('notajual', $data);
 
 
-
+        $this->db->select('status');
+        $this->db->from('notajual');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        //print_r($query->row()->status);exit();
         //masukan ke notajual_pembayaran
+        //print_r($amount);exit(); 
+
         for ($f = 0; $f < count($idpayment); $f++) {
             $data = array(
                 'id_notajual' => $id,
@@ -401,9 +405,8 @@ class M_order extends CI_Model {
             if ($idpayment[$f] == 1) {
                 $this->M_cashflow->Add_pettycash("Order Payment", 1, "Order Note " . $id, $amount[$f]);
             }
-            if($idpayment[$f]==0)
-            {
-                $this->M_member->Reduce_deposit($amount[$f],$idmember);
+            if ($idpayment[$f] == 0) {
+                $this->M_member->Reduce_deposit($amount[$f], $idmember);
             }
         }
 
@@ -412,11 +415,14 @@ class M_order extends CI_Model {
         $this->M_cashflow->Add_cashflow("Order Payment", 1, "Order Note " . $id, $grandtotal);
 
         $this->db->trans_complete();
-        if ($this->db->trans_status() === FALSE)
-{
-      print_r($this->main_db->last_query(), TRUE); exit();
-       
-}
+        
+        if ($this->db->trans_status() === true) {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     function Run_producing($id) {
@@ -457,16 +463,16 @@ class M_order extends CI_Model {
                 . ' b.nama as nama_admin, c.nama as namaproduser'
                 . '');
         $this->db->from('notajual');
-        $this->db->join('member', 'member.id=notajual.id_member','left');
-        $this->db->join('admin', 'admin.id=notajual.id_admin','left');
-        $this->db->join('admin b', 'b.id=notajual.id_kasir','left');
-        $this->db->join('admin c', 'c.id=notajual.id_produser','left');
-        $this->db->join('promo', 'promo.id=notajual.id_promo','left');
+        $this->db->join('member', 'member.id=notajual.id_member', 'left');
+        $this->db->join('admin', 'admin.id=notajual.id_admin', 'left');
+        $this->db->join('admin b', 'b.id=notajual.id_kasir', 'left');
+        $this->db->join('admin c', 'c.id=notajual.id_produser', 'left');
+        $this->db->join('promo', 'promo.id=notajual.id_promo', 'left');
         $this->db->where('notajual.id', $id_notajual);
 
         $query = $this->db->get();
         $nota = $query->result_array();
-       // print_r($nota); exit();
+        // print_r($nota); exit();
         if (count($nota) > 0) {
             //Get Barang By Nota
             $barangs = $this->M_product->Get_productNotaJualByIdNota($id_notajual);
@@ -495,11 +501,9 @@ class M_order extends CI_Model {
         return $hasil;
     }
 
-    
-    
-    function AddDepositToNota($deposit,$idmember) {
+    function AddDepositToNota($deposit, $idmember) {
         $this->db->trans_start();
-        
+
         //input order note
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
@@ -515,42 +519,41 @@ class M_order extends CI_Model {
         );
         $this->db->insert('notajual', $data);
         $order_id = $this->db->insert_id();
-        
-        
-            $data = array(
-                'id_notajual' => $order_id,
-                'id_produk' => 0,
-                'jumlah' => 1,
-                'diskon' => 0,
-                'harga' => $deposit,
-                'hargapokok  ' => $deposit,
-                'subtotal  ' => $deposit * 0.9,
-                'createdat' => date('Y-m-d H:i:s'),
-                'updatedat' => date('Y-m-d H:i:s')
-            );
-            $this->db->insert('notajual_produk', $data);
 
-            
-        
+
+        $data = array(
+            'id_notajual' => $order_id,
+            'id_produk' => 0,
+            'jumlah' => 1,
+            'diskon' => 0,
+            'harga' => $deposit,
+            'hargapokok  ' => $deposit,
+            'subtotal  ' => $deposit * 0.9,
+            'createdat' => date('Y-m-d H:i:s'),
+            'updatedat' => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('notajual_produk', $data);
+
+
+
 
         $this->db->trans_complete();
     }
-    
-    function Set_member_in_nota($id, $idmember)
-    {
+
+    function Set_member_in_nota($id, $idmember) {
         $this->db->trans_start();
         //udpate to notajual
-            $sql2 = "UPDATE notajual SET id_member = ?";
-            $this->db->query($sql2, array($idmember));
-            
-            $this->db->trans_complete();
+        $sql2 = "UPDATE notajual SET id_member = ?";
+        $this->db->query($sql2, array($idmember));
+
+        $this->db->trans_complete();
     }
 
-    function Add_deposit_to_note($deposit, $idmember,$idpayment, $amount,$bonusdeposit) {
-         $this->db->trans_start();
-         
+    function Add_deposit_to_note($deposit, $idmember, $idpayment, $amount, $bonusdeposit) {
+        $this->db->trans_start();
+
         //input order note
-       date_default_timezone_set('Asia/Jakarta');
+        date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'id_admin' => $this->session->userdata['xcellent_id'],
             'id_member' => $idmember,
@@ -574,17 +577,17 @@ class M_order extends CI_Model {
             'long' => 1,
             'diskon' => 0,
             'harga' => $deposit,
-            'hargapokok  ' => $deposit+($deposit*$bonusdeposit/100) ,
+            'hargapokok  ' => $deposit + ($deposit * $bonusdeposit / 100),
             'subtotal  ' => $deposit,
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')
         );
         $this->db->insert('notajual_produk', $data);
         $id_notajualproduk = $this->db->insert_id();
-        
-       $this->M_member->Add_deposit($deposit+($deposit*$bonusdeposit/100), $idmember) ;
-        $this->Make_payment($order_id, $deposit, $idpayment, $amount,$idmember);
-       
+
+        $this->M_member->Add_deposit($deposit + ($deposit * $bonusdeposit / 100), $idmember);
+        $this->Make_payment($order_id, $deposit, $idpayment, $amount, $idmember);
+
         $this->db->trans_complete();
     }
 

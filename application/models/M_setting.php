@@ -17,14 +17,16 @@ class M_setting extends CI_Model {
         
         $cabang = $this->M_admin->Get_admin_branch();
         
+        
         $this->db->select('*');
         $this->db->from('setting');
         $this->db->where('id_cabang', $cabang->id_cabang);
         $query = $this->db->get();
        // print_r($query->result()); exit();
-        return $query->result();
+       
         
         $this->db->trans_complete();
+         return $query->result();
     }
 
     function Change_setting($depositminimal, $depositbonus, $memberprice, $pointprice, $idnya)

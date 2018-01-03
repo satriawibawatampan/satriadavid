@@ -57,11 +57,23 @@ class M_material extends CI_Model {
             return "materialnya kosong lalala";
         }
     }
+    
+    function Get_tipe($idmaterial)
+    {
+         $this->db->select('tipe');
+        $this->db->from('material');
+        $this->db->where('id', $idmaterial);
+
+        $query = $this->db->get();
+        return $query->row()->tipe;
+    }
     function Add_detailmaterial($idmaterial, $amountperpack, $bigstock, $idbranch, $insert_nota_beli_id) {
 
 
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
+        
+       $tipe = $this->Get_tipe($idmaterial);
 
         for ($x = 0; $x < $bigstock; $x++) {
             $data = array(

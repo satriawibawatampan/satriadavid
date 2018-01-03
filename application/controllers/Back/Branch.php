@@ -13,6 +13,7 @@ class Branch extends CI_Controller {
             $this->load->model('M_admin');
             $this->load->model('M_branch');
             $this->load->model('M_material');
+            $this->load->model('M_setting');
 
             $this->load->helper(array('form', 'url', 'string'));
             $this->load->library('form_validation');
@@ -58,6 +59,7 @@ class Branch extends CI_Controller {
     public function Add_branch() {
 
         $this->form_validation->set_rules('name_branch', 'Name', 'required|is_unique[cabang.nama]');
+        $this->form_validation->set_rules('name_description', 'Name', 'required');
 
         if ($this->input->post('button_addbranch')) {
             if ($this->form_validation->run() == FALSE) {
@@ -77,8 +79,9 @@ class Branch extends CI_Controller {
             } else {
 
                 $name = $this->input->post('name_branch');
+                $description = $this->input->post('name_description');
 
-                $this->M_branch->Add_branch($name);
+                $this->M_branch->Add_branch($name,$description);
 
 
                 $this->session->set_flashdata('pesanform', "New branch has been added");
@@ -112,8 +115,10 @@ class Branch extends CI_Controller {
     public function Edit_branch() {
         if ($this->input->post('name_editname') != $this->input->post('name_editname2')) {
             $this->form_validation->set_rules('name_editname', 'Name', 'required|is_unique[cabang.nama]');
+             $this->form_validation->set_rules('name_editdescription', 'Description', 'required');
         } else {
             $this->form_validation->set_rules('name_editname', 'Name', 'required');
+            $this->form_validation->set_rules('name_editdescription', 'Description', 'required');
         }
         if ($this->input->post('button_editbranch')) {
 
@@ -136,9 +141,10 @@ class Branch extends CI_Controller {
 
                 $idbranch = $this->input->post('name_hidden_idedit');
                 $name = $this->input->post('name_editname');
+                $description = $this->input->post('name_editdescription');
 
 
-                $this->M_branch->Edit_branch($idbranch, $name);
+                $this->M_branch->Edit_branch($idbranch, $name,$description);
                 $this->session->set_flashdata('pesanform', "Your branch's name has been edited");
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Branch/Show_change_branch');

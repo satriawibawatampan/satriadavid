@@ -375,74 +375,11 @@
     </div>
     <!--END MAIN CONTENT -->
 
-    <!-- MODAL myPromo -->
+  
 
-    <div class="modal fade" id="myPromo" role="dialog">
-        <div class="modal-dialog">
+</div> 
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Products and Discount for Promo <span id="span_nama" style="color:blue"></span> </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-body no-padding">
-
-                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                <thead>
-                                    <tr role="row">
-                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Discount</th>
-
-
-                                </thead>
-                                <tbody id="tablebodypromo">	
-
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL edit -->
-
-</div>    
+<script>
+    
+    </script>
 

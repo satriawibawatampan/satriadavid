@@ -348,7 +348,7 @@
                             <table id="id_table_payment" class="table table-bordered table-striped" >
                                 <thead>
                                     <tr >
-                                        <th  style="width: 100px;" >Product ID</th>
+                                        
                                         <th    >Product Name</th>
                                         <th  style="width: 100px;" >Qty</th>
                                         <th  style="width: 150px;" >Price</th>
@@ -385,7 +385,7 @@
                             <label class="col-md-4 control-label" for="select-1">Payment Amount</label>
                             <div class="col-md-4">
 
-                                <input  id="id_paymentamount" type="number" name="name_paymentamount"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                <input  id="id_paymentamount" type="number" name="name_paymentamount"  aria-required="true" class="error" aria-invalid="true" min="0"  >
 
                             </div>
                         </div>
@@ -404,9 +404,9 @@
                                 <table id="id_table_payment_method" class="table table-bordered table-striped" >
                                     <thead>
                                         <tr >
-                                            <th  style="width: 100px;" >id</th>
+                                            
                                             <th  style="width: 100px;" >Payment Method</th>
-                                            <th    >Amount</th>
+                                            <th   style="width: 200px;" >Amount</th>
                                             <th  style="width: 50px;" >x</th>
 
                                     </thead>
@@ -645,6 +645,8 @@
         var adadeposit = 0;
         var adaregistermember=0;
         
+        $("#id_payment_method_grandtotal").val(0);
+        
         document.getElementById('id_paymentid').value = idnya;
         document.getElementById('id_memberid').value = idmember;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
@@ -671,7 +673,7 @@
                 //$("#id_body_table_payment").val()=
                     $("#id_body_table_payment").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id_produk'] + "</td>" +
+                            "<td hidden>" + name['id_produk'] + "</td>" +
                             "<td>" + name['namaproduk'] + "</td>" +
                             "<td>" + name['jumlah'] + "</td>" +
                             "<td>" + name['harga'] + "</td>" +
@@ -886,21 +888,25 @@
     var urutanpayment = 1
     function add_to_table_payment()
     {
-
+        console.log(typeof parseInt($('#id_paymentamount').val()));
         if (
             
-                document.getElementById('id_paymentamount').value.length > 0
+                document.getElementById('id_paymentamount').value.length > 0 &&
+               parseInt($('#id_paymentamount').val()) > 0
+                
                 )
         {
+            //alert($('#id_paymentamount').val());
+            
             var checkingadaproduksama = this.check_paymentmethod();
             //alert("checking " + checkingadamaterialsama);
             if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
             {
                 $("#id_body_table_payment_method").append(
                         "<tr id='tr_" + urutanpayment + "' role = 'row' class = 'odd'>" +
-                        "<td><div ><input readonly id='id_txt_id_paymentmethod_" + urutanpayment + "' class='form-control hitung' name='name_txt_id_paymentmethod[]'  type='text' value='" + $("#id_paymentmethod option:selected").val() + "'></div></td>" +
-                        "<td><div ><input readonly id='id_txt_paymentmethod_" + urutanpayment + "' class='form-control ' name='name_txt_paymentmethod[]'  type='text' value='" + $("#id_paymentmethod option:selected").text() + "'></div></td>" +
-                        "<td><div ><input readonly id='id_txt_paymentamount_" + urutanpayment + "' class='form-control ' name='name_txt_id_paymentamount[]'  type='text' value='" + $("#id_paymentamount").val() + "'></div></td>" +
+                        "<td hidden><div ><input readonly id='id_txt_id_paymentmethod_" + urutanpayment + "' class='form-control hitung' name='name_txt_id_paymentmethod[]'  type='hidden' value='" + $("#id_paymentmethod option:selected").val() + "'></div></td>" +
+                        "<td><div ><input readonly id='id_txt_paymentmethod_" + urutanpayment + "' class='form-control ' name='name_txt_paymentmethod[]'  type='hidden' value='" + $("#id_paymentmethod option:selected").text() + "'>"+$("#id_paymentmethod option:selected").text()+"</div></td>" +
+                        "<td><div ><input readonly id='id_txt_paymentamount_" + urutanpayment + "' class='form-control ' name='name_txt_id_paymentamount[]'  type='hidden' value='" + $("#id_paymentamount").val() + "'>"+$("#id_paymentamount").val()+"</div></td>" +
                         "<td><div><a onclick='remove_payment_tr(" + urutanpayment + ")'>x</a></div></td>" +
                         "</tr>");
 

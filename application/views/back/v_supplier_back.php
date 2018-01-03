@@ -196,7 +196,6 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th data-hide="phone"  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>
                                                 <th  data-class="expand" class ="expand" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Company</th>
                                                 <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Contact Person</th>
                                                 <th  data-hide="phone" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Address</th>
@@ -208,7 +207,7 @@
                                             <?php
                                             foreach ($listsupplier as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+                                                echo '<td hidden>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->perusahaan . '</td>';
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo '<td>' . $hasil->alamat . '</td>';

@@ -91,14 +91,14 @@
                                     foreach ($listbranch as $item) {
                                         if ($item->id == $this->session->userdata['xcellent_cabang']) {
                                             ?>
-                                    <option value="<?php echo $item->id; ?>" selected=""><?php echo $item->nama; ?></option>
+                                            <option value="<?php echo $item->id; ?>" selected=""><?php echo $item->nama; ?></option>
 
                                             <?php
                                         } else {
                                             ?>
 
                                             <option value="<?php echo $item->id; ?>"><?php echo $item->nama; ?></option>
-                                        <?php
+                                            <?php
                                         }
                                     }
                                     ?>
@@ -125,10 +125,73 @@
 
         </div>
 
-        <div>
+
+
+        <!-- end widget div -->
+
+
+    </div>
+    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
+
+        <header role="heading"><span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+            <h2>Add Branch Form </h2>				
+
+            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+
+        <!-- widget div-->
+        <div role="content">
+
+            <!-- widget edit box -->
+
+            <!-- end widget edit box -->
+
+            <!-- widget content -->
+            <div class="widget-body ">
+
+                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="form-horizontal" novalidate="novalidate" method="post">
+     
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" >Name</label>
+                        <div class="col-md-3">
+                            <input class="form-control" type="text" name="name_branch"   value="<?php echo set_value('name_branch'); ?>">
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_branch'); ?>
+                            </span> 
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Description</label>
+                        <div class="col-md-8">
+                            <textarea type="text" class="form-control"  name="name_description" rows="4" aria-required="true"  aria-invalid="true" ><?php echo set_value('name_description'); ?> </textarea>
+                            <?php echo form_error('name_description'); ?>
+                            </span> 
+                        </div>
+                    </div>
+                    
+                    <footer>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1"></label>
+
+                            <div class="col-md-4">
+
+                                <input type="submit" name="button_addbranch" class="btn btn-primary" value="Submit">
+
+                            </div>
+
+                        </div>
+
+                    </footer>
+                </form>						
+
+            </div>
+            <!-- end widget content -->
 
         </div>
+        <!-- end widget div -->
 
+    </div>
+    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
         <header role="heading">
             <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
             <h2>Add Branch Form </h2>				
@@ -142,32 +205,44 @@
             <!-- end widget edit box -->
 
             <!-- widget content -->
-            <div class="widget-body no-padding">
+            <div class="widget-body ">
 
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="smart-form" novalidate="novalidate" method="post">
-                    <header>
-                        Add Branch form
-                    </header>
+                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="form-horizontal" novalidate="novalidate" method="post">
 
 
-                    <fieldset>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input type="text" name="name_branch" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_branch'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the Branch</b>
-                            </label>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Name</label>
+                        <div class="col-md-2">
+                            <input type="text" name="name_branch"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_branch'); ?>">
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_branch'); ?>
-                            </span>
-                        </section>
+                                <?php echo form_error('name_branch'); ?>
+                            </span> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Description</label>
+                        <div class="col-md-8">
+                            <textarea type="text" name="name_description" rows="4" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" ><?php echo set_value('name_description'); ?> </textarea>
+                            <?php echo form_error('name_description'); ?>
+                            </span> 
+                        </div>
+                    </div>
 
 
-
-                    </fieldset>
 
 
                     <footer>
-                        <input type="submit" name="button_addbranch" class="btn btn-primary" value="Submit">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1"></label>
+
+                            <div class="col-md-4">
+
+                                <input type="submit" name="button_addbranch" class="btn btn-primary" value="Submit">
+
+                            </div>
+
+                        </div>
 
 
                     </footer>
@@ -177,13 +252,8 @@
             <!-- end widget content -->
 
         </div>
-        <!-- end widget div -->
-
-        <div>
-
-        </div>
-
-
+    </div>
+    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
         <section id="widget-grid" class="">
 
             <!-- row -->
@@ -220,18 +290,19 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>
+                                                
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Branch Name</th>
+                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Description</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
                                         </thead>
                                         <tbody>	
                                             <?php
                                             foreach ($listbranch as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+                                                echo '<td hidden>' . $hasil->id . '</td>';
                                                 echo ' <td class = " expand"><span class = "responsiveExpander"></span>' . $hasil->nama . '</td>';
-                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                       </td>';
+                                                echo ' <td >' . $hasil->deskripsi . '</td>';
+                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\',\''.$hasil->deskripsi.'\');" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -272,10 +343,6 @@
             <!--end row -->
 
         </section>
-
-
-
-
     </div>
 </div>
 <!-- END MAIN CONTENT -->
@@ -302,14 +369,27 @@
                     <input hidden type="text" name="name_hidden_idedit"  id="id_hidden_edit"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
 
                     <fieldset>
+                        <label class="input control-label">Name</label>
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input type="text" name="name_editname"  id="editname" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <input type="hidden" name="name_editname2"  id="editname2" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
+                                <input type="text" name="name_editname"  id="editname"  class="form-control"  value="<?php echo set_value('name_editname'); ?>">
+                                <input type="hidden" name="name_editname2"  id="editname2"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to edit branch</b>
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editname'); ?>
+                                <?php echo form_error('name_editname'); ?>
+                            </span>
+                        </section>
+                    </fieldset>
+                    <fieldset>
+                        <label class="input control-label">Description</label>
+                        <section>
+                            <label class="input"> 
+                                <textarea type="text" name="name_editdescription"  id="editdeskripsi" rows="4" class="form-control" value=""><?php echo set_value('name_editdescription'); ?> </textarea>
+                                <b class="tooltip tooltip-bottom-right">Needed to edit branch</b>
+                            </label>
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_editdescription'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -338,12 +418,12 @@
 <script>
     $(document).ready(function () {
         var idopen = "<?php
-if (isset($idopen)) {
-    echo $idopen;
-} else {
-    echo "";
-}
-?>";
+                                if (isset($idopen)) {
+                                    echo $idopen;
+                                } else {
+                                    echo "";
+                                }
+                                ?>";
         //alert(idopen);
         if (idopen != "")
         {
@@ -351,11 +431,12 @@ if (isset($idopen)) {
             $("#myEditModal").modal("show");
         }
     });
-    function editdata($idnya, $nama)
+    function editdata($idnya, $nama,$deskripsi)
     {
         // alert("a");
         $("#editname").val($nama);
         $("#editname2").val($nama);
+        $("#editdeskripsi").val($deskripsi);
         $("#id_hidden_edit").val($idnya);
 
         //  alert($("#id_hidden_edit").val());

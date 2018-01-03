@@ -99,7 +99,7 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
+                                                <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Category</th>
 
@@ -113,7 +113,7 @@
                                             <?php
                                             foreach ($tableproduct as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+                                                //echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td ><a   onclick="show_material(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:green"  data-toggle="modal" data-target="#myMaterial"> ' . $hasil->nama . '</a></td>';
                                                 echo ' <td >' . $hasil->namakategori . '</td>';
                                                 echo '<td>' . '<a   onclick="show_product_price(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myPriceModal"> ' . number_format($hasil->hargajual, 0, ".", ",") . ' </a> </td>';
@@ -227,7 +227,7 @@
                                 <thead>
                                     <tr role="row">
                                         <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Material</th>
+                                        <!--<th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">ID Material</th>-->
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Material Name</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Qty</th>
 
@@ -365,7 +365,7 @@
 
                     $("#tablebodymaterial").append(
                             "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['idmaterial'] + "</td>" +
+                          //  "<td>" + name['idmaterial'] + "</td>" +
                             "<td>" + name['namamaterial'] + "</td>" +
                             "<td>" + name['jumlahmaterial'] + "</td>" +
                             "</tr>");

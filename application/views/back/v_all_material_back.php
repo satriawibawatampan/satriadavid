@@ -98,13 +98,13 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
+                                                <!--<th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 100px;">Name</th>
-                                               
+
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">HPP</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Stock</th>
-                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Type</th>
-                                             
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Type</th>
+
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
 
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
@@ -113,29 +113,26 @@
                                             <?php
                                             foreach ($tablematerial as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+                                               // echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo ' <td >' . $hasil->hpp . '</td>';
-                                                
-                                                echo '<td>' . $hasil->totalstok . ' <a   onclick="showdetailstockmaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
 
-                                                    if($hasil->tipe==1)
-                                                {
-                                                echo '<td> Roll </td>';
+                                                echo '<td>' . $hasil->totalstok . ' <a   onclick="showdetailstockmaterial(' . $hasil->tipe . ',' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myDetailStockModal"> </a>  </td>';
+
+                                                if ($hasil->tipe == 1) {
+                                                    echo '<td> Roll </td>';
+                                                } else if ($hasil->tipe == 2) {
+                                                    echo '<td> Pcs </td>';
                                                 }
-                                                else if($hasil->tipe==2)
-                                                {
-                                                echo '<td> Pcs </td>';
-                                                }
-                                               
+
                                                 if ($hasil->statusaktif == 0) {
                                                     echo '<td style="color:red">Deactivated</td>';
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
-                                                 
+
                                                 echo '<td>   <a href="' . base_url() . 'Back/Material/Show_edit_material/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
-                                                 
+
                                                 if ($hasil->statusaktif == 0) {
                                                     echo '<a   onclick="showactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
                                                 } else if ($hasil->statusaktif == 1) {
@@ -254,7 +251,7 @@
                             <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
-                                        <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
+                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
                                         <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Retail Stock</th>
                                         <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Input Date</th>
@@ -333,7 +330,7 @@
     </div>
 
 
-    
+
 
 
     <!-- MODAL edit -->
@@ -400,7 +397,7 @@
 </div>    
 <script>
 
- 
+
     function showdeactivatematerial(idnya, nama)
     {
         document.getElementById('id_deactivateid').value = idnya;
@@ -416,7 +413,7 @@
 
     }
 
-    function showdetailstockmaterial(idnya, nama)
+    function showdetailstockmaterial(tipe, idnya, nama)
     {
         // document.getElementById('id_hidden_edit').value = idnya;
         //document.getElementById('editname').value = nama;
@@ -429,18 +426,41 @@
             success: function (result) {
                 //ini kalau mau ambil 1 data saja sudah bisa.
                 //alert ("hore sukses" + result);
-                $.each(result, function (id, name)
+                if (tipe == 1)
                 {
+                    $.each(result, function (id, name)
+                    {
 
-                    $("#tablebody").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['detailmaterialid'] + "</td>" +
-                            "<td>" + name['nama'] + "</td>" +
-                            "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
-                            "<td>" + name['createdat'] + "</td>" +
-                            "</tr>");
+                        $("#tablebody").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                               // "<td>" + name['detailmaterialid'] + "</td>" +
+                                "<td>" + name['nama'] + "</td>" +
+                                "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
+                                "<td>" + name['createdat'] + "</td>" +
+                                "</tr>");
 
-                });
+                    });
+                } else if (tipe == 2)
+                {
+                    var createdat;
+                    var stoknya = 0;
+                    var namee = "";
+                    $.each(result, function (id, name)
+                    {
+                        stoknya+= parseInt(name['stok']);
+                        namee = name['nama'] ;
+                        createdat = name['createdat'];
+                       
+
+                    });
+                     $("#tablebody").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                
+                                "<td>" + namee + "</td>" +
+                                "<td>" + stoknya + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
+                                "<td>" + createdat + "</td>" +
+                                "</tr>");
+                }
             }
         });
     }

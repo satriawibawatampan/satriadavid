@@ -153,7 +153,7 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>
+                                                <!--<th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>-->
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Category Name</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
                                         </thead>
@@ -161,7 +161,7 @@
                                             <?php
                                             foreach ($tablekategori as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
+//                                                echo '<td>' . $hasil->id . '</td>';
                                                
                                                 echo ' <td class = " expand"><a onclick="show_product_in_category(' . $hasil->id . ',\'' . $hasil->nama . '\')" lass="btn glyphicon glyphicon-eye-open" style="color:blue"  data-toggle="modal" data-target="#myProductModal"><span class = "responsiveExpander"></span>' . $hasil->nama . '</a></td>';
                                                 echo '<td>';

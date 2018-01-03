@@ -148,47 +148,109 @@
                 <!-- end widget content -->
 
             </div>
+
+        </div>
+        <!-- end widget div -->
+
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
+
+            <header role="heading">
+                <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                <h2>Search Report Cashflow</h2>				
+
+                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+
+            <!-- widget div-->
+            <div role="content">
+
+                <!-- widget edit box -->
+
+                <!-- end widget edit box -->
+
+                <!-- widget content -->
+                <div class="widget-body ">
+
+                    <form role='form' id="smart-form-register"  class="form-horizontal" novalidate="novalidate" method="post">
+
+                        <?php //echo validation_errors(); ?>
+
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1">Date From - Date To</label>
+                            <div class="col-md-2">
+                                <input class="form-control" id="id_from" name="name_from"   type="Date" value="<?php echo set_value('name_from'); ?>">
+                            </div>
+
+                            <div class="col-md-2">
+                                <input class="form-control"id="id_to" name="name_to"   type="Date" value="<?php echo set_value('name_to'); ?>">
+                            </div>
+                        </div>
+
+
+
+
+                        <footer>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="select-1"></label>
+
+                                <div class="col-md-4">
+
+                                    <button onclick="show_report()" type="button" id="id_button_search" class="btn btn-primary " >Show Report</button>  </div>
+
+                            </div>
+
+                        </footer>
+                    </form>
+
+
+
+                </div>
+                <!-- end widget content -->
+
+            </div>
             <!-- end widget div -->
 
+        </div>
+
+        <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
 
             <!-- widget grid -->
             <section id="widget-grid" class="">
 
-            <!-- row -->
-            <div class="row">
+                <!-- row -->
+                <div class="row">
 
-                <!-- NEW WIDGET START -->
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <!-- NEW WIDGET START -->
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                    <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" id="wid-id-2" data-widget-editbutton="false" role="widget">
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" id="wid-id-2" data-widget-editbutton="false" role="widget">
 
-                        <header role="heading">
-                            <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                            <h2>Suppliers's Data </h2>
+                            <header role="heading">
+                                <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                                <h2>Suppliers's Data </h2>
 
-                            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
-                        <!-- widget div-->
-                        <div role="content">
+                            <!-- widget div-->
+                            <div role="content">
 
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
+                                <!-- widget edit box -->
+                                <div class="jarviswidget-editbox">
+                                    <!-- This area used as dropdown edit box -->
 
-                            </div>
-                            <!-- end widget edit box -->
+                                </div>
+                                <!-- end widget edit box -->
 
-                            <!-- widget content -->
-                            <div class="widget-body no-padding">
+                                <!-- widget content -->
+                                <div class="widget-body no-padding">
 
-                                <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                    <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 
 
                                         <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                             <thead>
                                                 <tr role="row">
-                                                    <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
                                                     <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
                                                     <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Name</th>
                                                     <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Description</th>
@@ -200,11 +262,11 @@
 
 
                                             </thead>
-                                            <tbody>	
+                                            <tbody id="table_cashflow">	
                                                 <?php
                                                 foreach ($tablecashflow as $hasil) {
                                                     echo '<tr role = "row" class = "odd">';
-                                                    echo '<td>' . $hasil->id . '</td>';
+                                                    echo '<td hidden>' . $hasil->id . '</td>';
                                                     echo '<td>' . $hasil->createdat . '</td>';
                                                     echo '<td>' . $hasil->nama . '</td>';
                                                     echo '<td>' . $hasil->deskripsi . '</td>';
@@ -224,146 +286,122 @@
                                                 ?>
                                             </tbody>
                                         </table>
-<div class = "dt-toolbar-footer">
+                                        <div class = "dt-toolbar-footer">
 
+                                        </div>
                                     </div>
+
                                 </div>
+                                <!--end widget content -->
 
                             </div>
-                            <!--end widget content -->
+                            <!--end widget div -->
 
                         </div>
-                        <!--end widget div -->
+                        <!--end widget -->
 
-                    </div>
-                    <!--end widget -->
+                    </article>
+                    <!--WIDGET END -->
 
-                </article>
-                <!--WIDGET END -->
-
-            </div>
-
-            <!--end row -->
-
-            <!--row -->
-
-            <div class = "row">
-
-                <!--a blank row to get started -->
-                <div class = "col-sm-12">
-                    <!--your contents here -->
                 </div>
 
-            </div>
+                <!--end row -->
 
-            <!--end row -->
+                <!--row -->
 
-        </section>
+                <div class = "row">
 
+                    <!--a blank row to get started -->
+                    <div class = "col-sm-12">
+                        <!--your contents here -->
+                    </div>
+
+                </div>
+
+                <!--end row -->
+
+            </section>
+
+        </div>
     </div>
-</div>
     <!--END MAIN CONTENT -->
 
     <!-- MODAL myPromo -->
 
-    <div class="modal fade" id="myPromo" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Products and Discount for Promo <span id="span_nama" style="color:blue"></span> </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-body no-padding">
-
-                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                <thead>
-                                    <tr role="row">
-                                        <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Discount</th>
-
-
-                                </thead>
-                                <tbody id="tablebodypromo">	
-
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL edit -->
 
 </div>    
 
 <script>
 
-    function show_promo(idnya, nama)
+    function show_report()
     {
+        if ($("#id_to").val().length > 0 && $("#id_from").val().length > 0)
+        {
+            if ($("#id_to").val() < $("#id_from").val())
+            {
+                alert("'Date To' must be same as / higher than 'Date From'");
+            } else
+            {
+                var from = $("#id_from").val();
+                var to = $("#id_to").val();
+                $("#table_cashflow").empty();
+                
+                
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_cashflow_bydate/",
+                    dataType: "json",
+                    data: {froma: from, toa: to},
+                    success: function (result) {
+                        var urutanresidu = 1;
+                        // alert(result);
+                        $.each(result, function (id, nameb)
+                        {
+                            var grandtotal = parseFloat(nameb['grandtotal']).toFixed(2);
+                            var hpp = parseFloat(nameb['hpp']).toFixed(2);
+                            var margin = (grandtotal - hpp).toFixed(2);
+                            var persen = (margin * 100 / grandtotal).toFixed(2);
+                            
+                            if(nameb['tipe']==2)
+                            {
+                            $("#table_cashflow").append(
+                                    "<tr role = 'row' class = 'odd'>" +
+                                    "<td hidden>" + nameb['id'] + "</td>" +
+                                    "<td>" + nameb['createdat'] + "</td>" +
+                                    "<td>" + nameb['nama'] + "</td>" +
+                                    "<td>" + nameb['deskripsi'] + "</td>" +
+                                    "<td></td>" +
+                                    "<td>" + nameb['jumlah'] + "</td>"+
+                                    "</tr>"
+                                    );
+                        }
+                        else if (nameb['tipe']==1)
+                        {
+                             $("#table_cashflow").append(
+                                    "<tr role = 'row' class = 'odd'>" +
+                                    "<tdn hidden>" + nameb['id'] + "</td>" +
+                                    "<td>" + nameb['createdat'] + "</td>" +
+                                    "<td>" + nameb['nama'] + "</td>" +
+                                    "<td>" + nameb['deskripsi'] + "</td>" +
+                                   
+                                    "<td>" + nameb['jumlah'] + "</td>"+
+                                     "<td></td>" +
+                                    "</tr>"
+                                    );
+                        }
 
-        $("#span_nama").text(nama);
-        $("#tablebodypromo").empty();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "Back/Promo/Json_get_promo_product/" + idnya,
-            dataType: "json",
-            success: function (result) {
-                //ini kalau mau ambil 1 data saja sudah bisa.
-                // alert("hore sukses" + result);
-                $.each(result, function (id, name)
-                {
+                            
 
-                    $("#tablebodypromo").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['namaproduct'] + "</td>" +
-                            "<td>" + name['diskon'] + " %</td>" +
-                            "</tr>");
+                            urutanresidu++;
 
+                        });
+                    }
                 });
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                alert('request failed');
             }
-        });
+        } else
+        {
+            alert("Nulls in field Dates are not allowed");
+        }
     }
 
 
