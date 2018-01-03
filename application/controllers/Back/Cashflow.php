@@ -185,7 +185,7 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
         $this->load->view('back/v_navigation_back', $navigation);
         $this->load->view('back/v_report_income_summary_back', $data);
 
-        $this->load->view('back/v_footer_back');
+//        $this->load->view('back/v_footer_back');
     }
 
     public function Show_report_petty_cash() {
@@ -206,9 +206,12 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
     public function Get_income_summary_bydate() {
         $from = $name = $this->input->post('froma');
         $to = $name = $this->input->post('toa');
-        //   print_r($from);exit();
+        
         $laporan = $this->M_cashflow->Get_income_summary_bydate($from, $to);
-        echo json_encode($laporan);
+        
+        //Balikin HTML ke AJAX
+        $data["tableincomesummary"]=$laporan;
+        $this->load->view("Back/table_i_s",$data);
     }
     public function Get_petty_cash_bydate() {
         $from = $name = $this->input->post('froma');

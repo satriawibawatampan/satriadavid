@@ -143,10 +143,11 @@ class Order extends CI_Controller {
         $promo = $this->input->post("promo");
         $totaldiskon = $this->input->post("totaldiskon");
         $deskripsi = $this->input->post("deskripsi");
+        $antrian = $this->input->post("antrian");
 
         // echo $products[0]['harga']; exit();
 
-        $bolehtambah = $this->M_order->Add_order_note($data, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi);
+        $bolehtambah = $this->M_order->Add_order_note($data, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi,$antrian);
 
         echo json_encode($bolehtambah);
     }

@@ -142,7 +142,8 @@ where notajual.id_cabang = ? and notajual.status=?  and notajual.tanggal <= ? an
     }
 
     function Get_income_summary_bydate($from, $to) {
-        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
+        
+        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
 where createdat >= ? and createdat <= ?  and id_cabang= ?      
 ";

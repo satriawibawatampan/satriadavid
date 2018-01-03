@@ -148,8 +148,8 @@
             <!-- widget content -->
             <div class="widget-body ">
 
-                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="form-horizontal" novalidate="novalidate" method="post">
-     
+                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="form-horizontal" novalidate="novalidate" method="post">
+
                     <div class="form-group">
                         <label class="col-md-2 control-label" >Name</label>
                         <div class="col-md-3">
@@ -159,7 +159,7 @@
                             </span> 
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Description</label>
                         <div class="col-md-8">
@@ -168,7 +168,7 @@
                             </span> 
                         </div>
                     </div>
-                    
+
                     <footer>
                         <div class="form-group">
                             <label class="col-md-2 control-label" for="select-1"></label>
@@ -191,68 +191,7 @@
         <!-- end widget div -->
 
     </div>
-    <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
-        <header role="heading">
-            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-            <h2>Add Branch Form </h2>				
-
-            <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
-
-        <!-- widget div-->
-        <div role="content">
-
-            <!-- widget edit box -->
-            <!-- end widget edit box -->
-
-            <!-- widget content -->
-            <div class="widget-body ">
-
-                <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Branch/Add_branch" class="form-horizontal" novalidate="novalidate" method="post">
-
-
-
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Name</label>
-                        <div class="col-md-2">
-                            <input type="text" name="name_branch"  aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_branch'); ?>">
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_branch'); ?>
-                            </span> 
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Description</label>
-                        <div class="col-md-8">
-                            <textarea type="text" name="name_description" rows="4" placeholder="Branch" aria-required="true" class="error" aria-invalid="true" ><?php echo set_value('name_description'); ?> </textarea>
-                            <?php echo form_error('name_description'); ?>
-                            </span> 
-                        </div>
-                    </div>
-
-
-
-
-                    <footer>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1"></label>
-
-                            <div class="col-md-4">
-
-                                <input type="submit" name="button_addbranch" class="btn btn-primary" value="Submit">
-
-                            </div>
-
-                        </div>
-
-
-                    </footer>
-                </form>						
-
-            </div>
-            <!-- end widget content -->
-
-        </div>
-    </div>
+    
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
         <section id="widget-grid" class="">
 
@@ -290,7 +229,7 @@
                                     <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
                                         <thead>
                                             <tr role="row">
-                                                
+
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Branch Name</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Description</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
@@ -302,7 +241,7 @@
                                                 echo '<td hidden>' . $hasil->id . '</td>';
                                                 echo ' <td class = " expand"><span class = "responsiveExpander"></span>' . $hasil->nama . '</td>';
                                                 echo ' <td >' . $hasil->deskripsi . '</td>';
-                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\',\''.$hasil->deskripsi.'\');" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a></td>';
+                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\');" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a></td>';
                                                 echo '</tr>';
                                             }
                                             ?>
@@ -416,6 +355,8 @@
 </div>
 </div>
 <script>
+
+    var arrayku = <?php echo json_encode($listbranch); ?>;
     $(document).ready(function () {
         var idopen = "<?php
                                 if (isset($idopen)) {
@@ -431,13 +372,26 @@
             $("#myEditModal").modal("show");
         }
     });
-    function editdata($idnya, $nama,$deskripsi)
+    function editdata($idnya, $nama)
     {
+
+
         // alert("a");
         $("#editname").val($nama);
         $("#editname2").val($nama);
-        $("#editdeskripsi").val($deskripsi);
+       // $("#editdeskripsi").val($deskripsi);
         $("#id_hidden_edit").val($idnya);
+
+        for(var y = 0; y<arrayku.length; y++)
+        {
+            if(arrayku[y]['id']==$idnya)
+            {
+                 $("#editdeskripsi").val(arrayku[y]['deskripsi']);
+                 break;
+            }
+        }
+
+
 
         //  alert($("#id_hidden_edit").val());
     }

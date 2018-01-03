@@ -28,6 +28,7 @@ class Email extends CI_Controller {
             $this->load->model('M_material');
             $this->load->helper(array('form', 'url', 'string', 'date'));
             $this->load->library('form_validation');
+            $this->load->library('email');
 
 
 
@@ -76,26 +77,31 @@ class Email extends CI_Controller {
                 $this->load->view('back/v_footer_back');
             } else {
 
-                $this->load->library('email');
+                $ci = get_instance();
+                $config['protocol'] = "smtp";
+                $config['smtp_host'] = "ssl://smtp.googlemail.com";
+                $config['smtp_port'] = "465";
+                $config['smtp_user'] = "satriawibawatampan@gmail.com";
+                $config['smtp_pass'] = "kudaterbang";
+                $config['charset'] = "utf-8";   
+                $config['mailtype'] = "html";
+                $config['newline'] = "\r\n";
+                $ci->email->initialize($config);
 
-               
-                $this->email->from('info@mars-printing.com', 'Mars-Printing');
-                $this->email->to('ferra_chen@yahoo.com');
-                $this->email->subject($this->input->post('name_subject'));
-                $this->email->message($this->input->post('name_content'));
-                if($this->email->send())
-                {
-                     $this->session->set_flashdata('pesanform', "Email has been sent.");
-                $this->session->keep_flashdata('pesanform');
+
+                $ci->email->from('satriawibawatampan@gmail.com', 'Rumahweb');
+                $list = array('ilove.laikebao@gmail.com');
+                $ci->email->to($list);
+                $ci->email->subject('judul email');
+                $ci->email->message('isi email');
+                if ($this->email->send()) {
+                    echo 'Email sent.';
+                } else {
+                    show_error($this->email->print_debugger());
                 }
-                else
-                {
-                     $this->session->set_flashdata('pesanform', "Something went wrong.");
-                $this->session->keep_flashdata('pesanform');
-                }
 
 
-               
+
 
                 redirect('Back/Email/Show_email');
             }

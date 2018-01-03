@@ -13,10 +13,11 @@ class M_order extends CI_Model {
         $this->load->model('M_member');
     }
 
-    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi) {
+    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi,$antrian) {
         // print_r($products); exit();
         $this->db->trans_start();
 
+       // print_r($antrian); exit();
         //input order note
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
@@ -25,6 +26,7 @@ class M_order extends CI_Model {
             'tanggal' => date('Y-m-d H:i:s'),
             'grandtotal' => $grandtotal,
             'totaldiskon' => $totaldiskon,
+            'antrian' => $antrian,
             'id_promo' => $promo[0]['id_promo'],
             'id_cabang  ' => $this->session->userdata['xcellent_cabang'],
             'createdat' => date('Y-m-d H:i:s'),

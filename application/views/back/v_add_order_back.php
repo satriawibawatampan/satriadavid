@@ -77,6 +77,15 @@
             <div class="widget-body ">
 
                 <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Order/Show_add_order_note" class="form-horizontal" novalidate="novalidate" method="post">
+                    <div id="id_antrian" class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Queue</label>
+                        <div class="col-md-2">
+                            <input  id="id_queue" class="form-control" name="name_queue" type="number" min="0" value="">
+                                
+                        </div>
+                        
+                        
+                    </div>
                     <div id="id_inputmember" class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
@@ -99,7 +108,305 @@
                         </div>
                         
                     </div>
-                    <script>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Product</label>
+                        <div class="col-md-2">
+                            <select onchange="show_product_by_category(this.value);
+                                    get_price();
+                                    checktipe();
+                                    cek_promo()" class="form-control" name="name_category" id="id_category" selected ="select" >
+                                    <?php for ($x = 0; $x < count($listkategori); $x++) {
+                                        ?>
+
+                                    <option value="<?php echo $listkategori[$x]['id']; ?>" ><?php echo $listkategori[$x]['nama']; ?></option>
+
+                                <?php } ?>
+                            </select>
+                            <span>Category</span>
+                        </div>
+                        <div class="col-md-2">
+                            <select onchange="get_price();
+                                    checktipe();
+                                    cek_promo();" class="form-control" name="name_product" id="id_product" selected ="select" >
+                                    <?php
+                                    for ($x = 0; $x < count($listkategori); $x++) {
+                                        for ($y = 0; $y < count($listkategori[$x]['product']); $y++) {
+                                            if ($listkategori[$x]['product'][$y]['id_kategori'] == $listkategori[0]['id']) {
+                                                ?>
+
+                                            <option value="<?php echo $listkategori[$x]['product'][$y]['id']; ?>" ><?php echo $listkategori[$x]['product'][$y]['nama']; ?></option>
+
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select> 
+                            <span>Product Name</span>
+                            <p style="color: green"><span id="id_span_discount"></span></p>
+
+                        </div>
+
+                        <div class="col-md-1">
+                            <input id="id_quantity" oninput="get_price()" class="form-control" name="name_quantity"  min="0"  type="number" value="1">
+                            <span>Quantity</span>
+
+                        </div>
+                        <div class="col-md-1">
+                            <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" type="number" min="0" value="1">
+                            <span id="id_span_long" >Long in CM</span>
+
+                        </div>
+                        <div class="col-md-2">
+                            <input  readonly id="id_unitprice"  class="form-control" name="name_unitprice"  type="number" value="">
+                            <input   id="id_discount"  class="form-control" name="name_discount" type="hidden" value="0">
+                            <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1"></label>
+                        <div class="col-md-6">
+                            <textarea id="id_deskripsi" class="form-control" name="name_deskripsi"  rows="4" ><?php echo set_value('name_deskripsi'); ?></textarea>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="select-1"></label>
+                        <div class="col-md-6">
+                            <input onclick="add_to_note();
+                                    update_grandtotal();
+                                    update_total_discount();
+                                   "  name="" id="id_button_add_to_note" type="button" class="btn btn-primary " value="Add Product">
+
+                        </div>
+                    </div>
+
+
+                    <div  id="id_table_grossir" class="form-group">
+                        <label class="col-md-2 control-label"></label>
+
+                        <div class="col-md-10 table-responsive">
+                            <table id="id_table" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr >
+                                        <th   >Product ID</th>
+                                        <th    >Product Name</th>
+                                        <th   >Qty</th>
+                                        <th   >Long</th>
+                                        <th   >Price</th>
+                                        <th   >%</th>
+                                        <th   >Subtotal</th>
+                                        <th   >Description</th>
+                                        <th   >X</th>
+
+
+                                </thead>
+                                <tbody id="id_body_table" >	
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div   class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Total Discount</label>
+
+
+                        <div class="col-md-2">
+                            <input  readonly id="id_total_discount"  class="form-control" name="name_totaldiscount"  type="number" value="0">
+
+                        </div>
+                    </div>
+                    <div   class="form-group">
+                        <label class="col-md-2 control-label" for="select-1">Grandtotal</label>
+
+
+                        <div class="col-md-2">
+                            <input  readonly id="id_grandtotal"  class="form-control" name="name_grandtotal"  type="number" value="0">
+
+                        </div>
+                    </div>
+                    <footer>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1"></label>
+                            <div class="col-md-4">
+                                <input id="id_button_addorder" type="button" onclick="check_all_not_null();"  name="tes" class="btn btn-primary " value="Add Order">
+                                 <input type="hidden"  name="button_addorder" class="btn btn-primary " value="1">
+                            </div>
+                        </div>
+
+
+                    </footer>
+                </form>						
+
+            </div>
+            <!-- end widget content -->
+
+
+
+            <div class="modal fade" id="addMember" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="widget-body no-padding">
+                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Email</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_email" type="text" name="daftar_email"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Name</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">BOD</label>
+                                        <div class="col-md-4">
+                                            <input id="daftar_ttl" class="form-control" name="daftar_ttl"  type="date" value="<?php echo set_value('daftar_ttl'); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Phone</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_telepon" type="text" name="daftar_telepon"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Address</label>
+                                        <div class="col-md-4">
+                                            <input  id="daftar_alamat" type="text" name="daftar_alamat"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Gender</label>
+                                        <div class="col-md-4">
+                                            <select  id="daftar_gender" class="form-control" name="daftar_gender" id="select-1" selected ="select" <?php echo set_select('name_gender', set_value('name_gender')); ?> >
+                                                <option value="1" <?php echo set_select('daftar_gender', '1', TRUE); ?>>Male</option>
+                                                <option value="2" <?php echo set_select('daftar_gender', '2'); ?>>Female</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                                        <div class="col-md-4">
+                                            
+                                            <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
+                                            <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
+                                        </div>
+                                    </div>
+
+                                    <footer>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="select-1"></label>
+                                            <div class="col-md-4">
+                                                <input onclick="add_member();" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
+                                                <input type="hidden" name="button_addmember" class="btn btn-primary " value="1">
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal fade" id="addDeposit" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="widget-body no-padding">
+                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
+                                                                        
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
+                                        <div class="col-md-4">
+                                            <input  id="add_deposit" type="number" name="add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                            <input  id="id_id_add_deposit" type="number" name="name_id_add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
+                                        </div>
+                                    </div>
+
+                                    <footer>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="select-1"></label>
+                                            <div class="col-md-4">
+                                              
+                                            </div>
+                                        </div>
+                                    </footer>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end widget div -->
+    </div>
+</div>
+<!-- END MAIN CONTENT -->
+
+<div class="modal fade" id="myDetailPrice" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Prices for <span id="span_nama" style="color:blue"></span> </h4>
+            </div>
+            <div class="modal-body">
+                <div class="widget-body no-padding">
+
+                    <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+                        <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
+                            <thead>
+                                <tr role="row">
+                                    <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
+                                    <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Qty Min</th>
+                                    <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Qty Max</th>
+                                    <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Price</th>
+
+
+                            </thead>
+                            <tbody id="tablebodyprice">	
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+<script>
                        $("#deposit").hide();
                         
                         function OpenModal() {
@@ -480,6 +787,7 @@
                                 var totaldiskons = $('#id_total_discount').val();
                                 var members = $('#id_member option:selected').val();
                                 var promos = <?php echo json_encode($listpromo); ?>;
+                                var antrian = $('#id_queue').val();
                                 // var totaldiskons =$('#id_total_discount').val();
 
                                 if (id_member !== null) {
@@ -496,6 +804,7 @@
                                         grandtotal: grandtotals,
                                         promo: promos,
                                         totaldiskon: totaldiskons,
+                                        antrian:antrian
                                         //  totaldiskon:totaldiskons
 
 //                                    
@@ -616,303 +925,3 @@
                             });
                         }
                     </script>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Product</label>
-                        <div class="col-md-2">
-                            <select onchange="show_product_by_category(this.value);
-                                    get_price();
-                                    checktipe();
-                                    cek_promo()" class="form-control" name="name_category" id="id_category" selected ="select" >
-                                    <?php for ($x = 0; $x < count($listkategori); $x++) {
-                                        ?>
-
-                                    <option value="<?php echo $listkategori[$x]['id']; ?>" ><?php echo $listkategori[$x]['nama']; ?></option>
-
-                                <?php } ?>
-                            </select>
-                            <span>Category</span>
-                        </div>
-                        <div class="col-md-2">
-                            <select onchange="get_price();
-                                    checktipe();
-                                    cek_promo();" class="form-control" name="name_product" id="id_product" selected ="select" >
-                                    <?php
-                                    for ($x = 0; $x < count($listkategori); $x++) {
-                                        for ($y = 0; $y < count($listkategori[$x]['product']); $y++) {
-                                            if ($listkategori[$x]['product'][$y]['id_kategori'] == $listkategori[0]['id']) {
-                                                ?>
-
-                                            <option value="<?php echo $listkategori[$x]['product'][$y]['id']; ?>" ><?php echo $listkategori[$x]['product'][$y]['nama']; ?></option>
-
-                                            <?php
-                                        }
-                                    }
-                                }
-                                ?>
-                            </select> 
-                            <span>Product Name</span>
-                            <p style="color: green"><span id="id_span_discount"></span></p>
-
-                        </div>
-
-                        <div class="col-md-1">
-                            <input id="id_quantity" oninput="get_price()" class="form-control" name="name_quantity"  min="0"  type="number" value="1">
-                            <span>Quantity</span>
-
-                        </div>
-                        <div class="col-md-1">
-                            <input  id="id_long" oninput="get_price()" class="form-control" name="name_long" type="number" min="0" value="1">
-                            <span id="id_span_long" >Long in CM</span>
-
-                        </div>
-                        <div class="col-md-2">
-                            <input  readonly id="id_unitprice"  class="form-control" name="name_unitprice"  type="number" value="">
-                            <input   id="id_discount"  class="form-control" name="name_discount" type="hidden" value="0">
-                            <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1"></label>
-                        <div class="col-md-6">
-                            <textarea id="id_deskripsi" class="form-control" name="name_deskripsi"  rows="4" ><?php echo set_value('name_deskripsi'); ?></textarea>
-
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="select-1"></label>
-                        <div class="col-md-6">
-                            <input onclick="add_to_note();
-                                    update_grandtotal();
-                                    update_total_discount();
-                                   "  name="" id="id_button_add_to_note" type="button" class="btn btn-primary " value="Add Product">
-
-                        </div>
-                    </div>
-
-
-                    <div  id="id_table_grossir" class="form-group">
-                        <label class="col-md-2 control-label"></label>
-
-                        <div class="col-md-10 table-responsive">
-                            <table id="id_table" class="table table-bordered table-striped" >
-                                <thead>
-                                    <tr >
-                                        <th   >Product ID</th>
-                                        <th    >Product Name</th>
-                                        <th   >Qty</th>
-                                        <th   >Long</th>
-                                        <th   >Price</th>
-                                        <th   >%</th>
-                                        <th   >Subtotal</th>
-                                        <th   >Description</th>
-                                        <th   >X</th>
-
-
-                                </thead>
-                                <tbody id="id_body_table" >	
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div   class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Total Discount</label>
-
-
-                        <div class="col-md-2">
-                            <input  readonly id="id_total_discount"  class="form-control" name="name_totaldiscount"  type="number" value="0">
-
-                        </div>
-                    </div>
-                    <div   class="form-group">
-                        <label class="col-md-2 control-label" for="select-1">Grandtotal</label>
-
-
-                        <div class="col-md-2">
-                            <input  readonly id="id_grandtotal"  class="form-control" name="name_grandtotal"  type="number" value="0">
-
-                        </div>
-                    </div>
-                    <footer>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1"></label>
-                            <div class="col-md-4">
-                                <input id="id_button_addorder" type="button" onclick="check_all_not_null();"  name="tes" class="btn btn-primary " value="Add Order">
-                                 <input type="hidden"  name="button_addorder" class="btn btn-primary " value="1">
-                            </div>
-                        </div>
-
-
-                    </footer>
-                </form>						
-
-            </div>
-            <!-- end widget content -->
-
-
-
-            <div class="modal fade" id="addMember" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="widget-body no-padding">
-                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Email</label>
-                                        <div class="col-md-4">
-                                            <input  id="daftar_email" type="text" name="daftar_email"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Name</label>
-                                        <div class="col-md-4">
-                                            <input  id="daftar_nama" type="text" name="daftar_nama"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">BOD</label>
-                                        <div class="col-md-4">
-                                            <input id="daftar_ttl" class="form-control" name="daftar_ttl"  type="date" value="<?php echo set_value('daftar_ttl'); ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Phone</label>
-                                        <div class="col-md-4">
-                                            <input  id="daftar_telepon" type="text" name="daftar_telepon"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Address</label>
-                                        <div class="col-md-4">
-                                            <input  id="daftar_alamat" type="text" name="daftar_alamat"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Gender</label>
-                                        <div class="col-md-4">
-                                            <select  id="daftar_gender" class="form-control" name="daftar_gender" id="select-1" selected ="select" <?php echo set_select('name_gender', set_value('name_gender')); ?> >
-                                                <option value="1" <?php echo set_select('daftar_gender', '1', TRUE); ?>>Male</option>
-                                                <option value="2" <?php echo set_select('daftar_gender', '2'); ?>>Female</option>
-                                            </select> 
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
-                                        <div class="col-md-4">
-                                            
-                                            <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
-                                            <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
-                                        </div>
-                                    </div>
-
-                                    <footer>
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="select-1"></label>
-                                            <div class="col-md-4">
-                                                <input onclick="add_member();" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
-                                                <input type="hidden" name="button_addmember" class="btn btn-primary " value="1">
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </form> 
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="modal fade" id="addDeposit" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="widget-body no-padding">
-                                <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
-                                                                        
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="select-1">Deposit</label>
-                                        <div class="col-md-4">
-                                            <input  id="add_deposit" type="number" name="add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                            <input  id="id_id_add_deposit" type="number" name="name_id_add_deposit"  aria-required="true" class="error" aria-invalid="true" value="" >
-                                        </div>
-                                    </div>
-
-                                    <footer>
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label" for="select-1"></label>
-                                            <div class="col-md-4">
-                                              
-                                            </div>
-                                        </div>
-                                    </footer>
-                                </form> 
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!-- end widget div -->
-    </div>
-</div>
-<!-- END MAIN CONTENT -->
-
-<div class="modal fade" id="myDetailPrice" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Prices for <span id="span_nama" style="color:blue"></span> </h4>
-            </div>
-            <div class="modal-body">
-                <div class="widget-body no-padding">
-
-                    <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                        <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                            <thead>
-                                <tr role="row">
-                                    <!--<th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>-->
-                                    <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Qty Min</th>
-                                    <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Qty Max</th>
-                                    <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Price</th>
-
-
-                            </thead>
-                            <tbody id="tablebodyprice">	
-
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-</div>
-<script>
-    //  checktipe();
-</script>
