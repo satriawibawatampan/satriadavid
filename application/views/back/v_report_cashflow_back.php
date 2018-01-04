@@ -228,7 +228,7 @@
 
                             <header role="heading">
                                 <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                                <h2>Suppliers's Data </h2>
+                                <h2>Cashflow Data</h2>
 
                                 <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
@@ -245,50 +245,13 @@
                                 <!-- widget content -->
                                 <div class="widget-body no-padding">
 
-                                    <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                    <div id='tableReload'>
 
-
-                                        <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
-                                                    <th data-hide="expand" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Name</th>
-                                                    <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Description</th>
-                                                    <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Debit</th>
-                                                    <th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Credit</th>
-                                                    <!--<th data-class="phone" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Action</th>-->
-
-
-
-
-                                            </thead>
-                                            <tbody id="table_cashflow">	
-                                                <?php
-                                                foreach ($tablecashflow as $hasil) {
-                                                    echo '<tr role = "row" class = "odd">';
-                                                    echo '<td hidden>' . $hasil->id . '</td>';
-                                                    echo '<td>' . $hasil->createdat . '</td>';
-                                                    echo '<td>' . $hasil->nama . '</td>';
-                                                    echo '<td>' . $hasil->deskripsi . '</td>';
-                                                    if ($hasil->tipe == 2) {
-                                                        echo ' <td ></td>';
-                                                        echo ' <td ><span style="color:red">' . number_format($hasil->jumlah, 0, ".", ",") . '</span></td>';
-                                                    } else if ($hasil->tipe == 1) {
-                                                        echo ' <td ><span style="color:green">' . number_format($hasil->jumlah, 0, ".", ",") . '</span></td>';
-                                                        echo ' <td ></td>';
-                                                    }
-
-
-//                                                echo '<td>   <a href="' . base_url() . 'Back/Promo/Show_edit_promo/' . $hasil->id . '"  class="glyphicon glyphicon-pencil" style="color:black" ></a>
-//                                                        <a   onclick="showdeletedatamaterial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a></td>';
-                                                    echo '</tr>';
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                        <div class = "dt-toolbar-footer">
-
-                                        </div>
+                                        <?php 
+                                        //di ganti dari load table lewat file
+                                        $data["tablecashflow"]=$tablecashflow;
+                                        
+                                        $this->load->view("Back/table_c_f",$data); ?>
                                     </div>
 
                                 </div>
@@ -344,57 +307,18 @@
             {
                 var from = $("#id_from").val();
                 var to = $("#id_to").val();
-                $("#table_cashflow").empty();
-                
-                
+               // $("#table_cashflow").empty();
+
+
                 $.ajax({
                     type: "POST",
                     url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_cashflow_bydate/",
-                    dataType: "json",
+                    dataType: "html",
+                    
                     data: {froma: from, toa: to},
                     success: function (result) {
-                        var urutanresidu = 1;
-                        // alert(result);
-                        $.each(result, function (id, nameb)
-                        {
-                            var grandtotal = parseFloat(nameb['grandtotal']).toFixed(2);
-                            var hpp = parseFloat(nameb['hpp']).toFixed(2);
-                            var margin = (grandtotal - hpp).toFixed(2);
-                            var persen = (margin * 100 / grandtotal).toFixed(2);
-                            
-                            if(nameb['tipe']==2)
-                            {
-                            $("#table_cashflow").append(
-                                    "<tr role = 'row' class = 'odd'>" +
-                                    "<td hidden>" + nameb['id'] + "</td>" +
-                                    "<td>" + nameb['createdat'] + "</td>" +
-                                    "<td>" + nameb['nama'] + "</td>" +
-                                    "<td>" + nameb['deskripsi'] + "</td>" +
-                                    "<td></td>" +
-                                    "<td>" + nameb['jumlah'] + "</td>"+
-                                    "</tr>"
-                                    );
-                        }
-                        else if (nameb['tipe']==1)
-                        {
-                             $("#table_cashflow").append(
-                                    "<tr role = 'row' class = 'odd'>" +
-                                    "<tdn hidden>" + nameb['id'] + "</td>" +
-                                    "<td>" + nameb['createdat'] + "</td>" +
-                                    "<td>" + nameb['nama'] + "</td>" +
-                                    "<td>" + nameb['deskripsi'] + "</td>" +
-                                   
-                                    "<td>" + nameb['jumlah'] + "</td>"+
-                                     "<td></td>" +
-                                    "</tr>"
-                                    );
-                        }
-
-                            
-
-                            urutanresidu++;
-
-                        });
+                       // alert("sdf");
+                       $("#tableReload").html(result);
                     }
                 });
             }

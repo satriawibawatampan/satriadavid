@@ -460,7 +460,7 @@ class M_order extends CI_Model {
     function Get_printByIdNota($id_notajual) {
         $this->db->trans_start();
 
-        $this->db->select('notajual.*, member.id as idmember, member.nama as nama_member, promo.nama as namapromo, admin.nama as namaadmin,'
+        $this->db->select('notajual.*, member.id as idmember, member.nama as nama_member, member.deposit as deposit_member, member.poin as poin_member, promo.nama as namapromo, admin.nama as namaadmin,'
                 . ' b.nama as nama_admin, c.nama as namaproduser'
                 . '');
         $this->db->from('notajual');

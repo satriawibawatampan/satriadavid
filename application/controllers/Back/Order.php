@@ -23,7 +23,7 @@ class Order extends CI_Controller {
             $this->load->model('M_order');
             $this->load->model('M_payment');
             $this->load->model('M_setting');
-          //  $this->load->model('M_branch');
+          $this->load->model('M_branch');
 
 
 
@@ -61,8 +61,16 @@ class Order extends CI_Controller {
         $bayar = $this->M_order->Get_pembayaranByIdNota($id_nota);
         $data = array(
             "nota" => $nota,
-            "bayar" => $bayar
+          //  "bayar" => $bayar
         );
+        $data['databranch']=$this->M_branch->Get_branch_byId($this->session->userdata['xcellent_cabang']);
+        
+       // print_r($data);exit();
+//        if($data['nota'][0]['id_member']!=0)
+//        {
+//        $data['datamember']=$this->M_branch->Get_branch_byId($this->session->userdata['xcellent_cabang']);
+//        }
+      //  
 
         if (count($nota) > 0) {
            // print_r($nota); exit();

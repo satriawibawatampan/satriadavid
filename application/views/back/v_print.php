@@ -56,23 +56,23 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center; font-weight: 700;">
-                            <span>XCELLENT PRINTING</span><br>
-                            <span>ALAMAT XCELLENT</span><br>
+                            <span><?php echo $databranch['nama']; ?></span><br>
+                            <span><?php echo nl2br($databranch['deskripsi']); ?></span><br>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
-                            <span><?php echo $nota[0]['id'];?></span><br>
-                            <span>RO : <?php echo $nota[0]['namaadmin'];?></span><br>
-                            <span>Csh : <?php echo $nota[0]['nama_admin'];?></span><br>
-                            <?php if (isset($nota[0]['namaproduser'])){
+                            <span>Nota <?php echo $nota[0]['id']; ?></span><br>
+                            <span>RO : <?php echo $nota[0]['namaadmin']; ?></span><br>
+                            <span>Csh : <?php echo $nota[0]['nama_admin']; ?></span><br>
+                            <?php if (isset($nota[0]['namaproduser'])) {
                                 ?>
-                                 <span>Member : <?php echo $nota[0]['namaproduser'];?></span><br>
-                                <?php
-                            }?>
-                            <?php if (isset($nota[0]['namapromo'])){
+                                <span>Member : <?php echo $nota[0]['nama_member']; ?></span><br>
+                            <?php }
+                            ?>
+                            <?php if (isset($nota[0]['namapromo'])) {
                                 ?>
-                                 <span>Promo : <?php echo $nota[0]['namapromo'];?></span><br>
-                                <?php
-                            }?>
+                                <span>Promo : <?php echo $nota[0]['namapromo']; ?></span><br>
+                            <?php }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                                                     <td style='text-align: center;'><?php echo $items['jumlah'] ?> x</td>
                                                     <td style='text-align: center;'><?php echo number_format($hargaDiskon, 0, '', '.'); ?></td>   
                                                     <td style='text-align: center;'></td>   
-                                                    <td style='text-align: center;'><?php echo number_format($total, 0, '', '.'); ?></td>   
+                                                    <td style='text-align: right;'><?php echo number_format($total, 0, '', '.'); ?></td>   
                                                 </tr>
                                                 <?php
                                             endforeach;
@@ -126,23 +126,41 @@
                         <div class="col-lg-12  col-sm-12 col-xs-12">
                             <table style = "width: 100%; margin-left: auto; margin-right: auto;">
                                 <tr>
-                                    <td style="text-align: right;">Grand Total</td>
+                                    <td style="text-align: left;">Grand Total</td>
                                     <td style="text-align: left;">:</td>
                                     <td style="text-align: left;">Rp.</td>
                                     <td style="text-align: right;"><?php echo number_format($nota[0]['grandtotal'], 0, '', '.'); ?>,-</td>
                                 </tr>
-                                <?php 
-                                if(count($bayar) > 0){
-                                    foreach($bayar as $pemb){
+                                <?php
+                                if ($nota['pembayaran'] > 0) {
+                                    foreach ($nota['pembayaran'] as $pemb) {
+                                        ?>
+                                        <tr>
+                                            <td style="text-align: right;"><?php if($pemb['id_pembayaran']==0){ echo "Use ". $pemb['nama_pembayaran'];}else{echo "Via ". $pemb['nama_pembayaran'];} ?></td>
+                                            <td style="text-align: left;">:</td>
+                                            <td style="text-align: left;">Rp.</td>
+                                            <td style="text-align: right;"><?php echo number_format($pemb['jumlah'], 0, '', '.'); ?>,-</td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+
+                                if ($nota[0]['id_member'] != 0) {
                                     ?>
+                                        <tr></tr>
                                     <tr>
-                                        <td style="text-align: right;"><?php echo $pemb['nama_pembayaran'];?></td>
+                                        <td style="text-align: left;">Your Deposit</td>
                                         <td style="text-align: left;">:</td>
                                         <td style="text-align: left;">Rp.</td>
-                                        <td style="text-align: right;"><?php echo number_format($pemb['jumlah'], 0, '', '.'); ?>,-</td>
+                                        <td style="text-align: right;"><?php echo number_format($nota[0]['deposit_member'], 0, '', '.'); ?>,-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;">Your Point</td>
+                                        <td style="text-align: left;">:</td>
+                                        <td style="text-align: left;"></td>
+                                        <td style="text-align: right;"><?php echo number_format($nota[0]['poin_member'], 0, '', '.'); ?>,-</td>
                                     </tr>
                                     <?php
-                                    }
                                 }
                                 ?>
                             </table>
@@ -153,7 +171,7 @@
                             <span>Terima kasih atas kunjungannya</span><br>
                             <span>Barang yang sudah dibeli</span><br>
                             <span>Tidak bisa dikembalikan</span><br>
-                            <span style='font-weight: 600;'><?php echo $nota[0]['createdat'];?></span>
+                            <span style='font-weight: 600;'><?php echo $nota[0]['createdat']; ?></span>
                         </div>
                     </div>
                 </div>

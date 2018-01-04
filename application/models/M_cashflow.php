@@ -25,24 +25,7 @@ class M_cashflow extends CI_Model {
         $this->db->insert('aruskas', $data);
     }
 
-    function Get_all_cashflow() {
-        
-         date_default_timezone_set('Asia/Jakarta');
-        $date = date('Y-m-d H:i:s');
-
-        $newdate = strtotime('-3 month', strtotime($date));
-        $newdate = date('Y-m-j', $newdate);
-
-        $this->db->select('aruskas.*, admin.nama as namaadmin, admin.id as idadmin');
-        $this->db->from('aruskas');
-        $this->db->join('admin', 'admin.id = aruskas.id_admin');
-        $this->db->where('aruskas.id_cabang', $this->session->userdata['xcellent_cabang']);
-         $this->db->where('aruskas.createdat<=', date('Y-m-d H:i:s'));
-        $this->db->where('aruskas.createdat>=', $newdate);
-        $this->db->order_by('id', 'desc');
-        $query = $this->db->get();
-        return $query->result();
-    }
+    
 
     function Get_income_summary() {
         
@@ -166,6 +149,25 @@ where createdat >= ? and createdat <= ?  and id_cabang= ?
         return $result->result();
         //$result->result();
         //print_r($laporan); exit();
+    }
+    
+    function Get_all_cashflow() {
+        
+         date_default_timezone_set('Asia/Jakarta');
+        $date = date('Y-m-d H:i:s');
+
+        $newdate = strtotime('-3 month', strtotime($date));
+        $newdate = date('Y-m-j', $newdate);
+
+        $this->db->select('aruskas.*, admin.nama as namaadmin, admin.id as idadmin');
+        $this->db->from('aruskas');
+        $this->db->join('admin', 'admin.id = aruskas.id_admin');
+        $this->db->where('aruskas.id_cabang', $this->session->userdata['xcellent_cabang']);
+         $this->db->where('aruskas.createdat<=', date('Y-m-d H:i:s'));
+        $this->db->where('aruskas.createdat>=', $newdate);
+        $this->db->order_by('id', 'desc');
+        $query = $this->db->get();
+        return $query->result();
     }
     function Get_cashflow_bydate($from, $to) {
        

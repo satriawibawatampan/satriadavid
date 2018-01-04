@@ -232,113 +232,13 @@
                             <!-- widget content -->
                             <div class="widget-body no-padding">
 
-                                <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <div id='tableReload'>
 
-                                    <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
-                                                <th data-class="expand" class="expand sorting"  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Date</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Admin Name</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Name</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Description</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Debit</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Credit</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Balance</th>
-
-
-
-
-                                        </thead>
-                                        <tbody id="tablepettycash">	
-                                            <?php
-                                            foreach ($tablepettycash as $hasil) {
-                                                echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->createdat . '</td>';
-                                                echo '<td>' . $hasil->namaadmin . ' ( ID: ' . $hasil->idadmin . ' )</td>';
-                                                echo '<td>' . $hasil->nama . '</td>';
-                                                echo '<td>' . $hasil->deskripsi . '</td>';
-                                                if ($hasil->tipe == 2) {
-                                                    echo ' <td ></td>';
-                                                    echo ' <td ><span style="color:red " class="">' .number_format (  $hasil->jumlah , 0 , "." , "," ) . '</span></td>';
-                                                } else if ($hasil->tipe == 1) {
-                                                    echo ' <td ><span style="color:green">' . number_format (  $hasil->jumlah , 0 , "." , "," ) . '</span></td>';
-                                                    echo ' <td ></td>';
-                                                }
-                                                echo '<td>' . number_format (  $hasil->jumlahuang , 0 , "." , "," ) . '</td>';
-
-
-
-                                                echo '</tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-
-                                    <script>
-
-                                        function show_reporta()
-                                        {
-                                            //alert("masuk");
-                                            if ($("#id_to").val().length > 0 && $("#id_from").val().length > 0)
-                                            {
-                                                if ($("#id_to").val() < $("#id_from").val())
-                                                {
-                                                    alert("'Date To' must be same as / higher than 'Date From'");
-                                                } else
-                                                {
-                                                    var from = $("#id_from").val();
-                                                    var to = $("#id_to").val();
-
-                                                    $("#tablepettycash").empty();
-                                                   // alert(from + "/" + to);
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_petty_cash_bydate/",
-                                                        dataType: "json",
-                                                        data: {froma: from, toa: to},
-                                                        success: function (result) {
-                                                            var urutanresidu = 1;
-                                                           // alert(result);
-                                                            $.each(result, function (id, nameb)
-                                                            {
-                                                                var input = "";
-                                                                if (nameb['tipe'] == 1)
-                                                                {
-                                                                    input = "<td><span style='color:green'>" + nameb['jumlah'] + "</span></td><td></td>";
-                                                                }
-                                                                if (nameb['tipe'] == 2)
-                                                                {
-                                                                    input = "<td ></td><td><span style='color:red'>" + nameb['jumlah'] + "</span></td>";
-                                                                }
-                                                              
-
-
-                                                                $("#tablepettycash").append(
-                                                                        "<tr role = 'row' class = 'odd'>" +
-                                                                        "<td>" + nameb['createdat'] + "</td>" +
-                                                                        "<td>" + nameb['namaadmin'] + " ( ID:" + nameb['idadmin'] + " )</td>" +
-                                                                        "<td>" + nameb['nama'] + "</td>" +
-                                                                        "<td>" + nameb['deskripsi'] + "</td>" + input+
-                                                                        "<td>" + nameb['jumlahuang'] + "</td></tr>"
-                                                                        );
-
-//                                                                
-                                                                urutanresidu++;
-
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else
-                                            {
-                                                alert("Nulls in field Dates are not allowed");
-                                            }
-                                        }
-
-
-                                    </script>
-
-                                </div>
+                                        <?php 
+                                        //di ganti dari load table lewat file
+                                        $data["tablepettycash"]=$tablepettycash;
+                                        $this->load->view("Back/table_p_t",$data); ?>
+                                    </div>
 
                             </div>
                             <!--end widget content -->
@@ -375,11 +275,45 @@
     </div>
     <!--END MAIN CONTENT -->
 
-  
+
 
 </div> 
 
 <script>
-    
-    </script>
+
+    function show_reporta()
+    {
+        //alert("masuk");
+        if ($("#id_to").val().length > 0 && $("#id_from").val().length > 0)
+        {
+            if ($("#id_to").val() < $("#id_from").val())
+            {
+                alert("'Date To' must be same as / higher than 'Date From'");
+            } else
+            {
+                var from = $("#id_from").val();
+                var to = $("#id_to").val();
+
+                $("#tablepettycash").empty();
+                // alert(from + "/" + to);
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_petty_cash_bydate/",
+                    dataType: "json",
+                    dataType: "html", 
+                    data: {froma: from, toa: to},
+                    success: function (result) {
+                        $("#tableReload").html(result);
+                    }
+                });
+            }
+        } else
+        {
+            alert("Nulls in field Dates are not allowed");
+        }
+    }
+
+
+</script>
+
 

@@ -52,8 +52,9 @@ class Cashflow extends CI_Controller {
 
                 $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
                 $navigation = array(
-                    "menu" => "other",
-                    "submenu" => "cashflow"
+                    "menu" => "report",
+                    "submenu" => "reportcashflow",
+                     "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
@@ -146,8 +147,8 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
     public function Show_all_cashflow() {
         $data['tablecashflow'] = $this->M_cashflow->Get_all_cashflow();
         $navigation = array(
-            "menu" => "other",
-            "submenu" => "cashflow",
+            "menu" => "report",
+            "submenu" => "reportcashflow",
             "stokhabis" => $this->M_material->Get_material_out_of_stock()
         );
         $this->load->view('back/v_head_admin_back');
@@ -218,14 +219,20 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
         $to = $name = $this->input->post('toa');
         //   print_r($from);exit();
         $laporan = $this->M_cashflow->Get_petty_cash_bydate($from, $to);
-        echo json_encode($laporan);
+        
+         //Balikin HTML ke AJAX
+        $data["tablepettycash"]=$laporan;
+        $this->load->view("Back/table_p_t",$data);
     }
     public function Get_cashflow_bydate() {
         $from = $name = $this->input->post('froma');
         $to = $name = $this->input->post('toa');
         //   print_r($from);exit();
         $laporan = $this->M_cashflow->Get_cashflow_bydate($from, $to);
-        echo json_encode($laporan);
+        
+        //Balikin HTML ke AJAX
+        $data["tablecashflow"]=$laporan;
+        $this->load->view("Back/table_c_f",$data);
     }
 
 }

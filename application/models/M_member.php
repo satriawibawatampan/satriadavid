@@ -235,5 +235,26 @@ class M_member extends CI_Model {
 
         $this->db->trans_complete();
     }
+    
+    function Get_count_member_per_100()
+    {
+        $this->db->select('count(*) as count');
+        $this->db->from('member');
+        $this->db->where('statusaktif', 1);
+        
+        $query = $this->db->get();
+        //print_r($query->row());exit();
+        return $query->row();
+    }
+    function Get_member_per_100($counter)
+    {
+        $this->db->select('member.email');
+        //$this->db->from('member');
+        $this->db->where('statusaktif', 1);
+        
+        $query = $this->db->get('member', 100, (int)($counter/100+1));
+       // print_r($query->result());exit();
+        return $query->result_array();
+    }
 
 }

@@ -86,7 +86,7 @@
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Subject</label>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input class="form-control" id="id_bonus_deposit" name="name_subject"  type="text" value="<?php echo set_value('name_subject'); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_subject'); ?>
@@ -97,10 +97,26 @@
                     
                     <div class="form-group">
                         <label class="col-md-2 control-label">Content</label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <textarea class="form-control" name="name_content"  rows="4" ><?php echo set_value('name_content'); ?></textarea>
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_content'); ?>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">To</label>
+                        <div class="col-md-2">
+                            <select class="form-control" name="name_counter" id="select-1" selected ="select" >
+                                <?php
+                                for($x=1;$x<=$listcounter;$x++){
+                                    echo "<option value='" . $x . "'" . set_select('name_counter') . ">" .  (($x-1)*100+1)." - " .($x*100). "</option>";
+                                }
+                                ?>
+                            </select> 
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_counter'); ?>
                             </span>
                         </div>
                     </div>
