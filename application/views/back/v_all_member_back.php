@@ -107,6 +107,7 @@
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">BOD</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Gender</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Deposit</th>
+                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Poin</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Status</th>
 
                                                 <th class="" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Action</th>
@@ -124,6 +125,7 @@ if ($hasil->id!=0) {
                                                 echo '<td>' . $hasil->ttl . '</td>';
                                                 echo '<td>' . $hasil->gender . '</td>';
                                                 echo '<td>' . $hasil->deposit . '</td>';
+                                                echo '<td>' . $hasil->poin . '</td>';
                                                 if ($hasil->statusaktif == 0) {
                                                     echo '<td style="color:red">Deactivated</td>';
                                                 } else if ($hasil->statusaktif == 1) {
@@ -134,11 +136,12 @@ if ($hasil->id!=0) {
                                                  if ($hasil->id!=0 && $hasil->statusaktif==1) {
                                                 echo '   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
                                                  }
-                                                if ($hasil->statusaktif == 0 && $hasil->id!=0) {
-                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a>';
-                                                } else if ($hasil->statusaktif == 1 && $hasil->id!=0) {
-                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a>';
-                                                }
+                                                 
+//                                                if ($hasil->statusaktif == 0 && $hasil->id!=0) {
+//                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a>';
+//                                                } else if ($hasil->statusaktif == 1 && $hasil->id!=0) {
+//                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a>';
+//                                                }
 
                                                 echo '</td></tr>';
                                             }
@@ -357,7 +360,7 @@ if ($hasil->id!=0) {
 
     function showeditdatamember(idnya, nama)
     {
-        alert("oke jek");
+        //alert("oke jek");
 
         $.ajax({
             type: "POST",

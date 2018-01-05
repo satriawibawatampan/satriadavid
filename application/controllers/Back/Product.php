@@ -62,9 +62,11 @@ class Product extends CI_Controller {
     }
 
     public function Show_edit_product($id) {
-        $data['listkategori'] = $this->M_kategori->Show_all_kategori_1();
+        $data['listkategori'] = $this->M_kategori->Show_all_category();
         $data['listmaterial'] = $this->M_material->Get_all_material();
         $data['dataproduct'] = $this->M_product->Get_one_product($id);
+        
+       // print_r($data['listkategori']); exit();
         
         $data['dataproductmaterial'] = $this->M_product->Get_product_material($id);
         $data['dataharga'] = $this->M_harga->Get_harga($id);

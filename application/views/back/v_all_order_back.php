@@ -154,7 +154,7 @@
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ',' . $hasil->poinmember . ',' . $hasil->depositmember . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
                                                 } else if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
@@ -346,6 +346,8 @@
                         <input  id="id_paymentid" type="hidden" name="name_paymentid"  aria-required="true" class="error" aria-invalid="true" >
                         <input  id="id_memberid" type="hidden" name="name_txt_id_member"  aria-required="true" class="error" aria-invalid="true" >
                         <input  id="id_paymentgrandtotal" type="hidden" name="name_grandtotal"  aria-required="true" class="error" aria-invalid="true" >
+                        
+                        
                         <div class="form-group">
                             <table id="id_table_payment" class="table table-bordered table-striped" >
                                 <thead>
@@ -363,6 +365,16 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="select-1">Member</label>
+                             <div class="col-md-8">
+                            <label class=" control-label" for="select-1"><?php echo $hasil->namamember." (Deposit : ".number_format($hasil->depositmember, 0, ".", ",")." -- Poin : ".number_format($hasil->poinmember, 0, ".", ",")." )"; ?></label>
+                             </div>
+                             <input  id="id_deposit" type="hidden" name="" value="<?php echo $hasil->depositmember; ?>"  aria-required="true" class="error" aria-invalid="true" >
+                       
+                            
                         </div>
 
                         <div class="form-group">
@@ -642,7 +654,7 @@
         });
     }
 
-    function showmodalpayment(idnya, grandtotal,idmember)
+    function showmodalpayment(idnya, grandtotal,idmember,poinmember,depositmember)
     {
         var adadeposit = 0;
         var adaregistermember=0;
@@ -686,7 +698,7 @@
                 });
                 $("#id_body_table_payment").append(
                         "<tr role = 'row' class = 'odd'>" +
-                        "<td colspan='5'>Grandtotal</td>" +
+                        "<td colspan='4'>Grandtotal</td>" +
                         "<td>" + $('#id_paymentgrandtotal').val() + "</td>" +
                         "</tr>");
                         
@@ -902,7 +914,11 @@
             
             var checkingadaproduksama = this.check_paymentmethod();
             //alert("checking " + checkingadamaterialsama);
-            if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
+            if(checkingadaproduksama==2)
+            {
+                 alert("Your deposit not enough.");
+            }
+            else if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
             {
                 $("#id_body_table_payment_method").append(
                         "<tr id='tr_" + urutanpayment + "' role = 'row' class = 'odd'>" +
@@ -918,7 +934,7 @@
 
                 // $("#id_paymentmethod").val(1);
                 $("#id_paymentamount").val("");
-            } else
+            } else if(checkingadaproduksama==0)
             {
                 alert("Payment have been registerd");
             }
@@ -931,6 +947,15 @@
 
     function check_paymentmethod()
     {
+        //cek apakah duit deposit nya lebih besar dari pembayarangnya
+        if($("#id_paymentmethod option:selected").val()==0)
+        {
+            if($("#id_paymentamount").val()>$("#id_deposit").val())
+            {
+             return 2;   
+            }
+        }
+        
         var numItems = $('.hitung').length;
 
       //  var id = event.target.id;

@@ -375,7 +375,6 @@
     function editdata($idnya, $nama)
     {
 
-
         // alert("a");
         $("#editname").val($nama);
         $("#editname2").val($nama);

@@ -59,48 +59,59 @@ class Email extends CI_Controller {
                     "submenu" => "email",
                     "stokhabis" => $this->M_material->Get_material_out_of_stock()
                 );
+
+                $data['listcounter'] = $this->M_member->Get_count_member_per_100()->count / 100 + 1;
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
                 $this->load->view('back/v_navigation_back', $navigation);
-                $this->load->view('back/v_email_back');
+                $this->load->view('back/v_email_back', $data);
                 $this->load->view('back/v_footer_back');
             } else {
                 $list = [];
                 $arrayku = $this->M_member->Get_member_per_100($this->input->post("name_counter"));
                 //8$query = $this->db->get('mytable', 10, 20);
-
+                print_r($arrayku);
+                exit();
                 foreach ($arrayku as $item) {
-                    array_push($list, $item['email']);
+
+                    $ci = get_instance();
+                    $config['protocol'] = "smtp";
+                    //$config['smtp_host'] = "smtp.gmail.com";
+                    $config['smtp_host'] = "ssl://mars-printing.com";
+                    $config['smtp_port'] = "465";
+                    $config['smtp_user'] = "info@mars-printing.com";
+                    $config['smtp_pass'] = "admin123";
+                    $config['charset'] = "utf-8";
+                    $config['mailtype'] = "html";
+                    $config['newline'] = "\r\n";
+                    $config['crlf'] = "\r\n";
+                    $ci->email->initialize($config);
+
+                    //$list = array('ilove.laikebao@gmail.com');
+
+                    $ci->email->from('info@mars-printing.com', 'Mars-Printing');
+                    $ci->email->to($item['email']);
+                    $ci->email->subject($this->input->post("name_subject"));
+                    $ci->email->message(nl2br($this->input->post("name_content")));
+                    if ($this->email->send()) {
+
+                        //    echo 'Email sent.';
+                    } else {
+                        show_error($this->email->print_debugger());
+                    }
+                    // array_push($list, $item['email']);
                 }
 
-                $ci = get_instance();
-                $config['protocol'] = "smtp";
-                //$config['smtp_host'] = "smtp.gmail.com";
-                $config['smtp_host'] = "ssl://mars-printing.com";
-                $config['smtp_port'] = "465";
-                $config['smtp_user'] = "info@mars-printing.com";
-                $config['smtp_pass'] = "admin123";
-                $config['charset'] = "utf-8";
-                $config['mailtype'] = "html";
-                $config['newline'] = "\r\n";
-                $config['crlf'] = "\r\n";
-                $ci->email->initialize($config);
 
 
-                $ci->email->from('info@mars-printing.com', 'Mars-Printing');
-                $ci->email->to($list);
-                $ci->email->subject($this->input->post("name_subject"));
-                $ci->email->message($this->input->post("name_content"));
-                if ($this->email->send()) {
-                    $this->session->set_flashdata('pesanform', "Your Email has been sent");
-                    $this->session->keep_flashdata('pesanform');
-                    redirect('Back/Email/Show_email');
-                //    echo 'Email sent.';
-                } else {
-                    show_error($this->email->print_debugger());
-                }
+
+                $this->session->set_flashdata('pesanform', "Your Email has been sent");
+                $this->session->keep_flashdata('pesanform');
+                redirect('Back/Email/Show_email');
             }
         }
     }
+
+  
 
 }

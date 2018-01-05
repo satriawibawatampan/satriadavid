@@ -318,7 +318,7 @@ class M_order extends CI_Model {
     }
 
     function Get_all_order() {
-        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, promo.nama as namapromo, admin.nama as namaadmin,'
+        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, member.poin as poinmember, member.deposit as depositmember, promo.nama as namapromo, admin.nama as namaadmin,'
                 . ' b.nama as namakasir, c.nama as namaproduser');
         $this->db->from('notajual');
         $this->db->join('member', 'member.id=notajual.id_member','left');

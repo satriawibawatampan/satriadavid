@@ -106,10 +106,13 @@
                         </div>
                     </div>
 
+                    <input id="id_tipe"  class="form-control"   type="hidden" min="0" value="">
+
+
 
 
                     <div class="form-group">
-                        <label class="col-md-2 control-label">HPP</label>
+                        <label class="col-md-2 control-label">Price</label>
                         <div class="col-md-2">
                             <input id="id_buyingprice" required class="form-control"    type="number" value="<?php echo set_value('name_buyingprice'); ?>">
                             <span class="col-md-9 text-danger">
@@ -133,15 +136,15 @@
                         <label class="col-md-2 control-label" id="id_label">Amount per Pack</label>
                         <div class="col-md-2 ">
                             <input id="id_amountperpack" class="form-control"   type="number" min="0" value="<?php echo set_value('name_amountperpack'); ?>">
-                            
+
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_amountperpack'); ?>
                             </span>
 
                         </div>
-                       
+
                         <span class="cm">CM</span>
-                       
+
 
                     </div>
 
@@ -224,75 +227,76 @@
 
 <script>
 
- window.onload = function () {
-                          
-                            checktipe();
+    window.onload = function () {
+
+        checktipe();
 
 
-                        };
-                        
-                        function checktipe()
-                        {
-                            var tipenya = null;
-                          
-                            
-                                // alert("a");
-                                $.ajax({
-                                    async: true, 
-                                    type: "POST",
-                                    url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_one_material/" + $("#id_material").val(),
-                                    dataType: "json",
-                                    async: false,
-                                    success: function (result) {
+    };
 
-                                      // alert(result['tipe']);
-                                        
-                                          //  name=result;
-                                            tipenya = result['tipe'];
-
-                                            if (tipenya == 1) {
-                                                
-                                                //alert(tipenya);
-                                                $("#id_quantity").val(1);
-                                                $("#id_div_pack").show();
-                                                $("#id_label").text("Long per Roll");
-                                               
-                                                $(".cm").show();
-                                            } else {
-                                              //   alert(tipenya);
-                                               $("#id_quantity").val(1);
-                                                $("#id_div_pack").hide();
-                                                $("#id_label").text(" Amount");
-                                               
-                                               $(".cm").hide();
-
-                                            }
+    function checktipe()
+    {
+        var tipenya = null;
 
 
-                                        
-                                    }
-                                });
+        // alert("a");
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Material/Json_get_one_material/" + $("#id_material").val(),
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+                // alert(result['tipe']);
+
+                //  name=result;
+                tipenya = result['tipe'];
+
+                if (tipenya == 1) {
+
+                    //alert(tipenya);
+                    $("#id_quantity").val(1);
+                    $("#id_tipe").val(1);
+                    $("#id_div_pack").show();
+                    $("#id_label").text("Long per Roll");
+
+                    $(".cm").show();
+                } else {
+                    //   alert(tipenya);
+                    $("#id_quantity").val(1);
+                    $("#id_tipe").val(2);
+                    $("#id_div_pack").hide();
+                    $("#id_label").text(" Amount");
+
+                    $(".cm").hide();
+
+                }
 
 
 
+            }
+        });
 
 
-                          
-                        }
+
+
+
+
+    }
 
     var urutan = 1;
     var pack = $("#id_quantity").val();
-    if(pack === ""){
+    if (pack === "") {
         $("#id_quantity").val(1);
     }
     function add_table_purchasing()
     {
-       if(document.getElementById('id_quantity').value == 0 ||
+        if (document.getElementById('id_quantity').value == 0 ||
                 document.getElementById('id_amountperpack').value == 0)
-       {
-           alert("Quantity can't be null");
-        }
-        else if (
+        {
+            alert("Quantity can't be null");
+        } else if (
                 document.getElementById('id_material').value.length > 0 &&
                 document.getElementById('id_buyingprice').value.length > 0 &&
                 document.getElementById('id_quantity').value.length > 0 &&
@@ -305,19 +309,34 @@
             {
                 $("#id_table_purchasing_note").show();
 
-                $("#id_body_table").append(
-                        "<tr id='tr_" + urutan + "'>" +
-                        "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]'   type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]'   type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]'   type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]'  type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
-                        "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]'   type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
-                        "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]'   type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
-                        "</tr>");
+                if ($("#id_tipe").val() == 1)
+                {
+                    $("#id_body_table").append(
+                            "<tr id='tr_" + urutan + "'>" +
+                            "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]'   type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]'   type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]'   type='number' value='" + $("#id_quantity").val() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]'  type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]'   type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
+                            "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                            "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]'   type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
+                            "</tr>");
+                } else if ($("#id_tipe").val() == 2)
+                {
+                    $("#id_body_table").append(
+                            "<tr id='tr_" + urutan + "'>" +
+                            "<td> <div ><input readonly id='id_nama_material_" + urutan + "' class='form-control' name='name_name[]'   type='text' value='" + $("#id_material option:selected").text() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_buyingprice_" + urutan + "' class='form-control' name='name_buyingprice[]'   type='number' value='" + $("#id_buyingprice").val() + "'></div></td>" +
+                            "<td> <div ><input  align='right' type='hidden' id='id_quantity_" + urutan + "' class='form-control' name='name_quantity[]'   type='number' value='" + $("#id_quantity").val() + "'></div><div ><input readonly align='right' class='form-control'   type='text' value='is not roll'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_amountperpack_" + urutan + "' class='form-control' name='name_amountperpack[]'  type='number' value='" + $("#id_amountperpack").val() + "'></div></td>" +
+                            "<td> <div ><input readonly align='right' id='id_subtotal_" + urutan + "' class='form-control' name='name_subtotal[]'   type='number' value='" + (parseInt($("#id_buyingprice").val()) * parseInt($("#id_quantity").val()) * parseInt($("#id_amountperpack").val())).toString() + "'></div></td>" +
+                            "<td> <div ><i  onclick='remove_purchasing_note_tr(" + urutan + ")' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>" +
+                            "<td hidden > <div ><input  readonly id='id_material_" + urutan + "' class='form-control hitung' name='name_idmaterial[]'   type='number' value='" + $("#id_material option:selected").val() + "'></div></td>" +
+                            "</tr>");
+                }
 
                 urutan++;
-             //   alert("urutan ke " + urutan.toString());
+                //   alert("urutan ke " + urutan.toString());
                 $("#id_material").val(1);
                 $("#id_buyingprice").val("");
                 $("#id_quantity").val("");
@@ -370,8 +389,8 @@
 
     function check_all_not_null()
     {
-        
-        if ($('.hitung').length == 0 || $("#id_supplier")==null)
+
+        if ($('.hitung').length == 0 || $("#id_supplier") == null)
         {
             alert("Register at least 1 material to purchasing note & Supplier can't be Null");
             $("#id_button_addpurchasingnote").prop('disabled', false);
@@ -379,7 +398,7 @@
         } else
         {
             $("#id_button_addpurchasingnote").prop('disabled', false);
-        //    alert("yes");
+            //    alert("yes");
 
             $("#smart-form-register").submit();
             $("#id_button_addpurchasingnote").prop('disabled', true);

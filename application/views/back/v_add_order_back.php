@@ -81,16 +81,16 @@
                         <label class="col-md-2 control-label" for="select-1">Queue</label>
                         <div class="col-md-2">
                             <input  id="id_queue" class="form-control" name="name_queue" type="number" min="0" value="">
-                                
+
                         </div>
-                        
-                        
+
+
                     </div>
                     <div id="id_inputmember" class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Member</label>
                         <div class="col-md-2">
                             <select class="form-control" name="name_member" id="id_member" selected ="select" onchange="checkNewMember()">
-                                
+
 
                                 <?php foreach ($listmember as $itemmember) { ?>
 
@@ -106,9 +106,9 @@
                                     data-title="Member Registration"
                                     id="btnModal">Add Member</button>
                         </div>
-                        
+
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="col-md-2 control-label" for="select-1">Product</label>
                         <div class="col-md-2">
@@ -163,6 +163,7 @@
                             <input   id="id_discount"  class="form-control" name="name_discount" type="hidden" value="0">
                             <a onclick="get_price();" class="fa fa-lg fa-fw fa-money" data-toggle="modal" data-target="#myDetailPrice">Grossir</a>
                         </div>
+                        <input  id="id_tipe"  class="form-control"  type="hidden" min="0" >
 
                     </div>
                     <div class="form-group">
@@ -234,7 +235,7 @@
                             <label class="col-md-2 control-label" for="select-1"></label>
                             <div class="col-md-4">
                                 <input id="id_button_addorder" type="button" onclick="check_all_not_null();"  name="tes" class="btn btn-primary " value="Add Order">
-                                 <input type="hidden"  name="button_addorder" class="btn btn-primary " value="1">
+                                <input type="hidden"  name="button_addorder" class="btn btn-primary " value="1">
                             </div>
                         </div>
 
@@ -301,7 +302,7 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                         <div class="col-md-4">
-                                            
+
                                             <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
                                             <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
                                         </div>
@@ -336,7 +337,7 @@
                         <div class="modal-body">
                             <div class="widget-body no-padding">
                                 <form id="smart-form-register-payment" class="form-horizontal" novalidate="novalidate" method="post">
-                                                                        
+
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                         <div class="col-md-4">
@@ -350,7 +351,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="select-1"></label>
                                             <div class="col-md-4">
-                                              
+
                                             </div>
                                         </div>
                                     </footer>
@@ -407,521 +408,540 @@
 
 </div>
 <script>
-                       $("#deposit").hide();
-                        
-                        function OpenModal() {
-                            $(".modal-title").text("Member Registration");
-                        }
-                        function OpenModalDeposit(id) {
-                        // alert($("#id_member").val());
-                            $(".modal-title").text("Deposit Member");
-                            $("#id_id_add_deposit").val($("#id_member").val());
-                        }
-                        function checkNewMember() {
-                            var member = $("#id_member").val();
-                            if (member === "0") {
-                                $("#noMember").show();
-                                $("#deposit").hide();
-                            } else {
-                                alert("yes");
-                                $("#noMember").hide();
-                                $("#deposit").show();
-                            }
-                        }
+    $("#deposit").hide();
 
-                        function show_product_by_category(idnya)
-                        {
-                            $("#id_product").empty();
-                            //  alert(idnya);
-                            var kategoris = <?php echo json_encode($listkategori); ?>;
-                            for (x = 0; x < kategoris.length; x++) {
-                                if (kategoris[x]['id'] == idnya) {
+    function OpenModal() {
+        $(".modal-title").text("Member Registration");
+    }
+    function OpenModalDeposit(id) {
+        // alert($("#id_member").val());
+        $(".modal-title").text("Deposit Member");
+        $("#id_id_add_deposit").val($("#id_member").val());
+    }
+    function checkNewMember() {
+        var member = $("#id_member").val();
+        if (member === "0") {
+            $("#noMember").show();
+            $("#deposit").hide();
+        } else {
+            alert("yes");
+            $("#noMember").hide();
+            $("#deposit").show();
+        }
+    }
 
-                                    //  alert(kategoris[x]['product'].length);
-                                    for (y = 0; y < kategoris[x]['product'].length; y++) {
-                                        $("#id_product").append(
-                                                "<option value='" + kategoris[x]['product'][y]['id'] + "'>" + kategoris[x]['product'][y]['nama'] + "</option>"
-                                                );
-                                    }
-                                }
-                            }
+    function show_product_by_category(idnya)
+    {
+        $("#id_product").empty();
+        //  alert(idnya);
+        var kategoris = <?php echo json_encode($listkategori); ?>;
+        for (x = 0; x < kategoris.length; x++) {
+            if (kategoris[x]['id'] == idnya) {
 
-                        }
+                //  alert(kategoris[x]['product'].length);
+                for (y = 0; y < kategoris[x]['product'].length; y++) {
+                    $("#id_product").append(
+                            "<option value='" + kategoris[x]['product'][y]['id'] + "'>" + kategoris[x]['product'][y]['nama'] + "</option>"
+                            );
+                }
+            }
+        }
 
-                        function checktipe()
-                        {
-                            var tipenya = null;
-                          
-                            
-                                // alert("a");
-                                $.ajax({
-                                    async: true, 
-                                    type: "POST",
-                                    url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
-                                    dataType: "json",
-                                    async: false,
-                                    success: function (result) {
+    }
 
-                                        $.each(result, function (id, name)
-                                        {
-
-                                            tipenya = name['tipematerial'];
-
-                                            if (tipenya == 1) {
-                                                
-                                               // alert(tipenya);
-                                                $("#id_long").show();
-                                                $("#id_span_long").show();
-                                                $("#id_long").val("1");
-                                                $(".cm").show();
-                                            } else {
-                                            //     alert(tipenya);
-                                                $("#id_long").val("1");
-                                                $("#id_long").hide();
-                                                $("#id_span_long").hide();
-                                                $(".cm").hide();
-
-                                            }
+    function checktipe()
+    {
+        var tipenya = null;
 
 
-                                        });
-                                    }
-                                });
+        // alert("a");
+        $.ajax({
+            async: true,
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Product/Json_get_material/" + $("#id_product").val(),
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+                $.each(result, function (id, name)
+                {
+
+                    tipenya = name['tipematerial'];
+
+                    if (tipenya == 1) {
+
+                        // alert(tipenya);
+                        $("#id_long").show();
+                        $("#id_span_long").show();
+                        $("#id_long").val("1");
+                        $("#id_tipe").val("1");
+                        $(".cm").show();
+                    } else {
+                        //     alert(tipenya);
+                        $("#id_long").val("1");
+                        $("#id_tipe").val("2");
+                        $("#id_long").hide();
+                        $("#id_span_long").hide();
+                        $(".cm").hide();
+
+                    }
+
+
+                });
+            }
+        });
 
 
 
 
 
-                          
-                        }
 
-                        function get_price()
-                        { 
-                            //alert($("#id_category").val());
-                            $("#tablebodyprice").empty();
-                            var idkategori = $("#id_category").val();
-                            var idproduk = $("#id_product").val();
-                            var qty = parseInt($("#id_quantity").val());
-                            // alert(qty);
-                            $("#id_unitprice").empty();
-                            var kategoris = <?php echo json_encode($listkategori); ?>;
-                            for (x = 0; x < kategoris.length; x++) {
-                                if (kategoris[x]['id'] == idkategori) {
+    }
 
-                                    for (y = 0; y < kategoris[x]['product'].length; y++) {
-                                        if (kategoris[x]['product'][y]['id'] == idproduk) {
+    function get_price()
+    {
+        //alert($("#id_category").val());
+        $("#tablebodyprice").empty();
+        var idkategori = $("#id_category").val();
+        var idproduk = $("#id_product").val();
+        var qty = parseInt($("#id_quantity").val());
+        // alert(qty);
+        $("#id_unitprice").empty();
+        var kategoris = <?php echo json_encode($listkategori); ?>;
+        for (x = 0; x < kategoris.length; x++) {
+            if (kategoris[x]['id'] == idkategori) {
 
-
-                                            for (z = 0; z < kategoris[x]['product'][y]['harga'].length; z++) {
-                                                //alert($("#id_quantity").val());
-                                                if ($("#id_quantity").val().length == 0)
-                                                {
-                                                    // alert("null");
-                                                    $("#id_unitprice").val(0);
-                                                    $("#id_quantity").val();
-
-                                                } else if (qty >= kategoris[x]['product'][y]['harga'][z]['batasbawah'] && qty <= kategoris[x]['product'][y]['harga'][z]['batasatas']) {
-                                                    $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
-                                                    // alert("masuk1");
-                                                    // break;
-                                                } else if (qty >= kategoris[x]['product'][y]['harga'][z]['batasbawah'] && qty >= kategoris[x]['product'][y]['harga'][z]['batasatas'] && z == (kategoris[x]['product'][y]['harga'].length) - 1)
-                                                {
-                                                    // alert('masik');
-                                                    $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
-                                                    // break;
-                                                } else if (qty > kategoris[x]['product'][y]['harga'][z]['batasatas'] && qty < kategoris[x]['product'][y]['harga'][z + 1]['batasbawah'] && z != (kategoris[x]['product'][y]['harga'].length) - 1) {
-                                                    //kalau quantitya elbih beasr dari batas atas dan lebih kecil dari batasbawah nya z+1
-                                                    $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
-                                                    //   alert(z + "/masuk2/" + qty + "/" + kategoris[x]['product'][y]['harga'][z + 1]['batasbawah']);
-                                                    //  break;
-                                                }
-
-                                                $("#tablebodyprice").append(
-                                                        "<tr >" +
-                                                        "<td>" + kategoris[x]['product'][y]['harga'][z]['batasbawah'] + "</td>" +
-                                                        "<td>" + kategoris[x]['product'][y]['harga'][z]['batasatas'] + "</td>" +
-                                                        "<td>" + kategoris[x]['product'][y]['harga'][z]['hargajual'] + "</td>" +
-                                                        "</tr>");
-                                                // alert("a");
+                for (y = 0; y < kategoris[x]['product'].length; y++) {
+                    if (kategoris[x]['product'][y]['id'] == idproduk) {
 
 
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        function cek_promo()
-                        {
-                            $("#id_span_discount").empty();
-                            $("#id_discount").val(0);
-                            var idproduk = $("#id_product").val();
-                            var idkategori = $("#id_category").val();
-                            var promo = <?php echo json_encode($listpromo); ?>;
-
-                            for (x = 0; x < promo.length; x++) {
-                                if (promo[x]['id_produk'] == idproduk) {
-
-                                    // alert("as");
-                                    $("#id_span_discount").text("-" + promo[x]['diskon'] + "%");
-                                    $("#id_discount").val(promo[x]['diskon']);
-                                }
-                            }
-
-                        }
-
-                        function update_grandtotal()
-                        {
-                            var numItem = $('.hitung').length;
-
-                            var grandtotal = 0;
-                          //  var id = event.target.id;
-                            var counterwhile = 1;
-                            while (numItem > 0)
-                            {   // jika yang dipilih ada di id-text_id_material_product(table)
-
-                                if ($("#id_txt_subtotal_product_" + counterwhile).length > 0)
-                                {
-                                    //  alert(numItem);
-                                    grandtotal += parseFloat($("#id_txt_subtotal_product_" + counterwhile).val());
-                                    numItem--;
-                                }
-                                counterwhile++;
-
-                            }
-
-                            $("#id_grandtotal").val(grandtotal);
-                        }
-
-
-                        function update_total_discount()
-                        {
-                            var numItem = $('.hitung').length;
-
-                            var totaldiskon = 0;
-                           // var id = event.target.id;
-                            var counterwhile = 1;
-                            while (numItem > 0)
-                            {   // jika yang dipilih ada di id-text_id_material_product(table)
-
-                                if ($("#id_txt_subtotal_product_" + counterwhile).length > 0)
-                                {
-                                    // alert(numItem);
-                                    totaldiskon += parseFloat($("#id_txt_diskon_product_" + counterwhile).val()) / 100 * parseFloat($("#id_txt_jumlah_product_" + counterwhile).val()) * parseFloat($("#id_txt_harga_product_" + counterwhile).val());
-                                    numItem--;
-                                }
-                                counterwhile++;
-
-                            }
-
-                            $("#id_total_discount").val(totaldiskon);
-                        }
-
-                        window.onload = function () {
-                            get_price();
-                            checktipe();
-
-
-                        };
-
-                        var urutanproduct = 1;
-                        var detailmaterial = [];
-                        var produk_material = [];
-
-                        var tampungall = [];
-
-
-                        function add_to_note()
-                        {
-
-                            if (
-                                    document.getElementById('id_quantity').value > 0 &&
-                                    document.getElementById('id_unitprice').value.length > 0 &&
-                                    $("#id_product option:selected").val() > 0
-                                    )
+                        for (z = 0; z < kategoris[x]['product'][y]['harga'].length; z++) {
+                            //alert($("#id_quantity").val());
+                            if ($("#id_quantity").val().length == 0)
                             {
+                                // alert("null");
+                                $("#id_unitprice").val(0);
+                                $("#id_quantity").val();
 
-                                var checkingadaproduksama = this.check_product();
-                                //alert("checking " + checkingadamaterialsama);
-                                if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
-                                {
-                                    // alert($("#id_name_material option:selected").text());
-
-                                    $("#id_body_table").append(
-                                            "<tr id='tr_" + urutanproduct + "'>" +
-                                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
-                                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * $("#id_long").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
-                                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
-                                            "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                                            "</tr>");
-                                    urutanproduct++;
-                                    checkingadaproduksama = 1; // bikin agar isa kebaca lagi
-                                    //alert("urutan ke " + urutan.toString());
-
-
-                                    //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
-                                    $("#id_quantity").val(1);
-                                    $("#id_long").val(1);
-                                    $("#id_deskripsi").val("");
-                                } else
-                                {
-                                    alert("have been registerd");
-                                }
-                            } else
+                            } else if (qty >= kategoris[x]['product'][y]['harga'][z]['batasbawah'] && qty <= kategoris[x]['product'][y]['harga'][z]['batasatas']) {
+                                $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
+                                // alert("masuk1");
+                                // break;
+                            } else if (qty >= kategoris[x]['product'][y]['harga'][z]['batasbawah'] && qty >= kategoris[x]['product'][y]['harga'][z]['batasatas'] && z == (kategoris[x]['product'][y]['harga'].length) - 1)
                             {
-                                alert("Nulls in field Materials are not allowed");
+                                // alert('masik');
+                                $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
+                                // break;
+                            } else if (qty > kategoris[x]['product'][y]['harga'][z]['batasatas'] && qty < kategoris[x]['product'][y]['harga'][z + 1]['batasbawah'] && z != (kategoris[x]['product'][y]['harga'].length) - 1) {
+                                //kalau quantitya elbih beasr dari batas atas dan lebih kecil dari batasbawah nya z+1
+                                $("#id_unitprice").val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
+                                //   alert(z + "/masuk2/" + qty + "/" + kategoris[x]['product'][y]['harga'][z + 1]['batasbawah']);
+                                //  break;
                             }
+
+                            $("#tablebodyprice").append(
+                                    "<tr >" +
+                                    "<td>" + kategoris[x]['product'][y]['harga'][z]['batasbawah'] + "</td>" +
+                                    "<td>" + kategoris[x]['product'][y]['harga'][z]['batasatas'] + "</td>" +
+                                    "<td>" + kategoris[x]['product'][y]['harga'][z]['hargajual'] + "</td>" +
+                                    "</tr>");
+                            // alert("a");
 
 
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    function cek_promo()
+    {
+        $("#id_span_discount").empty();
+        $("#id_discount").val(0);
+        var idproduk = $("#id_product").val();
+        var idkategori = $("#id_category").val();
+        var promo = <?php echo json_encode($listpromo); ?>;
+
+        for (x = 0; x < promo.length; x++) {
+            if (promo[x]['id_produk'] == idproduk) {
+
+                // alert("as");
+                $("#id_span_discount").text("-" + promo[x]['diskon'] + "%");
+                $("#id_discount").val(promo[x]['diskon']);
+            }
+        }
+
+    }
+
+    function update_grandtotal()
+    {
+        var numItem = $('.hitung').length;
+
+        var grandtotal = 0;
+        //  var id = event.target.id;
+        var counterwhile = 1;
+        while (numItem > 0)
+        {   // jika yang dipilih ada di id-text_id_material_product(table)
+
+            if ($("#id_txt_subtotal_product_" + counterwhile).length > 0)
+            {
+                //  alert(numItem);
+                grandtotal += parseFloat($("#id_txt_subtotal_product_" + counterwhile).val());
+                numItem--;
+            }
+            counterwhile++;
+
+        }
+
+        $("#id_grandtotal").val(grandtotal);
+    }
 
 
-                        function remove_product_tr(y)
-                        {
-                            alert("remove");
-                            //alert($("#id_txt_id_product_" + y).val());
-                            if ($("#id_txt_id_product_" + y).val() == 0)
-                            {
+    function update_total_discount()
+    {
+        var numItem = $('.hitung').length;
 
-                                var idmemberbaru = $("#id_member_input").val();
+        var totaldiskon = 0;
+        // var id = event.target.id;
+        var counterwhile = 1;
+        while (numItem > 0)
+        {   // jika yang dipilih ada di id-text_id_material_product(table)
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo base_url(); ?>" + "Back/Member/Cancel_add_member",
+            if ($("#id_txt_subtotal_product_" + counterwhile).length > 0)
+            {
+                // alert(numItem);
+                totaldiskon += parseFloat($("#id_txt_diskon_product_" + counterwhile).val()) / 100 * parseFloat($("#id_txt_jumlah_product_" + counterwhile).val()) * parseFloat($("#id_txt_harga_product_" + counterwhile).val());
+                numItem--;
+            }
+            counterwhile++;
 
-                                    data: {
-                                        idmember: idmemberbaru
+        }
+
+        $("#id_total_discount").val(totaldiskon);
+    }
+
+    window.onload = function () {
+        get_price();
+        checktipe();
+
+
+    };
+
+    var urutanproduct = 1;
+    var detailmaterial = [];
+    var produk_material = [];
+
+    var tampungall = [];
+
+
+    function add_to_note()
+    {
+
+        if (
+                document.getElementById('id_quantity').value > 0 &&
+                document.getElementById('id_unitprice').value.length > 0 &&
+                $("#id_product option:selected").val() > 0
+                )
+        {
+
+            var checkingadaproduksama = this.check_product();
+            //alert("checking " + checkingadamaterialsama);
+            if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
+            {
+                // alert($("#id_name_material option:selected").text());
+                if ($("#id_tipe").val() == 1)
+                {
+                    $("#id_body_table").append(
+                            "<tr id='tr_" + urutanproduct + "'>" +
+                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * (((parseInt($("#id_long").val()/101))+1)*100) * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
+                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
+                            "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                            "</tr>");
+                }
+                else if ($("#id_tipe").val() == 2)
+                {
+                    $("#id_body_table").append(
+                            "<tr id='tr_" + urutanproduct + "'>" +
+                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='hidden' value='" + $("#id_long").val() + "'></div><input readonly  class='form-control jumlah'   type='text' value='is not roll'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * $("#id_long").val() * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
+                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
+                            "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                            "</tr>");
+                }
+                urutanproduct++;
+                checkingadaproduksama = 1; // bikin agar isa kebaca lagi
+                //alert("urutan ke " + urutan.toString());
+
+
+                //  check_material_availability($("#id_product option:selected").val(),  $("#id_quantity").val());
+                $("#id_quantity").val(1);
+                $("#id_long").val(1);
+                $("#id_deskripsi").val("");
+            } else
+            {
+                alert("have been registerd");
+            }
+        } else
+        {
+            alert("Nulls in field Materials are not allowed");
+        }
+
+
+    }
+
+
+    function remove_product_tr(y)
+    {
+        alert("remove");
+        //alert($("#id_txt_id_product_" + y).val());
+        if ($("#id_txt_id_product_" + y).val() == 0)
+        {
+
+            var idmemberbaru = $("#id_member_input").val();
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Member/Cancel_add_member",
+
+                data: {
+                    idmember: idmemberbaru
 //                                                        data: JSON.stringify(tampungall)
-                                    },
-                                    success: function (result) {
-                                        $("#tr_" + y).remove();
-                                        $("#id_member").prop("disabled", false);
-                                        $("#btnModal").prop("disabled", false);
+                },
+                success: function (result) {
+                    $("#tr_" + y).remove();
+                    $("#id_member").prop("disabled", false);
+                    $("#btnModal").prop("disabled", false);
 
-                                    },
-                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("Status: " + textStatus);
-                                        alert("Error: " + errorThrown);
-                                    }
-                                });
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
 
-                            } else
-                            {
-                                $("#tr_" + y).remove();
-                            }
+        } else
+        {
+            $("#tr_" + y).remove();
+        }
 
 
 
-                        }
+    }
 
-                        function check_product()
-                        {
-                            var numItems = $('.hitung').length;
+    function check_product()
+    {
+        var numItems = $('.hitung').length;
 
-                           // var id = event.target.id;
-                            var counterwhile = 1;
-                            while (numItems > 0)
-                            {   // jika yang dipilih ada di id-text_id_material_product(table)
-                                if ($("#id_product option:selected").val() == $("#id_txt_id_product_" + counterwhile).val())
-                                {
-                                    counterwhile = 1;
-                                    //kembalikan 0 untuk alert dari fungsi sebelumnya
-                                    return 0;
-                                    break;
-                                }
-                                if ($("#id_txt_id_product_" + counterwhile).length > 0)
-                                {
-                                    numItems--;
-                                }
-                                counterwhile++;
+        // var id = event.target.id;
+        var counterwhile = 1;
+        while (numItems > 0)
+        {   // jika yang dipilih ada di id-text_id_material_product(table)
+            if ($("#id_product option:selected").val() == $("#id_txt_id_product_" + counterwhile).val())
+            {
+                counterwhile = 1;
+                //kembalikan 0 untuk alert dari fungsi sebelumnya
+                return 0;
+                break;
+            }
+            if ($("#id_txt_id_product_" + counterwhile).length > 0)
+            {
+                numItems--;
+            }
+            counterwhile++;
 
-                            }
-                            return 1;
+        }
+        return 1;
 
-                        }
+    }
 
-                        function check_all_not_null()
-                        {
-                            // alert("yes");
-                            $("#id_button_addorder").prop('disabled', true);
-                            
-                            if ($('.hitung').length == 0)
-                            {
-                                $("form").submit(function (e) {
-                                    e.preventDefault();
-                                });
-                                alert("Register a product first");
-                                $("#id_button_addorder").prop('disabled', false);
-                            } else
-                            {
+    function check_all_not_null()
+    {
+        // alert("yes");
+        $("#id_button_addorder").prop('disabled', true);
+
+        if ($('.hitung').length == 0)
+        {
+            $("form").submit(function (e) {
+                e.preventDefault();
+            });
+            alert("Register a product first");
+            $("#id_button_addorder").prop('disabled', false);
+        } else
+        {
 //  
-                                var products = [];
-                                var numItems = $('.hitung').length;
+            var products = [];
+            var numItems = $('.hitung').length;
 
-                                var counterwhile = 1;
-                                while (numItems > 0)
-                                {
-
-
-
-                                    if ($("#id_txt_id_product_" + counterwhile).length > 0)
-                                    {
-                                        products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val(), "long": $("#id_txt_long_product_" + counterwhile).val()});
-                                        numItems--;
+            var counterwhile = 1;
+            while (numItems > 0)
+            {
 
 
-                                    }
-                                    counterwhile++;
 
-                                }
+                if ($("#id_txt_id_product_" + counterwhile).length > 0)
+                {
+                    products.push({"id": $("#id_txt_id_product_" + counterwhile).val(), "jumlah": $("#id_txt_jumlah_product_" + counterwhile).val(), "harga": $("#id_txt_harga_product_" + counterwhile).val(), "diskon": $("#id_txt_diskon_product_" + counterwhile).val(), "subtotal": $("#id_txt_subtotal_product_" + counterwhile).val(), "deskripsi": $("#id_txt_deskripsi_product_" + counterwhile).val(), "long": $("#id_txt_long_product_" + counterwhile).val()});
+                    numItems--;
+
+
+                }
+                counterwhile++;
+
+            }
 
 //                               
 
-                                var grandtotals = $('#id_grandtotal').val();
-                                var totaldiskons = $('#id_total_discount').val();
-                                var members = $('#id_member option:selected').val();
-                                var promos = <?php echo json_encode($listpromo); ?>;
-                                var antrian = $('#id_queue').val();
-                                // var totaldiskons =$('#id_total_discount').val();
+            var grandtotals = $('#id_grandtotal').val();
+            var totaldiskons = $('#id_total_discount').val();
+            var members = $('#id_member option:selected').val();
+            var promos = <?php echo json_encode($listpromo); ?>;
+            var antrian = $('#id_queue').val();
+            // var totaldiskons =$('#id_total_discount').val();
 
-                                if (id_member !== null) {
-                                    members = id_member;
-                                }
-                                $.ajax({
-                                    type: "POST",
-                                    url: "<?php echo base_url(); ?>" + "Back/Order/Add_order_note",
-                                    datatype: "json",
-                                    data: {
-                                        data: tampungall,
-                                        product: products,
-                                        member: members,
-                                        grandtotal: grandtotals,
-                                        promo: promos,
-                                        totaldiskon: totaldiskons,
-                                        antrian:antrian
-                                        //  totaldiskon:totaldiskons
+            if (id_member !== null) {
+                members = id_member;
+            }
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Order/Add_order_note",
+                datatype: "json",
+                data: {
+                    data: tampungall,
+                    product: products,
+                    member: members,
+                    grandtotal: grandtotals,
+                    promo: promos,
+                    totaldiskon: totaldiskons,
+                    antrian: antrian
+                            //  totaldiskon:totaldiskons
 
 //                                    
 
-                                    },
-                                    success: function (result) {
-                                        //ini kalau mau ambil 1 data saja sudah bisa.
-                                        //if (result == "asd")
+                },
+                success: function (result) {
+                    //ini kalau mau ambil 1 data saja sudah bisa.
+                    //if (result == "asd")
 
 
 
-                                        if (result == 1)
-                                        {
-                                            alert("Transaction Success");
-                                            $("#id_quantity").val(1);
-                                            $("#id_body_table").empty();
-                                            $("#id_total_discount").val(0);
-                                            $("#id_grandtotal").val(0);
+                    if (result == 1)
+                    {
+                        alert("Transaction Success");
+                        $("#id_quantity").val(1);
+                        $("#id_body_table").empty();
+                        $("#id_total_discount").val(0);
+                        $("#id_grandtotal").val(0);
 
-                                            urutanproduct = 1;
-                                            detailmaterial = [];
-                                            produk_material = [];
+                        urutanproduct = 1;
+                        detailmaterial = [];
+                        produk_material = [];
 
-                                            tampungall = [];
-                                               location.reload();
-                                        }
-                                        if (result == 0)
-                                        {
-                                            alert("Your Product Out of Stock");
-                                             $("#id_button_addorder").prop('disabled', false);
-                                        }
-
-
+                        tampungall = [];
+                        location.reload();
+                    }
+                    if (result == 0)
+                    {
+                        alert("Your Product Out of Stock");
+                        $("#id_button_addorder").prop('disabled', false);
+                    }
 
 
 
 
-                                    },
-                                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                        alert("Status: " + textStatus);
-                                        alert("Error: " + errorThrown);
-                                    }
-                                });
-
-                                //   document.getElementById("smart-form-register").submit();
-
-                            }
 
 
-                        }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
 
-                        var id_member = null;
-                        function add_member() {
-                            $("#id_button_addmember").prop("disable",true);
-                            var nama = $("#daftar_nama").val();
-                            var deposit = $("#daftar_deposit").val();
-                            var bonusdeposit = $("#id_bonus_deposit").val();
-                            var email = $("#daftar_email").val();
-                            var BOD = $("#daftar_ttl").val();
-                            var phone = $("#daftar_telepon").val();
-                            var gender = $("#daftar_gender").val();
-                            var alamat = $("#daftar_alamat").val();
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
-                                datatype: "json",
-                                data: {
-                                    nama: nama,
-                                    deposit: deposit,
-                                    bonusdeposit: bonusdeposit,
-                                    email: email,
-                                    bod: BOD,
-                                    phone: phone,
-                                    alamat: alamat,
-                                    gender: gender
-                                },
-                                success: function (result) {
-                                    id_member = result;
+            //   document.getElementById("smart-form-register").submit();
 
-                                    var idnya = id_member;
+        }
 
-                                    if (idnya == 0)
-                                    {
-                                        alert("Email has been registered before.");
-                                        $("#id_button_addmember").prop("disable",false);
-                                    } else {
-                                        alert("Member Registration Success");
-                                        //alert(idnya);
-                                        $('#addMember').modal('toggle');
-                                       
+
+    }
+
+    var id_member = null;
+    function add_member() {
+        $("#id_button_addmember").prop("disable", true);
+        var nama = $("#daftar_nama").val();
+        var deposit = $("#daftar_deposit").val();
+        var bonusdeposit = $("#id_bonus_deposit").val();
+        var email = $("#daftar_email").val();
+        var BOD = $("#daftar_ttl").val();
+        var phone = $("#daftar_telepon").val();
+        var gender = $("#daftar_gender").val();
+        var alamat = $("#daftar_alamat").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
+            datatype: "json",
+            data: {
+                nama: nama,
+                deposit: deposit,
+                bonusdeposit: bonusdeposit,
+                email: email,
+                bod: BOD,
+                phone: phone,
+                alamat: alamat,
+                gender: gender
+            },
+            success: function (result) {
+                id_member = result;
+
+                var idnya = id_member;
+
+                if (idnya == 0)
+                {
+                    alert("Email has been registered before.");
+                    $("#id_button_addmember").prop("disable", false);
+                } else {
+                    alert("Member Registration Success");
+                    //alert(idnya);
+                    $('#addMember').modal('toggle');
+
 //$("#id_member_input").val(id_member);
-                                        $("#id_body_table").append(
-                                                "<tr id='tr_" + urutanproduct + "'>" +
-                                                "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
-                                                "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
-                                                "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
-                                               "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='1'></div></td>" +
-                                           "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
-                                                "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
-                                                "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
-                                                "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
-                                                "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                                                "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
-                                                "</tr>");
-                                        urutanproduct++;
-                                        update_grandtotal();
+                    $("#id_body_table").append(
+                            "<tr id='tr_" + urutanproduct + "'>" +
+                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='1'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
+                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
+                            "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                            "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
+                            "</tr>");
+                    urutanproduct++;
+                    update_grandtotal();
 
-                                        $("#id_member").attr("disabled", "disabled");
-                                        $("#btnModal").attr("disabled", "disabled");
-                                         $("#id_button_addmember").prop("disable",false);
+                    $("#id_member").attr("disabled", "disabled");
+                    $("#btnModal").attr("disabled", "disabled");
+                    $("#id_button_addmember").prop("disable", false);
 
-                                    }
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    alert("Status: " + textStatus);
-                                    alert("Error: " + errorThrown);
-                                }
-                            });
-                        }
-                    </script>
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus);
+                alert("Error: " + errorThrown);
+            }
+        });
+    }
+</script>

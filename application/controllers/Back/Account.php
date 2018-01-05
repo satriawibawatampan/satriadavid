@@ -16,6 +16,7 @@ class Account extends CI_Controller {
         $this->load->library('session');
         $this->load->helper(array('form', 'url', 'string'));
         $this->load->library('form_validation');
+         $this->load->library('email');
 
 
 //        
@@ -295,7 +296,34 @@ class Account extends CI_Controller {
                         $newpasswordandsalt = md5($newpasswordandsalt);
 
                         $this->M_admin->Change_password($email, $newpasswordandsalt);
-                        $this->session->set_flashdata('pesanform', $newpassword);
+
+                        $ci = get_instance();
+                        $config['protocol'] = "smtp";
+                        //$config['smtp_host'] = "smtp.gmail.com";
+                        $config['smtp_host'] = "ssl://mars-printing.com";
+                        $config['smtp_port'] = "465";
+                        $config['smtp_user'] = "info@mars-printing.com";
+                        $config['smtp_pass'] = "admin123";
+                        $config['charset'] = "utf-8";
+                        $config['mailtype'] = "html";
+                        $config['newline'] = "\r\n";
+                        $config['crlf'] = "\r\n";
+                        $ci->email->initialize($config);
+
+                        
+                        $ci->email->from('info@mars-printing.com', 'Mars-Printing');
+                        $ci->email->to($email);
+                        $ci->email->subject("Reset password");
+                        $ci->email->message("Hello, here is your new password : ".$newpassword." .");
+                        if ($this->email->send()) {
+
+                            //    echo 'Email sent.';
+                        } else {
+                            show_error($this->email->print_debugger());
+                        }
+                        
+
+                        $this->session->set_flashdata('pesanform', "New password has been sent to your email.");
                         $this->session->keep_flashdata('pesanform');
                         redirect('Back/Account/Show_login');
                         //sendemailhere

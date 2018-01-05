@@ -85,15 +85,28 @@
                         <div class="col-md-2">
                             <select class="form-control" name="name_editcategory" id="select-1" selected ="select" >
                                 <?php
-                                foreach ($listkategori as $item) {
-                                    if ($item->id == $dataproduct->id_kategori) {
-                                        ?>
-                                        <option value="<?php echo $item->id; ?>" selected="select" ><?php echo $item->nama; ?></option>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <option value="<?php echo $item->id; ?>" ><?php echo $item->nama; ?></option>
-                                        <?php
+                                if ($dataproduct->id_kategori == 1) {
+                                    foreach ($listkategori as $item) {
+                                        if ($item->id == 1) {
+                                            ?>
+                                            <option value="<?php echo $item->id; ?>" selected="select" ><?php echo $item->nama; ?></option>
+                                            <?php
+                                        }
+                                    }
+                                } else {
+
+                                    foreach ($listkategori as $item) {
+                                        if ($item->id != 1) {
+                                            if ($item->id == $dataproduct->id_kategori) {
+                                                ?>
+                                                <option value="<?php echo $item->id; ?>" selected="select" ><?php echo $item->nama; ?></option>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <option value="<?php echo $item->id; ?>" ><?php echo $item->nama; ?></option>
+                                                <?php
+                                            }
+                                        }
                                     }
                                 }
                                 ?>
@@ -106,7 +119,7 @@
                         <div class="col-md-3">
                             <input id="id_txt_name_product" class="form-control" name="name_editname"  type="text" value="<?php echo set_value('name_editname', $dataproduct->nama); ?>">
                             <input id="id_txt_name_product" class="form-control" name="name_editname2"  type="hidden" value="<?php echo set_value('name_editname2', $dataproduct->nama); ?>">
-                            
+
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
                             </span>
@@ -127,7 +140,7 @@
                         </div>
                         <div   class="col-md-2">
                             <input class="form-control" name="name_quantity_material"  id="id_quantity_material" placeholder="Quantity" type="number" min="0" value="<?php echo set_value('name_quantity_material'); ?>">
-                            
+
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_quantity_material'); ?>
                             </span>
@@ -152,21 +165,19 @@
                                 <tbody id="id_body_table_material" >
                                     <?php
                                     $urutanmaterial = 1;
-                                    
-                                    if($dataproductmaterial!=-1)
-                                    {
-                                    foreach ($dataproductmaterial as $productmaterial) {
-                                        
-                                        ?>
-                                        <tr id='tr_<?php echo $urutanmaterial; ?>'>
-                                            <td><div><input readonly id='id_txt_material_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_material[]'   type='text' value='<?php echo $productmaterial->namamaterial; ?>'></div></td>
-                                            <td><div><input readonly id='id_txt_jumlah_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_jumlah[]' type='number' value='<?php echo $productmaterial->jumlah; ?>'></div></td>
-                                            <td><div><input readonly id='id_txt_id_material_<?php echo $urutanmaterial; ?>'class='form-control hitung' name='name_txt_idmaterial[]'  type='hidden' value='<?php echo $productmaterial->id_material; ?>'></div></td>
-                                            <td> <div ><i  onclick='remove_material_tr(<?php echo $urutanmaterial; ?>)' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>
-                                        </tr>
-                                        <?php
-                                        $urutanmaterial += 1;
-                                    }
+
+                                    if ($dataproductmaterial != -1) {
+                                        foreach ($dataproductmaterial as $productmaterial) {
+                                            ?>
+                                            <tr id='tr_<?php echo $urutanmaterial; ?>'>
+                                                <td><div><input readonly id='id_txt_material_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_material[]'   type='text' value='<?php echo $productmaterial->namamaterial; ?>'></div></td>
+                                                <td><div><input readonly id='id_txt_jumlah_<?php echo $urutanmaterial; ?>'class='form-control' name='name_txt_jumlah[]' type='number' value='<?php echo $productmaterial->jumlah; ?>'></div></td>
+                                                <td><div><input readonly id='id_txt_id_material_<?php echo $urutanmaterial; ?>'class='form-control hitung' name='name_txt_idmaterial[]'  type='hidden' value='<?php echo $productmaterial->id_material; ?>'></div></td>
+                                                <td> <div ><i  onclick='remove_material_tr(<?php echo $urutanmaterial; ?>)' style='colour:red;' class='glyphicon glyphicon-remove ' ></i></div></td>
+                                            </tr>
+                                            <?php
+                                            $urutanmaterial += 1;
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -241,18 +252,17 @@
                                 <tbody id="id_body_table" >	
                                     <?php
                                     $urutan = 1;
-                                    if($dataharga!=-1)
-                                    {
-                                    foreach ($dataharga as $datahargax) {
-                                        ?>
-                                        <tr>
-                                            <td> <div ><input readonly id='id_txt_qty_min_<?php echo $urutan; ?>' class='form-control' name='name_qty_min[]' type='number' value='<?php echo $datahargax->batasbawah; ?>'></div></td>
-                                            <td> <div ><input readonly id='id_txt_qty_max_<?php echo $urutan; ?>' class='form-control' name='name_qty_max[]'  type='number' value='<?php echo $datahargax->batasatas; ?>'></div></td>
-                                            <td> <div ><input  readonly id='id_txt_price_<?php echo $urutan; ?>' class='form-control hitungmaterial' name='name_price[]' type='number' value='<?php echo $datahargax->hargajual; ?>'></div></td>
-                                        </tr>
-                                        <?php
-                                        $urutan += 1;
-                                    }
+                                    if ($dataharga != -1) {
+                                        foreach ($dataharga as $datahargax) {
+                                            ?>
+                                            <tr>
+                                                <td> <div ><input readonly id='id_txt_qty_min_<?php echo $urutan; ?>' class='form-control' name='name_qty_min[]' type='number' value='<?php echo $datahargax->batasbawah; ?>'></div></td>
+                                                <td> <div ><input readonly id='id_txt_qty_max_<?php echo $urutan; ?>' class='form-control' name='name_qty_max[]'  type='number' value='<?php echo $datahargax->batasatas; ?>'></div></td>
+                                                <td> <div ><input  readonly id='id_txt_price_<?php echo $urutan; ?>' class='form-control hitungmaterial' name='name_price[]' type='number' value='<?php echo $datahargax->hargajual; ?>'></div></td>
+                                            </tr>
+                                            <?php
+                                            $urutan += 1;
+                                        }
                                     }
                                     ?>   
 
@@ -293,78 +303,76 @@
 <!-- END MAIN CONTENT -->
 
 <script>
-var urutan = <?php echo $urutan; ?>;
-var urutanmaterial = <?php echo $urutanmaterial; ?>;
- var hargakembali= [];
-    var minqtykembali=[];
-    var maxqtykembali=[];
-    
-    var matid =[];
+    var urutan = <?php echo $urutan; ?>;
+    var urutanmaterial = <?php echo $urutanmaterial; ?>;
+    var hargakembali = [];
+    var minqtykembali = [];
+    var maxqtykembali = [];
+
+    var matid = [];
     var matnama = [];
     var matqty = [];
-    
+
     $(document).ready(function () {
-        <?php
-             if (isset($harga)) {
-                 for($m = 0; $m<count($harga); $m++){
-                ?> 
-            
+<?php
+if (isset($harga)) {
+    for ($m = 0; $m < count($harga); $m++) {
+        ?>
+
                 hargakembali.push(<?php echo $harga[$m]; ?>);
-                minqtykembali.push(<?php echo (string)$minimum[$m]; ?>);
+                minqtykembali.push(<?php echo (string) $minimum[$m]; ?>);
                 maxqtykembali.push(<?php echo $maksimum[$m]; ?>);
-                <?php
-                                } 
-                                
-             }
-             
-             if (isset($matid)) {
-                 for($m = 0; $m<count($matid); $m++){
-                ?> 
-             
+        <?php
+    }
+}
+
+if (isset($matid)) {
+    for ($m = 0; $m < count($matid); $m++) {
+        ?>
+
                 matid.push(<?php echo $matid[$m]; ?>);
                 matnama.push("<?php echo $matnama[$m]; ?>");
                 matqty.push(<?php echo $matqty[$m]; ?>);
-                <?php
-                                } 
-                                
-             }
-                                ?>
+        <?php
+    }
+}
+?>
         //alert(hargakembali);
-        
-        
+
+
         if (hargakembali != "")
         {
-            
-           $("#id_div_grossir").show();
+
+            $("#id_div_grossir").show();
             $("#id_table_grossir").show();
-            
-            for(var m = 0; m< hargakembali.length; m++){
-            $("#id_body_table").append(
-                    "<tr>" +
-                    "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'   type='number' value='"+minqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'  type='number' value='"+maxqtykembali[m]+"'></div></td>" +
-                    "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]'   type='number' value='"+hargakembali[m]+"'></div></td>" +
-                    "</tr>");
+
+            for (var m = 0; m < hargakembali.length; m++) {
+                $("#id_body_table").append(
+                        "<tr>" +
+                        "<td> <div ><input readonly id='id_txt_qty_min_" + urutan + "' class='form-control' name='name_qty_min[]'   type='number' value='" + minqtykembali[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_qty_max_" + urutan + "' class='form-control' name='name_qty_max[]'  type='number' value='" + maxqtykembali[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_price_" + urutan + "' class='hitungmaterial form-control' name='name_price[]'   type='number' value='" + hargakembali[m] + "'></div></td>" +
+                        "</tr>");
 
 
 
-            urutan++;
+                urutan++;
             }
-            
+
             $("#id_table_material").show();
-            
-            for(var m = 0; m< matid.length; m++){
+
+            for (var m = 0; m < matid.length; m++) {
                 $("#id_body_table_material").append(
                         "<tr id='tr_" + urutanmaterial + "'>" +
-                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]'   type='text' value='"+matnama[m]+"'></div></td>" +
-                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]'   type='number' value='"+matqty[m]+"'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_material_" + urutanmaterial + "' class='form-control' name='name_txt_material[]'   type='text' value='" + matnama[m] + "'></div></td>" +
+                        "<td> <div ><input readonly id='id_txt_jumlah_" + urutanmaterial + "' class='form-control' name='name_txt_jumlah[]'   type='number' value='" + matqty[m] + "'></div></td>" +
                         "<td> <div ><i  onclick='remove_material_tr(" + urutanmaterial + ")' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                        "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]'   type='hidden' value='"+matid[m]+"'></td>" +
+                        "<td hidden ><input  id='id_txt_id_material_" + urutanmaterial + "' class='form-control hitung' name='name_txt_idmaterial[]'   type='hidden' value='" + matid[m] + "'></td>" +
                         "</tr>");
                 urutanmaterial++;
             }
-                
-                checkingadamaterialsama = 1;
+
+            checkingadamaterialsama = 1;
         }
     });
 
@@ -378,17 +386,17 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
                 )
 
         {
-           
+
             alert("Null is not Allowed");
         } else if ($('.hitung').length == 0)
         {
 
 
-            
+
             alert("Register this product's material first");
         } else if ($('.hitungmaterial').length == 0)
         {
-            
+
             alert("Register this product's price first");
         } else
         {
@@ -398,7 +406,7 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
         }
 
     }
-    
+
     function show_div_grossir()
     {
         if (document.getElementById('id_txt_price_retail').value.length > 0 && urutan == 1)
@@ -506,7 +514,7 @@ var urutanmaterial = <?php echo $urutanmaterial; ?>;
         }
     }
 
-    
+
 
 
     function add_material()
