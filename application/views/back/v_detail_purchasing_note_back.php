@@ -27,7 +27,7 @@
         <div class="row">
 
             <!-- col -->
-            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-12">
                 <h1 class="page-title txt-color-blueDark">
 
                     <!-- PAGE HEADER -->
@@ -103,8 +103,8 @@
                                         <thead>
                                             <tr role="row">
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Items</th>
-                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Quantity</th>
-                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Contains</th>
+                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Roll</th>
+                                                <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Long / Quantity</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Price</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Subtotal</th>
                                                
@@ -115,7 +115,13 @@
                                             foreach ($tablepurchasingnote as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td>' . $hasil->namamaterial . '</td>';
+                                                if($hasil->tipematerial==1){
                                                 echo ' <td >' . $hasil->jumlahmaterial . '</td>';
+                                                }
+                                                else if($hasil->tipematerial==2)
+                                                {
+                                                   echo ' <td >is not roll</td>';  
+                                                }
                                                 echo '<td>' . $hasil->jumlahperpak . '</td>';
                                                 echo '<td>' . number_format (  $hasil->harga  , 0 , "." , "," ) . '</td>';
                                                 echo '<td>' .number_format (   $hasil->subtotal   , 0 , "." , "," ) . '</td>';
@@ -163,141 +169,10 @@
     </div>
     <!--END MAIN CONTENT -->
 
-    <!-- MODAL DetailStcok -->
-    <div class="modal fade" id="myDetailStockModal" role="dialog">
-        <div class="modal-dialog">
+    
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Stock Detail for Material <span id="span_nama" style="color:blue"></span> </h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-body no-padding">
+</div>   
 
-                        <div id="datatable_col_reorder_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-
-                            <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover dataTable no-footer has-columns-hidden" width="100%" role="grid" aria-describedby="datatable_col_reorder_info" style="width: 100%;">
-                                <thead>
-                                    <tr role="row">
-                                        <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
-                                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Name</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Retail Stock</th>
-                                        <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 131px;">Input Date</th>
-                                     
-                                        
-                                </thead>
-                                <tbody id="tablebody">	
-                                    <?php
-//                                    foreach ($tabledetailmaterial as $hasil) {
-//                                        echo '<tr role = "row" class = "odd">';
-//                                        echo '<td>' . $hasil->id . '</td>';
-//                                        echo ' <td >' . $hasil->nama . '</td>';
-//                                        echo '<td>' . $hasil->tipe . '</td>';
-//                                        echo '<td>' . $hasil->hpp . '</td>';
-//                                        echo '</tr>';
-//                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL HAPUS -->
-    <div class="modal fade" id="myDeleteModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Admin Form</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Admin/Delete_admin" class="smart-form" novalidate="novalidate" method="post">
-
-                        <p>Are you sure want to delete Admin <span id="span_nama" style="color:blue"></span>?</p>
-                        <input hidden  id="id_deleteid" type="text" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
-                        <input hidden id="id_deletename" type="text" name="name_deletename"  aria-required="true" class="error" aria-invalid="true" >
-                        <footer>
-                            <input type="submit" name="button_deleteadmin" class="btn btn-primary" value="Delete">
-                        </footer>
-                    </form>	
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- MODAL edit -->
-    <div class="modal fade" id="myEditModal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Material Form</h4>
-                </div>
-                <form id="smart-form-register" action="<?php echo base_url(); ?>Back/Material/Edit_material" class="smart-form" novalidate="novalidate" method="post">
-                    <input hidden id="id_editid" type="text" name="name_editid" placeholder="Contact Person" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editid'); ?>">
-                    <fieldset>
-                        <label class="input control-label">Stock Type</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <select id="id_edittype" class="form-control" name="name_edittype" id="select-1" selected ="select" >
-                                    <option value="1">Ordinary</option>
-                                    <option value="2">Role</option>
-
-
-                                </select> 
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_edittype'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">Name</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_editname" type="text" name="name_editname" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_editname'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <label class="input control-label">HPP</label>
-                        <section>
-                            <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input id="id_edithpp" type="number" name="name_edithpp" placeholder="Name" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the HPP</b>
-                            </label>
-                            <span class="col-md-9 text-danger">
-                                <?php echo form_error('name_edithpp'); ?>
-                            </span>
-                        </section>
-                    </fieldset>
-                    
-                                         
-                    <footer>
-                        <input type="submit" name="button_editmaterial" class="btn btn-primary" value="Submit">
-                    </footer>
-                </form>	
-            </div>
-        </div>
-    </div>
-
-</div>                                                
+<script>
+    
+    </script>

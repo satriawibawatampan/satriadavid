@@ -131,6 +131,7 @@ $this->session->set_flashdata('pesanform', "Can't take money from Petty Cash");
 
     public function Get_all_income_summary() {
          $data['tableincomesummary'] = $this->M_cashflow->Get_income_summary();
+         $data['datatotalincomesummary'] = $this->M_cashflow->Get_total_income_summary();
         $navigation = array(
             "menu" => "report",
             "submenu" => "reportincomesummary",

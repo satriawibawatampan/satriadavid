@@ -95,6 +95,29 @@
                                 <input class="form-control"id="id_to" name="name_to"   type="Date" value="<?php echo set_value('name_to'); ?>">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1">Total income</label>
+                            <div class="col-md-4">
+                                <label class=" control-label" id="id_totalgrandtotal" for="select-1"></label>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1">Total HPP</label>
+                            <div class="col-md-4">
+                                <label class=" control-label" id="id_totalhpp" for="select-1"></label>
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" for="select-1">Total Margin</label>
+                            <div class="col-md-4">
+                                <label class=" control-label" id="id_totalmargin" for="select-1"></label>
+                            </div>
+
+
+                        </div>
 
 
 
@@ -159,10 +182,13 @@
 
                                     <div id='tableReload'>
 
-                                        <?php 
+                                        <?php
+                                       // $totalgrandtotal = 0;
+                                        //$totalhpp = 0;
                                         //di ganti dari load table lewat file
-                                        $data["tableincomesummary"]=$tableincomesummary;
-                                        $this->load->view("Back/table_i_s",$data); ?>
+                                        $data["tableincomesummary"] = $tableincomesummary;
+                                        $this->load->view("Back/table_i_s", $data);
+                                        ?>
                                     </div>
 
                                 </div>
@@ -207,6 +233,13 @@
 </div>    
 <?php $this->load->view('back/v_footer_back'); ?>
 <script>
+
+    window.onload = function () {
+        count_total();
+
+
+    };
+
     function show_report()
     {
         if ($("#id_to").val().length > 0 && $("#id_from").val().length > 0)
@@ -226,15 +259,20 @@
                     data: {froma: from, toa: to},
                     success: function (result) {
                         //Table nya, html nya d ganti ambil dari controller
-                         $("#tableReload").html(result);
+                        $("#tableReload").html(result);
+                        count_total();
                     }
                 });
 
-
+                
             }
+
+
         } else
         {
             alert("Nulls in field Dates are not allowed");
         }
     }
+
+    
 </script>

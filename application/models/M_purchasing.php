@@ -76,7 +76,7 @@ class M_purchasing extends CI_Model {
 
     function Get_detail_purchasing_note($id) {
 
-        $this->db->select('notabeli.* , supplier.id as idsupplier, supplier.nama as namasupplier, notabeli_material.id_material as idmaterial, material.nama as namamaterial, notabeli_material.jumlah as jumlahmaterial, notabeli_material.jumlahperpak as jumlahperpak, notabeli_material.subtotal as subtotal, notabeli_material.harga');
+        $this->db->select('notabeli.* , supplier.id as idsupplier, supplier.nama as namasupplier, notabeli_material.id_material as idmaterial, material.nama as namamaterial, material.tipe as tipematerial, notabeli_material.jumlah as jumlahmaterial, notabeli_material.jumlahperpak as jumlahperpak, notabeli_material.subtotal as subtotal, notabeli_material.harga');
         $this->db->from('notabeli');
         $this->db->join('notabeli_material', 'notabeli.id = notabeli_material.id_notabeli');
         $this->db->join('supplier', 'supplier.id = notabeli.id_supplier');

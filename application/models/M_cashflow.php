@@ -25,26 +25,40 @@ class M_cashflow extends CI_Model {
         $this->db->insert('aruskas', $data);
     }
 
-    
-
     function Get_income_summary() {
-        
+
         date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
 
         $newdate = strtotime('-3 month', strtotime($date));
         $newdate = date('Y-m-j', $newdate);
-        
+
         $query = "SELECT notajual.id as idnotajual, notajual.createdat as tanggal, notajual.updatedat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
         FROM `notajual`
 where notajual.id_cabang = ? and notajual.status=?  and notajual.tanggal <= ? and notajual.tanggal >= ?      
 ";
-        $result = $this->db->query($query, array($this->session->userdata['xcellent_cabang'],1, date('Y-m-d H:i:s'),$newdate));
+        $result = $this->db->query($query, array($this->session->userdata['xcellent_cabang'], 1, date('Y-m-d H:i:s'), $newdate));
+       
         return $result->result();
         //$result->result();
         //print_r($laporan); exit();
     }
+    
+    function Get_income_summary_bydate($from, $to) {
 
+       // $to = strtotime('+1 day', strtotime($to));
+        $query = "SELECT notajual.id as idnotajual, notajual.createdat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
+        FROM `notajual`
+where createdat >= ? and createdat <= ? +interval 1 day  and id_cabang= ?      
+";
+        $result = $this->db->query($query, array($from,$to, $this->session->userdata['xcellent_cabang']));
+       //print_r($result->result());exit();
+      // print_r($to);exit();
+        return $result->result();
+        //$result->result();
+        //print_r($laporan); exit();
+    }
+    
     function Get_all_pettycash() {
 
         date_default_timezone_set('Asia/Jakarta');
@@ -124,17 +138,7 @@ where notajual.id_cabang = ? and notajual.status=?  and notajual.tanggal <= ? an
         return $query->row();
     }
 
-    function Get_income_summary_bydate($from, $to) {
-        
-        $query = " SELECT notajual.id as idnotajual, notajual.createdat as tanggalupdate, notajual.grandtotal as grandtotal, (select sum(notajual_produk.hargapokok) from notajual_produk where notajual_produk.id_notajual = idnotajual) as hpp
-        FROM `notajual`
-where createdat >= ? and createdat <= ?  and id_cabang= ?      
-";
-        $result = $this->db->query($query, array($from, $to, $this->session->userdata['xcellent_cabang']));
-        return $result->result();
-        //$result->result();
-        //print_r($laporan); exit();
-    }
+    
 
     function Get_petty_cash_bydate($from, $to) {
         $this->db->select('uangkasir.*, admin.nama as namaadmin, admin.id as idadmin');
@@ -150,10 +154,10 @@ where createdat >= ? and createdat <= ?  and id_cabang= ?
         //$result->result();
         //print_r($laporan); exit();
     }
-    
+
     function Get_all_cashflow() {
-        
-         date_default_timezone_set('Asia/Jakarta');
+
+        date_default_timezone_set('Asia/Jakarta');
         $date = date('Y-m-d H:i:s');
 
         $newdate = strtotime('-3 month', strtotime($date));
@@ -163,19 +167,20 @@ where createdat >= ? and createdat <= ?  and id_cabang= ?
         $this->db->from('aruskas');
         $this->db->join('admin', 'admin.id = aruskas.id_admin');
         $this->db->where('aruskas.id_cabang', $this->session->userdata['xcellent_cabang']);
-         $this->db->where('aruskas.createdat<=', date('Y-m-d H:i:s'));
+        $this->db->where('aruskas.createdat<=', date('Y-m-d H:i:s'));
         $this->db->where('aruskas.createdat>=', $newdate);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get();
         return $query->result();
     }
+
     function Get_cashflow_bydate($from, $to) {
-       
+
         $this->db->select('aruskas.*, admin.nama as namaadmin, admin.id as idadmin');
         $this->db->from('aruskas');
         $this->db->join('admin', 'admin.id = aruskas.id_admin');
         $this->db->where('aruskas.id_cabang', $this->session->userdata['xcellent_cabang']);
-         $this->db->where('aruskas.createdat<=', $to);
+        $this->db->where('aruskas.createdat<=', $to);
         $this->db->where('aruskas.createdat>=', $from);
         $this->db->order_by('id', 'desc');
         $query = $this->db->get();
