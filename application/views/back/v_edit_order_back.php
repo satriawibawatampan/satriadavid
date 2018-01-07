@@ -314,9 +314,6 @@
                                     success: function (result) {
                                         //ini kalau mau ambil 1 data saja sudah bisa.
                                         //if (result == "asd")
-
-                                        alert(",asil" + result);
-
                                         if (result == 1)
                                         {
                                             alert("Edit Note Success");

@@ -228,12 +228,11 @@ class M_order extends CI_Model {
                 // return $a;
                 // print_r("needed ada yang isi lalal");
             } else if ($bolehtambah == true) {
+                if(isset($products[$x]['long'])){
 
-
-
-
-                //  print_r($order_id);                exit();
-                //get hpp to input to notajual_produk
+                }else{
+                    $products[$x]['long'] = $products[$x]['jumlah2'];
+                }
                 $sql = " SELECT  sum(material.hargapokok*" . $products[$x]['jumlah'] . "*" . $products[$x]['long'] . ") as total
                         from material
                         join produk_material on produk_material.id_material = material.id
@@ -296,26 +295,30 @@ class M_order extends CI_Model {
         $this->db->trans_start();
 
         //Delete yg lama
-        $this->DeleteOrder($id_notajual, "edit");
+        $this->DeleteOrder($idnota, "edit");
 
         //Insert yang baru
-        $this->InsertNotaProdukData($products, $idnota);
+        $hasil = $this->InsertNotaProdukData($products, $idnota);
 
-        //Update Nota
-        $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
-        $array = array($grandtotal, $totaldiskon);
-        if (isset($member)) {
-            $sql .= ",id_member = ?";
-            array_push($array, $member);
-        }
-        if (isset($promo)) {
-            $sql .= ",id_promo = ?";
-            array_push($array, $promo);
-        }
-        $sql .= " WHERE id = ?";
+        if($hasil == 1){
+            //Update Nota
+            $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
+            $array = array($grandtotal, $totaldiskon);
+            if (isset($member)) {
+                $sql .= ",id_member = ?";
+                array_push($array, $member);
+            }
+            if (isset($promo)) {
+                $sql .= ",id_promo = ?";
+                array_push($array, $promo);
+            }
+            $sql .= " WHERE id = ?";
 
-        $this->db->trans_complete();
-        return 1;
+            $this->db->trans_complete();
+            return 1;
+        }else{
+            return $hasil;
+        }
     }
 
     function Get_all_order() {
