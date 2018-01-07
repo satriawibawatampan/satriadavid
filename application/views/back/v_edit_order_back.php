@@ -327,38 +327,18 @@
                                             }
 
                                             tampungall = [];
+                                        }else{
+                                             alert("Product/Material : " + result + " Out of Stock");
                                         }
-                                        if (result == 0)
-                                        {
-                                            alert(result);
-                                        }
-
-
-
-
-
-
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                                         alert("Status: " + textStatus);
                                         alert("Error: " + errorThrown);
                                     }
                                 });
-
-                                //   document.getElementById("smart-form-register").submit();
-
                             }
-
-
                         }
-
-
-
-                        //
                     </script>
-
-
-                    <!-------------------------------------------------------------------------------------------------------------------->
                     <div  id="id_table_grossir" class="form-group">
                         <label class="col-md-2 control-label"></label>
 
