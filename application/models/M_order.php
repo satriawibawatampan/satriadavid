@@ -88,7 +88,7 @@ class M_order extends CI_Model {
 
     function InsertNotaProdukData($products, $order_id) {
         $this->db->trans_start();
-
+        $idOut = "";
 
         //input ordernote_product
         for ($x = 0; $x < count($products); $x++) {
@@ -187,6 +187,7 @@ class M_order extends CI_Model {
 
                                         $countertampung++;
                                     } else {
+
                                         break;
                                     }
                                 }
@@ -222,7 +223,7 @@ class M_order extends CI_Model {
             if ($bolehtambah == false) {
 
                 $this->db->trans_rollback();
-                return 0;
+                return $namaproduktidakcukup;
                 //print_r("Materials for product ".$namaproduktidakcukup." are not enough.");
                 // return $a;
                 // print_r("needed ada yang isi lalal");

@@ -850,18 +850,10 @@
 
                         tampungall = [];
                         location.reload();
-                    }
-                    if (result == 0)
-                    {
-                        alert("Your Product Out of Stock");
+                    }else{
+                         alert("Product/Material : " + result + " Out of Stock");
                         $("#id_button_addorder").prop('disabled', false);
                     }
-
-
-
-
-
-
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Status: " + textStatus);
