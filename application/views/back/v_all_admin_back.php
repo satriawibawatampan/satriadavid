@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+<?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -127,12 +128,14 @@
                                                        echo '<td style="color:blue">Activated</td>';
                                                 }
                                                 echo '<td>' . $hasil->namacabang . '</td>';
+                                                if (in_array(38, $hakakses)) {
                                                 echo '<td>   <a  onclick="showeditdataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                                  if($hasil->statusaktif==0 && $hasil->tipe != "Super Admin")
+                                                }  
+                                                if($hasil->statusaktif==0 && $hasil->tipe != "Super Admin" && in_array(39, $hakakses))
                                                 {
                                                     echo '<a   onclick="showactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
                                                 }
-                                                else if($hasil->statusaktif==1 && $hasil->tipe != "Super Admin")
+                                                else if($hasil->statusaktif==1 && $hasil->tipe != "Super Admin" && in_array(39, $hakakses))
                                                 {
                                                        echo '<a   onclick="showdeactivatedataadmin(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }

@@ -63,84 +63,88 @@
         <?php } ?>
 
 
+        <?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+        if (in_array(35, $hakakses)) {
+            ?>
+            <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
 
-        <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
+                <header role="heading">
+                    <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                    <h2>Add Petty Cash Form </h2>				
 
-            <header role="heading">
-                <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                <h2>Add Petty Cash Form </h2>				
+                    <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
 
-                <span class="jarviswidget-loader"><i class="fa fa-refresh fa-spin"></i></span></header>
+                <!-- widget div-->
+                <div role="content">
 
-            <!-- widget div-->
-            <div role="content">
+                    <!-- widget edit box -->
 
-                <!-- widget edit box -->
+                    <!-- end widget edit box -->
 
-                <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body ">
 
-                <!-- widget content -->
-                <div class="widget-body ">
+                        <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Cashflow/Add_pettycash" class="form-horizontal" novalidate="novalidate" method="post">
 
-                    <form role='form' id="smart-form-register" action="<?php echo base_url(); ?>Back/Cashflow/Add_pettycash" class="form-horizontal" novalidate="novalidate" method="post">
+    <?php //echo validation_errors();  ?>
 
-                        <?php //echo validation_errors(); ?>
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1">Type</label>
-                            <div class="col-md-2">
-                                <select class="form-control" name="name_type" id="select-1" selected ="select" >
-                                    <option value="1">Put Cash</option>
-                                    <option value="2">Take Cash</option>
-                                </select> 
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Description</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control" name="name_description"  rows="4" ><?php echo set_value('name_description'); ?></textarea>
-                                <span class="col-md-9 text-danger">
-                                    <?php echo form_error('name_description'); ?>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label" for="select-1">Amount</label>
-                            <div class="col-md-2">
-                                <input class="form-control" name="name_amount" min="0" type="number" value="<?php echo set_value('name_amount'); ?>">
-                                <span class="col-md-9 text-danger">
-                                    <?php echo form_error('name_amount'); ?>
-                                </span>
-
-
-                            </div>
-                        </div>
-
-
-                        <footer>
                             <div class="form-group">
-                                <label class="col-md-2 control-label" for="select-1"></label>
+                                <label class="col-md-2 control-label" for="select-1">Type</label>
+                                <div class="col-md-2">
+                                    <select class="form-control" name="name_type" id="select-1" selected ="select" >
+                                        <option value="1">Put Cash</option>
+                                        <option value="2">Take Cash</option>
+                                    </select> 
+                                </div>
+                            </div>
 
-                                <div class="col-md-4">
 
-                                    <input type="submit" name="button_addpetttycash" class="btn btn-primary" value="Add to Petty Cash Flow">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Description</label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" name="name_description"  rows="4" ><?php echo set_value('name_description'); ?></textarea>
+                                    <span class="col-md-9 text-danger">
+    <?php echo form_error('name_description'); ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" for="select-1">Amount</label>
+                                <div class="col-md-2">
+                                    <input class="form-control" name="name_amount" min="0" type="number" value="<?php echo set_value('name_amount'); ?>">
+                                    <span class="col-md-9 text-danger">
+    <?php echo form_error('name_amount'); ?>
+                                    </span>
+
+
+                                </div>
+                            </div>
+
+
+                            <footer>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="select-1"></label>
+
+                                    <div class="col-md-4">
+
+                                        <input type="submit" name="button_addpetttycash" class="btn btn-primary" value="Add to Petty Cash Flow">
+                                    </div>
+
                                 </div>
 
-                            </div>
+                            </footer>
+                        </form>						
 
-                        </footer>
-                    </form>						
+                    </div>
+                    <!-- end widget content -->
 
                 </div>
-                <!-- end widget content -->
+                <!-- end widget div -->
 
             </div>
-            <!-- end widget div -->
+            <!-- widget grid -->
 
-        </div>
-        <!-- widget grid -->
+<?php } ?>
 
 
         <div class="jarviswidget jarviswidget-sortable" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false" role="widget">
@@ -163,7 +167,7 @@
 
                     <form role='form' id="smart-form-register"  class="form-horizontal" novalidate="novalidate" method="post">
 
-                        <?php //echo validation_errors(); ?>
+<?php //echo validation_errors();  ?>
 
 
                         <div class="form-group">
@@ -234,11 +238,12 @@
 
                                 <div id='tableReload'>
 
-                                        <?php 
-                                        //di ganti dari load table lewat file
-                                        $data["tablepettycash"]=$tablepettycash;
-                                        $this->load->view("back/table_p_t",$data); ?>
-                                    </div>
+                                    <?php
+                                    //di ganti dari load table lewat file
+                                    $data["tablepettycash"] = $tablepettycash;
+                                    $this->load->view("back/table_p_t", $data);
+                                    ?>
+                                </div>
 
                             </div>
                             <!--end widget content -->
@@ -300,7 +305,7 @@
                     type: "POST",
                     url: "<?php echo base_url(); ?>" + "Back/Cashflow/Get_petty_cash_bydate/",
                     dataType: "json",
-                    dataType: "html", 
+                    dataType: "html",
                     data: {froma: from, toa: to},
                     success: function (result) {
                         $("#tableReload").html(result);

@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+    <?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -117,17 +118,21 @@
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
                                                 echo '<td>' . $hasil->perusahaan . '</td>';
 
-                                                echo '<td>' . number_format (  $hasil->grandtotal , 0 , "." , "," )  . '</td>';
+                                                echo '<td>' . number_format($hasil->grandtotal, 0, ".", ",") . '</td>';
                                                 if ($hasil->statusbayar == 0) {
                                                     echo '<td>Not Paid</td>';
                                                 } else {
                                                     echo '<td>Paid</td>';
                                                 }
                                                 echo '<td>';
+
                                                 if ($hasil->statusbayar == 0) {
-                                                echo '<a href="' . base_url() . 'Back/Purchasing/Show_edit_purchasing_note/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
-                                                
-                                                    echo '<a   onclick="showbayarnotabeli(\'' . $hasil->id . '\')" class="btn glyphicon glyphicon-usd" style="color:green"  data-toggle="modal" data-target="#myBayarModal"></a>';
+                                                    if (in_array(36, $hakakses)) {
+                                                        echo '<a href="' . base_url() . 'Back/Purchasing/Show_edit_purchasing_note/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                    }
+                                                    if (in_array(37, $hakakses)) {
+                                                        echo '<a   onclick="showbayarnotabeli(\'' . $hasil->id . '\')" class="btn glyphicon glyphicon-usd" style="color:green"  data-toggle="modal" data-target="#myBayarModal"></a>';
+                                                    }
                                                 }
 //                                                echo '<a   href="' . base_url() . 'Back/Purchasing/Show_print_one_purchasing_note/' . $hasil->id . '" class="btn glyphicon glyphicon-trash" style="color:red"  "></a></td>';
                                                 echo '</tr>';
@@ -285,6 +290,6 @@
 
 
     <!-- MODAL edit -->
-    
+
 
 </div>    

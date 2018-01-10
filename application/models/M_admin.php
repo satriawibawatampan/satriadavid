@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class M_admin extends CI_Model {
 
@@ -148,6 +148,21 @@ class M_admin extends CI_Model {
         $this->db->where('statusaktif', 1);
         $query = $this->db->get();
         return $query->result();
+    }
+    
+    function Get_access_by_id($id)
+    {
+       $this->db->select('tipeadmin_hakakses.id_hakakses');
+        $this->db->from('tipeadmin_hakakses');
+        $this->db->where('id_tipeadmin',$id);
+        $query = $this->db->get();
+        $hasil =$query->result_array(); 
+        $tampungarray = [];
+        for($x = 0;  $x<count($hasil);$x++)
+        {
+            array_push($tampungarray, $hasil[$x]['id_hakakses']);
+        }
+        return $tampungarray;
     }
 
     function Show_all_admin() {

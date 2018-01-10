@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+<?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -133,7 +134,7 @@ if ($hasil->id!=0) {
                                                 }
                                                 
                                                 echo '<td>';
-                                                 if ($hasil->id!=0 && $hasil->statusaktif==1) {
+                                                 if ($hasil->id!=0 && $hasil->statusaktif==1 && in_array(42, $hakakses)) {
                                                 echo '   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
                                                  }
                                                  

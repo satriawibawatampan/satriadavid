@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+<?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -122,10 +123,12 @@
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
+                                                if(in_array(47, $hakakses)){
                                                 echo '<td>   <a href="' . base_url() . 'Back/Product/Show_edit_product/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
-                                                if ($hasil->statusaktif == 0) {
+                                                }
+                                                if ($hasil->statusaktif == 0&& in_array(48, $hakakses)) {
                                                     echo '<a   onclick="showactivateproduct(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
-                                                } else if ($hasil->statusaktif == 1) {
+                                                } else if ($hasil->statusaktif == 1&& in_array(48, $hakakses)) {
                                                     echo '<a   onclick="showdeactivateproduct(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }
                                                 echo '</tr>';

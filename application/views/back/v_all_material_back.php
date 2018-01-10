@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+    <?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -113,7 +114,7 @@
                                             <?php
                                             foreach ($tablematerial as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                               // echo '<td>' . $hasil->id . '</td>';
+                                                // echo '<td>' . $hasil->id . '</td>';
                                                 echo ' <td >' . $hasil->nama . '</td>';
                                                 echo ' <td >' . $hasil->hpp . '</td>';
 
@@ -130,12 +131,12 @@
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
-
-                                                echo '<td>   <a href="' . base_url() . 'Back/Material/Show_edit_material/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
-
-                                                if ($hasil->statusaktif == 0) {
+                                                if (in_array(45, $hakakses)) {
+                                                    echo '<td>   <a href="' . base_url() . 'Back/Material/Show_edit_material/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
+                                                }
+                                                if ($hasil->statusaktif == 0 && in_array(46, $hakakses)) {
                                                     echo '<a   onclick="showactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a></td>';
-                                                } else if ($hasil->statusaktif == 1) {
+                                                } else if ($hasil->statusaktif == 1 && in_array(46, $hakakses)) {
                                                     echo '<a   onclick="showdeactivatematerial(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a></td>';
                                                 }
 
@@ -433,7 +434,7 @@
 
                         $("#tablebody").append(
                                 "<tr role = 'row' class = 'odd'>" +
-                               // "<td>" + name['detailmaterialid'] + "</td>" +
+                                // "<td>" + name['detailmaterialid'] + "</td>" +
                                 "<td>" + name['nama'] + "</td>" +
                                 "<td>" + name['stok'] + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
                                 "<td>" + name['createdat'] + "</td>" +
@@ -447,19 +448,18 @@
                     var namee = "";
                     $.each(result, function (id, name)
                     {
-                        stoknya+= parseInt(name['stok']);
-                        namee = name['nama'] ;
+                        stoknya += parseInt(name['stok']);
+                        namee = name['nama'];
                         createdat = name['createdat'];
-                       
+
 
                     });
-                     $("#tablebody").append(
-                                "<tr role = 'row' class = 'odd'>" +
-                                
-                                "<td>" + namee + "</td>" +
-                                "<td>" + stoknya + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
-                                "<td>" + createdat + "</td>" +
-                                "</tr>");
+                    $("#tablebody").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + namee + "</td>" +
+                            "<td>" + stoknya + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
+                            "<td>" + createdat + "</td>" +
+                            "</tr>");
                 }
             }
         });

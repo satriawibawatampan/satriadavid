@@ -1,5 +1,6 @@
 <div id="main" role="main">
-
+<?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    ?>
     <!-- RIBBON -->
     <div id="ribbon">
 
@@ -217,11 +218,14 @@
                                                 } else if ($hasil->statusaktif == 1) {
                                                     echo '<td style="color:blue">Activated</td>';
                                                 }
+                                                
+                                                if(in_array(40, $hakakses)){
                                                 echo '<td>   '
                                                 . '<a  onclick="showeditdatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                                if ($hasil->statusaktif == 0) {
+                                                }
+                                                if ($hasil->statusaktif == 0 &&in_array(41, $hakakses)) {
                                                     echo '<a  onclick="showactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue" data-toggle="modal" data-target="#myActivateModal"></a>';
-                                                } else if ($hasil->statusaktif == 1) {
+                                                } else if ($hasil->statusaktif == 1 &&in_array(41, $hakakses)) {
                                                     echo '<a  onclick="showdeactivatedatasupplier(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red" data-toggle="modal" data-target="#myDeactivateModal"></a>';
                                                 }
 

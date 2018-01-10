@@ -77,7 +77,10 @@ class Account extends CI_Controller {
                     //sukses ambil data login
                     if (isset($tamp)) {
                         //    print_r($tamp); exit();
+                        
+                        
 
+                        $hakakses = $this->M_admin->Get_access_by_id($tamp['id_tipeadmin']);
                         $this->session->sess_expiration = 5;
                         $this->session->set_userdata('xcellent_name', $tamp['nama']);
                         $this->session->set_userdata('xcellent_email', $tamp['email']);
@@ -85,14 +88,18 @@ class Account extends CI_Controller {
                         $this->session->set_userdata('xcellent_id', $tamp['id']);
                         $this->session->set_userdata('xcellent_cabang', $tamp['id_cabang']);
                         $this->session->set_userdata('xcellent_cabang_name', $tamp['nama_cabang']);
+                        $this->session->set_userdata('xcellent_hakakses', $hakakses);
+                        
+                       // print_r($this->session->userdata['xcellent_hakakses']); exit();
 
+                         redirect('Back/Order/Show_all_order_note');
 
-                        if ($this->session->userdata['xcellent_tipe'] == 3 || $this->session->userdata['xcellent_tipe'] == 4)
-                            redirect('Back/Order/Show_all_order_note');
-                        else if ($this->session->userdata['xcellent_tipe'] == 1)
-                            redirect('Back/Cashflow/Show_report_cashflow');
-                        else if ($this->session->userdata['xcellent_tipe'] == 2)
-                            redirect('Back/Order/Show_add_order_note');
+//                        if ($this->session->userdata['xcellent_tipe'] == 3 || $this->session->userdata['xcellent_tipe'] == 4)
+//                            redirect('Back/Order/Show_all_order_note');
+//                        else if ($this->session->userdata['xcellent_tipe'] == 1)
+//                            redirect('Back/Cashflow/Show_report_cashflow');
+//                        else if ($this->session->userdata['xcellent_tipe'] == 2)
+//                            redirect('Back/Order/Show_add_order_note');
                     }
                     //gagal ambil data login
                     else {
@@ -115,6 +122,7 @@ class Account extends CI_Controller {
         $this->session->unset_userdata('xcellent_id');
         $this->session->unset_userdata('xcellent_cabang');
         $this->session->unset_userdata('xcellent_cabang_name');
+        $this->session->unset_userdata('xcellent_hakakses');
         redirect('Back/Account/Show_login');
     }
 

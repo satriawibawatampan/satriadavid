@@ -85,6 +85,7 @@
                         <label class="col-md-2 control-label">Name</label>
                         <div class="col-md-3">
                             <input id="id_txt_name_product" class="form-control" name="name_name"  type="text" value="<?php echo set_value('name_name', $datapromo->nama); ?>">
+                            <input id="id_txt_name_product2" class="form-control" name="name_name2"  type="hidden" value="<?php echo set_value('name_name2', $datapromo->nama); ?>">
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_name'); ?>
                             </span>
