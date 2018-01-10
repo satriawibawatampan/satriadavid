@@ -48,7 +48,7 @@ you can add as many as you like
 <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script>
     if (!window.jQuery.ui) {
         document.write('<script src="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/js/libs/jquery-ui-1.10.3.min.js"><\/script>');

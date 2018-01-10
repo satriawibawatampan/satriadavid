@@ -107,9 +107,9 @@
                 <li class="<?php if ($menu == "admin") echo "open"; ?>">
                     <a ><i class="fa fa-lg fa-fw fa-desktop"></i> <span class="menu-item-parent">Admin</span></a>
                     <ul>
-                      <!--  <li  class="<?php if ($menu == "admin" && $submenu == "type") echo "active"; ?>">
+                        <li  class="<?php if ($menu == "admin" && $submenu == "type") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_admin_type">Admin Type   </a>
-                        </li>-->
+                        </li>
                         <li  class="<?php if ($menu == "admin" && $submenu == "add") echo "active"; ?>">
                             <a href="<?php echo base_url(); ?>Back/Admin/Show_add_admin">Add Admin</a>
                         </li>

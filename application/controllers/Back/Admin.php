@@ -67,6 +67,7 @@ class Admin extends CI_Controller {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
 
 
+
             $data['listbranch'] = $this->M_branch->Get_all_branch();
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
             $data['tableadmin'] = $this->M_admin->Show_all_admin();
@@ -100,6 +101,7 @@ class Admin extends CI_Controller {
 
 
                 if ($this->form_validation->run() == FALSE) {
+                    $data['listtipeadminhakakses'] = $this->M_admin->Get_all_admintype_hakakses();
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
                     $data['listbranch'] = $this->M_branch->Get_all_branch();
                     $navigation = array(
@@ -142,6 +144,8 @@ class Admin extends CI_Controller {
     public function Show_admin_type() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
 
+            $data['listtipeadminhakakses'] = $this->M_admin->Get_all_admintype_hakakses();
+            $data['listhakakses'] = $this->M_admin->Get_all_access();
             $data['listadmintype'] = $this->M_admin->Get_all_admintype();
             $navigation = array(
                 "menu" => "admin",
@@ -162,9 +166,12 @@ class Admin extends CI_Controller {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_addadmintype')) {
                 $this->form_validation->set_rules('name_namenewtype', 'Type Name', 'required|is_unique[tipeadmin.nama]');
+                $this->form_validation->set_rules('name_newaccess[]', 'Credential Access', 'required|trim');
                 if ($this->form_validation->run() == FALSE) {
 
-
+                    //  redirect('Back/Admin/Show_add_admin');
+                    $data['listtipeadminhakakses'] = $this->M_admin->Get_all_admintype_hakakses();
+                    $data['listhakakses'] = $this->M_admin->Get_all_access();
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
                     $navigation = array(
                         "menu" => "admin",
@@ -178,7 +185,9 @@ class Admin extends CI_Controller {
                     $this->load->view('back/v_footer_back');
                 } else {
                     $name = $this->input->post('name_namenewtype');
-                    $this->M_admin->Add_admin_type($name);
+                    $akses = $this->input->post('name_newaccess');
+                    // print_r($akses);exit();
+                    $this->M_admin->Add_admin_type($name, $akses);
 
                     $this->session->set_flashdata('pesanform', "New admin type, " . $name . " , has been added.");
                     $this->session->keep_flashdata('pesanform');
@@ -194,13 +203,18 @@ class Admin extends CI_Controller {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('name_btn_edit')) {
 
-                $this->form_validation->set_rules('name_editname', 'Type Name', 'required|is_unique[tipeadmin.nama]');
-              //  $this->form_validation->set_rules('name_hidden_idedit', 'Type ID', 'required');
+                if ($this->input->post('name_editname') != $this->input->post('name_editname2')) {
+                    $this->form_validation->set_rules('name_editname', 'Type Name', 'required|is_unique[tipeadmin.nama]');
+                }
+                $this->form_validation->set_rules('name_editaccess[]', 'Credential Access', 'required|trim');
+                //  $this->form_validation->set_rules('name_hidden_idedit', 'Type ID', 'required');
                 if ($this->form_validation->run() == FALSE) {
-                  //  print_r(validation_errors()); exit();
+                    //  print_r(validation_errors()); exit();
 
+                    $data['listtipeadminhakakses'] = $this->M_admin->Get_all_admintype_hakakses();
+                    $data['listhakakses'] = $this->M_admin->Get_all_access();
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
-                    $data['idopen']=$this->input->post('name_hidden_idedit');
+                    $data['idopen'] = $this->input->post('name_hidden_idedit');
                     $navigation = array(
                         "menu" => "admin",
                         "submenu" => "type",
@@ -211,12 +225,12 @@ class Admin extends CI_Controller {
                     $this->load->view('back/v_navigation_back', $navigation);
                     $this->load->view('back/v_admintype_back', $data);
                     $this->load->view('back/v_footer_back');
-                    
                 } else {
 
                     $name = $this->input->post('name_editname');
                     $id = $this->input->post('name_hidden_idedit');
-                    $this->M_admin->Edit_admin_type($name, $id);
+                    $hakakses = $this->input->post('name_editaccess');
+                    $this->M_admin->Edit_admin_type($name, $id,$hakakses);
                     //print_r($id."/".$name); exit();
                     $this->session->set_flashdata('pesanform', "Admin type has been added.");
                     $this->session->keep_flashdata('pesanform');
@@ -272,21 +286,21 @@ class Admin extends CI_Controller {
     public function Edit_admin() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
             if ($this->input->post('button_editadmin')) {
-                
-                
+
+
                 $this->form_validation->set_rules('name_editname', 'Type Name', 'required');
-               // $this->form_validation->set_rules('name_editemail', 'Type Name', 'required|is_unique[admin.email]');
+                // $this->form_validation->set_rules('name_editemail', 'Type Name', 'required|is_unique[admin.email]');
                 $this->form_validation->set_rules('name_editaddress', 'Type Name', 'required');
                 $this->form_validation->set_rules('name_editphone', 'Type Name', 'required');
                 $this->form_validation->set_rules('name_edittype', 'Type Name', 'required');
                 $this->form_validation->set_rules('name_editbranch', 'Type Name', 'required');
-              
+
                 if ($this->form_validation->run() == FALSE) {
-                
+
                     $data['listbranch'] = $this->M_branch->Get_all_branch();
                     $data['listadmintype'] = $this->M_admin->Get_all_admintype();
-                     $data['tableadmin'] = $this->M_admin->Show_all_admin();
-                    $data['idopen']=$this->input->post('name_editemail');
+                    $data['tableadmin'] = $this->M_admin->Show_all_admin();
+                    $data['idopen'] = $this->input->post('name_editemail');
                     //print_r($this->input->post('name_editemail')); exit();
                     $navigation = array(
                         "menu" => "admin",
@@ -298,22 +312,21 @@ class Admin extends CI_Controller {
                     $this->load->view('back/v_navigation_back', $navigation);
                     $this->load->view('back/v_all_admin_back', $data);
                     $this->load->view('back/v_footer_back');
-                    
                 } else {
-                $id = $this->input->post('name_editid');
-                $nama = $this->input->post('name_editname');
-                $email = $this->input->post('name_editemail');
-                $address = $this->input->post('name_editaddress');
-                $phone = $this->input->post('name_editphone');
-                $type = $this->input->post('name_edittype');
-                $branch = $this->input->post('name_editbranch');
+                    $id = $this->input->post('name_editid');
+                    $nama = $this->input->post('name_editname');
+                    $email = $this->input->post('name_editemail');
+                    $address = $this->input->post('name_editaddress');
+                    $phone = $this->input->post('name_editphone');
+                    $type = $this->input->post('name_edittype');
+                    $branch = $this->input->post('name_editbranch');
 
-                $this->M_admin->Edit_admin($id, $nama, $email, $address, $phone, $type, $branch);
-                $this->session->set_flashdata('pesanform', "Your admin, " . $nama . " , has been edited");
-                $this->session->keep_flashdata('pesanform');
+                    $this->M_admin->Edit_admin($id, $nama, $email, $address, $phone, $type, $branch);
+                    $this->session->set_flashdata('pesanform', "Your admin, " . $nama . " , has been edited");
+                    $this->session->keep_flashdata('pesanform');
 
 
-                redirect('Back/Admin/Show_all_admin');
+                    redirect('Back/Admin/Show_all_admin');
                 }
             }
         } else {

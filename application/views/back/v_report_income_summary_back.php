@@ -187,7 +187,7 @@
                                         //$totalhpp = 0;
                                         //di ganti dari load table lewat file
                                         $data["tableincomesummary"] = $tableincomesummary;
-                                        $this->load->view("Back/table_i_s", $data);
+                                        $this->load->view("back/table_i_s", $data);
                                         ?>
                                     </div>
 

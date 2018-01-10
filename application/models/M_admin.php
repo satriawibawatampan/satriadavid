@@ -17,11 +17,11 @@ class M_admin extends CI_Model {
         $query = $this->db->get();
 
         //cek status aktif baru ambil datanya.
-     if($query->row()!=null){
-        if ($query->row()->statusaktif == 1) {
-            $ambilgaram = $query->row();
+        if ($query->row() != null) {
+            if ($query->row()->statusaktif == 1) {
+                $ambilgaram = $query->row();
+            }
         }
-    }
 
         if (isset($ambilgaram)) {
             $garam = $ambilgaram->salt;
@@ -40,7 +40,6 @@ class M_admin extends CI_Model {
             return $tampung;
         } else {
             return null;
-    
         }
     }
 
@@ -66,7 +65,9 @@ class M_admin extends CI_Model {
         $this->db->insert('admin', $data);
     }
 
-    function Add_admin_type($name) {
+    function Add_admin_type($name, $hakakses) {
+        $this->db->trans_start();
+        // print_r($hakakses); exit();
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $name,
@@ -76,32 +77,74 @@ class M_admin extends CI_Model {
         );
 
         $this->db->insert('tipeadmin', $data);
+        $idtipeadmin = $this->db->insert_id();
+
+        for ($a = 0; $a < count($hakakses); $a++) {
+            $data = array(
+                'id_tipeadmin' => $idtipeadmin,
+                'id_hakakses' => $hakakses[$a]
+            );
+
+            $this->db->insert('tipeadmin_hakakses', $data);
+        }
+
+        $this->db->trans_complete();
     }
-    
-    function Edit_admin_type($name,$id)
-    {
+
+    function Edit_admin_type($name, $id, $hakakses) {
+        $this->db->trans_start;
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $name
-                
-            
         );
         $this->db->where('id', $id);
         $this->db->update('tipeadmin', $data);
+
+        $this->db->where('id_tipeadmin', $id);
+        $this->db->delete('tipeadmin_hakakses');
+
+        for ($a = 0; $a < count($hakakses); $a++) {
+            $data = array(
+                'id_tipeadmin' => $id,
+                'id_hakakses' => $hakakses[$a]
+            );
+
+            $this->db->insert('tipeadmin_hakakses', $data);
+        }
+
+
+
+        $this->db->trans_complete;
     }
-    
-    function Get_admin_branch()
-    {
+
+    function Get_admin_branch() {
         $this->db->select('id_cabang');
         $this->db->from('admin');
-        $this->db->where('id', $this->session->userdata['xcellent_id'] );
+        $this->db->where('id', $this->session->userdata['xcellent_id']);
         $query = $this->db->get();
         return $query->row();
+    }
+
+    function Get_all_admintype_hakakses() {
+        $this->db->select('tipeadmin_hakakses.*');
+        $this->db->from('tipeadmin_hakakses');
+        // $this->db->where('statusaktif', 1);
+        $query = $this->db->get();
+        return $query->result();
     }
 
     function Get_all_admintype() {
         $this->db->select('*');
         $this->db->from('tipeadmin');
+        $this->db->where('statusaktif', 1);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function Get_all_access() {
+        $this->db->select('*');
+        $this->db->from('hakakses');
+        $this->db->order_by('nama');
         $this->db->where('statusaktif', 1);
         $query = $this->db->get();
         return $query->result();

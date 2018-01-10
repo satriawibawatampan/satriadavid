@@ -99,6 +99,25 @@
 
                     </fieldset>
 
+                    <fieldset>
+
+                        <section>
+
+                            <label class="label">Credential Access</label>
+                            <span class="col-md-9 text-danger">
+                                <?php echo form_error('name_newaccess[]'); ?>
+                            </span>
+                            <div class="row">
+                                <?php foreach ($listhakakses as $item) { ?>
+                                    <div class="col col-4">
+                                        <label class="checkbox state-success"><input type="checkbox" name="name_newaccess[]" value="<?php echo $item->id; ?>"  <?php echo set_checkbox('name_newaccess[]', $item->id); ?>><i></i><?php echo $item->nama; ?></label>
+                                    </div>
+                                <?php } ?>
+                            </div>
+
+                        </section>
+                    </fieldset>
+
 
                     <footer>
                         <input type="submit" name="button_addadmintype" class="btn btn-primary" value="Add Admin Type">
@@ -235,10 +254,22 @@
                         <section>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                                 <input  type="text" name="name_editname"  id="editname" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
+                                <input  type="hidden" name="name_editname2"  id="editname2" placeholder="Category" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_editname2'); ?>">                            <b class="tooltip tooltip-bottom-right">Needed to enter the Company</b>
                             </label>
                             <span class="col-md-9 text-danger">
                                 <?php echo form_error('name_editname'); ?>
                             </span>
+                        </section>
+                    </fieldset>
+                    <fieldset>
+                        <section>
+                            <div class="row">
+                                <?php foreach ($listhakakses as $item) { ?>
+                                    <div class="col col-4">
+                                        <label class="checkbox state-success"><input class="checkboxku" type="checkbox" name="name_editaccess[]" value="<?php echo $item->id; ?>"  <?php echo set_checkbox('name_newaccess[]', $item->id); ?>><i></i><?php echo $item->nama; ?></label>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </section>
                     </fieldset>
 
@@ -273,15 +304,50 @@
         //alert(idopen);
         if (idopen != "")
         {
-           // alert("as");
+            // alert("as");
             $("#myEditModal").modal("show");
         }
     });
     function editdata($idnya, $nama)
     {
+        var tipeadminhakakses = <?php echo json_encode($listtipeadminhakakses); ?>;
         // alert("a");
         $("#editname").val($nama);
+        $("#editname2").val($nama);
         $("#id_hidden_edit").val($idnya);
+        $(".checkboxku").attr('checked', false);
+        $("[name='name_editaccess[]'][value='32']").attr('checked', true);
+//$("input[type=checkbox][value=5]").attr('checked', true);
+        //$('input:checkbox[name="name_editaccess[]"][value="32"]').attr('checked', 'checked');
+
+        var checkbox = document.getElementsByName("name_editaccess[]");
+        console.log(checkbox[2]['value']);
+        console.log(tipeadminhakakses);
+        //alert(checkbox[0]);
+        for (var a = 0; a < checkbox.length; a++) {
+            for (var b = 0; b < tipeadminhakakses.length; b++)
+            {
+                if (checkbox[a]['value'] == tipeadminhakakses[b]['id_hakakses'] && tipeadminhakakses[b]['id_tipeadmin']==$idnya )
+                {
+                   // console.log(checkbox[a]['value']+"+"+tipeadminhakakses[b]+"<br>");
+                    //alert(checkbox[a]['value']);
+                    checkbox[a]['checked']=true;
+                   // $("input[type=checkbox][value=5]").attr('checked', true);
+                }
+            }
+
+
+
+
+        }
+        // var checkboxeditlength = $('[name="name_editaccess[]"]').length;
+
+        //  alert(checkboxeditlength);
+//        for (var y = 0; y < checkboxeditlength; y++)
+//        {
+//           // $('.checkboxku')[0]
+//        }
+//        $(".checkbox[value=4]").prop("checked", "true");
 
         //  alert($("#id_hidden_edit").val());
     }

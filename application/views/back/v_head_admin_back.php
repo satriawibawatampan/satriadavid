@@ -39,7 +39,7 @@
         <link rel="icon" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/img/favicon/favicon.ico" type="image/x-icon">
 
         <!-- #GOOGLE FONT -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
 
         <!-- #APP SCREEN / ICONS -->
         <!-- Specifying a Webpage Icon for Web Clip 
@@ -59,7 +59,7 @@
         <link rel="apple-touch-startup-image" href="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
         
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
     if (!window.jQuery) {
         document.write('<script src="<?php echo base_url(); ?>HTML_Full_Version_v1.8.2/js/libs/jquery-2.1.1.min.js"><\/script>');

@@ -237,7 +237,7 @@
                                         <?php 
                                         //di ganti dari load table lewat file
                                         $data["tablepettycash"]=$tablepettycash;
-                                        $this->load->view("Back/table_p_t",$data); ?>
+                                        $this->load->view("back/table_p_t",$data); ?>
                                     </div>
 
                             </div>

@@ -251,7 +251,7 @@
                                         //di ganti dari load table lewat file
                                         $data["tablecashflow"]=$tablecashflow;
                                         
-                                        $this->load->view("Back/table_c_f",$data); ?>
+                                        $this->load->view("back/table_c_f",$data); ?>
                                     </div>
 
                                 </div>
