@@ -230,6 +230,10 @@ class M_material extends CI_Model {
         $this->db->select('used_material_temp.id_detailmaterial as detailmaterialid,used_material_temp.deskripsi_residual as deskripsi');
         $this->db->from('used_material_temp');
         $this->db->where('id_detailmaterial', $iddetailmaterial);
+        
+        //ada aku tambahin biar pas di buka di detail material tidak muncul kosong2
+        $this->db->where('used_material_temp.deskripsi_residual !=', "");
+        
         $query = $this->db->get();
         return $query->result();
     }

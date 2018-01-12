@@ -457,7 +457,7 @@
                     $("#tablebody").append(
                             "<tr role = 'row' class = 'odd'>" +
                             "<td>" + namee + "</td>" +
-                            "<td>" + stoknya + "<span><a   onclick='showdeskripsi(" + name['detailmaterialid'] + ")' class='btn glyphicon glyphicon-eye-open' style='color:blue'  data-toggle='modal' data-target='#myResidu'> </a> <span></td>" +
+                            "<td>" + stoknya + "</td>" +
                             "<td>" + createdat + "</td>" +
                             "</tr>");
                 }

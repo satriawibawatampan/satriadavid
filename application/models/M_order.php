@@ -13,11 +13,11 @@ class M_order extends CI_Model {
         $this->load->model('M_member');
     }
 
-    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi,$antrian) {
+    function Add_order_note($datas, $products, $member, $grandtotal, $promo, $totaldiskon, $deskripsi, $antrian) {
         // print_r($products); exit();
         $this->db->trans_start();
 
-       // print_r($antrian); exit();
+        // print_r($antrian); exit();
         //input order note
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
@@ -228,9 +228,9 @@ class M_order extends CI_Model {
                 // return $a;
                 // print_r("needed ada yang isi lalal");
             } else if ($bolehtambah == true) {
-                if(isset($products[$x]['long'])){
-
-                }else{
+                if (isset($products[$x]['long'])) {
+                    
+                } else {
                     $products[$x]['long'] = $products[$x]['jumlah2'];
                 }
                 $sql = " SELECT  sum(material.hargapokok*" . $products[$x]['jumlah'] . "*" . $products[$x]['long'] . ") as total
@@ -300,7 +300,7 @@ class M_order extends CI_Model {
         //Insert yang baru
         $hasil = $this->InsertNotaProdukData($products, $idnota);
 
-        if($hasil == 1){
+        if ($hasil == 1) {
             //Update Nota
             $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
             $array = array($grandtotal, $totaldiskon);
@@ -316,7 +316,7 @@ class M_order extends CI_Model {
 
             $this->db->trans_complete();
             return 1;
-        }else{
+        } else {
             return $hasil;
         }
     }
@@ -325,10 +325,10 @@ class M_order extends CI_Model {
         $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, member.poin as poinmember, member.deposit as depositmember, promo.nama as namapromo, admin.nama as namaadmin,'
                 . ' b.nama as namakasir, c.nama as namaproduser');
         $this->db->from('notajual');
-        $this->db->join('member', 'member.id=notajual.id_member','left');
-        $this->db->join('admin', 'admin.id=notajual.id_admin','left');
-        $this->db->join('admin b', 'b.id=notajual.id_kasir','left');
-        $this->db->join('admin c', 'c.id=notajual.id_produser','left');
+        $this->db->join('member', 'member.id=notajual.id_member', 'left');
+        $this->db->join('admin', 'admin.id=notajual.id_admin', 'left');
+        $this->db->join('admin b', 'b.id=notajual.id_kasir', 'left');
+        $this->db->join('admin c', 'c.id=notajual.id_produser', 'left');
         $this->db->join('promo', 'promo.id=notajual.id_promo', 'left');
         $this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
         if ($this->session->userdata['xcellent_tipe'] == 4) {
@@ -378,9 +378,9 @@ class M_order extends CI_Model {
                 WHERE np.id_notajual = ? AND np.id_produk = ? AND  nj.id = np.id_notajual";
         $result2 = $this->db->query($sql2, array($id, 1));
         $hasil2 = $result2->row_array();
-       //  print_r($idmember);exit();
+        //  print_r($idmember);exit();
         if (count($hasil2) === 0 && $idmember != 0) {
-        
+
             $point = $this->M_member->Add_point($idmember, $grandtotal);
             //print_r($point);exit();
         }
@@ -420,12 +420,10 @@ class M_order extends CI_Model {
         $this->M_cashflow->Add_cashflow("Order Payment", 1, "Order Note " . $id, $grandtotal);
 
         $this->db->trans_complete();
-        
+
         if ($this->db->trans_status() === true) {
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -448,14 +446,17 @@ class M_order extends CI_Model {
         $this->db->where('id', $id);
         $this->db->update('notajual', $data);
 
+        //print_r($deskripsi);exit();
         //update residu
         for ($f = 0; $f < count($iddetailmaterial); $f++) {
-            $data = array(
-                'deskripsi_residual' => $deskripsi[$f]
-            );
-            $this->db->where('id_detailmaterial', $iddetailmaterial[$f]);
-            $this->db->where('id_notajualproduk', $idnotajualproduk[$f]);
-            $this->db->update('used_material_temp', $data);
+            if ($iddetailmaterial != "") {
+                $data = array(
+                    'deskripsi_residual' => $deskripsi[$f]
+                );
+                $this->db->where('id_detailmaterial', $iddetailmaterial[$f]);
+                $this->db->where('id_notajualproduk', $idnotajualproduk[$f]);
+                $this->db->update('used_material_temp', $data);
+            }
         }
 
         $this->db->trans_complete();
