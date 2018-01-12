@@ -9,7 +9,7 @@ class M_material extends CI_Model {
         $this->load->model('M_product');
         $this->load->model('M_harga');
     }
-
+//coba
     function Add_material($name, $type, $hpp, $amountperpack, $idbranch, $bigstock, $minimumstock, $grossirprice, $minimumqty, $maximumqty) {
         $this->db->trans_start();
         date_default_timezone_set('Asia/Jakarta');
