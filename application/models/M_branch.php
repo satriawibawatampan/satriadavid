@@ -62,7 +62,7 @@ class M_branch extends CI_Model {
             'deskripsi' => $description
         );
         $this->db->where('id', $id);
-        $this->db->update(cabang, $data);
+        $this->db->update("cabang", $data);
     }
 
 }

@@ -183,6 +183,7 @@
                                                     <th   >Roll</th>
                                                     <th   >Long / Quantity</th>
                                                     <th   >Subtotal</th>
+                                                    <th   >X</th>
 
 
                                             </thead>
