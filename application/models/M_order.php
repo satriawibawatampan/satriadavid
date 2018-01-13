@@ -254,6 +254,7 @@ class M_order extends CI_Model {
                     'long' => $products[$x]['long'],
                     'diskon' => $products[$x]['diskon'],
                     'harga' => $products[$x]['harga'],
+                    'deskripsi' => $products[$x]['deskripsi'],
                     'hargapokok  ' => $hppnya->total,
                     'subtotal  ' => $products[$x]['subtotal'],
                     'createdat' => date('Y-m-d H:i:s'),
@@ -607,12 +608,14 @@ class M_order extends CI_Model {
         WHERE nj.id_notajual = ? AND nj.id = umt.id_notajualproduk AND dm.id=umt.id_detailmaterial";
         $hasil = $this->db->query($sql, array($id));
         $barangs = $hasil->result_array();
-
+//print_r(($barangs));exit();
         if (count($barangs) > 0) {
             //Tambah Material stok dlu
             for ($i = 0; $i < count($barangs); $i++) {
+                //print_r($barangs[$i]['jumlah']);exit();
                 $this->M_material->Update_detailMaterialStok($barangs[$i]['id_detailmaterial'], $barangs[$i]['jumlah']);
-            }
+           
+                }
 
             //delete di used_material_temp
             for ($i = 0; $i < count($barangs); $i++) {
@@ -643,6 +646,24 @@ class M_order extends CI_Model {
 
     function DeleteNotaJualProduk($id_notajual) {
         $this->db->trans_start();
+
+        //cari apakah ada pendaftaran member
+        $this->db->select('id_produk,deskripsi');
+        $this->db->from('notajual_produk');
+        $this->db->where('id_notajual', $id_notajual);
+        $this->db->where('id_produk', 0);
+        $query = $this->db->get();
+        $row = $query->row();
+        if(isset($row))
+        {
+            $deskripsi = (string)$row->deskripsi;
+            //print_r(strlen($deskripsi));exit();
+            $memberid_dihapus = substr($deskripsi,4,strlen($deskripsi));
+            //print_r($memberid_dihapus);exit();
+            $sql = "DELETE FROM member WHERE id = ?";
+        $this->db->query($sql, array($memberid_dihapus));
+        }
+
 
         $sql = "DELETE FROM notajual_produk WHERE id_notajual = ?";
         $this->db->query($sql, array($id_notajual));

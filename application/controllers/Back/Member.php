@@ -167,6 +167,9 @@ class Member extends CI_Controller {
                 redirect('Back/Member/Show_add_member');
             }
         }
+        else{
+             redirect('Back/Member/Show_add_member');
+        }
     }
 
     public function Add_member_ajax() {
@@ -241,6 +244,10 @@ class Member extends CI_Controller {
                 redirect('Back/Member/Show_add_deposit');
             }
         }
+        else
+        {
+             redirect('Back/Member/Show_add_deposit');
+        }
     }
 
     public function Add_deposit() {
@@ -268,6 +275,10 @@ class Member extends CI_Controller {
                 redirect('Back/Member/Show_add_deposit');
             }
         }
+        else
+        {
+             redirect('Back/Member/Show_add_deposit');
+        }
     }
 
     public function Edit_member() {
@@ -288,6 +299,10 @@ class Member extends CI_Controller {
 
 
             redirect('Back/Member/Show_all_member');
+        }
+        else
+        {
+           redirect('Back/Member/Show_all_member'); 
         }
     }
 

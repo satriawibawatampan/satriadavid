@@ -226,8 +226,8 @@ class Promo extends CI_Controller {
         if ($this->input->post('button_editpromo')) {
 
 
-            if($this->input->post('name_name')!=$this->input->post('name_name2')){
-            $this->form_validation->set_rules('name_name', 'Name', 'required|callback_unique_promo_name');
+            if ($this->input->post('name_name') != $this->input->post('name_name2')) {
+                $this->form_validation->set_rules('name_name', 'Name', 'required|callback_unique_promo_name');
             }
             $this->form_validation->set_rules('name_start', 'Start', 'required');
             $this->form_validation->set_rules('name_end', 'End', 'required');
@@ -280,7 +280,7 @@ class Promo extends CI_Controller {
                 redirect('Back/Promo/Show_edit_promo/' . $this->input->post('name_editid'));
             }
         } else {
-            redirect('Back/Promo/Show_edit_promo/' . $this->input->post('name_editid'));
+            redirect('Back/Promo/Show_all_promo');
         }
     }
 
@@ -295,6 +295,8 @@ class Promo extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
 
 
+                redirect('Back/Promo/Show_all_promo');
+            } else {
                 redirect('Back/Promo/Show_all_promo');
             }
         } else {
@@ -313,6 +315,8 @@ class Promo extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
 
 
+                redirect('Back/Promo/Show_all_promo');
+            } else {
                 redirect('Back/Promo/Show_all_promo');
             }
         } else {

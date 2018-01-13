@@ -74,6 +74,10 @@ class Category extends CI_Controller {
                 redirect('Back/Category/index');
             }
         }
+        else
+        {
+           redirect('Back/Category/index'); 
+        }
     }
 
     public function Delete_kategori() {
@@ -86,6 +90,10 @@ class Category extends CI_Controller {
 
 
             redirect('Back/Category/index');
+        }
+        else
+        {
+             redirect('Back/Category/index');
         }
     }
 
@@ -130,6 +138,10 @@ class Category extends CI_Controller {
 
                 redirect('Back/Category/index');
             }
+        }
+        else
+        {
+            redirect('Back/Category/index');
         }
     }
 

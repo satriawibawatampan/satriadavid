@@ -219,6 +219,10 @@ class Order extends CI_Controller {
 
             redirect('Back/Product/Show_edit_product/' . $id);
         }
+        else
+        {
+            redirect('Back/Order/Show_all_order_note/');
+        }
     }
 
     public function Make_payment() {
@@ -242,6 +246,10 @@ class Order extends CI_Controller {
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Order/Show_all_order_note/');
         }
+        else
+        {
+            redirect('Back/Order/Show_all_order_note/');
+        }
     }
 
     public function Run_producing() {
@@ -251,6 +259,10 @@ class Order extends CI_Controller {
             $this->M_order->Run_producing($id);
             $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , is being ran.");
             $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
+        }
+        else
+        {
             redirect('Back/Order/Show_all_order_note/');
         }
     }
@@ -267,6 +279,26 @@ class Order extends CI_Controller {
             $this->M_order->Set_finish($id,$deskripsi,$iddetailmaterial,$idnotajualproduk);
              $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been finished");
             $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
+        }
+        else
+        {
+            redirect('Back/Order/Show_all_order_note/');
+        }
+    }
+    public function Delete_order() {
+        
+        
+        if ($this->input->post('button_delete')) {
+            $id = $this->input->post('name_deleteid');
+            
+            $this->DeleteOrder($id);
+             $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been deleted");
+            $this->session->keep_flashdata('pesanform');
+            redirect('Back/Order/Show_all_order_note/');
+        }
+        else
+        {
             redirect('Back/Order/Show_all_order_note/');
         }
     }

@@ -80,6 +80,10 @@ class Supplier extends CI_Controller {
                 redirect('Back/Supplier/index');
             }
         }
+        else
+        {
+            redirect('Back/Supplier/index');
+        }
     }
 
     public function Edit_supplier() {
@@ -132,6 +136,10 @@ class Supplier extends CI_Controller {
                 redirect('Back/Supplier/index');
             }
         }
+        else
+        {
+            redirect('Back/Supplier/index');
+        }
     }
 
     public function Deactivate_supplier() {
@@ -142,6 +150,10 @@ class Supplier extends CI_Controller {
             $this->M_supplier->Deactivate_supplier($id);
             $this->session->set_flashdata('pesanform', "Your supplier, " . $name . " , has been deactivated");
             $this->session->keep_flashdata('pesanform');
+            redirect('Back/Supplier/index');
+        }
+        else
+        {
             redirect('Back/Supplier/index');
         }
     }

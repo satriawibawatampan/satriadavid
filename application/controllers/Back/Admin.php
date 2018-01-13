@@ -136,6 +136,10 @@ class Admin extends CI_Controller {
                     redirect('Back/Admin/Show_add_admin');
                 }
             }
+            else
+            {
+                redirect('Back/Admin/Show_add_admin');
+            }
         } else {
             redirect('Back/Account/Log_out');
         }
@@ -194,6 +198,10 @@ class Admin extends CI_Controller {
                     redirect('Back/Admin/Show_admin_type');
                 }
             }
+            else
+            {
+               redirect('Back/Admin/Show_admin_type'); 
+            }
         } else {
             redirect('Back/Account/Log_out');
         }
@@ -237,6 +245,10 @@ class Admin extends CI_Controller {
                     redirect('Back/Admin/Show_admin_type');
                 }
             }
+            else
+            {
+             redirect('Back/Admin/Show_admin_type');   
+            }
         } else {
             redirect('Back/Account/Log_out');
         }
@@ -260,6 +272,10 @@ class Admin extends CI_Controller {
 
                 redirect('Back/Admin/Show_all_admin');
             }
+            else
+            {
+                redirect('Back/Admin/Show_all_admin');
+            }
         } else {
             redirect('Back/Account/Log_out');
         }
@@ -277,6 +293,10 @@ class Admin extends CI_Controller {
 
 
                 redirect('Back/Admin/Show_all_admin');
+            }
+            else
+            {
+               redirect('Back/Admin/Show_all_admin'); 
             }
         } else {
             redirect('Back/Account/Log_out');
@@ -328,6 +348,10 @@ class Admin extends CI_Controller {
 
                     redirect('Back/Admin/Show_all_admin');
                 }
+            }
+            else
+            {
+                redirect('Back/Admin/Show_all_admin');
             }
         } else {
             redirect('Back/Account/Log_out');

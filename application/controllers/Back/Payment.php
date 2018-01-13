@@ -73,6 +73,10 @@ class Payment extends CI_Controller {
                 redirect('Back/Payment/index');
             }
         }
+        else
+        {
+            redirect('Back/Payment/index');
+        }
     }
 
     public function Edit_payment() {
@@ -114,6 +118,10 @@ class Payment extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Payment/index');
             }
+        }
+          else
+        {
+            redirect('Back/Payment/index');
         }
     }
 

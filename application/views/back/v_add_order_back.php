@@ -660,12 +660,11 @@
                             "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * (((parseInt($("#id_long").val()/101))+1)*100) * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * (((parseInt($("#id_long").val() / 101)) + 1) * 100) * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
                             "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
                             "<td> <div ><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                             "</tr>");
-                }
-                else if ($("#id_tipe").val() == 2)
+                } else if ($("#id_tipe").val() == 2)
                 {
                     $("#id_body_table").append(
                             "<tr id='tr_" + urutanproduct + "'>" +
@@ -850,8 +849,8 @@
 
                         tampungall = [];
                         location.reload();
-                    }else{
-                         alert("Product/Material : " + result + " Out of Stock");
+                    } else {
+                        alert("Product/Material : " + result + " Out of Stock");
                         $("#id_button_addorder").prop('disabled', false);
                     }
                 },
@@ -917,7 +916,7 @@
                             "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
-                            "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value=''></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='ID: "+id_member+"'></div></td>" +
                             "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
                             "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
                             "</tr>");

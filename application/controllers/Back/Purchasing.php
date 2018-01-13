@@ -143,6 +143,9 @@ class Purchasing extends CI_Controller {
 
             redirect('Back/Purchasing/Show_add_purchasing_note');
         }
+        else {
+            redirect('Back/Purchasing/Show_add_purchasing_note');
+        }
     }
 
     public function Json_get_one_material($id) {
@@ -178,6 +181,9 @@ class Purchasing extends CI_Controller {
 
             redirect('Back/Purchasing/Show_edit_purchasing_note/' . $idnota);
         }
+          else {
+            redirect('Back/Purchasing/Show_all_purchasing_note');
+        }
     }
 
     public function Pay_purchasing_note() {
@@ -190,6 +196,9 @@ class Purchasing extends CI_Controller {
             $this->session->keep_flashdata('pesanform');
 
 
+            redirect('Back/Purchasing/Show_all_purchasing_note');
+        }
+          else {
             redirect('Back/Purchasing/Show_all_purchasing_note');
         }
     }

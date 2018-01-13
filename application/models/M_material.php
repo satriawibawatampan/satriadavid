@@ -194,9 +194,9 @@ class M_material extends CI_Model {
         $sql = "select material.id as idmaterial,material.nama as namamaterial, count(detailmaterial.id) as total, detailmaterial.stok as stok, material.minimum_stok as minstok 
                 from material 
                 LEFT join detailmaterial on detailmaterial.id_material = material.id AND detailmaterial.statuspakai = 0 
-                where material.tipe = 1 HAVING total < minstok";
+                where material.tipe = ? and material.id_cabang = ? HAVING total < minstok ";
 
-        $result = $this->db->query($sql);
+        $result = $this->db->query($sql,array(1,$this->session->userdata['xcellent_cabang']));
         $data = $result->result_array();
         return $data;
     }
@@ -206,6 +206,7 @@ class M_material extends CI_Model {
         $this->db->from('material');
         $this->db->join('detailmaterial', 'detailmaterial.id_material = material.id');
         $this->db->where('tipe', 2);
+        $this->db->where('material.id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->group_by('idmaterial');
         $this->db->having('total <= minstok');
 
@@ -442,7 +443,7 @@ class M_material extends CI_Model {
         $this->db->trans_start();
         
         $sql="UPDATE detailmaterial SET stok = stok + ? WHERE id = ?";
-        $this->db->query($sql, array($iddetailmaterial, $addNewStok));
+        $this->db->query($sql, array($addNewStok,$iddetailmaterial));
 
         $this->db->trans_complete();
     }

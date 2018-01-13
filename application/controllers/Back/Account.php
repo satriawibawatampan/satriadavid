@@ -176,7 +176,7 @@ class Account extends CI_Controller {
                 }
             }
         } else {
-            redirect('Back/Account/Show_login');
+           redirect('Back/Account/Show_change_password');
         }
     }
 

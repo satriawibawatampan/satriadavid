@@ -90,6 +90,9 @@ class Branch extends CI_Controller {
                 redirect('Back/Branch/Show_change_branch');
             }
         }
+        else{
+            redirect('Back/Branch/Show_change_branch');
+        }
     }
 
     public function Change_branch($idadmin) {
@@ -108,6 +111,9 @@ class Branch extends CI_Controller {
             $this->session->set_flashdata('pesanform', "Your branch has changed");
             $this->session->keep_flashdata('pesanform');
 
+            redirect('Back/Branch/Show_change_branch');
+        }
+         else{
             redirect('Back/Branch/Show_change_branch');
         }
     }
@@ -149,6 +155,9 @@ class Branch extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Branch/Show_change_branch');
             }
+        }
+         else{
+            redirect('Back/Branch/Show_change_branch');
         }
     }
 

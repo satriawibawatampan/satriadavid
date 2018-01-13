@@ -204,7 +204,7 @@
             <?php } ?>
             <?php if (in_array(26, $hakakses) || in_array(27, $hakakses) || in_array(28, $hakakses)) { ?>   
                 <li class="<?php if ($menu == "material") echo "open"; ?>">
-                    <a ><i class="fa fa-lg fa-fw fa-flask"><em><?php echo count($stokhabis); ?></em></i> <span class="menu-item-parent">Material</span>
+                    <a ><i class="fa fa-lg fa-fw fa-flask"><?php if (count($stokhabis) != 0) { echo "<em>". count($stokhabis) ."</em>";}  ?></i> <span class="menu-item-parent">Material</span>
                     </a>
                     <ul>
                         <?php if (in_array(26, $hakakses)) { ?>

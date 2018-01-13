@@ -185,6 +185,10 @@ public function unique_material_name($str)
                 redirect('Back/Material/Show_add_material');
             }
         }
+        else
+        {
+              redirect('Back/Material/Show_add_material');
+        }
     }
 
     public function Json_get_one_material($id) {
@@ -215,6 +219,10 @@ public function unique_material_name($str)
 
             redirect('Back/Material/Show_all_material');
         }
+        else
+        {
+             redirect('Back/Material/Show_all_material');
+        }
     }
      public function Activate_material() {
         if ($this->session->userdata['xcellent_tipe'] == 1) {
@@ -228,6 +236,10 @@ public function unique_material_name($str)
 
 
                 redirect('Back/Material/Show_all_material');
+            }
+            else
+            {
+                 redirect('Back/Material/Show_all_material');
             }
         } else {
             redirect('Back/Account/Log_out');
@@ -277,6 +289,11 @@ public function unique_material_name($str)
             redirect('Back/Material/Show_edit_material/' . $id);
             }
         }
+        else
+        {
+            $id = $this->input->post('name_editid');
+           redirect('Back/Material/Show_all_material');
+        }
     }
 
     public function Add_more_stock() {
@@ -295,6 +312,10 @@ public function unique_material_name($str)
 
             redirect('Back/Material/Show_edit_material/' . $id);
         }
+        else
+        {
+            redirect('Back/Material/Show_all_material');
+        }
     }
 
     public function Edit_stock_material() {
@@ -310,6 +331,10 @@ public function unique_material_name($str)
 
 
             redirect('Back/Material/Show_edit_material/' . $id . '/#existing');
+        }
+        else
+        {
+            redirect('Back/Material/Show_all_material');
         }
     }
 

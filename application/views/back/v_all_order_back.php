@@ -152,7 +152,7 @@
                                                     echo '  <a href="' . base_url() . 'Back/Order/Show_edit_order/' . $hasil->id . '"  class="btn glyphicon glyphicon-pencil" style="color:black" ></a>';
                                                 }
                                                 echo'<span> <span>';
-//                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeleteModal"></a>';
+//                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  ></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
                                                     echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ',\'' . $hasil->namamember . '\',' . $hasil->poinmember . ',' . $hasil->depositmember . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
@@ -166,7 +166,7 @@
                                                     echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="btn fa fa-print" style="color:green" target="_blank"   ></a>';
                                                 }
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a href="' . base_url() . 'Back/Order/Prints/' . $hasil->id . '"  class="btn fa fa-trash" style="color:red    " target="_blank"   ></a>';
+                                                    echo '<a onclick="showmodaldelete(' . $hasil->id . ',\'delete\')"    class="btn fa fa-trash" style="color:red" data-toggle="modal" data-target="#myDeleteModal"   ></a>';
                                                 }
 
                                                 echo '</td></tr>';
@@ -485,6 +485,44 @@
                         <footer>
                             <input onclick="submit_produce()" type="button" id="id_button_producing" name="tes" class="btn btn-primary" value="Produce all items">
                             <input type="hidden" name="button_producing" class="btn btn-primary" value="Produce all items">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--modal Delete-->
+    <div class="modal fade" id="myDeleteModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Order</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register-delete" action="<?php echo base_url(); ?>Back/Order/Run_producing" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to run a Delete Order Note <span id="span_nama_delete" style="color:blue"></span>?</p>
+                        <input   id="id_deleteid" type="hidden" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
+                        <table id="id_table_delete" class="table table-bordered table-striped" >
+                            <thead>
+                                <tr >
+                                    <th  style="width: 100px;" >Product ID</th>
+                                    <th    >Product Name</th>
+                                    <th  style="width: 100px;" >Qty</th>
+
+                            </thead>
+                            <tbody id="id_body_table_delete" >	
+
+
+                            </tbody>
+                        </table>
+                        <footer>
+                            <input onclick="submit_delete()" type="button" id="id_button_delete" name="tes" class="btn btn-primary" value="Delete this order">
+                            <input type="hidden" name="button_delete" class="btn btn-primary" value="Delete this order">
                         </footer>
                     </form>	
                 </div>
@@ -875,6 +913,41 @@ foreach ($listpaymentmethod as $hasil) {
             }
         });
 
+    }
+    function showmodaldelete(idnya, dari)
+    {
+        
+//        href="' . base_url() . 'Back/Order/DeleteOrder/' . $hasil->id . '/delete"
+        document.getElementById('id_deleteid').value = idnya;
+       
+        document.getElementById('span_nama_delete').innerHTML = idnya.toString();
+        $("#id_body_table_delete").empty();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
+            dataType: "json",
+            success: function (result) {
+                //ini kalau mau ambil 1 data saja sudah bisa.
+                //alert ("hore sukses" + result);
+                $.each(result, function (id, name)
+                {
+
+                    $("#id_body_table_delete").append(
+                            "<tr role = 'row' class = 'odd'>" +
+                            "<td>" + name['id_produk'] + "</td>" +
+                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                            "<td>" + name['jumlah'] + "</td>" +
+                            "</tr>");
+
+                });
+            }
+        });
+
+    }
+     function submit_delete()
+    {
+        $("#id_button_delete").prop('disabled', true);
+        document.getElementById('smart-form-register-delete').submit();
     }
 
     function submit_finish()
