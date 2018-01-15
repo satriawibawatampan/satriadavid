@@ -313,7 +313,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label" for="select-1"></label>
                                             <div class="col-md-4">
-                                                <input onclick="add_member();" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
+                                                <input onclick="add_member(<?php echo $datasetting[0]->harga_member ?>,<?php echo $datasetting[0]->bonus_deposit ?>);" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
                                                 <input type="hidden" name="button_addmember" class="btn btn-primary " value="1">
                                             </div>
                                         </div>
@@ -658,7 +658,7 @@
                             "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + $("#id_unitprice").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]'  type='text' value='" + (((parseInt($("#id_long").val() / 101)) + 1) * 100) * $("#id_unitprice").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='" + $("#id_discount").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + $("#id_quantity").val() * (((parseInt($("#id_long").val() / 101)) + 1) * 100) * ($("#id_unitprice").val() - $("#id_discount").val() / 100 * $("#id_unitprice").val()) + "'></div></td>" +
                             "<td> <div ><input  id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='" + document.getElementById("id_deskripsi").value + "'></div></td>" +
@@ -777,6 +777,10 @@
             });
             alert("Register a product first");
             $("#id_button_addorder").prop('disabled', false);
+        } else if ($("#id_queue").val().length == 0)
+        {
+            alert("Input Queue Number");
+            $("#id_button_addorder").prop('disabled', false);
         } else
         {
 //  
@@ -868,71 +872,87 @@
     }
 
     var id_member = null;
-    function add_member() {
+    function add_member(hargamember, bonusdeposit) {
         $("#id_button_addmember").prop("disable", true);
-        var nama = $("#daftar_nama").val();
-        var deposit = $("#daftar_deposit").val();
-        var bonusdeposit = $("#id_bonus_deposit").val();
-        var email = $("#daftar_email").val();
-        var BOD = $("#daftar_ttl").val();
-        var phone = $("#daftar_telepon").val();
-        var gender = $("#daftar_gender").val();
-        var alamat = $("#daftar_alamat").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
-            datatype: "json",
-            data: {
-                nama: nama,
-                deposit: deposit,
-                bonusdeposit: bonusdeposit,
-                email: email,
-                bod: BOD,
-                phone: phone,
-                alamat: alamat,
-                gender: gender
-            },
-            success: function (result) {
-                id_member = result;
+        if ($("#daftar_deposit").val() < hargamember)
+        {
+            alert("Minimum Deposit for new member is Rp." + hargamember + ",-")
+            $("#id_button_addmember").prop("disable", false);
+        }
+        else if($("#daftar_nama").val().length==0 ||$("#daftar_deposit").val().length==0 ||$("#daftar_email").val().length==0 ||
+                $("#daftar_ttl").val().length==0 ||$("#daftar_telepon").val().length==0 ||$("#daftar_gender").val().length==0 ||
+                $("#daftar_alamat").val().length==0)
+        {
+             alert("All fields must be filled.")
+            $("#id_button_addmember").prop("disable", false);
+        }
+        else
+        {
 
-                var idnya = id_member;
+            var nama = $("#daftar_nama").val();
+            var deposit = $("#daftar_deposit").val();
+            var bonusdeposit = $("#id_bonus_deposit").val();
+            var email = $("#daftar_email").val();
+            var BOD = $("#daftar_ttl").val();
+            var phone = $("#daftar_telepon").val();
+            var gender = $("#daftar_gender").val();
+            var alamat = $("#daftar_alamat").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
+                datatype: "json",
+                data: {
+                    nama: nama,
+                    deposit: deposit,
+                    bonusdeposit: bonusdeposit,
+                    email: email,
+                    bod: BOD,
+                    phone: phone,
+                    alamat: alamat,
+                    gender: gender
+                },
+                success: function (result) {
+                    id_member = result;
 
-                if (idnya == 0)
-                {
-                    alert("Email has been registered before.");
-                    $("#id_button_addmember").prop("disable", false);
-                } else {
-                    alert("Member Registration Success");
-                    //alert(idnya);
-                    $('#addMember').modal('toggle');
+                    var idnya = id_member;
+
+                    if (idnya == 0)
+                    {
+                        alert("Email has been registered before.");
+                        $("#id_button_addmember").prop("disable", false);
+                    } else {
+                        alert("Member Registration Success");
+                        //alert(idnya);
+                        $('#addMember').modal('toggle');
 
 //$("#id_member_input").val(id_member);
-                    $("#id_body_table").append(
-                            "<tr id='tr_" + urutanproduct + "'>" +
-                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='1'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
-                            "<td> <div ><input readonly id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='ID: "+id_member+"'></div></td>" +
-                            "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
-                            "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
-                            "</tr>");
-                    urutanproduct++;
-                    update_grandtotal();
+                        $("#id_body_table").append(
+                                "<tr id='tr_" + urutanproduct + "'>" +
+                                "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='0'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='Registrasi Member'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='1'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='1'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_harga_product_" + urutanproduct + "' class='form-control harga' name='name_txt_harga_product[]' type='text' value='" + deposit + "'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_diskon_product_" + urutanproduct + "' class='form-control diskon' name='name_txt_diskon_product[]'  type='text' value='0'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_subtotal_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_subtotal_product[]'  type='text' value='" + deposit + "'></div></td>" +
+                                "<td> <div ><input readonly id='id_txt_deskripsi_product_" + urutanproduct + "' class='form-control subtotal' name='name_txt_deskripsi_product[]'  type='text' value='ID: " + id_member + "'></div></td>" +
+                                "<td> <div><i  onclick='remove_product_tr(" + urutanproduct + "); update_grandtotal(); update_total_discount(); ' style='colour:red;' class='btn glyphicon glyphicon-remove ' ></i></div></td>" +
+                                "<td hidden> <div ><input  id='id_member_input' class='form-control subtotal' name='name_member_input'  type='text' value='" + idnya + "'></div></td>" +
+                                "</tr>");
+                        urutanproduct++;
+                        update_grandtotal();
 
-                    $("#id_member").attr("disabled", "disabled");
-                    $("#btnModal").attr("disabled", "disabled");
-                    $("#id_button_addmember").prop("disable", false);
+                        $("#id_member").attr("disabled", "disabled");
+                        $("#btnModal").attr("disabled", "disabled");
+                        $("#id_button_addmember").prop("disable", false);
 
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Status: " + textStatus);
-                alert("Error: " + errorThrown);
-            }
-        });
+            });
+        }
     }
 </script>

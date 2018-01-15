@@ -231,6 +231,8 @@ class Account extends CI_Controller {
                 $this->form_validation->set_rules('name_depositbonus', 'Deposit Bonus', 'required|greater_than_equal_to[0]|less_than_equal_to[100]');
                 $this->form_validation->set_rules('name_memberprice', 'Member Price', 'required');
                 $this->form_validation->set_rules('name_pointprice', 'Point Price', 'required');
+                $this->form_validation->set_rules('name_pointtodeposit', 'Point to Deposit', 'required');
+                $this->form_validation->set_rules('name_minimalpoint', 'Minimal Point to exchange', 'required');
                 if ($this->form_validation->run() == FALSE) {
                     $navigation = array(
                         "menu" => "profile",
@@ -250,8 +252,10 @@ class Account extends CI_Controller {
                     $memberprice = $this->input->post('name_memberprice');
                     $pointprice = $this->input->post('name_pointprice');
                     $idnya = $this->input->post('name_idsetting');
+                    $minimalpointexchange = $this->input->post('name_minimalpoint');
+                    $pointtodeposit = $this->input->post('name_pointtodeposit');
 
-                    $this->M_setting->Change_setting($depositminimal, $depositbonus, $memberprice, $pointprice, $idnya);
+                    $this->M_setting->Change_setting($depositminimal, $depositbonus, $memberprice, $pointprice, $idnya,$minimalpointexchange,$pointtodeposit);
                     $this->session->set_flashdata('pesanform', "Your Setting has been changed");
                     $this->session->keep_flashdata('pesanform');
 

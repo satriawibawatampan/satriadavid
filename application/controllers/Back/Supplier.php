@@ -79,26 +79,20 @@ class Supplier extends CI_Controller {
 
                 redirect('Back/Supplier/index');
             }
-        }
-        else
-        {
+        } else {
             redirect('Back/Supplier/index');
         }
     }
 
     public function Edit_supplier() {
         if ($this->input->post('button_editsupplier')) {
-            
-            if($this->input->post('name_editcompany')!=$this->input->post('name_editcompany2'))
-            {
-               // print_r($this->input->post('name_editcompany').$this->input->post('name_editcompany2')); exit();
-            $this->form_validation->set_rules('name_editcompany', 'Company', 'required|is_unique[supplier.perusahaan]');
-            }
-            else if($this->input->post('name_editcompany')==$this->input->post('name_editcompany2'))
-            { 
+
+            if ($this->input->post('name_editcompany') != $this->input->post('name_editcompany2')) {
+                // print_r($this->input->post('name_editcompany').$this->input->post('name_editcompany2')); exit();
+                $this->form_validation->set_rules('name_editcompany', 'Company', 'required|is_unique[supplier.perusahaan]');
+            } else if ($this->input->post('name_editcompany') == $this->input->post('name_editcompany2')) {
                 //  print_r("f"); exit();
                 $this->form_validation->set_rules('name_editcompany', 'Company', 'required');
-           
             }
             $this->form_validation->set_rules('name_editname', 'Name', 'required');
             $this->form_validation->set_rules('name_editaddress', 'Address', 'required');
@@ -107,7 +101,7 @@ class Supplier extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
 
                 $data['listsupplier'] = $this->M_supplier->get_all_supplier();
-                $data['idopen']=$this->input->post('name_editid');
+                $data['idopen'] = $this->input->post('name_editid');
 
                 $navigation = array(
                     "menu" => "supplier",
@@ -127,7 +121,7 @@ class Supplier extends CI_Controller {
                 $address = $this->input->post('name_editaddress');
                 $phone = $this->input->post('name_editphone');
                 $company = $this->input->post('name_editcompany');
-               
+
 
 
                 $this->M_supplier->Edit_supplier($id, $name, $address, $phone, $company);
@@ -135,9 +129,7 @@ class Supplier extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Supplier/index');
             }
-        }
-        else
-        {
+        } else {
             redirect('Back/Supplier/index');
         }
     }
@@ -151,9 +143,7 @@ class Supplier extends CI_Controller {
             $this->session->set_flashdata('pesanform', "Your supplier, " . $name . " , has been deactivated");
             $this->session->keep_flashdata('pesanform');
             redirect('Back/Supplier/index');
-        }
-        else
-        {
+        } else {
             redirect('Back/Supplier/index');
         }
     }
@@ -169,6 +159,8 @@ class Supplier extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
 
 
+                redirect('Back/Supplier/index');
+            } else {
                 redirect('Back/Supplier/index');
             }
         } else {

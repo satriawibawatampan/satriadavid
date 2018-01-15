@@ -155,7 +155,7 @@
 //                                                echo '<a   onclick="showdeletedaorder(' . $hasil->id . ')" class="glyphicon glyphicon-trash" style="color:red"  ></a>';
                                                 echo'<span> <span>';
                                                 if ($hasil->status == 0 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 3)) {
-                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ',\'' . $hasil->namamember . '\',' . $hasil->poinmember . ',' . $hasil->depositmember . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
+                                                    echo '<a   onclick="showmodalpayment(' . $hasil->id . ',' . $hasil->grandtotal . ',' . $hasil->idmember . ',\'' . $hasil->namamember . '\',' . $hasil->poinmember . ',' . $hasil->depositmember . ',' . $hasil->memberstatusaktif . ')" class=" btn fa fa-money" style="color:green"   data-toggle="modal" data-target="#myPaymentModal"></a>';
                                                 } else if ($hasil->status == 1 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
                                                     echo '<a   onclick="showmodalproducing(' . $hasil->id . ')" class="btn glyphicon glyphicon-cog" style="color:orange"  data-toggle="modal" data-target="#myProducingModal"></a>';
                                                 } else if ($hasil->status == 2 && ($this->session->userdata['xcellent_tipe'] == 1 || $this->session->userdata['xcellent_tipe'] == 4)) {
@@ -262,6 +262,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                     <div class="col-md-4">
+                                         <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
                                         <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member; ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member; ?>" >
                                     </div>
                                 </div>
@@ -271,7 +272,8 @@
                                     <div class="form-group">
                                         <label class="col-md-4 control-label" for="select-1"></label>
                                         <div class="col-md-4">
-                                            <input onclick="add_member();"  name="button_addmember" class="btn btn-primary " value="Add Member">
+                                            <input onclick="add_member(<?php echo $datasetting[0]->harga_member ?>,<?php echo $datasetting[0]->bonus_deposit ?>);" id="id_button_addmember" type="button"  name="tes" class="btn btn-primary " value="Add Member">
+                                            <input type="hidden" name="button_addmember" class="btn btn-primary " value="1">
                                         </div>
                                     </div>
                                 </footer>
@@ -373,7 +375,7 @@
                             <div class="col-md-8">
                                 <label  id="id_label_member" class=" control-label" for="select-1"></label>
                             </div>
-                            <input  id="id_deposit" type="text" name="" value="<?php echo $hasil->depositmember; ?>"  aria-required="true" class="error" aria-invalid="true" >
+                            <input  id="id_deposit" type="hidden" name="" value="<?php echo $hasil->depositmember; ?>"  aria-required="true" class="error" aria-invalid="true" >
 
 
                         </div>
@@ -662,53 +664,69 @@
     function openModal(id) {
         idNota = id;
     }
-    function add_member() {
+    function add_member(hargamember, bonusdeposit) {
+        $("#id_button_addmember").prop("disable", true);
+        if ($("#daftar_deposit").val() < hargamember)
+        {
+            alert("Minimum Deposit for new member is Rp." + hargamember + ",-")
+            //$("#id_button_addmember").prop("disable", false);
+        } else if ($("#daftar_nama").val().length == 0 || $("#daftar_deposit").val().length == 0 || $("#daftar_email").val().length == 0 ||
+                $("#daftar_ttl").val().length == 0 || $("#daftar_telepon").val().length == 0 || $("#daftar_gender").val().length == 0 ||
+                $("#daftar_alamat").val().length == 0)
+        {
+            alert("All fields must be filled.")
+            $("#id_button_addmember").prop("disable", false);
+        } else
+        {
 
-        var nama = $("#daftar_nama").val();
-        var deposit = $("#daftar_deposit").val();
-        var email = $("#daftar_email").val();
-        var BOD = $("#daftar_ttl").val();
-        var phone = $("#daftar_telepon").val();
-        var gender = $("#daftar_gender").val();
-        var alamat = $("#daftar_alamat").val();
-        $.ajax({
-            type: "POST",
-            url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_from_kasir_ajax",
-            datatype: "json",
-            data: {
-                nama: nama,
-                deposit: deposit,
-                email: email,
-                bod: BOD,
-                phone: phone,
-                alamat: alamat,
-                idnota: idNota,
-                gender: gender
-            },
-            success: function (result) {
-                idmember = result;
-                alert(result);
-                var hasil = idmember;
-                if (hasil == 0)
-                {
-                    alert("Email has been registered before.");
-                } else
-                {
-                    alert("Member Registration Success");
-                    $('#addMember').modal('toggle');
-                    location.reload();
+            var nama = $("#daftar_nama").val();
+            var deposit = $("#daftar_deposit").val();
+            var bonusdeposit = $("#id_bonus_deposit").val();
+            var email = $("#daftar_email").val();
+            var BOD = $("#daftar_ttl").val();
+            var phone = $("#daftar_telepon").val();
+            var gender = $("#daftar_gender").val();
+            var alamat = $("#daftar_alamat").val();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_from_kasir_ajax",
+                datatype: "json",
+                data: {
+                    nama: nama,
+                    deposit: deposit,
+                    bonusdeposit: bonusdeposit,
+                    email: email,
+                    bod: BOD,
+                    phone: phone,
+                    alamat: alamat,
+                    idnota: idNota,
+                    gender: gender
+                },
+                success: function (result) {
+                    idmember = result;
+                    //  alert(result);
+                    var hasil = idmember;
+                    if (hasil == 0)
+                    {
+                        alert("Email has been registered before.");
+                    } else
+                    {
+                        alert("Member Registration Success");
+                        $('#addMember').modal('toggle');
+                        location.reload();
+                    }
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
                 }
-
-
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Status: " + textStatus);
-                alert("Error: " + errorThrown);
-            }
-        });
+            });
+        }
     }
 
-    function showmodalpayment(idnya, grandtotal, idmember, namamember, poinmember, depositmember)
+    function showmodalpayment(idnya, grandtotal, idmember, namamember, poinmember, depositmember, memberstatusaktif)
     {
         var adadeposit = 0;
         var adaregistermember = 0;
@@ -717,7 +735,13 @@
         $("#id_paymentamount").val(0);
 
         document.getElementById('id_paymentid').value = idnya;
-        document.getElementById('id_label_member').innerHTML = namamember + " (Deposit : " + number_format(depositmember, 0, ".", ",") + " -- Poin : " + number_format(poinmember, 0, ".", ",") + " )";
+        if (memberstatusaktif == 1)
+        {
+            document.getElementById('id_label_member').innerHTML = namamember + " (Deposit : " + number_format(depositmember, 0, ".", ",") + " -- Poin : " + number_format(poinmember, 0, ".", ",") + " )";
+        } else
+        {
+            document.getElementById('id_label_member').innerHTML = "Non Member (Deposit : 0 -- Poin : 0 )";
+        }
         document.getElementById('id_deposit').value = depositmember;
         document.getElementById('id_memberid').value = idmember;
         document.getElementById('id_paymentgrandtotal').value = grandtotal;
@@ -916,10 +940,10 @@ foreach ($listpaymentmethod as $hasil) {
     }
     function showmodaldelete(idnya, dari)
     {
-        
+
 //        href="' . base_url() . 'Back/Order/DeleteOrder/' . $hasil->id . '/delete"
         document.getElementById('id_deleteid').value = idnya;
-       
+
         document.getElementById('span_nama_delete').innerHTML = idnya.toString();
         $("#id_body_table_delete").empty();
         $.ajax({
@@ -944,7 +968,7 @@ foreach ($listpaymentmethod as $hasil) {
         });
 
     }
-     function submit_delete()
+    function submit_delete()
     {
         $("#id_button_delete").prop('disabled', true);
         document.getElementById('smart-form-register-delete').submit();

@@ -323,7 +323,7 @@ class M_order extends CI_Model {
     }
 
     function Get_all_order() {
-        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, member.poin as poinmember, member.deposit as depositmember, promo.nama as namapromo, admin.nama as namaadmin,'
+        $this->db->select('notajual.*, member.id as idmember, member.nama as namamember, member.poin as poinmember, member.deposit as depositmember, member.statusaktif as memberstatusaktif, promo.nama as namapromo, admin.nama as namaadmin,'
                 . ' b.nama as namakasir, c.nama as namaproduser');
         $this->db->from('notajual');
         $this->db->join('member', 'member.id=notajual.id_member', 'left');
@@ -375,15 +375,21 @@ class M_order extends CI_Model {
         }
 
         //,masukan poin. KALAU TIDAK ADA DEPOSIT  dan SUDAH MEMBER
-        $sql2 = "SELECT nj.* FROM notajual_produk np, notajual nj
-                WHERE np.id_notajual = ? AND np.id_produk = ? AND  nj.id = np.id_notajual";
-        $result2 = $this->db->query($sql2, array($id, 1));
-        $hasil2 = $result2->row_array();
-        //  print_r($idmember);exit();
-        if (count($hasil2) === 0 && $idmember != 0) {
-
-            $point = $this->M_member->Add_point($idmember, $grandtotal);
-            //print_r($point);exit();
+//        $sql2 = "SELECT nj.* FROM notajual_produk np, notajual nj
+//                WHERE np.id_notajual = ? AND (np.id_produk = ? or np.id_produk= ?) AND  nj.id = np.id_notajual";
+        
+        $sql2 = "SELECT sum(notajual_produk.subtotal) as grandtotalyangdihitung from notajual_produk where id_notajual= ? and id_produk!=? and id_produk!=?";
+        $result2 = $this->db->query($sql2, array($id, 1,0));
+        $grandtotalyangdihitung = $result2->row()->grandtotalyangdihitung;
+        //  print_r($grandtotalyangdihitung);exit();
+        if (isset($grandtotalyangdihitung) && $idmember!=0) {
+            $point = $this->M_member->Add_point($idmember, $grandtotalyangdihitung);
+                    
+        }
+        else
+        {
+           //  print_r("yes");exit();
+        // $point = $this->M_member->Add_point($idmember, $grandtotalyangdihitung);
         }
 
         //update status

@@ -175,6 +175,11 @@
                                 <a href="<?php echo base_url(); ?>Back/Member/Show_add_deposit">Member deposit   </a>
                             </li>
                         <?php } ?>
+                        <?php if (in_array(49, $hakakses)) { ?>
+                            <li  class="<?php if ($menu == "member" && $submenu == "exchangepoint") echo "active"; ?>">
+                                <a href="<?php echo base_url(); ?>Back/Member/Show_exchange_point">Exchange Point  </a>
+                            </li>
+                        <?php } ?>
 
 
                     </ul>

@@ -69,7 +69,7 @@ class M_member extends CI_Model {
         return $id;
     }
 
-    function Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota) {
+    function Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota,$bonusdeposit) {
         $this->db->trans_start();
 
         $allmember = $this->Show_all_member();
@@ -85,7 +85,7 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
-            'deposit' => $deposit,
+            'deposit' => $deposit+ ($deposit * $bonusdeposit / 100),
             'ttl' => $bod,
             'gender' => $gender,
             'telepon' => $phone,
@@ -255,6 +255,19 @@ class M_member extends CI_Model {
         $query = $this->db->get('member', 100, (int)($counter/100+1));
        // print_r($query->result());exit();
         return $query->result_array();
+    }
+    
+    function Exchange_point($id, $minimalexchange,$pointtodeposit)
+    {
+        $this->db->trans_start();
+       $this->db->set('poin', 'poin-' .  $minimalexchange,FALSE);
+        $this->db->where('id', $id);
+        $this->db->update('member');
+        
+       $this->db->set('deposit', 'deposit+' .  $pointtodeposit,FALSE);
+        $this->db->where('id', $id);
+        $this->db->update('member');
+          $this->db->trans_complete();
     }
 
 }

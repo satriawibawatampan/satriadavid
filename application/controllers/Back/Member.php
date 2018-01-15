@@ -25,6 +25,7 @@ class Member extends CI_Controller {
         } else {
             redirect('Back/Account/Show_login');
         }
+        $hakakses = $this->session->userdata['xcellent_hakakses'];
     }
 
     public function index() {
@@ -46,6 +47,8 @@ class Member extends CI_Controller {
     }
 
     public function Show_add_member() {
+
+
         $navigation = array(
             "menu" => "member",
             "submenu" => "add",
@@ -60,6 +63,8 @@ class Member extends CI_Controller {
 
     public function Show_all_member() {
         $data['tablemember'] = $this->M_member->Show_all_member();
+        $data['datasetting'] = $this->M_setting->Get_all_setting();
+        //print_r( $data['datasetting']);exit();
         $navigation = array(
             "menu" => "member",
             "submenu" => "all",
@@ -166,9 +171,8 @@ class Member extends CI_Controller {
 
                 redirect('Back/Member/Show_add_member');
             }
-        }
-        else{
-             redirect('Back/Member/Show_add_member');
+        } else {
+            redirect('Back/Member/Show_add_member');
         }
     }
 
@@ -183,13 +187,14 @@ class Member extends CI_Controller {
         $gender = $this->input->post("gender");
         $alamat = $this->input->post("alamat");
 
-        echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat,$bonusdeposit);
+        echo $this->M_member->Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $bonusdeposit);
     }
 
     public function Add_member_from_kasir_ajax() {
         $idadmin = $this->session->userdata['xcellent_id'];
         $nama = $this->input->post("nama");
         $deposit = $this->input->post("deposit");
+        $bonusdeposit = $this->input->post("bonusdeposit");
         $email = $this->input->post("email");
         $bod = $this->input->post("bod");
         $phone = $this->input->post("phone");
@@ -197,7 +202,7 @@ class Member extends CI_Controller {
         $alamat = $this->input->post("alamat");
         $idnota = $this->input->post("idnota");
 
-        echo $this->M_member->Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota);
+        echo $this->M_member->Add_member_from_kasir_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $idnota,$bonusdeposit);
     }
 
     public function Cancel_add_member() {
@@ -214,7 +219,7 @@ class Member extends CI_Controller {
         if ($this->input->post('button_adddeposit')) {
 
             $this->form_validation->set_rules('name_deposit', 'Deposit', 'required');
-            
+
 
             if ($this->form_validation->run() == FALSE) {
                 $navigation = array(
@@ -226,7 +231,7 @@ class Member extends CI_Controller {
                 $data['listmember'] = $this->M_member->Show_all_member_active();
                 $data['listpaymentmethod'] = $this->M_payment->Get_all_payment();
                 $data['datasetting'] = $this->M_setting->Get_all_setting();
-                
+
                 $this->load->view('back/v_head_admin_back');
                 $this->load->view('back/v_header_back');
                 $this->load->view('back/v_navigation_back', $navigation);
@@ -243,10 +248,8 @@ class Member extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Member/Show_add_deposit');
             }
-        }
-        else
-        {
-             redirect('Back/Member/Show_add_deposit');
+        } else {
+            redirect('Back/Member/Show_add_deposit');
         }
     }
 
@@ -274,10 +277,8 @@ class Member extends CI_Controller {
                 $this->session->keep_flashdata('pesanform');
                 redirect('Back/Member/Show_add_deposit');
             }
-        }
-        else
-        {
-             redirect('Back/Member/Show_add_deposit');
+        } else {
+            redirect('Back/Member/Show_add_deposit');
         }
     }
 
@@ -299,10 +300,28 @@ class Member extends CI_Controller {
 
 
             redirect('Back/Member/Show_all_member');
+        } else {
+            redirect('Back/Member/Show_all_member');
         }
-        else
-        {
-           redirect('Back/Member/Show_all_member'); 
+    }
+    
+    public function Exchange_point()
+    {
+        if ($this->input->post('button_exchangepoint')) {
+            $id = $this->input->post('name_exchangeid');
+            $name = $this->input->post('name_exchangename');
+            $minimalexchange = $this->input->post('name_minimalexchange');
+            $pointtodeposit = $this->input->post('name_pointtodeposit');
+            
+
+            $this->M_member->Exchange_point($id, $minimalexchange,$pointtodeposit);
+            $this->session->set_flashdata('pesanform', "Your member, " . $name . " (ID : ".$id.") , has exchanged points.");
+            $this->session->keep_flashdata('pesanform');
+
+
+            redirect('Back/Member/Show_all_member');
+        } else {
+            redirect('Back/Member/Show_add_deposit');
         }
     }
 

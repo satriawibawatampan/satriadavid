@@ -1,5 +1,5 @@
 <div id="main" role="main">
-<?php $hakakses = $this->session->userdata['xcellent_hakakses'];
+    <?php $hakakses = $this->session->userdata['xcellent_hakakses'];
     ?>
     <!-- RIBBON -->
     <div id="ribbon">
@@ -116,36 +116,39 @@
                                         <tbody>	
                                             <?php
                                             foreach ($tablemember as $hasil) {
-if ($hasil->id!=0) {
-                                                echo '<tr role = "row" class = "odd">';
-                                                echo '<td>' . $hasil->id . '</td>';
-                                                echo ' <td >' . $hasil->nama . '</td>';
-                                                echo '<td>' . $hasil->email . '</td>';
-                                                echo '<td>' . $hasil->alamat . '</td>';
-                                                echo '<td>' . $hasil->telepon . '</td>';
-                                                echo '<td>' . $hasil->ttl . '</td>';
-                                                echo '<td>' . $hasil->gender . '</td>';
-                                                echo '<td>' . $hasil->deposit . '</td>';
-                                                echo '<td>' . $hasil->poin . '</td>';
-                                                if ($hasil->statusaktif == 0) {
-                                                    echo '<td style="color:red">Deactivated</td>';
-                                                } else if ($hasil->statusaktif == 1) {
-                                                    echo '<td style="color:blue">Activated</td>';
-                                                }
-                                                
-                                                echo '<td>';
-                                                 if ($hasil->id!=0 && $hasil->statusaktif==1 && in_array(42, $hakakses)) {
-                                                echo '   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
-                                                 }
-                                                 
+                                                if ($hasil->id != 0) {
+                                                    echo '<tr role = "row" class = "odd">';
+                                                    echo '<td>' . $hasil->id . '</td>';
+                                                    echo ' <td >' . $hasil->nama . '</td>';
+                                                    echo '<td>' . $hasil->email . '</td>';
+                                                    echo '<td>' . $hasil->alamat . '</td>';
+                                                    echo '<td>' . $hasil->telepon . '</td>';
+                                                    echo '<td>' . $hasil->ttl . '</td>';
+                                                    echo '<td>' . $hasil->gender . '</td>';
+                                                    echo '<td>' . $hasil->deposit . '</td>';
+                                                    echo '<td>' . $hasil->poin . '</td>';
+                                                    if ($hasil->statusaktif == 0) {
+                                                        echo '<td style="color:red">Deactivated</td>';
+                                                    } else if ($hasil->statusaktif == 1) {
+                                                        echo '<td style="color:blue">Activated</td>';
+                                                    }
+
+                                                    echo '<td>';
+                                                    if ($hasil->id != 0 && $hasil->statusaktif == 1 && in_array(42, $hakakses)) {
+                                                        echo '   <a  onclick="showeditdatamember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>';
+                                                    }
+                                                    if ($hasil->id != 0 && $hasil->statusaktif == 1 && in_array(49, $hakakses) && $datasetting[0]->minimaltukarpoin <= $hasil->poin) {
+                                                        echo '   <a  onclick="showexchangepoint(' . $hasil->id . ',\'' . $hasil->nama . '\',' . $datasetting[0]->nilaipoinkedeposit . ',' . $datasetting[0]->minimaltukarpoin . ')" class="btn fa fa-exchange   " style="color:black" data-toggle="modal" data-target="#myExchangepointModal"></a>';
+                                                    }
+
 //                                                if ($hasil->statusaktif == 0 && $hasil->id!=0) {
 //                                                    echo '<a   onclick="showactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:blue"  data-toggle="modal" data-target="#myActivateModal"></a>';
 //                                                } else if ($hasil->statusaktif == 1 && $hasil->id!=0) {
 //                                                    echo '<a   onclick="showdeactivatemember(' . $hasil->id . ',\'' . $hasil->nama . '\')" class="btn glyphicon glyphicon-trash" style="color:red"  data-toggle="modal" data-target="#myDeactivateModal"></a>';
 //                                                }
 
-                                                echo '</td></tr>';
-                                            }
+                                                    echo '</td></tr>';
+                                                }
                                             }
                                             ?>
                                         </tbody>
@@ -258,7 +261,7 @@ if ($hasil->id!=0) {
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Email</b>
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editemail'); ?>
+                                <?php echo form_error('name_editemail'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -270,7 +273,7 @@ if ($hasil->id!=0) {
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the name</b>
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editname'); ?>
+                                <?php echo form_error('name_editname'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -282,7 +285,7 @@ if ($hasil->id!=0) {
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Address</b>
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editaddress'); ?>
+                                <?php echo form_error('name_editaddress'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -294,7 +297,7 @@ if ($hasil->id!=0) {
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Phone Number</b>
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editphone'); ?>
+                                <?php echo form_error('name_editphone'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -306,7 +309,7 @@ if ($hasil->id!=0) {
 
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_ttl'); ?>
+                                <?php echo form_error('name_ttl'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -329,7 +332,7 @@ if ($hasil->id!=0) {
                                 </select> 
                             </label>
                             <span class="col-md-9 text-danger">
-<?php echo form_error('name_editgender'); ?>
+                                <?php echo form_error('name_editgender'); ?>
                             </span>
                         </section>
                     </fieldset>
@@ -338,6 +341,34 @@ if ($hasil->id!=0) {
                     </footer>
                 </form>	
             </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myExchangepointModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Exchange Point</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="smart-form-register-exchange" action="<?php echo base_url(); ?>Back/Member/Exchange_point" class="smart-form" novalidate="novalidate" method="post">
+
+                        <p>Are you sure want to exchange <span id="span_nama_exchange" style="color:blue"></span>'s  <?php echo $datasetting[0]->minimaltukarpoin; ?> points for Rp.<?php echo $datasetting[0]->nilaipoinkedeposit; ?>,- Deposit ?</p>
+                        <input   id="id_exchangeid" type="hidden" name="name_exchangeid"  aria-required="true" class="error" aria-invalid="true" >
+                        <input   id="id_exchangename" type="hidden" name="name_exchangename"  aria-required="true" class="error" aria-invalid="true" >
+                        <input   id="id_minimalexchange" type="hidden" name="name_minimalexchange"  aria-required="true" class="error" aria-invalid="true" >
+                        <input   id="id_pointtodeposit" type="hidden" name="name_pointtodeposit"  aria-required="true" class="error" aria-invalid="true" >
+
+                        <footer>
+                            <input onclick="submit_exchangepoint()" type="button" id="id_button_exchange" name="tes" class="btn btn-primary" value="Exchange">
+                            <input type="hidden" name="button_exchangepoint" class="btn btn-primary" value="Exchange Deposit">
+                        </footer>
+                    </form>	
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -359,6 +390,22 @@ if ($hasil->id!=0) {
 
     }
 
+
+    function showexchangepoint(idnya, nama, pointtodeposit, minimalpoint)
+    {
+        document.getElementById('id_exchangeid').value = idnya;
+        document.getElementById('id_exchangename').value = nama;
+        document.getElementById('id_pointtodeposit').value = pointtodeposit;
+        document.getElementById('id_minimalexchange').value = minimalpoint;
+        document.getElementById('span_nama_exchange').innerHTML = idnya.toString();
+
+
+    }
+    function submit_exchangepoint()
+    {
+         $("#id_button_exchange").prop('disabled', true);
+        document.getElementById('smart-form-register-exchange').submit();
+    }
     function showeditdatamember(idnya, nama)
     {
         //alert("oke jek");
