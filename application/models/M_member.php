@@ -99,7 +99,7 @@ class M_member extends CI_Model {
         $this->db->insert('member', $data);
         $idmember = $this->db->insert_id();
 
-        $this->M_order->AddMemberToNota($idnota, $idmember);
+        $this->M_order->AddMemberToNota($idnota, $idmember,$deposit,$bonusdeposit);
 
 
 
@@ -110,9 +110,34 @@ class M_member extends CI_Model {
         return $idmember;
     }
 
-    function Cancel_add_member($id) {
-        $this->db->where('id', $id);
+    function Cancel_add_member($idmember) {
+        $this->db->trans_start();
+        $this->db->where('id', $idmember);
         $this->db->delete('member');
+        
+        
+        $this->db->trans_complete();
+    }
+    function Cancel_add_member_in_edit($idmember,$idnota,$hargamember) {
+        $this->db->trans_start();
+        $this->db->where('id', $idmember);
+        $this->db->delete('member');
+      //  json_decode($idnota);
+         $sql = "DELETE FROM notajual_produk WHERE id_notajual = ? and id_produk= ?";
+        $this->db->query($sql, array($idnota,0));
+        
+       $this->db->set('grandtotal', 'grandtotal-' . $hargamember, FALSE);
+        $this->db->where('id', $idnota);
+        $this->db->update('notajual');
+        
+        $data = array(
+            'id_member' => 0
+        );
+
+        $this->db->where('id', $idnota);
+        $this->db->update('notajual', $data );
+        
+        $this->db->trans_complete();
     }
 
     function Show_all_member() {
@@ -150,6 +175,7 @@ class M_member extends CI_Model {
         $this->db->from('member');
         $this->db->where('member.statusaktif', 1);
         $query = $this->db->get();
+        //print_r($query->result()); exit();
         return $query->result();
     }
 

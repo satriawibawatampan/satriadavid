@@ -206,8 +206,20 @@ class Member extends CI_Controller {
     }
 
     public function Cancel_add_member() {
-        $id = $this->input->post("idmember");
-        $this->M_member->Cancel_add_member($id);
+        $idmember = $this->input->post("idmember");
+        $this->M_member->Cancel_add_member($idmember);
+        
+        
+    }
+    public function Cancel_add_member_in_edit() {
+        $idmember = $this->input->post("idmember");
+        $idnota = $this->input->post("idnota");
+        $hargamember = $this->input->post("hargamember");
+        
+        //print_r($idmember."/".$idnota."/".$hargamember);exit();
+        $this->M_member->Cancel_add_member_in_edit($idmember,$idnota,$hargamember);
+        
+        
     }
 
     public function Json_get_one_member($id) {

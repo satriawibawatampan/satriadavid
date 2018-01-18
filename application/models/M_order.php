@@ -247,6 +247,7 @@ class M_order extends CI_Model {
                 if ($hppnya->total == NULL) {
                     $hppnya->total = 0;
                 }
+                date_default_timezone_set('Asia/Jakarta');
                 $data = array(
                     'id_notajual' => $order_id,
                     'id_produk' => $products[$x]['id'],
@@ -303,18 +304,28 @@ class M_order extends CI_Model {
 
         if ($hasil == 1) {
             //Update Nota
+            $newgrandtotal = 0;
+            $newtotaldiskon = 0;
+            for ($x = 0; $x < count($products); $x++) {
+                $newgrandtotal += $products[$x]['subtotal'];
+                $newtotaldiskon += $products[$x]['diskon'] / 100 * $products[$x]['jumlah'] * $products[$x]['harga'];
+            }
+           // print_r($newgrandtotal);exit();
+           // print_r($newtotaldiskon); exit();
             $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
-            $array = array($grandtotal, $totaldiskon);
+            $array = array($newgrandtotal, $newtotaldiskon);
             if (isset($member)) {
                 $sql .= ",id_member = ?";
                 array_push($array, $member);
             }
             if (isset($promo)) {
                 $sql .= ",id_promo = ?";
-                array_push($array, $promo);
+                array_push($array, $promo[0]['id_promo']);
             }
             $sql .= " WHERE id = ?";
-
+            array_push($array, $idnota);
+          //  print_r($sql);exit();
+            $this->db->query($sql, $array);
             $this->db->trans_complete();
             return 1;
         } else {
@@ -341,14 +352,49 @@ class M_order extends CI_Model {
     }
 
     function Get_one_order($id) {
-        $this->db->select('*');
+        $this->db->select('notajual.*, member.nama as namamember, member.statusaktif as statusaktifmember');
         $this->db->from('notajual');
-//        $this->db->join('member','member.id=notajual.id_member');
+        $this->db->join('member', 'member.id=notajual.id_member', "left");
 //        $this->db->join('promo','promo.id=notajual.id_promo');
         //$this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->where('notajual.id', $id);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function Get_order_product_to_edit($id) {
+        $this->db->select('notajual_produk.*, produk.nama as namaproduk');
+        $this->db->from('notajual_produk');
+        $this->db->join('produk', 'notajual_produk.id_produk=produk.id');
+//        $this->db->join('promo','promo.id=notajual.id_promo');
+        //$this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
+        $this->db->where('notajual_produk.id_notajual', $id);
+        $query = $this->db->get();
+        $hasil = $query->result();
+        //print_r($hasil);exit();
+        $hasil2 = []; $count = 0;
+        foreach ($hasil as $item) {
+            $sql2 = "select count(*) jumlah "
+                    . "from material "
+                    . "join produk_material on produk_material.id_material = material.id "
+                    . "join produk on produk.id = produk_material.id_produk "
+                    . "where material.tipe = 1 and produk.id= ? ";
+            $result2 = $this->db->query($sql2, array($item->id_produk));
+            $result = $result2->row();
+
+            if ($result->jumlah == 0) {
+               // $hasil2["tipe"] = 2; 
+              // array_push($hasil, 2);
+                $hasil[$count]->tipe = 2;
+            } else if ($result->jumlah == 1) {
+               // $hasil2["tipe"] = 1;
+               $hasil[$count]->tipe = 1;
+            }
+$count++;
+            // array_push($hasil, $hasil2);
+        }
+       //print_r($hasil);exit();
+        return($hasil);
     }
 
     function Get_order_product($id) {
@@ -377,19 +423,16 @@ class M_order extends CI_Model {
         //,masukan poin. KALAU TIDAK ADA DEPOSIT  dan SUDAH MEMBER
 //        $sql2 = "SELECT nj.* FROM notajual_produk np, notajual nj
 //                WHERE np.id_notajual = ? AND (np.id_produk = ? or np.id_produk= ?) AND  nj.id = np.id_notajual";
-        
+
         $sql2 = "SELECT sum(notajual_produk.subtotal) as grandtotalyangdihitung from notajual_produk where id_notajual= ? and id_produk!=? and id_produk!=?";
-        $result2 = $this->db->query($sql2, array($id, 1,0));
+        $result2 = $this->db->query($sql2, array($id, 1, 0));
         $grandtotalyangdihitung = $result2->row()->grandtotalyangdihitung;
         //  print_r($grandtotalyangdihitung);exit();
-        if (isset($grandtotalyangdihitung) && $idmember!=0) {
+        if (isset($grandtotalyangdihitung) && $idmember != 0) {
             $point = $this->M_member->Add_point($idmember, $grandtotalyangdihitung);
-                    
-        }
-        else
-        {
-           //  print_r("yes");exit();
-        // $point = $this->M_member->Add_point($idmember, $grandtotalyangdihitung);
+        } else {
+            //  print_r("yes");exit();
+            // $point = $this->M_member->Add_point($idmember, $grandtotalyangdihitung);
         }
 
         //update status
@@ -556,6 +599,34 @@ class M_order extends CI_Model {
         $this->db->trans_complete();
     }
 
+    function AddMemberToNota($id, $idmember, $deposit, $bonusdeposit) {
+        $this->db->trans_start();
+        $sql = "SELECT * FROM member WHERE id = ?";
+        $result = $this->db->query($sql, array($idmember));
+        $hasil = $result->row_array();
+        if (count($hasil) > 0) {
+            $data = array(
+                'id_notajual' => $id,
+                'id_produk' => 0,
+                'jumlah' => 1,
+                'diskon' => 0,
+                'harga' => $deposit,
+                'deskripsi' => 'ID: ' . $idmember,
+                'hargapokok  ' => $deposit + ($deposit * $bonusdeposit / 100),
+                'subtotal  ' => $deposit,
+                'createdat' => date('Y-m-d H:i:s'),
+                'updatedat' => date('Y-m-d H:i:s')
+            );
+            $this->db->insert('notajual_produk', $data);
+
+            //udpate to notajual
+            $sql2 = "UPDATE notajual SET id_member = ?, grandtotal = grandtotal + ? WHERE id = ?";
+            $this->db->query($sql2, array($idmember, $deposit, $id));
+        }
+
+        $this->db->trans_complete();
+    }
+
     function Set_member_in_nota($id, $idmember) {
         $this->db->trans_start();
         //udpate to notajual
@@ -620,8 +691,7 @@ class M_order extends CI_Model {
             for ($i = 0; $i < count($barangs); $i++) {
                 //print_r($barangs[$i]['jumlah']);exit();
                 $this->M_material->Update_detailMaterialStok($barangs[$i]['id_detailmaterial'], $barangs[$i]['jumlah']);
-           
-                }
+            }
 
             //delete di used_material_temp
             for ($i = 0; $i < count($barangs); $i++) {
@@ -660,14 +730,13 @@ class M_order extends CI_Model {
         $this->db->where('id_produk', 0);
         $query = $this->db->get();
         $row = $query->row();
-        if(isset($row))
-        {
-            $deskripsi = (string)$row->deskripsi;
+        if (isset($row)) {
+            $deskripsi = (string) $row->deskripsi;
             //print_r(strlen($deskripsi));exit();
-            $memberid_dihapus = substr($deskripsi,4,strlen($deskripsi));
+            $memberid_dihapus = substr($deskripsi, 4, strlen($deskripsi));
             //print_r($memberid_dihapus);exit();
             $sql = "DELETE FROM member WHERE id = ?";
-        $this->db->query($sql, array($memberid_dihapus));
+            $this->db->query($sql, array($memberid_dihapus));
         }
 
 

@@ -505,7 +505,7 @@
                     <h4 class="modal-title">Delete Order</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="smart-form-register-delete" action="<?php echo base_url(); ?>Back/Order/Run_producing" class="smart-form" novalidate="novalidate" method="post">
+                    <form id="smart-form-register-delete" action="<?php echo base_url(); ?>Back/Order/Delete_order" class="smart-form" novalidate="novalidate" method="post">
 
                         <p>Are you sure want to run a Delete Order Note <span id="span_nama_delete" style="color:blue"></span>?</p>
                         <input   id="id_deleteid" type="hidden" name="name_deleteid"  aria-required="true" class="error" aria-invalid="true" >
@@ -753,7 +753,7 @@
             url: "<?php echo base_url(); ?>" + "Back/Order/Json_get_order_product/" + idnya,
             dataType: "json",
             success: function (result) {
-
+                //alert("masuk sini");
                 $.each(result, function (id, name)
                 {
                     //    alert("yes"+name['id_produk']);
@@ -970,6 +970,7 @@ foreach ($listpaymentmethod as $hasil) {
     }
     function submit_delete()
     {
+        alert('sukses delte');
         $("#id_button_delete").prop('disabled', true);
         document.getElementById('smart-form-register-delete').submit();
     }

@@ -9,7 +9,7 @@ class Order extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
-        ;
+        
         if (isset($this->session->userdata['xcellent_id'])) {
 
 
@@ -116,8 +116,10 @@ class Order extends CI_Controller {
         $data['listmember'] = $this->M_member->Show_all_member_active();
         $data['listpromo'] = $this->M_promo->Get_promo_product_now();
         $data['dataorder'] = $this->M_order->Get_one_order($id);
-        $data['listorderproduk'] = $this->M_order->Get_order_product($id);
-        // print_r( $data['listorderproduk']); exit();
+        $data['listorderproduk'] = $this->M_order->Get_order_product_to_edit($id);
+        $data['datasetting']=$this->M_setting->Get_all_setting();
+   //     print_r( $data['dataorder']); exit();
+//         print_r( $data['dataorder'][0]->id_member); exit();
 
         $navigation = array(
             "menu" => "order",
@@ -291,7 +293,7 @@ class Order extends CI_Controller {
         
         if ($this->input->post('button_delete')) {
             $id = $this->input->post('name_deleteid');
-            
+            // print_r($id);exit();
             $this->DeleteOrder($id);
              $this->session->set_flashdata('pesanform', "Your Order Note, " . $id . " , has been deleted");
             $this->session->keep_flashdata('pesanform');
@@ -299,7 +301,7 @@ class Order extends CI_Controller {
         }
         else
         {
-            redirect('Back/Order/Show_all_order_note/');
+            redirect('Back/Order/Show_add_order_note/');
         }
     }
 
@@ -312,6 +314,7 @@ class Order extends CI_Controller {
     
     public function DeleteOrder($idnota)
     {
+       
         $this->M_order->DeleteOrder($idnota,"delete");
     }
 

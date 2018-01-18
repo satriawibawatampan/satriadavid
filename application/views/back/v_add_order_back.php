@@ -408,7 +408,7 @@
 
 </div>
 <script>
-    $("#deposit").hide();
+   // $("#deposit").hide();
 
     function OpenModal() {
         $(".modal-title").text("Member Registration");
@@ -424,7 +424,7 @@
             $("#noMember").show();
             $("#deposit").hide();
         } else {
-            alert("yes");
+           // alert("yes");
             $("#noMember").hide();
             $("#deposit").show();
         }
@@ -654,7 +654,7 @@
                 {
                     $("#id_body_table").append(
                             "<tr id='tr_" + urutanproduct + "'>" +
-                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung barangselainmember' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='text' value='" + $("#id_long").val() + "'></div></td>" +
@@ -668,7 +668,7 @@
                 {
                     $("#id_body_table").append(
                             "<tr id='tr_" + urutanproduct + "'>" +
-                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
+                            "<td> <div ><input readonly id='id_txt_id_product_" + urutanproduct + "' class='form-control hitung barangselainmember' name='name_txt_id_product[]'  type='text' value='" + $("#id_product option:selected").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_nama_product_" + urutanproduct + "' class='form-control' name='name_txt_nama_product[]'  type='text' value='" + $("#id_product option:selected").text() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_jumlah_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_jumlah_product[]'  type='text' value='" + $("#id_quantity").val() + "'></div></td>" +
                             "<td> <div ><input readonly id='id_txt_long_product_" + urutanproduct + "' class='form-control jumlah' name='name_txt_long_product[]'  type='hidden' value='" + $("#id_long").val() + "'></div><input readonly  class='form-control jumlah'   type='text' value='is not roll'></div></td>" +
@@ -703,7 +703,7 @@
 
     function remove_product_tr(y)
     {
-        alert("remove");
+        //alert("remove");
         //alert($("#id_txt_id_product_" + y).val());
         if ($("#id_txt_id_product_" + y).val() == 0)
         {
@@ -770,7 +770,9 @@
         // alert("yes");
         $("#id_button_addorder").prop('disabled', true);
 
-        if ($('.hitung').length == 0)
+        // .barangselainmember digunakan untuk ambil semua barang selain member. 
+        // ini bisa di submit kalau member daftarnya ada barengan sama barang lain.
+        if ($('.barangselainmember').length == 0)
         {
             $("form").submit(function (e) {
                 e.preventDefault();
