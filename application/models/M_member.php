@@ -101,14 +101,10 @@ class M_member extends CI_Model {
 
         $this->M_order->AddMemberToNota($idnota, $idmember,$deposit,$bonusdeposit);
 
-
-
-
-
-
         $this->db->trans_complete();
         return $idmember;
     }
+    
 
     function Cancel_add_member($idmember) {
         $this->db->trans_start();
@@ -294,6 +290,34 @@ class M_member extends CI_Model {
         $this->db->where('id', $id);
         $this->db->update('member');
           $this->db->trans_complete();
+    }
+    
+    function AddMemberToNota($id, $idmember, $deposit, $bonusdeposit) {
+        $this->db->trans_start();
+        $sql = "SELECT * FROM member WHERE id = ?";
+        $result = $this->db->query($sql, array($idmember));
+        $hasil = $result->row_array();
+        if (count($hasil) > 0) {
+            $data = array(
+                'id_notajual' => $id,
+                'id_produk' => 0,
+                'jumlah' => 1,
+                'diskon' => 0,
+                'harga' => $deposit,
+                'deskripsi' => 'ID: ' . $idmember,
+                'hargapokok  ' => $deposit + ($deposit * $bonusdeposit / 100),
+                'subtotal  ' => $deposit,
+                'createdat' => date('Y-m-d H:i:s'),
+                'updatedat' => date('Y-m-d H:i:s')
+            );
+            $this->db->insert('notajual_produk', $data);
+
+            //udpate to notajual
+            $sql2 = "UPDATE notajual SET id_member = ?, grandtotal = grandtotal + ? WHERE id = ?";
+            $this->db->query($sql2, array($idmember, $deposit, $id));
+        }
+
+        $this->db->trans_complete();
     }
 
 }

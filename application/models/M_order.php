@@ -306,15 +306,27 @@ class M_order extends CI_Model {
             //Update Nota
             $newgrandtotal = 0;
             $newtotaldiskon = 0;
+            $adatambahmember = 0;
+            $idmemberbaru = 0;
             for ($x = 0; $x < count($products); $x++) {
                 $newgrandtotal += $products[$x]['subtotal'];
                 $newtotaldiskon += $products[$x]['diskon'] / 100 * $products[$x]['jumlah'] * $products[$x]['harga'];
+                if($products[$x]['id']==0)
+                {
+                    $adatambahmember = 1;
+                    $idmemberbaru = substr($products[$x]['deskripsi'], 4, strlen($products[$x]['deskripsi']));
+                }
+                
             }
            // print_r($newgrandtotal);exit();
            // print_r($newtotaldiskon); exit();
             $sql = "UPDATE notajual SET grandtotal = ?, totaldiskon=?";
             $array = array($newgrandtotal, $newtotaldiskon);
-            if (isset($member)) {
+            if ($adatambahmember==1) {
+                $sql .= ",id_member = ?";
+                array_push($array, $idmemberbaru);
+            }
+            else{
                 $sql .= ",id_member = ?";
                 array_push($array, $member);
             }
@@ -618,7 +630,7 @@ $count++;
                 'updatedat' => date('Y-m-d H:i:s')
             );
             $this->db->insert('notajual_produk', $data);
-
+            print_r($idmember);exit();
             //udpate to notajual
             $sql2 = "UPDATE notajual SET id_member = ?, grandtotal = grandtotal + ? WHERE id = ?";
             $this->db->query($sql2, array($idmember, $deposit, $id));

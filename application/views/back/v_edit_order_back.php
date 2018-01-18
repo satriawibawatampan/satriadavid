@@ -148,7 +148,7 @@
                                     foreach ($listorderproduk as $item) {
                                         ?>
                                         <tr id="tr_<?php echo $counter; ?>">
-                                            <td><div ><input readonly id='id_txt_id_product_<?php echo $counter; ?>' class='form-control hitung' name='name_txt_id_product[]'  type='text' value='<?php echo $item->id_produk; ?>'></div></td>
+                                            <td><div ><input readonly id='id_txt_id_product_<?php echo $counter; ?>' class='form-control hitung <?php if($item->id_produk!=0){echo "barangselainmember";} ?>' name='name_txt_id_product[]'  type='text' value='<?php echo $item->id_produk; ?>'></div></td>
                                             <td><div ><input readonly id='id_txt_nama_product_<?php echo $counter; ?>' class='form-control' name='name_txt_nama_product[]'  type='text' value='<?php echo $item->namaproduk; ?>'></div></td>
                                             <td><div ><input <?php
                                                     if ($item->id_produk == 0) {
@@ -375,7 +375,7 @@
                     phone: phone,
                     alamat: alamat,
                     gender: gender,
-                    idnota:dataorder[0]['id']
+                    idnota: dataorder[0]['id']
                 },
                 success: function (result) {
                     id_member = result;
@@ -406,8 +406,8 @@
                                 "</tr>");
                         urutanproduct++;
                         update_grandtotal();
-                        
-                        
+
+
 
                         $("#id_member").attr("disabled", "disabled");
                         $("#btnModal").attr("disabled", "disabled");
@@ -523,7 +523,7 @@
         if (tipe == 1)
         {
             var long = parseFloat($("#id_txt_long_product_" + counter).val());
-         //   alert(long);
+            //   alert(long);
         }
         var textqty = $("#id_txt_jumlah_product_" + counter).val();
         if (textqty == "")
@@ -572,7 +572,7 @@
                                     $("#id_txt_harga_product_" + counter).val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
                                 } else if (tipe == 1)
                                 {
-                                    $("#id_txt_harga_product_" + counter).val((((parseInt(long / 101)) + 1) * 100) *kategoris[x]['product'][y]['harga'][z]['hargajual']);
+                                    $("#id_txt_harga_product_" + counter).val((((parseInt(long / 101)) + 1) * 100) * kategoris[x]['product'][y]['harga'][z]['hargajual']);
 
                                 }
                             } else if (qty > kategoris[x]['product'][y]['harga'][z]['batasatas'] && qty < kategoris[x]['product'][y]['harga'][z + 1]['batasbawah'] && z != (kategoris[x]['product'][y]['harga'].length) - 1) {
@@ -583,7 +583,7 @@
                                     $("#id_txt_harga_product_" + counter).val(kategoris[x]['product'][y]['harga'][z]['hargajual']);
                                 } else if (tipe == 1)
                                 {
-                                   $("#id_txt_harga_product_" + counter).val((((parseInt(long / 101)) + 1) * 100) * kategoris[x]['product'][y]['harga'][z]['hargajual']);
+                                    $("#id_txt_harga_product_" + counter).val((((parseInt(long / 101)) + 1) * 100) * kategoris[x]['product'][y]['harga'][z]['hargajual']);
 
                                 }
                             }
@@ -640,7 +640,7 @@
             $("#noMember").show();
             $("#deposit").hide();
         } else {
-           // alert("yes");
+            // alert("yes");
             $("#noMember").hide();
             $("#deposit").show();
         }
@@ -649,7 +649,15 @@
     function check_all_not_null()
     {
         $("#id_button_edit_order").prop('disabled', true);
-        if ($('.hitung').length == 0)
+        if ($('.barangselainmember').length == 0)
+        {
+            $("form").submit(function (e) {
+                e.preventDefault();
+            });
+            alert("There must be at least 1 item to register member. Press F5 to refresh");
+            $("#id_button_edit_order").prop('disabled', false);
+        }
+        else if ($('.hitung').length == 0)
         {
             $("form").submit(function (e) {
                 e.preventDefault();
