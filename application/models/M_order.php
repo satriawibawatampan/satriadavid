@@ -599,7 +599,8 @@ class M_order extends CI_Model {
             'jumlah' => 1,
             'diskon' => 0,
             'harga' => $deposit,
-            'hargapokok  ' => $deposit,
+            'hargapokok  ' => $deposit + ($deposit * $bonusdeposit / 100),
+            
             'subtotal  ' => $deposit * 0.9,
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')

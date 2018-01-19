@@ -335,6 +335,11 @@
         $("#id_button_addmember").prop("disable", false);
 
     }
+    else if(dataorder[0]['statusaktifmember'] == 1){
+       // $("#id_member").attr("disabled", "disabled");
+         $("#noMember").hide();
+        $("#id_button_addmember").prop("disable", false);
+    }
 
     function OpenModal() {
         $(".modal-title").text("Member Registration");
