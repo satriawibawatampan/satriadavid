@@ -101,6 +101,8 @@ class M_order extends CI_Model {
             $countertampung = 0;
             $needed = [];
             $neededtipe1 = [];
+
+
             for ($a = 0; $a < count($produk_material); $a++) {
                 if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
                     if ($produk_material[$a]['tipematerial'] == 1) {
@@ -115,6 +117,7 @@ class M_order extends CI_Model {
                     $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                     $neededtipe1[$a] = $products[$x]['jumlah'];
                 }
+
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
                         if ($detailmaterial[$b]['tipe'] == 2) {
@@ -148,11 +151,9 @@ class M_order extends CI_Model {
                             //Pesen 20 brang
                             //Produk material per barag, butuh mek 7
                             if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
-                                //print_r("asd"); exit();
-                                for ($xc = $neededtipe1[$a]; $xc > 0; $xc -= $products[$x]['long']) {
-
+                                $start = $products[$x]['long'] * $neededtipe1[$a];
+                                for ($xc = $start; $xc > 0; $xc -= $products[$x]['long']) {
                                     if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
-
                                         $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
 
 
