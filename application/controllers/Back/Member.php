@@ -9,7 +9,7 @@ class Member extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
-        ;
+        
         if (isset($this->session->userdata['xcellent_id'])) {
 
 
@@ -299,7 +299,7 @@ class Member extends CI_Controller {
         if ($this->input->post('button_editmember')) {
             $id = $this->input->post('name_editid');
             $nama = $this->input->post('name_editname');
-            // $email = $this->input->post('name_editemail');
+             $email = $this->input->post('name_editemail');
             $address = $this->input->post('name_editaddress');
             $phone = $this->input->post('name_editphone');
             $ttl = $this->input->post('name_editttl');

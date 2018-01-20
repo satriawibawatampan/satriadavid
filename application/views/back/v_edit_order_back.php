@@ -328,7 +328,7 @@
     var datasetting = <?php echo json_encode($datasetting); ?>;
     var urutanproduct = <?php echo $counter; ?>;
 //alert (dataorder[0]['id']);
-    if (dataorder[0]['statusaktifmember'] == 0)
+    if (dataorder[0]['statusaktifmember'] == 0)add
     {
         $("#id_member").attr("disabled", "disabled");
         $("#btnModal").attr("disabled", "disabled");

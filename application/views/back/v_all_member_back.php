@@ -257,7 +257,7 @@
                         <section>
                             <label class="input control-label">Email</label>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
-                                <input disabled  id="id_editemail" type="text" name="name_editemail" \ aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
+                                <input disabled  id="id_editemail" type="text" name="name_editemail" aria-required="true" class="error" id="id_editnamecompany" aria-invalid="true" value="<?php echo set_value('name_editemail'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Email</b>
                             </label>
                             <span class="col-md-9 text-danger">

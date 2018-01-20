@@ -408,7 +408,7 @@
 
 </div>
 <script>
-   // $("#deposit").hide();
+    // $("#deposit").hide();
 
     function OpenModal() {
         $(".modal-title").text("Member Registration");
@@ -424,7 +424,7 @@
             $("#noMember").show();
             $("#deposit").hide();
         } else {
-           // alert("yes");
+            // alert("yes");
             $("#noMember").hide();
             $("#deposit").show();
         }
@@ -465,29 +465,27 @@
 
                 $.each(result, function (id, name)
                 {
-
-                    tipenya = name['tipematerial'];
-
-                    if (tipenya == 1) {
-
-                        // alert(tipenya);
-                        $("#id_long").show();
-                        $("#id_span_long").show();
-                        $("#id_long").val("1");
-                        $("#id_tipe").val("1");
-                        $(".cm").show();
-                    } else {
-                        //     alert(tipenya);
-                        $("#id_long").val("1");
-                        $("#id_tipe").val("2");
-                        $("#id_long").hide();
-                        $("#id_span_long").hide();
-                        $(".cm").hide();
-
+                    if (name['tipematerial'] == 1) {
+                        tipenya = name['tipematerial'];
                     }
 
 
                 });
+                if (tipenya == 1) {
+                    $("#id_long").show();
+                    $("#id_span_long").show();
+                    $("#id_long").val("1");
+                    $("#id_tipe").val("1");
+                    $(".cm").show();
+                } else {
+                    //     alert(tipenya);
+                    $("#id_long").val("1");
+                    $("#id_tipe").val("2");
+                    $("#id_long").hide();
+                    $("#id_span_long").hide();
+                    $(".cm").hide();
+
+                }
             }
         });
 
@@ -880,15 +878,13 @@
         {
             alert("Minimum Deposit for new member is Rp." + hargamember + ",-")
             $("#id_button_addmember").prop("disable", false);
-        }
-        else if($("#daftar_nama").val().length==0 ||$("#daftar_deposit").val().length==0 ||$("#daftar_email").val().length==0 ||
-                $("#daftar_ttl").val().length==0 ||$("#daftar_telepon").val().length==0 ||$("#daftar_gender").val().length==0 ||
-                $("#daftar_alamat").val().length==0)
+        } else if ($("#daftar_nama").val().length == 0 || $("#daftar_deposit").val().length == 0 || $("#daftar_email").val().length == 0 ||
+                $("#daftar_ttl").val().length == 0 || $("#daftar_telepon").val().length == 0 || $("#daftar_gender").val().length == 0 ||
+                $("#daftar_alamat").val().length == 0)
         {
-             alert("All fields must be filled.")
+            alert("All fields must be filled.")
             $("#id_button_addmember").prop("disable", false);
-        }
-        else
+        } else
         {
 
             var nama = $("#daftar_nama").val();

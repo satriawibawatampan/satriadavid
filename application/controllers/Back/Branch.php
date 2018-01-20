@@ -20,7 +20,7 @@ class Branch extends CI_Controller {
         } else {
             redirect('Back/Account/Show_login');
         }
-        $hakakses = $this->session->userdata['xcellent_hakakses'];
+       
 //        
     }
 
@@ -46,6 +46,7 @@ class Branch extends CI_Controller {
     }
 
     public function Show_change_branch() {
+         $hakakses = $this->session->userdata['xcellent_hakakses'];
         if (in_array(1, $hakakses)) {
 
             $data['listbranch'] = $this->M_branch->Get_all_branch();
@@ -66,6 +67,7 @@ class Branch extends CI_Controller {
     }
 
     public function Add_branch() {
+         $hakakses = $this->session->userdata['xcellent_hakakses'];
         if (in_array(1, $hakakses)) {
 
             $this->form_validation->set_rules('name_branch', 'Name', 'required|is_unique[cabang.nama]');

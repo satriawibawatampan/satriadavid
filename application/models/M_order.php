@@ -96,7 +96,7 @@ class M_order extends CI_Model {
             $detailmaterial = $this->M_material->Json_get_detail_material_array($products[$x]['id']);
             //  print_r($detailmaterial);            exit();
             $produk_material = $this->M_product->Json_get_material_array($products[$x]['id']);
-            //print_r($produk_material);            exit();
+            print_r($produk_material);            exit();
             $tampung = [];
             $countertampung = 0;
             $needed = [];
@@ -117,6 +117,7 @@ class M_order extends CI_Model {
                     $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
                     $neededtipe1[$a] = $products[$x]['jumlah'];
                 }
+                
 
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {

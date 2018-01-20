@@ -188,7 +188,7 @@ class M_member extends CI_Model {
         date_default_timezone_set('Asia/Jakarta');
         $data = array(
             'nama' => $nama,
-            'email' => $email,
+           //'email' => $email,
             'alamat' => $address,
             'telepon' => $phone,
             'ttl' => $ttl,
