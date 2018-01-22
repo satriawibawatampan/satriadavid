@@ -136,7 +136,7 @@ class M_order extends CI_Model {
                             $needed[$a] = 0;
 
                             if ($products[$x]['long'] != 1) {
-                                 //if ini masuk kalau produknya memerlukan long. longnya di isi
+                                 //if ini masuk kalau produknya memerlukan long. 
                                 $start = $products[$x]['long'] * $neededtipe1[$a];
 
                                 $totalyangdigunakan = 0;
@@ -165,7 +165,7 @@ class M_order extends CI_Model {
                                     }
                                 }
                             } else if ($products[$x]['long'] == 1) { 
-                               
+                               //kalau datanya tidak menggunakan long, long di send 1. data yang digunakan adalah produk_material[jumlah material]
                                 $start = $produk_material[$a]['jumlahmaterial'] * $neededtipe1[$a];
 
                                 $totalyangdigunakan = 0;
@@ -173,6 +173,7 @@ class M_order extends CI_Model {
                                     if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
                                         $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
 
+                                        //variable ini saya gunakan agar masuk residual material jadi 1 keseluruhan
                                         $totalyangdigunakan += $produk_material[$a]['jumlahmaterial'];
 
                                         $neededtipe1[$a] = $neededtipe1[$a] - 1;
