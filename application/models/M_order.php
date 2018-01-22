@@ -42,7 +42,7 @@ class M_order extends CI_Model {
             return 1;
         }else{
             $this->db->trans_rollback();
-            return 0;
+            return $hasil;
         }
     }
 
