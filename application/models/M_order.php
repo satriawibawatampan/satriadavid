@@ -96,7 +96,7 @@ class M_order extends CI_Model {
             $detailmaterial = $this->M_material->Json_get_detail_material_array($products[$x]['id']);
             //  print_r($detailmaterial);            exit();
             $produk_material = $this->M_product->Json_get_material_array($products[$x]['id']);
-            print_r($produk_material);            exit();
+            //print_r($produk_material);            exit();
             $tampung = [];
             $countertampung = 0;
             $needed = [];
@@ -104,20 +104,9 @@ class M_order extends CI_Model {
 
 
             for ($a = 0; $a < count($produk_material); $a++) {
-                if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
-                    if ($produk_material[$a]['tipematerial'] == 1) {
-                        $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
-                        $neededtipe1[$a] = $products[$x]['jumlah'];
-                    } else {
-                        $needed[$a] = $products[$x]['jumlah'];
-                        $neededtipe1[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
-                    }
-                } else {
-                    //Jika tipe Produk
-                    $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
-                    $neededtipe1[$a] = $products[$x]['jumlah'];
-                }
-                
+
+                $needed[$a] = $products[$x]['jumlah'] * $produk_material[$a]['jumlahmaterial'];
+                $neededtipe1[$a] = $products[$x]['jumlah'];
 
                 for ($b = 0; $b < count($detailmaterial); $b++) {
                     if ($produk_material[$a]['idmaterial'] == $detailmaterial[$b]['id_material']) {
@@ -137,61 +126,41 @@ class M_order extends CI_Model {
                                 $tampung[$countertampung]['stok'] = $detailmaterial[$b]['stok'];
                                 $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
 
-                                if ($produk_material[$a]['id_kategori'] == "1") {
-                                    //Jika tipe Material
-                                    $needed[$a] --;
-                                } else {
-                                    //Jika tipe Produk
-                                    $needed[$a] = $needed[$a] - $detailmaterial[$b]['stok'];
-                                }
+
+                                $needed[$a] = $needed[$a] - $detailmaterial[$b]['stok'];
+
                                 $detailmaterial[$b]['stok'] = 0;
                                 $countertampung++;
                             }
                         } else if ($detailmaterial[$b]['tipe'] == 1 && $neededtipe1[$a] > 0) {
                             $needed[$a] = 0;
-                            //Pesen 20 brang
-                            //Produk material per barag, butuh mek 7
-                            if ($produk_material[$a]['id_kategori'] == "1" || $produk_material[$a]['id_kategori'] == "2" || $produk_material[$a]['id_kategori'] == "3") {
-                                $start = $products[$x]['long'] * $neededtipe1[$a];
-                                for ($xc = $start; $xc > 0; $xc -= $products[$x]['long']) {
-                                    if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
-                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
+
+                            $start = $products[$x]['long'] * $neededtipe1[$a];
+                            $totalyangdigunakan = 0;
+                            for ($xc = $start; $xc > 0; $xc -= $products[$x]['long']) {
+                                if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
+                                    $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
 
 
+                                    $totalyangdigunakan += $products[$x]['long'];
+
+                                    //Jika kategori Material
+                                    $neededtipe1[$a] = $neededtipe1[$a] - 1;
+                                    if ($neededtipe1[$a] == 0) {
                                         $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
-                                        $tampung[$countertampung]['stok'] = $products[$x]['long'];
+                                        $tampung[$countertampung]['stok'] = $totalyangdigunakan;
                                         $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-
-                                        //Jika kategori Material
-                                        $neededtipe1[$a] = $neededtipe1[$a] - 1;
-
-
                                         $countertampung++;
-                                    } else {
-                                        break;
                                     }
-                                }
-                            } else {
-                                //else if ($produk_material[$a]['id_kategori'] == "2") {
-                                for ($xc = $neededtipe1[$a]; $xc > 0; $xc--) {
-                                    //pesenean sisa 17
-                                    if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
-                                        //stok skg 48
-                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
-                                        //Stok sisa setelah d kurangi 47
-                                        $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
-                                        $tampung[$countertampung]['stok'] = $produk_material[$a]['jumlahmaterial'];
-                                        $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-
-                                        //Jika tipe Produk
-                                        $neededtipe1[$a] --;
-
-
-                                        $countertampung++;
-                                    } else {
-
-                                        break;
+                                } else {
+                                    //totalyangdigunakan pernah ditambah sebelumnya.
+                                    if($totalyangdigunakan!=0){
+                                    $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                    $tampung[$countertampung]['stok'] = $totalyangdigunakan;
+                                    $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+                                    $countertampung++;
                                     }
+                                    break;
                                 }
                             }
                         }
@@ -264,7 +233,7 @@ class M_order extends CI_Model {
                     'updatedat' => date('Y-m-d H:i:s')
                 );
                 //satria kasih if agar ketika edit, id tidak dimasukkan kembali.
-                if ($dari == "add" || $dari=="edit" && $products[$x]['id'] != 0) {
+                if ($dari == "add" || $dari == "edit" && $products[$x]['id'] != 0) {
                     $this->db->insert('notajual_produk', $data);
                     $id_notajualproduk = $this->db->insert_id();
 
@@ -380,6 +349,7 @@ class M_order extends CI_Model {
         $this->db->select('notajual_produk.*, produk.nama as namaproduk');
         $this->db->from('notajual_produk');
         $this->db->join('produk', 'notajual_produk.id_produk=produk.id');
+        //$this->db->join('material', 'notajual_produk.id_produk=produk.id');
 //        $this->db->join('promo','promo.id=notajual.id_promo');
         //$this->db->where('notajual.id_cabang', $this->session->userdata['xcellent_cabang']);
         $this->db->where('notajual_produk.id_notajual', $id);
@@ -602,7 +572,6 @@ class M_order extends CI_Model {
             'diskon' => 0,
             'harga' => $deposit,
             'hargapokok  ' => $deposit + ($deposit * $bonusdeposit / 100),
-            
             'subtotal  ' => $deposit * 0.9,
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')

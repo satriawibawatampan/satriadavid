@@ -184,7 +184,8 @@ class Order extends CI_Controller {
     }
 
     public function Json_get_order_product($id) {
-        $data = $this->M_order->Get_order_product($id);
+        $data = $this->M_order->Get_order_product_to_edit($id);
+       // print_r($data);exit();
         echo json_encode($data);
     }
 

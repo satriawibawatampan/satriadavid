@@ -262,7 +262,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="select-1">Deposit</label>
                                     <div class="col-md-4">
-                                         <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
+                                        <input class="form-control" id="id_bonus_deposit" name="name_bonusdeposit"  type="hidden" value="<?php echo set_value('name_bonusdeposit', $datasetting[0]->bonus_deposit); ?>">
                                         <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member; ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member; ?>" >
                                     </div>
                                 </div>
@@ -477,6 +477,7 @@
                                     <th  style="width: 100px;" >Product ID</th>
                                     <th    >Product Name</th>
                                     <th  style="width: 100px;" >Qty</th>
+                                    <th  style="width: 100px;" >Long</th>
 
                             </thead>
                             <tbody id="id_body_table_producing" >	
@@ -515,6 +516,7 @@
                                     <th  style="width: 100px;" >Product ID</th>
                                     <th    >Product Name</th>
                                     <th  style="width: 100px;" >Qty</th>
+                                    <th  style="width: 100px;" >Long</th>
 
                             </thead>
                             <tbody id="id_body_table_delete" >	
@@ -590,7 +592,7 @@
                                 <div class=" pull-right">
 
 
-                                    <input onclick="submit_finish()" type="button" id="id_button_finish" name="tes" class="btn btn-primary" value="Produce all items">
+                                    <input onclick="submit_finish()" type="button" id="id_button_finish" name="tes" class="btn btn-primary" value="Finish Producing">
 
                                     <input type="hidden" name="button_finish" class="btn btn-primary" value="Finish">
 
@@ -865,13 +867,25 @@ foreach ($listpaymentmethod as $hasil) {
                 //alert ("hore sukses" + result);
                 $.each(result, function (id, name)
                 {
-
-                    $("#id_body_table_producing").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id_produk'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
-                            "<td>" + name['jumlah'] + "</td>" +
-                            "</tr>");
+                    if (name['tipe'] == 1)
+                    {
+                        $("#id_body_table_producing").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
+                                "<td>" + name['long'] + " CM</td>" +
+                                "</tr>");
+                    } else if (name['tipe'] == 2)
+                    {
+                        $("#id_body_table_producing").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
+                                "<td>is not roll</td>" +
+                                "</tr>");
+                    }
 
                 });
             }
@@ -955,13 +969,24 @@ foreach ($listpaymentmethod as $hasil) {
                 //alert ("hore sukses" + result);
                 $.each(result, function (id, name)
                 {
+                    if(name['tipe'] == 1) {
+                        $("#id_body_table_delete").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
+                                "<td>" + name['long'] + "</td>" +
+                                "</tr>");
+                    } else if(name['tipe'] == 2) {
+                        $("#id_body_table_delete").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + " CM</td>" +
+                                "<td>is not long</td>" +
+                                "</tr>");
 
-                    $("#id_body_table_delete").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id_produk'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
-                            "<td>" + name['jumlah'] + "</td>" +
-                            "</tr>");
+                    }
 
                 });
             }
@@ -994,16 +1019,31 @@ foreach ($listpaymentmethod as $hasil) {
                 $.each(result, function (id, name)
                 {
 
-                    $("#id_body_table_orderproduk").append(
-                            "<tr role = 'row' class = 'odd'>" +
-                            "<td>" + name['id_produk'] + "</td>" +
-                            "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
-                            "<td>" + name['jumlah'] + "</td>" +
-                            "<td>" + name['long'] + " CM</td>" +
-                            "<td>" + name['harga'] + "</td>" +
-                            "<td>" + name['diskon'] + "</td>" +
-                            "<td>" + name['subtotal'] + "</td>" +
-                            "</tr>");
+                    if (name['tipe'] == 1)
+                    {
+                        $("#id_body_table_orderproduk").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
+                                "<td>" + name['long'] + " CM</td>" +
+                                "<td>" + name['harga'] + "</td>" +
+                                "<td>" + name['diskon'] + "</td>" +
+                                "<td>" + name['subtotal'] + "</td>" +
+                                "</tr>");
+                    } else if (name['tipe'] == 2)
+                    {
+                        $("#id_body_table_orderproduk").append(
+                                "<tr role = 'row' class = 'odd'>" +
+                                "<td>" + name['id_produk'] + "</td>" +
+                                "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
+                                "<td>is not roll</td>" +
+                                "<td>" + name['harga'] + "</td>" +
+                                "<td>" + name['diskon'] + "</td>" +
+                                "<td>" + name['subtotal'] + "</td>" +
+                                "</tr>");
+                    }
 
                 });
 

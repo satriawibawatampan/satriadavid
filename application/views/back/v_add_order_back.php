@@ -452,6 +452,7 @@
     function checktipe()
     {
         var tipenya = null;
+        //variable ini buat liat berapa jumlah material yang tipe
 
 
         // alert("a");
@@ -465,8 +466,8 @@
 
                 $.each(result, function (id, name)
                 {
-                    if (name['tipematerial'] == 1) {
-                        tipenya = name['tipematerial'];
+                    if (name['tipematerial'] == 1&& name['jumlahmaterial']==1) {
+                        tipenya = 1;
                     }
 
 
