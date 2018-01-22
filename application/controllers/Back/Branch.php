@@ -47,8 +47,9 @@ class Branch extends CI_Controller {
 
     public function Show_change_branch() {
          $hakakses = $this->session->userdata['xcellent_hakakses'];
+        
         if (in_array(1, $hakakses)) {
-
+ //print_r($hakakses);exit();
             $data['listbranch'] = $this->M_branch->Get_all_branch();
             $navigation = array(
                 "menu" => "profile",
@@ -110,6 +111,7 @@ class Branch extends CI_Controller {
     }
 
     public function Change_branch($idadmin) {
+        $hakakses = $this->session->userdata['xcellent_hakakses'];
         if (in_array(1, $hakakses)) {
             if ($this->input->post('button_changebranch')) {
 
