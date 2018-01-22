@@ -135,32 +135,63 @@ class M_order extends CI_Model {
                         } else if ($detailmaterial[$b]['tipe'] == 1 && $neededtipe1[$a] > 0) {
                             $needed[$a] = 0;
 
-                            $start = $products[$x]['long'] * $neededtipe1[$a];
-                            $totalyangdigunakan = 0;
-                            for ($xc = $start; $xc > 0; $xc -= $products[$x]['long']) {
-                                if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
-                                    $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
+                            if ($products[$x]['long'] != 1) {
+                                 //if ini masuk kalau produknya memerlukan long. longnya di isi
+                                $start = $products[$x]['long'] * $neededtipe1[$a];
 
+                                $totalyangdigunakan = 0;
+                                for ($xc = $start; $xc > 0; $xc -= $products[$x]['long']) {
+                                    if ($detailmaterial[$b]['stok'] >= $products[$x]['long']) {
+                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $products[$x]['long'];
 
-                                    $totalyangdigunakan += $products[$x]['long'];
+                                        $totalyangdigunakan += $products[$x]['long'];
 
-                                    //Jika kategori Material
-                                    $neededtipe1[$a] = $neededtipe1[$a] - 1;
-                                    if ($neededtipe1[$a] == 0) {
-                                        $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
-                                        $tampung[$countertampung]['stok'] = $totalyangdigunakan;
-                                        $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-                                        $countertampung++;
+                                        $neededtipe1[$a] = $neededtipe1[$a] - 1;
+                                        if ($neededtipe1[$a] == 0) {
+                                            $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                            $tampung[$countertampung]['stok'] = $totalyangdigunakan;
+                                            $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+                                            $countertampung++;
+                                        }
+                                    } else {
+                                        //totalyangdigunakan pernah ditambah sebelumnya.
+                                        if ($totalyangdigunakan != 0) {
+                                            $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                            $tampung[$countertampung]['stok'] = $totalyangdigunakan;
+                                            $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+                                            $countertampung++;
+                                        }
+                                        break;
                                     }
-                                } else {
-                                    //totalyangdigunakan pernah ditambah sebelumnya.
-                                    if($totalyangdigunakan!=0){
-                                    $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
-                                    $tampung[$countertampung]['stok'] = $totalyangdigunakan;
-                                    $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
-                                    $countertampung++;
+                                }
+                            } else if ($products[$x]['long'] == 1) { 
+                               
+                                $start = $produk_material[$a]['jumlahmaterial'] * $neededtipe1[$a];
+
+                                $totalyangdigunakan = 0;
+                                for ($xc = $start; $xc > 0; $xc -= $produk_material[$a]['jumlahmaterial']) {
+                                    if ($detailmaterial[$b]['stok'] >= $produk_material[$a]['jumlahmaterial']) {
+                                        $detailmaterial[$b]['stok'] = $detailmaterial[$b]['stok'] - $produk_material[$a]['jumlahmaterial'];
+
+                                        $totalyangdigunakan += $produk_material[$a]['jumlahmaterial'];
+
+                                        $neededtipe1[$a] = $neededtipe1[$a] - 1;
+                                        if ($neededtipe1[$a] == 0) {
+                                            $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                            $tampung[$countertampung]['stok'] = $totalyangdigunakan;
+                                            $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+                                            $countertampung++;
+                                        }
+                                    } else {
+                                        //totalyangdigunakan pernah ditambah sebelumnya.
+                                        if ($totalyangdigunakan != 0) {
+                                            $tampung[$countertampung]['id'] = $detailmaterial[$b]['id'];
+                                            $tampung[$countertampung]['stok'] = $totalyangdigunakan;
+                                            $tampung[$countertampung]['idproduk'] = $products[$x]['id'];
+                                            $countertampung++;
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
                             }
                         }
