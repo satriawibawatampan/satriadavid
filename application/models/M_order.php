@@ -37,9 +37,13 @@ class M_order extends CI_Model {
 
         //Tak rapiin masuk sini kabeh
         $hasil = $this->InsertNotaProdukData($products, $order_id, "add");
-
-        $this->db->trans_complete();
-        return $hasil;
+        if($hasil == 1){
+            $this->db->trans_complete();
+            return 1;
+        }else{
+            $this->db->trans_rollback();
+            return 0;
+        }
     }
 
     function Add_order_note_deposit($member, $grandtotal) {
