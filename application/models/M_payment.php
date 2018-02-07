@@ -14,6 +14,7 @@ class M_payment extends CI_Model {
         $data = array(
             'nama' => $name,
             'nilai' => $nilai,
+            'id_cabang' =>  $this->session->userdata['xcellent_cabang'],
             'createdat' => date('Y-m-d H:i:s'),
             'updatedat' => date('Y-m-d H:i:s')
         );
@@ -25,7 +26,10 @@ class M_payment extends CI_Model {
         $this->db->select('*');
         $this->db->from('pembayaran');
         $this->db->where('statusaktif', 1);
+        $this->db->where('id_cabang',0);
+        $this->db->or_where('id_cabang',$this->session->userdata['xcellent_cabang']);
         $query = $this->db->get();
+      //  print_r($query->result());exit();
         return $query->result();
     }
     

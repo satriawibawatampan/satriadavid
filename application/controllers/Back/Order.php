@@ -74,7 +74,9 @@ class Order extends CI_Controller {
 
         if (count($nota) > 0) {
            // print_r($nota); exit();
+            $this->load->view('back/v_head_admin_back');
             $this->load->view('back/v_print', $data);
+             // $this->load->view('back/v_footer_back');
         } else {
             $navigation = array(
                 "menu" => "order",

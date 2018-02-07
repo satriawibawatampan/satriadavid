@@ -101,7 +101,7 @@
                                         <thead>
                                             <tr role="row">
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
-                                                <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Queue</th>
+                                              
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Admin</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Cashier</th>
@@ -117,8 +117,8 @@
                                             <?php
                                             foreach ($tableorder as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td><a   onclick="showmodalorderproduct(' . $hasil->id . ')" class="" style=""   data-toggle="modal" data-target="#myOrderDetail">' . $hasil->id . '</a></td>';
-                                                echo ' <td >' . $hasil->antrian . '</td>';
+                                                echo '<td><a   onclick="showmodalorderproduct(' . $hasil->id . ')" class="" style=""   data-toggle="modal" data-target="#myOrderDetail">' .$hasil->antrian.' (ID : '. $hasil->id. ')' . '</a></td>';
+                                                
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
                                                 echo '<td>' . $hasil->namaadmin . '</td>';
                                                 if ($hasil->id_kasir == 0) {
@@ -975,14 +975,14 @@ foreach ($listpaymentmethod as $hasil) {
                                 "<td>" + name['id_produk'] + "</td>" +
                                 "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
                                 "<td>" + name['jumlah'] + "</td>" +
-                                "<td>" + name['long'] + "</td>" +
+                                "<td>" + name['long'] + " CM</td>" +
                                 "</tr>");
                     } else if(name['tipe'] == 2) {
                         $("#id_body_table_delete").append(
                                 "<tr role = 'row' class = 'odd'>" +
                                 "<td>" + name['id_produk'] + "</td>" +
                                 "<td><a onclick='show_material(\"" + name['id_produk'] + "\",\"" + name['namaproduk'] + "\")'  data-toggle='modal' data-target='#myMaterial'>" + name['namaproduk'] + "</a></td>" +
-                                "<td>" + name['jumlah'] + " CM</td>" +
+                                "<td>" + name['jumlah'] + "</td>" +
                                 "<td>is not long</td>" +
                                 "</tr>");
 
