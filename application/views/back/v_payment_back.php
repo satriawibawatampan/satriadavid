@@ -98,7 +98,7 @@
                                 <?php echo form_error('name_payment'); ?>
                             </span>
                         </section>
-                        <section>
+                        <section hidden>
                             <label class="input"> <i class="icon-append fa fa-puzzle-piece"></i>
                                 <input type="number" name="name_nilai" placeholder="Value" aria-required="true" class="error" aria-invalid="true" value="<?php echo set_value('name_nilai'); ?>">
                                 <b class="tooltip tooltip-bottom-right">Needed to enter the Value</b>
@@ -169,7 +169,7 @@
                                             <tr role="row">
                                                 <!--<th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">ID</th>-->
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Payment Name</th>
-                                                <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Value</th>
+                                                <th hidden tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 100px;">Value</th>
                                                 <th  tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1"  style="width: 32px;">Action</th>
                                         </thead>
                                         <tbody>	
@@ -178,9 +178,14 @@
                                                 echo '<tr role = "row" class = "odd">';
                                                 echo '<td hidden>' . $hasil->id . '</td>';
                                                 echo ' <td class = " expand"><span class = "responsiveExpander"></span>' . $hasil->nama . '</td>';
-                                                echo ' <td class = " expand">' . $hasil->nilai . '</td>';
-                                                echo '<td>   <a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\',' . $hasil->nilai . ')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
-                                                       </td>';
+                                                echo ' <td hidden class = " expand">' . $hasil->nilai . '</td>';
+                                                echo '<td>';
+                                                if($hasil->id!=0&&$hasil->id!=1)
+                                                {
+                                                echo '<a  onclick="editdata(' . $hasil->id . ',\'' . $hasil->nama . '\',' . $hasil->nilai . ')" class="glyphicon glyphicon-pencil" style="color:black" data-toggle="modal" data-target="#myEditModal"></a>
+                                                       ';
+                                                }
+                                                echo '</td>';
                                                 echo '</tr>';
                                             }
                                             ?>
