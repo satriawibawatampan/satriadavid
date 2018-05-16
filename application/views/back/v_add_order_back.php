@@ -623,6 +623,7 @@
     window.onload = function () {
         get_price();
         checktipe();
+        cek_promo();
 
 
     };

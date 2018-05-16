@@ -45,6 +45,13 @@ class Purchasing extends CI_Controller {
         //  
 //       
     }
+    
+    public function printlaikebao()
+    {
+        $this->load->view('back/v_head_admin_back');
+         $this->load->view('back/v_invoice_back');
+           $this->load->view('back/v_footer_back');
+    }
 
     public function Show_add_purchasing_note() {
 

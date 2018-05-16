@@ -66,29 +66,29 @@
                                     <br>
                                     <div class="row">
                                         <div class="col-sm-9">
-                                            <h4 class="semi-bold">PT Euroauto Trans Pratama</h4>
+                                            <h4 class="semi-bold">PT Lumina Packaging</h4>
                                             <address>
-                                                <strong>Mrs. Eva</strong>
+                                                <strong>Mr. Ayoes</strong>
                                                 <br>
-                                                Jl. Adityawarman 41,
+                                                Jl. Raya Sidorejo No.58
                                                 <br>
-                                                Surabaya, 60242
+                                                Trosobo, Krian, Kabupaten Sidoarjo, Jawa Timur 61262
                                                 <br>
-                                                <abbr title="Phone">P:</abbr> (031) 5622911
+                                               
                                             </address>
                                         </div>
                                         <div class="col-sm-3">
                                             <div>
                                                 <div>
                                                     <strong>INVOICE NO :</strong>
-                                                    <span class="pull-right"> PW/0517/008 </span>
+                                                    <span class="pull-right"> PW/1217/008 </span>
                                                 </div>
 
                                             </div>
                                             <div>
                                                 <div class="font-md">
                                                     <strong>INVOICE DATE :</strong>
-                                                    <span class="pull-right"> <i class="fa fa-calendar"></i> 19/05/17 </span>
+                                                    <span class="pull-right"> <i class="fa fa-calendar"></i> 18/01/18 </span>
                                                 </div>
 
                                             </div>
@@ -96,7 +96,7 @@
                                             <div class="well well-sm  bg-color-darken txt-color-white no-border">
                                                 <div class="fa-lg">
                                                     Total Due :
-                                                    <span class="pull-right"> <strong>Rp.240.000,-</strong> </span>
+                                                    <span class="pull-right"> <strong>Rp.3.570.000,-</strong> </span>
                                                 </div>
 
                                             </div>
@@ -117,16 +117,21 @@
                                         <tbody>
                                             
                                             <tr>
-                                                <td class="text-center"><strong>24</strong></td>
-                                                <td><a href="javascript:void(0);">Penambahan Karet</a></td>
+                                                <td class="text-center"><strong>714</strong></td>
+                                                <td><a href="javascript:void(0);">Penambahan Karet dan Tutup Kantong</a></td>
                                                 <td></td>
-                                                <td>Rp.10.000,-</td>
-                                                <td>Rp.240.000,-</td>
+                                                <td>Rp.5.000,-</td>
+                                                <td>Rp.3.570.000,-</td>
                                             </tr>
                                            
+                                            
                                             <tr>
                                                 <td colspan="4">Total</td>
-                                                <td><strong>Rp.240.000,-</strong></td>
+                                                <td><strong>Rp.3.570.000,-</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">DP</td>
+                                                <td><strong>Rp.0,-</strong></td>
                                             </tr>
                                             
                                         </tbody>
