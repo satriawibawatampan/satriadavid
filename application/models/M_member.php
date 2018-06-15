@@ -32,7 +32,7 @@ class M_member extends CI_Model {
         $this->db->trans_complete();
     }
 
-    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $bonusdeposit) {
+    function Add_member_ajax($nama, $idadmin, $deposit, $email, $bod, $phone, $gender, $alamat, $bonusdeposit,$pin,$salt) {
         $this->db->trans_start();
 
         $allmember = $this->Show_all_member();
@@ -48,6 +48,8 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
+            'password' => $pin,
+            'salt' => $salt,
             'deposit' => $deposit + ($deposit * $bonusdeposit / 100),
             'ttl' => $bod,
             'gender' => $gender,
@@ -85,6 +87,8 @@ class M_member extends CI_Model {
         $data = array(
             'nama' => $nama,
             'email' => $email,
+            'password' => $pin,
+            'salt' => $salt,
             'deposit' => $deposit+ ($deposit * $bonusdeposit / 100),
             'ttl' => $bod,
             'gender' => $gender,
@@ -248,9 +252,9 @@ class M_member extends CI_Model {
   
         $hargapoint = $datasetting[0]->harga_poin;
         $poinditambah = (int) $grandtotal / (int) $hargapoint;
+        //print_r((int)$poinditambah);exit();
         
-        
-        $this->db->set('poin', 'poin+' .  $poinditambah,FALSE);
+        $this->db->set('poin', 'poin+' .  (int)$poinditambah,FALSE);
         $this->db->where('id', $idmember);
         $this->db->update('member');
         

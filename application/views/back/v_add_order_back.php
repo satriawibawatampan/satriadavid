@@ -307,6 +307,20 @@
                                             <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member ?>" >
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">PIN</label>
+                                        <div class="col-md-4">
+
+                                            <input  id="daftar_pin" type="password" pattern="[0-9]*" inputmode="numeric" name="name_pin"   aria-required="true" class="error" aria-invalid="true"  >
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="select-1">Retype PIN</label>
+                                        <div class="col-md-4">
+
+                                            <input  id="daftar_retypepin" type="password" pattern="[0-9]*" inputmode="numeric" name="name_retypepin"   aria-required="true" class="error" aria-invalid="true"  >
+                                        </div>
+                                    </div>
 
                                     <footer>
 
@@ -882,11 +896,16 @@
             $("#id_button_addmember").prop("disable", false);
         } else if ($("#daftar_nama").val().length == 0 || $("#daftar_deposit").val().length == 0 || $("#daftar_email").val().length == 0 ||
                 $("#daftar_ttl").val().length == 0 || $("#daftar_telepon").val().length == 0 || $("#daftar_gender").val().length == 0 ||
-                $("#daftar_alamat").val().length == 0)
+                $("#daftar_alamat").val().length == 0 ||$("#daftar_pin").val().length == 0||$("#daftar_retypepin").val().length == 0)
         {
             alert("All fields must be filled.")
             $("#id_button_addmember").prop("disable", false);
-        } else
+        } 
+        else if($("#daftar_pin").val()!=$("#daftar_retypepin").val())
+        {
+            alert("Retype Pin must be the same.")
+        }
+        else
         {
 
             var nama = $("#daftar_nama").val();
@@ -897,6 +916,8 @@
             var phone = $("#daftar_telepon").val();
             var gender = $("#daftar_gender").val();
             var alamat = $("#daftar_alamat").val();
+            var pin = $("#daftar_pin").val();
+            var retypepin = $("#daftar_retypepin").val();
             $.ajax({
                 type: "POST",
                 url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_ajax",
@@ -909,7 +930,9 @@
                     bod: BOD,
                     phone: phone,
                     alamat: alamat,
-                    gender: gender
+                    gender: gender,
+                    pin: pin,
+                    retypepin: retypepin,
                 },
                 success: function (result) {
                     id_member = result;

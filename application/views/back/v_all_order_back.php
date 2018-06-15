@@ -101,7 +101,7 @@
                                         <thead>
                                             <tr role="row">
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">ID</th>
-                                              
+
                                                 <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 81px;">Date</th>
                                                 <th data-hide="phone" class="sorting" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending" style="width: 32px;">Admin</th>
                                                 <th data-hide="phone" class="sorting_asc" tabindex="0" aria-controls="datatable_col_reorder" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 32px;">Cashier</th>
@@ -117,8 +117,8 @@
                                             <?php
                                             foreach ($tableorder as $hasil) {
                                                 echo '<tr role = "row" class = "odd">';
-                                                echo '<td><a   onclick="showmodalorderproduct(' . $hasil->id . ')" class="" style=""   data-toggle="modal" data-target="#myOrderDetail">' .$hasil->antrian.' (ID : '. $hasil->id. ')' . '</a></td>';
-                                                
+                                                echo '<td><a   onclick="showmodalorderproduct(' . $hasil->id . ')" class="" style=""   data-toggle="modal" data-target="#myOrderDetail">' . $hasil->antrian . ' (ID : ' . $hasil->id . ')' . '</a></td>';
+
                                                 echo ' <td >' . $hasil->tanggal . '</td>';
                                                 echo '<td>' . $hasil->namaadmin . '</td>';
                                                 if ($hasil->id_kasir == 0) {
@@ -266,6 +266,20 @@
                                         <input  id="daftar_deposit" type="number" name="daftar_deposit" min="<?php echo $datasetting[0]->harga_member; ?>"  aria-required="true" class="error" aria-invalid="true" value="<?php echo $datasetting[0]->harga_member; ?>" >
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">PIN</label>
+                                    <div class="col-md-4">
+
+                                        <input  id="daftar_pin" type="password" pattern="[0-9]*" inputmode="numeric" name="name_pin"   aria-required="true" class="error" aria-invalid="true"  >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="select-1">Retype PIN</label>
+                                    <div class="col-md-4">
+
+                                        <input  id="daftar_retypepin" type="password" pattern="[0-9]*" inputmode="numeric" name="name_retypepin"   aria-required="true" class="error" aria-invalid="true"  >
+                                    </div>
+                                </div>
 
                                 <footer>
 
@@ -380,11 +394,11 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" >
                             <label class="col-md-4 control-label" for="select-1">Payment Method</label>
                             <div class="col-md-4">
 
-                                <select class="form-control" name="name_paymentmethod" id="id_paymentmethod" selected ="select" >
+                                <select onchange="onchange_paymentmethod()" class="form-control" name="name_paymentmethod" id="id_paymentmethod" selected ="select" >
                                     <?php
                                     foreach ($listpaymentmethod as $hasil) {
 
@@ -402,6 +416,14 @@
                             <div class="col-md-4">
 
                                 <input  id="id_paymentamount" type="number" name="name_paymentamount"  aria-required="true" class="error" aria-invalid="true" min="0"  >
+
+                            </div>
+                        </div>
+                        <div class="form-group" id="id_div_pin">
+                            <label class="col-md-4 control-label" for="select-1">Pin</label>
+                            <div class="col-md-4">
+
+                                <input  id="id_pin" name="name_pin" type="password"  aria-required="true" value="" class="error" aria-invalid="true"  >
 
                             </div>
                         </div>
@@ -671,14 +693,19 @@
         if ($("#daftar_deposit").val() < hargamember)
         {
             alert("Minimum Deposit for new member is Rp." + hargamember + ",-")
-            //$("#id_button_addmember").prop("disable", false);
+            $("#id_button_addmember").prop("disable", false);
         } else if ($("#daftar_nama").val().length == 0 || $("#daftar_deposit").val().length == 0 || $("#daftar_email").val().length == 0 ||
                 $("#daftar_ttl").val().length == 0 || $("#daftar_telepon").val().length == 0 || $("#daftar_gender").val().length == 0 ||
-                $("#daftar_alamat").val().length == 0)
+                $("#daftar_alamat").val().length == 0 ||$("#daftar_pin").val().length == 0||$("#daftar_retypepin").val().length == 0)
         {
             alert("All fields must be filled.")
             $("#id_button_addmember").prop("disable", false);
-        } else
+        }
+        else if($("#daftar_pin").val()!=$("#daftar_retypepin").val())
+        {
+            alert("Retype Pin must be the same.")
+        }
+        else
         {
 
             var nama = $("#daftar_nama").val();
@@ -689,6 +716,8 @@
             var phone = $("#daftar_telepon").val();
             var gender = $("#daftar_gender").val();
             var alamat = $("#daftar_alamat").val();
+            var pin = $("#daftar_pin").val();
+            var retypepin = $("#daftar_retypepin").val();
             $.ajax({
                 type: "POST",
                 url: "<?php echo base_url(); ?>" + "Back/Member/Add_member_from_kasir_ajax",
@@ -702,7 +731,9 @@
                     phone: phone,
                     alamat: alamat,
                     idnota: idNota,
-                    gender: gender
+                    gender: gender,
+                    pin: pin,
+                    retypepin: retypepin,
                 },
                 success: function (result) {
                     idmember = result;
@@ -853,6 +884,23 @@ foreach ($listpaymentmethod as $hasil) {
 
 
     }
+
+    function onchange_paymentmethod()
+    {
+        $("#id_div_pin").hide();
+
+
+        if (document.getElementById('id_paymentmethod').value == 0)
+        {
+            $("#id_pin").empty();
+            $("#id_div_pin").show();
+        } else
+        {
+            $("#id_pin").empty();
+            $("#id_div_pin").hide();
+        }
+
+    }
     function showmodalproducing(idnya)
     {
         document.getElementById('id_producingid').value = idnya;
@@ -969,7 +1017,7 @@ foreach ($listpaymentmethod as $hasil) {
                 //alert ("hore sukses" + result);
                 $.each(result, function (id, name)
                 {
-                    if(name['tipe'] == 1) {
+                    if (name['tipe'] == 1) {
                         $("#id_body_table_delete").append(
                                 "<tr role = 'row' class = 'odd'>" +
                                 "<td>" + name['id_produk'] + "</td>" +
@@ -977,7 +1025,7 @@ foreach ($listpaymentmethod as $hasil) {
                                 "<td>" + name['jumlah'] + "</td>" +
                                 "<td>" + name['long'] + " CM</td>" +
                                 "</tr>");
-                    } else if(name['tipe'] == 2) {
+                    } else if (name['tipe'] == 2) {
                         $("#id_body_table_delete").append(
                                 "<tr role = 'row' class = 'odd'>" +
                                 "<td>" + name['id_produk'] + "</td>" +
@@ -1062,11 +1110,15 @@ foreach ($listpaymentmethod as $hasil) {
 
                 )
         {
-            //alert($('#id_paymentamount').val());
+
+
 
             var checkingadaproduksama = this.check_paymentmethod();
             //alert("checking " + checkingadamaterialsama);
-            if (checkingadaproduksama == 2)
+            if (checkingadaproduksama == 3)
+            {
+                alert("Your PIN is not correct.");
+            } else if (checkingadaproduksama == 2)
             {
                 alert("Your deposit not enough.");
             } else if (checkingadaproduksama == null || checkingadaproduksama === 'undifined' || checkingadaproduksama != 0)
@@ -1101,17 +1153,73 @@ foreach ($listpaymentmethod as $hasil) {
         //cek apakah duit deposit nya lebih besar dari pembayarangnya
         if ($("#id_paymentmethod option:selected").val() == 0)
         {
+            var idmember = $('#id_memberid').val();
+            var pin = $('#id_pin').val();
+            var a = Math.floor((Math.random() * 9) + 1);
+            var b = Math.floor((Math.random() * 9) + 1);
+            var c = Math.floor((Math.random() * 9) + 1);
+            var pinbenar = false;
+            //pin = pin.split();
+            var modifiedpin = String(a) + pin[5] + pin[4] + pin[3] + String(b) + pin[0] + pin[1] + pin[2] + String(c);
+            alert(modifiedpin);
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + "Back/Order/Check_pin",
+                datatype: "json",
+                async: false,
+                data: {
+                    idmember: idmember,
+                    pin: modifiedpin
+
+                },
+                success: function (result) {
+                    //ini kalau mau ambil 1 data saja sudah bisa.
+                    //if (result == "asd")
+//                    alert(result);
+                    var coba = result;
+                    alert(coba + "yes");
+                    if (result == 1)
+                    {
+                        pinbenar = true;
+                        alert("Transaction Success");
+
+                    } else {
+                        pinbenar = false;
+                        alert("Pin is not correct");
+                        $("#id_button_addorder").prop('disabled', false);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
+
+            //jika pinbenar==true
+            //jika yang dibayar lebih besar dari deposit
+            if (pinbenar == false)
+            {
+                return 3;
+            }
             if (parseFloat($("#id_paymentamount").val()) > parseFloat($("#id_deposit").val()))
             {
                 return 2;
             }
+
+            //ini bener e sama dengan pengecekan di bawah.
+            // tapi ini cuma buat ngecek deposit.
+            //kalau sudah pin bener, baru cek apakah ada di table.
+
         }
+
 
         var numItems = $('.hitung').length;
 
         //  var id = event.target.id;
         var counterwhile = 1;
-        while (numItems > 0)
+        while (numItems > 0 && $("#id_paymentmethod option:selected").val() != 0)
         {   // jika yang dipilih ada di id-text_id_material_product(table)
             if ($("#id_paymentmethod option:selected").val() == $("#id_txt_id_paymentmethod_" + counterwhile).val())
             {
@@ -1127,6 +1235,8 @@ foreach ($listpaymentmethod as $hasil) {
             counterwhile++;
 
         }
+
+        //if($("#id_paymentmethod option:selected").val() == 0&& pinbenar==true)
         return 1;
 
     }

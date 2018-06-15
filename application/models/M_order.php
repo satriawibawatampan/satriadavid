@@ -428,6 +428,48 @@ class M_order extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
+    function Check_pin($pin, $idmember) {
+
+        $this->db->select("salt,statusaktif,password");
+
+        $this->db->from('member');
+        $this->db->where('id', $idmember);
+        $query = $this->db->get();
+
+        //cek status aktif baru ambil datanya.
+        if ($query->row() != null) {
+            if ($query->row()->statusaktif == 1) {
+                $ambilgaram = $query->row();
+            }
+        }
+
+        if (isset($ambilgaram)) {
+            $passwordasli = $ambilgaram->password;
+            $garam = $ambilgaram->salt;
+            $password = md5($pin);
+            $password = $password . $garam;
+            $password = md5($password);
+
+            if($passwordasli == $password)
+            {
+                //kalau password benar
+                 return 1;
+                 
+
+            }
+            else
+            {
+               // kalau password salah
+                return 0;
+            }
+            
+           
+        } else {
+            //kalau tidak ada memberidnya
+            return 0;
+        }
+    }
 
     function Make_payment($id, $grandtotal, $idpayment, $amount, $idmember) {
 
